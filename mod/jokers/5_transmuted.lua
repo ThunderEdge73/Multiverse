@@ -153,7 +153,7 @@ Multiverse.UsableJoker({
 				end
 			end
 			return {
-				message = localize("k_mul_converted")
+				message = localize("k_mul_converted"),
 			}
 		end
 	end,
@@ -172,7 +172,7 @@ Multiverse.UsableJoker({
 					area = G.hand,
 				})
 			end
-			playing_card_joker_effects(cards)
+			SMODS.calculate_context({ playing_card_added = true, cards = cards })
 		end)
 	end,
 	can_use_ability = function(self, card)
@@ -247,7 +247,7 @@ SMODS.Joker({
 	cost = 40,
 	blueprint_compat = false,
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue+1] = G.P_CENTERS["m_mul_waldo"]
+		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_waldo"]
 		local cards_in_deck = 0
 		if G.playing_cards then
 			cards_in_deck = #G.playing_cards
@@ -264,7 +264,7 @@ SMODS.Joker({
 				enhancement = "m_mul_waldo",
 			})
 			G.GAME.waldo_spawn = false
-			playing_card_joker_effects({ c })
+			SMODS.calculate_context({ playing_card_added = true, cards = { c } })
 			G.GAME.waldo_already_created = true
 		end
 	end,

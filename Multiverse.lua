@@ -72,7 +72,6 @@ end
 
 SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
-	local haspost = false
 	if context.setting_blind and next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
 		G.E_MANAGER:add_event(Event({
 			func = function()
@@ -121,6 +120,37 @@ SMODS.current_mod.calculate = function(self, context)
 	if context.debuff_card then
 		ret[#ret + 1] = Multiverse.handle_debuffs(context.debuff_card)
 	end
+	if context.press_play then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				local discarded = 0
+				for _, c in ipairs(G.hand.cards) do
+					if
+						Multiverse.check_valid_half(c.ability.mul_half_card)
+						and not c.highlighted
+						and c.area == G.hand
+						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4, "mul_half_card_discard")
+					then
+						SMODS.change_discard_limit(1)
+						discarded = discarded + 1
+						G.hand:add_to_highlighted(c, true)
+						play_sound("card1", 1)
+					end
+				end
+				if discarded > 0 then
+					G.FUNCS.discard_cards_from_highlighted(nil, true)
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							SMODS.change_discard_limit(-discarded)
+							return true
+						end,
+					}))
+				end
+				return true
+			end,
+		}))
+		delay(0.7)
+	end
 	if context.after then
 		if SMODS.last_hand_oneshot then
 			if next(SMODS.find_card("j_mul_ren_amamiya")) then
@@ -133,11 +163,11 @@ SMODS.current_mod.calculate = function(self, context)
 	end
 	Multiverse.calculate_deck_enchantments(context, ret)
 	if #ret == 0 then
-		return nil, haspost
+		return nil
 	elseif #ret == 1 then
-		return ret[1], haspost
+		return ret[1]
 	else
-		return SMODS.merge_effects(unpack(ret)), haspost
+		return SMODS.merge_effects(unpack(ret))
 	end
 end
 
@@ -161,6 +191,8 @@ function Multiverse.recursive_load(path)
 		end
 	end
 end
+
+SMODS.optional_features.quantum_enhancements = true
 
 Multiverse.recursive_load("misc")
 Multiverse.recursive_load("mod")

@@ -230,6 +230,82 @@ function Multiverse.effect_animation(card, func)
 	delay(0.6)
 end
 
+---@param card Card
+---@param func fun(playing_card: Card): nil
+---@param filter_func? fun(playing_card: Card): boolean?
+function Multiverse.apply_to_hand_animation(card, func, filter_func)
+	local cards = {}
+	if not filter_func then
+		cards = G.hand.highlighted
+	else
+		Multiverse.apply_to_hand(function(playing_card)
+			if filter_func(playing_card) then
+				cards[#cards + 1] = playing_card
+			end
+		end)
+	end
+	if #cards == 0 then
+		return
+	end
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.4,
+		func = function()
+			play_sound("tarot1")
+			card:juice_up(0.3, 0.5)
+			return true
+		end,
+	}))
+	for i = 1, #cards do
+		local percent = 1.15 - (i - 0.999) / (#cards - 0.998) * 0.3
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.15,
+			func = function()
+				cards[i]:flip()
+				play_sound("card1", percent)
+				cards[i]:juice_up(0.3, 0.3)
+				return true
+			end,
+		}))
+	end
+	delay(0.2)
+	for i = 1, #cards do
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
+				func(cards[i])
+				return true
+			end,
+		}))
+	end
+	for i = 1, #cards do
+		local percent = 0.85 + (i - 0.999) / (#cards - 0.998) * 0.3
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.15,
+			func = function()
+				cards[i]:flip()
+				play_sound("tarot2", percent, 0.6)
+				cards[i]:juice_up(0.3, 0.3)
+				return true
+			end,
+		}))
+	end
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.2,
+		func = function()
+			if #G.hand.highlighted > 0 then
+				G.hand:unhighlight_all()
+			end
+			return true
+		end,
+	}))
+	delay(0.5)
+end
+
 ---Checks to see if an active consumable should have particles.
 ---@param card Card
 ---@param state boolean
@@ -357,4 +433,14 @@ function Multiverse.weighted_poll(t, get_weight, key_append)
 		curr_weight = next_weight
 	end
 	return nil, -1
+end
+
+---@param card Card
+---@param half string
+function Multiverse.convert_to_half_card(card, half)
+	if not (card.playing_card and Multiverse.check_valid_half(half)) then
+		return
+	end
+	card.ability.mul_half_card = half
+	card.ability.extra_slots_used = card.ability.extra_slots_used - 0.5
 end

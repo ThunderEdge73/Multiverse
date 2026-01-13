@@ -97,6 +97,86 @@ SMODS.DrawStep({
 	conditions = { vortex = false, facing = "back" },
 })
 
+local draw_shadow_hook = Card.should_draw_shadow
+function Card:should_draw_shadow()
+	if Multiverse.check_valid_half((self.ability or {}).mul_half_card) then
+		return self.facing == "back"
+	end
+	return draw_shadow_hook(self)
+end
+
+local shadow_func = SMODS.DrawSteps["shadow"].func
+SMODS.DrawSteps["shadow"].func = function(card, layer)
+	shadow_func(card, layer)
+	if
+		not card.no_shadow
+		and card.facing == "front"
+		and G.SETTINGS.GRAPHICS.shadows == "On"
+		and (
+			Multiverse.check_valid_half(card.ability.mul_half_card)
+			and (
+				(card.area and card.area ~= G.discard and card.area.config.type ~= "deck")
+				or not card.area
+				or card.states.drag.is
+			)
+		)
+	then
+		card.shadow_height = 0 * (0.08 + 0.4 * math.sqrt(card.velocity.x ^ 2))
+			+ (
+				(((card.highlighted and card.area == G.play) or card.states.drag.is) and 0.35)
+				or (card.area and card.area.config.type == "title_2") and 0.04
+				or 0.1
+			)
+		if card.ability.mul_half_card == "left" then
+			card.children.center:draw_shader("mul_lefthalf", card.shadow_height, card.ARGS.send_to_shader)
+		else
+			card.children.center:draw_shader("mul_righthalf", card.shadow_height, card.ARGS.send_to_shader)
+		end
+	end
+end
+
+SMODS.DrawStep({
+	key = "half_card_render",
+	order = -9,
+	func = function(card, layer)
+		if Multiverse.check_valid_half(card.ability.mul_half_card) then
+			if card.ability.mul_half_card == "left" then
+				card.children.center:draw_shader("mul_lefthalf", nil, card.ARGS.send_to_shader)
+			else
+				card.children.center:draw_shader("mul_righthalf", nil, card.ARGS.send_to_shader)
+			end
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
+
+Multiverse.TEMP_ENHANCEMENT_SPRITES = {}
+SMODS.DrawStep({
+	key = "frankenstein_render",
+	order = -8,
+	func = function(card, layer)
+		if card.config.center.key == "m_mul_frankenstein" and Multiverse.is_valid_frankenstein(card) then
+			local key1 = card.ability.extra.enhancement1
+			local key2 = card.ability.extra.enhancement2
+			local obj1 = G.P_CENTERS[key1]
+			local obj2 = G.P_CENTERS[key2]
+			if not Multiverse.TEMP_ENHANCEMENT_SPRITES[key1] then
+				Multiverse.TEMP_ENHANCEMENT_SPRITES[key1] =
+					SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, obj1.atlas or "centers", obj1.pos)
+			end
+			if not Multiverse.TEMP_ENHANCEMENT_SPRITES[key2] then
+				Multiverse.TEMP_ENHANCEMENT_SPRITES[key2] =
+					SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, obj2.atlas or "centers", obj2.pos)
+			end
+			Multiverse.TEMP_ENHANCEMENT_SPRITES[key1].role.draw_major = card
+			Multiverse.TEMP_ENHANCEMENT_SPRITES[key2].role.draw_major = card
+			Multiverse.TEMP_ENHANCEMENT_SPRITES[key1]:draw_shader("mul_lefthalf", nil, card.ARGS.send_to_shader, nil, card.children.center)
+			Multiverse.TEMP_ENHANCEMENT_SPRITES[key2]:draw_shader("mul_righthalf", nil, card.ARGS.send_to_shader, nil, card.children.center)
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
+
 SMODS.DrawStep({
 	key = "enchanted_book_shader",
 	order = 11,

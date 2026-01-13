@@ -30,6 +30,9 @@ SMODS.Enhancement({
 	pos = { x = 0, y = 0 },
 	config = { h_dollars = 5, extra = { xmult = 0.01 } },
 	weight = 0,
+	in_pool = function(self, args)
+		return false
+	end,
 	loc_vars = function(self, info_queue, card)
 		local total = 0
 		if G.GAME.dollars then
@@ -140,3 +143,60 @@ SMODS.Enhancement({
 		end
 	end,
 })
+
+SMODS.Shader({
+	key = "lefthalf",
+	path = "lefthalf.fs",
+})
+SMODS.Shader({
+	key = "righthalf",
+	path = "righthalf.fs",
+})
+
+SMODS.Enhancement({
+	key = "frankenstein",
+	pos = { x = 1, y = 0 },
+	config = { extra = { enhancement1 = nil, enhancement2 = nil } },
+	weight = 0,
+	in_pool = function(self, args)
+		return false
+	end,
+	loc_vars = function(self, info_queue, card)
+		if Multiverse.is_valid_frankenstein(card) then
+			info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement1]
+			info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement2]
+			return {
+				vars = {
+					localize({ type = "name_text", key = card.ability.extra.enhancement1, set = "Enhanced" }),
+					localize({ type = "name_text", key = card.ability.extra.enhancement2, set = "Enhanced" }),
+				},
+			}
+		else
+			return {
+				key = "m_mul_frankenstein_none"
+			}
+		end
+	end,
+	calculate = function(self, card, context)
+		if context.check_enhancement and Multiverse.is_valid_frankenstein(card) and context.other_card == card then
+			return {
+				[card.ability.extra.enhancement1] = true,
+				[card.ability.extra.enhancement2] = true,
+			}
+		end
+	end,
+})
+
+function Multiverse.check_valid_half(value)
+	return value == "left" or value == "right"
+end
+
+function Multiverse.is_valid_frankenstein(card)
+	if not card then
+		return false
+	end
+	return type((card.ability or {}).extra) == "table"
+		and card.ability.extra.enhancement1
+		and card.ability.extra.enhancement2
+		and card.ability.extra.enhancement1 ~= card.ability.extra.enhancement2
+end
