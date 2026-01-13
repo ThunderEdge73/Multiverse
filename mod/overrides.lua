@@ -117,7 +117,7 @@ SMODS.Joker:take_ownership("invisible", {
 	end,
 	calculate = function(self, card, context)
 		if context.selling_self and not context.blueprint then
-			if not card.ability.extra.invis_rounds >= card.ability.extra.total_rounds then
+			if card.ability.extra.invis_rounds >= card.ability.extra.total_rounds then
 				local jokers = {}
 				for i = 1, #G.jokers.cards do
 					if G.jokers.cards[i] ~= card then
