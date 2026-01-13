@@ -9,31 +9,6 @@ return {
 					"effects to the run...",
 				},
 			},
-			du_mul_half = {
-				name = "Half Card",
-				text = {
-					"Fills {C:dark_edition}#1#{} hand space",
-					"When hand is played,",
-					"{C:green}#2# in #3#{} chance to",
-					"{C:red}discard{} itself",
-				},
-			},
-			du_mul_half_left = {
-				name = "Half Card (Left)",
-				text = {
-					"When hand is played,",
-					"{C:green}#1# in #2#{} chance to",
-					"{C:red}discard{} itself",
-				},
-			},
-			du_mul_half_right = {
-				name = "Half Card (Right)",
-				text = {
-					"When hand is played,",
-					"{C:green}#1# in #2#{} chance to",
-					"{C:red}discard{} itself",
-				},
-			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -243,24 +218,6 @@ return {
 					"being discarded {C:attention}#2#{} {C:inactive}(#3#){} times",
 				},
 			},
-			m_mul_frankenstein = {
-				name = "Frankenstein Card",
-				text = {
-					"Is treated as {C:attention}both{} a",
-					"{C:attention}#1#",
-					"and a",
-					"{C:attention}#2#",
-				},
-			},
-			m_mul_frankenstein_none = {
-				name = "Frankenstein Card",
-				text = {
-					"Is treated as {C:attention}both",
-					"{C:attention}enhancements{} of the",
-					"cards destroyed to",
-					"create this card"
-				},
-			},
 		},
 		Edition = {
 			e_mul_hyperdimensional = {
@@ -330,8 +287,8 @@ return {
 					"{C:attention}Halve{} your Thaumaturgy Energy",
 					"Gain TP equal to the amount",
 					"of Thaumaturgy Energy {C:attention}lost",
-					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}",
-				},
+					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}"
+				}
 			},
 			c_mul_theory = {
 				name = "Theory of Everything",
@@ -912,7 +869,7 @@ return {
 		},
 		Tarot = {
 			c_mul_lobotomized = {
-				name = "The Lobotomy",
+				name = "The Lobotomized",
 				text = {
 					"Enhances {C:attention}#1#{}",
 					"selected cards to",
@@ -945,38 +902,12 @@ return {
 				},
 			},
 			c_mul_eggman = {
-				name = "Dr. Eggman",
+				name = "The {C:inactive}(Dr.){} Eggman",
 				text = {
 					"Enhances all {C:clubs}Clubs{}",
 					"held in hand into",
 					"{C:attention}Suspiciously Yellow",
 					"{C:attention}Cards",
-				},
-			},
-			c_mul_lightsaber = {
-				name = "The Lightsaber",
-				text = {
-					"Splits {C:attention}#1#{} selected",
-					"card in half",
-				},
-			},
-			c_mul_polymerization = {
-				name = "Polymerization",
-				text = {
-					{
-						"Destroy {C:attention}#1#{} selected",
-						"enhanced {C:attention}Half Cards",
-						"with {C:attention}opposite{} halves",
-						"and different original",
-						"enhancements",
-					},
-					{
-						"Create a {C:attention}Frankenstein Card",
-						"with a random rank and",
-						"suit that is treated as",
-						"both destroyed cards'",
-						"{C:attention}original{} enhancements",
-					},
 				},
 			},
 		},
@@ -987,8 +918,8 @@ return {
 					"Choose {C:attention}#1#{} of up to",
 					"{C:attention}#2#{} {C:mul_enchantedbook}Enchanted Books",
 					"and {C:attention}apply{} the book's",
-					"{C:mul_enchantedbook}enchantments{} to {C:attention}deck",
-				},
+					"{C:mul_enchantedbook}enchantments{} to {C:attention}deck"
+				}
 			},
 			mul_transmutable = {
 				name = "Transmutable",
@@ -1247,7 +1178,7 @@ return {
 				"{C:inactive}(lvl. #2# -> lvl. #3#){}",
 			},
 			mul_enchant_hidden_entry = {
-				"{C:inactive}?????",
+				"{C:inactive}?????"
 			},
 			enchantment_table = "Enchant your Deck",
 			k_mul_level_up = "Level Up!",

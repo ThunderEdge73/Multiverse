@@ -6,17 +6,17 @@ Multiverse.DummyCenter = SMODS.Center:extend({
 	required_params = {
 		"key",
 	},
-	class_prefix = "du",
+    class_prefix = "du",
 	in_pool = function(self, args)
 		return false
 	end,
 	no_collection = true,
-	inject = function(self, i)
-		Multiverse.DummyCenters[self.key] = self
-	end,
-	delete = function(self)
-		Multiverse.DummyCenters[self.key] = nil
-	end,
+    inject = function (self, i)
+        Multiverse.DummyCenters[self.key] = self
+    end,
+    delete = function (self)
+        Multiverse.DummyCenters[self.key] = nil
+    end,
 	process_loc_text = function(self)
 		if G.localization.descriptions[self.set].key or self.loc_txt then
 			SMODS.Center.process_loc_text(self)
@@ -34,45 +34,5 @@ Multiverse.DummyCenter({
 				end
 			end
 		end
-	end,
-})
-
-Multiverse.DummyCenter({
-	key = "half",
-	loc_vars = function(self, info_queue, card)
-		num, denom = SMODS.get_probability_vars(nil, 1, 4, "mul_half_card_discard")
-		return {
-			vars = {
-				0.5,
-				num,
-				denom,
-			},
-		}
-	end,
-})
-
-Multiverse.DummyCenter({
-	key = "half_left",
-	loc_vars = function(self, info_queue, card)
-		num, denom = SMODS.get_probability_vars(nil, 1, 4, "mul_half_card_discard")
-		return {
-			vars = {
-				num,
-				denom,
-			},
-		}
-	end,
-})
-
-Multiverse.DummyCenter({
-	key = "half_right",
-	loc_vars = function(self, info_queue, card)
-		num, denom = SMODS.get_probability_vars(nil, 1, 4, "mul_half_card_discard")
-		return {
-			vars = {
-				num,
-				denom,
-			},
-		}
 	end,
 })

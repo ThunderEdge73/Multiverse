@@ -9,7 +9,6 @@ SMODS.Consumable({
 		return { vars = { card.ability.max_highlighted } }
 	end,
 })
-
 SMODS.Consumable({
 	key = "chair",
 	set = "Tarot",
@@ -21,7 +20,6 @@ SMODS.Consumable({
 		return { vars = { card.ability.max_highlighted } }
 	end,
 })
-
 SMODS.Consumable({
 	key = "apple",
 	set = "Tarot",
@@ -53,7 +51,6 @@ SMODS.Consumable({
 		}))
 	end,
 })
-
 SMODS.Consumable({
 	key = "burger",
 	set = "Tarot",
@@ -97,34 +94,10 @@ SMODS.Consumable({
 	can_use = function(self, card)
 		return G.hand ~= nil
 	end,
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_sus_yellow"]
+	loc_vars = function (self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_mul_sus_yellow"]
 	end,
 	use = function(self, card, area, copier)
-		Multiverse.apply_to_hand_animation(card, function(playing_card)
-			playing_card:set_ability(card.ability.extra.enhancement)
-		end, function(playing_card)
-			return playing_card:is_suit(card.ability.extra.suit)
-		end)
-	end,
-})
-
-SMODS.Consumable({
-	key = "lightsaber",
-	set = "Tarot",
-	atlas = "placeholder",
-	pos = { x = 0, y = 1 },
-	config = { max_highlighted = 1 },
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
-		return {
-			vars = {
-				card.ability.max_highlighted,
-			},
-		}
-	end,
-	use = function(self, card, area, copier)
-		local target = G.hand.highlighted[1]
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.4,
@@ -134,155 +107,49 @@ SMODS.Consumable({
 				return true
 			end,
 		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.2,
-			func = function()
-				local _first_dissolve = nil
-				local new_cards = {}
-				for i = 1, 2 do
-					G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-					local _card = copy_card(target, nil, nil, G.playing_card)
-					_card:add_to_deck()
-					G.deck.config.card_limit = G.deck.config.card_limit + 1
-					table.insert(G.playing_cards, _card)
-					G.hand:emplace(_card)
-					_card:start_materialize(nil, _first_dissolve)
-					_first_dissolve = true
-					new_cards[#new_cards + 1] = _card
-					if i == 1 then
-						Multiverse.convert_to_half_card(_card, "left")
-					else
-						Multiverse.convert_to_half_card(_card, "right")
-					end
-				end
-				SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
-				SMODS.destroy_cards(target, nil, true, true)
-				play_sound("slice1", 0.96 + math.random() * 0.08)
-				return true
-			end,
-		}))
-		delay(0.6)
-	end,
-	can_use = function(self, card)
-		return G.hand and #G.hand.highlighted == 1 and not SMODS.is_eternal(G.hand.highlighted[1], card)
-	end,
-})
-
-SMODS.Consumable({
-	key = "lightsaber",
-	set = "Tarot",
-	atlas = "placeholder",
-	pos = { x = 0, y = 1 },
-	config = { max_highlighted = 1 },
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
-		return {
-			vars = {
-				card.ability.max_highlighted,
-			},
-		}
-	end,
-	use = function(self, card, area, copier)
-		local target = G.hand.highlighted[1]
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.4,
-			func = function()
-				play_sound("tarot1")
-				card:juice_up(0.3, 0.5)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.2,
-			func = function()
-				local _first_dissolve = nil
-				local new_cards = {}
-				for i = 1, 2 do
-					G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-					local _card = copy_card(target, nil, nil, G.playing_card)
-					_card:add_to_deck()
-					G.deck.config.card_limit = G.deck.config.card_limit + 1
-					table.insert(G.playing_cards, _card)
-					G.hand:emplace(_card)
-					_card:start_materialize(nil, _first_dissolve)
-					_first_dissolve = true
-					new_cards[#new_cards + 1] = _card
-					if i == 1 then
-						Multiverse.convert_to_half_card(_card, "left")
-					else
-						Multiverse.convert_to_half_card(_card, "right")
-					end
-				end
-				SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
-				SMODS.destroy_cards(target, nil, true)
-				play_sound("slice1", 0.96 + math.random() * 0.08)
-				return true
-			end,
-		}))
-		delay(0.6)
-	end,
-	can_use = function(self, card)
-		return G.hand and #G.hand.highlighted == 1 and not SMODS.is_eternal(G.hand.highlighted[1], card)
-	end,
-})
-
-SMODS.Consumable({
-	key = "polymerization",
-	set = "Tarot",
-	atlas = "placeholder",
-	pos = { x = 0, y = 1 },
-	config = { max_highlighted = 2 },
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
-		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_frankenstein"]
-		return {
-			vars = {
-				card.ability.max_highlighted,
-			},
-		}
-	end,
-	use = function(self, card, area, copier)
-		local c1 = G.hand.highlighted[1]
-		local c2 = G.hand.highlighted[2]
-		local left_enh_key = c1.ability.mul_half_card == "left" and c1.config.center.key or c2.config.center.key
-		local right_enh_key = c1.ability.mul_half_card == "left" and c2.config.center.key or c1.config.center.key
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.4,
-			func = function()
-				play_sound("tarot1")
-				card:juice_up(0.3, 0.5)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.2,
-			func = function()
-				local new_card = SMODS.add_card({ set = "Enhanced", key = "m_mul_frankenstein", no_edition = true })
-				new_card.ability.extra.enhancement1 = left_enh_key
-				new_card.ability.extra.enhancement2 = right_enh_key
-				SMODS.calculate_context({ playing_card_added = true, cards = new_card })
-				SMODS.destroy_cards({ c1, c2 }, nil, true)
-				play_sound("slice1", 0.96 + math.random() * 0.08)
-				return true
-			end,
-		}))
-		delay(0.6)
-	end,
-	can_use = function(self, card)
-		return G.hand
-			and #G.hand.highlighted == 2
-			and not SMODS.is_eternal(G.hand.highlighted[1], card)
-			and not SMODS.is_eternal(G.hand.highlighted[2], card)
-			and G.hand.highlighted[1].config.center.key ~= "c_base"
-			and G.hand.highlighted[2].config.center.key ~= "c_base"
-			and G.hand.highlighted[1].config.center.key ~= G.hand.highlighted[2].config.center.key
-			and Multiverse.check_valid_half(G.hand.highlighted[1].ability.mul_half_card)
-			and Multiverse.check_valid_half(G.hand.highlighted[2].ability.mul_half_card)
-			and G.hand.highlighted[1].ability.mul_half_card ~= G.hand.highlighted[2].ability.mul_half_card
+		for i = 1, #G.hand.cards do
+			local percent = 1.15 - (i - 0.999) / (#G.hand.cards / 2 - 0.998) * 0.3
+			if G.hand.cards[i]:is_suit(card.ability.extra.suit) then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.15,
+					func = function()
+						G.hand.cards[i]:flip()
+						play_sound("card1", percent)
+						G.hand.cards[i]:juice_up(0.3, 0.3)
+						return true
+					end,
+				}))
+			end
+		end
+		delay(0.2)
+		for i = 1, #G.hand.cards do
+			if G.hand.cards[i]:is_suit(card.ability.extra.suit) then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.1,
+					func = function()
+						G.hand.cards[i]:set_ability(card.ability.extra.enhancement)
+						return true
+					end,
+				}))
+			end
+		end
+		for i = 1, #G.hand.cards do
+			local percent = 0.85 + (i - 0.999) / (#G.hand.cards / 2 - 0.998) * 0.3
+			if G.hand.cards[i]:is_suit(card.ability.extra.suit) then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.15,
+					func = function()
+						G.hand.cards[i]:flip()
+						play_sound("tarot2", percent, 0.6)
+						G.hand.cards[i]:juice_up(0.3, 0.3)
+						return true
+					end,
+				}))
+			end
+		end
+		delay(0.5)
 	end,
 })
