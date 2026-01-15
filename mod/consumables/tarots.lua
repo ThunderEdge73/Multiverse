@@ -170,66 +170,6 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "lightsaber",
-	set = "Tarot",
-	atlas = "placeholder",
-	pos = { x = 0, y = 1 },
-	config = { max_highlighted = 1 },
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
-		return {
-			vars = {
-				card.ability.max_highlighted,
-			},
-		}
-	end,
-	use = function(self, card, area, copier)
-		local target = G.hand.highlighted[1]
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.4,
-			func = function()
-				play_sound("tarot1")
-				card:juice_up(0.3, 0.5)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.2,
-			func = function()
-				local _first_dissolve = nil
-				local new_cards = {}
-				for i = 1, 2 do
-					G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-					local _card = copy_card(target, nil, nil, G.playing_card)
-					_card:add_to_deck()
-					G.deck.config.card_limit = G.deck.config.card_limit + 1
-					table.insert(G.playing_cards, _card)
-					G.hand:emplace(_card)
-					_card:start_materialize(nil, _first_dissolve)
-					_first_dissolve = true
-					new_cards[#new_cards + 1] = _card
-					if i == 1 then
-						Multiverse.convert_to_half_card(_card, "left")
-					else
-						Multiverse.convert_to_half_card(_card, "right")
-					end
-				end
-				SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
-				SMODS.destroy_cards(target, nil, true)
-				play_sound("slice1", 0.96 + math.random() * 0.08)
-				return true
-			end,
-		}))
-		delay(0.6)
-	end,
-	can_use = function(self, card)
-		return G.hand and #G.hand.highlighted == 1 and not SMODS.is_eternal(G.hand.highlighted[1], card)
-	end,
-})
-
-SMODS.Consumable({
 	key = "polymerization",
 	set = "Tarot",
 	atlas = "placeholder",
