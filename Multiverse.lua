@@ -173,6 +173,7 @@ end
 
 SMODS.draw_ignore_keys["transmutable_target"] = true
 SMODS.draw_ignore_keys["mul_joker_use_button"] = true
+SMODS.draw_ignore_keys["mul_hitbox_indicator"] = true
 
 function SMODS.current_mod.reset_game_globals()
 	Multiverse.set_foddian_suit()

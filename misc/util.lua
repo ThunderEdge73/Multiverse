@@ -443,4 +443,5 @@ function Multiverse.convert_to_half_card(card, half)
 	end
 	card.ability.mul_half_card = half
 	card.ability.extra_slots_used = card.ability.extra_slots_used - 0.5
+	card:set_sprites()
 end

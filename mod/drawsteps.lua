@@ -127,9 +127,24 @@ SMODS.DrawSteps["shadow"].func = function(card, layer)
 				or (card.area and card.area.config.type == "title_2") and 0.04
 				or 0.1
 			)
+		if not card.children.mul_hitbox_indicator then
+			card.children.mul_hitbox_indicator =
+				SMODS.create_sprite(card.T.x, card.T.y, card.T.w, card.T.h, "mul_half_indicator", { x = 0, y = 0 })
+			card.children.mul_hitbox_indicator.states.hover = card.states.hover
+			card.children.mul_hitbox_indicator.states.click = card.states.click
+			card.children.mul_hitbox_indicator.states.drag = card.states.drag
+			card.children.mul_hitbox_indicator.states.collide.can = false
+			card.children.mul_hitbox_indicator:set_role({ major = card, role_type = "Glued", draw_major = card })
+		end
 		if card.ability.mul_half_card == "left" then
+			card.children.mul_hitbox_indicator:draw_shader(
+				"mul_righthalf",
+				card.shadow_height,
+				card.ARGS.send_to_shader
+			)
 			card.children.center:draw_shader("mul_lefthalf", card.shadow_height, card.ARGS.send_to_shader)
 		else
+			card.children.mul_hitbox_indicator:draw_shader("mul_lefthalf", card.shadow_height, card.ARGS.send_to_shader)
 			card.children.center:draw_shader("mul_righthalf", card.shadow_height, card.ARGS.send_to_shader)
 		end
 	end
@@ -140,9 +155,20 @@ SMODS.DrawStep({
 	order = -9,
 	func = function(card, layer)
 		if Multiverse.check_valid_half(card.ability.mul_half_card) then
+			if not card.children.mul_hitbox_indicator then
+				card.children.mul_hitbox_indicator =
+					SMODS.create_sprite(card.T.x, card.T.y, card.T.w, card.T.h, "mul_half_indicator", { x = 0, y = 0 })
+				card.children.mul_hitbox_indicator.states.hover = card.states.hover
+				card.children.mul_hitbox_indicator.states.click = card.states.click
+				card.children.mul_hitbox_indicator.states.drag = card.states.drag
+				card.children.mul_hitbox_indicator.states.collide.can = false
+				card.children.mul_hitbox_indicator:set_role({ major = card, role_type = "Glued", draw_major = card })
+			end
 			if card.ability.mul_half_card == "left" then
+				card.children.mul_hitbox_indicator:draw_shader("mul_righthalf", nil, card.ARGS.send_to_shader)
 				card.children.center:draw_shader("mul_lefthalf", nil, card.ARGS.send_to_shader)
 			else
+				card.children.mul_hitbox_indicator:draw_shader("mul_lefthalf", nil, card.ARGS.send_to_shader)
 				card.children.center:draw_shader("mul_righthalf", nil, card.ARGS.send_to_shader)
 			end
 		end
@@ -155,9 +181,13 @@ SMODS.DrawStep({
 	key = "frankenstein_render",
 	order = -8,
 	func = function(card, layer)
-		if card.config.center.key == "m_mul_frankenstein" and Multiverse.is_valid_frankenstein(card) then
+		if card.config.center.key == "m_mul_frankenstein" then
 			local key1 = card.ability.extra.enhancement1
 			local key2 = card.ability.extra.enhancement2
+			if not Multiverse.is_valid_frankenstein(card) then
+				key1 = "m_steel"
+				key2 = "m_gold"
+			end
 			local obj1 = G.P_CENTERS[key1]
 			local obj2 = G.P_CENTERS[key2]
 			if not Multiverse.TEMP_ENHANCEMENT_SPRITES[key1] then
@@ -170,8 +200,20 @@ SMODS.DrawStep({
 			end
 			Multiverse.TEMP_ENHANCEMENT_SPRITES[key1].role.draw_major = card
 			Multiverse.TEMP_ENHANCEMENT_SPRITES[key2].role.draw_major = card
-			Multiverse.TEMP_ENHANCEMENT_SPRITES[key1]:draw_shader("mul_lefthalf", nil, card.ARGS.send_to_shader, nil, card.children.center)
-			Multiverse.TEMP_ENHANCEMENT_SPRITES[key2]:draw_shader("mul_righthalf", nil, card.ARGS.send_to_shader, nil, card.children.center)
+			Multiverse.TEMP_ENHANCEMENT_SPRITES[key1]:draw_shader(
+				"mul_lefthalf",
+				nil,
+				card.ARGS.send_to_shader,
+				nil,
+				card.children.center
+			)
+			Multiverse.TEMP_ENHANCEMENT_SPRITES[key2]:draw_shader(
+				"mul_righthalf",
+				nil,
+				card.ARGS.send_to_shader,
+				nil,
+				card.children.center
+			)
 		end
 	end,
 	conditions = { vortex = false, facing = "front" },

@@ -91,6 +91,17 @@ end
 local set_sprites_hook = Card.set_sprites
 function Card:set_sprites(_center, _front)
 	set_sprites_hook(self, _center, _front)
+	if self.playing_card and self.ability and Multiverse.check_valid_half(self.ability.mul_half_card) then
+		if not self.children.mul_hitbox_indicator then
+			self.children.mul_hitbox_indicator =
+				SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, "mul_half_indicator", { x = 0, y = 0 })
+			self.children.mul_hitbox_indicator.states.hover = self.states.hover
+			self.children.mul_hitbox_indicator.states.click = self.states.click
+			self.children.mul_hitbox_indicator.states.drag = self.states.drag
+			self.children.mul_hitbox_indicator.states.collide.can = false
+			self.children.mul_hitbox_indicator:set_role({ major = self, role_type = "Glued", draw_major = self })
+		end
+	end
 	if Multiverse.can_receive_transmutable(self) then
 		self.children.transmutable_target = AnimatedSprite(
 			self.T.x,

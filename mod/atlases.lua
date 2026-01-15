@@ -107,3 +107,9 @@ SMODS.Atlas({
 	py = 95,
 	path = "enchantment_table.png"
 })
+SMODS.Atlas({
+	key = "half_indicator",
+	px = 71,
+	py = 95,
+	path = "half_indicator.png"
+})
