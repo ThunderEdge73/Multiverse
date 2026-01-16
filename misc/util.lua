@@ -506,3 +506,78 @@ end
 function Multiverse.can_halve_card(card)
 	return not (SMODS.is_eternal(card, { mul_split = true }) or Multiverse.is_valid_half(card))
 end
+
+---Handles splitting card
+---@param cards_to_split Card | Card[]
+---@param num? integer
+---@param is_random? boolean
+---@param forced_half? boolean
+function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
+	local cards
+	if not cards_to_split[1] then -- If cards_to_split is a single card
+		cards = { cards_to_split }
+	else
+		cards = cards_to_split
+	end
+	local amt = num or 2
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.2,
+		func = function()
+			local _first_dissolve = nil
+			local new_cards = {}
+			for _, target in ipairs(cards) do
+				for i = 1, amt do
+					G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+					local _card = copy_card(target, nil, nil, G.playing_card)
+					_card:add_to_deck()
+					G.deck.config.card_limit = G.deck.config.card_limit + 1
+					table.insert(G.playing_cards, _card)
+					G.hand:emplace(_card)
+					_card:start_materialize(nil, _first_dissolve)
+					_first_dissolve = true
+					new_cards[#new_cards + 1] = _card
+					if forced_half == "left" or forced_half == "right" then
+						Multiverse.convert_to_half_card(_card, forced_half)
+					elseif is_random then
+						local rand_choice = pseudorandom("mul_random_half", 1, 2)
+						if rand_choice == 1 then
+							Multiverse.convert_to_half_card(_card, "left")
+						else
+							Multiverse.convert_to_half_card(_card, "right")
+						end
+					else
+						if i % 2 == 1 then
+							Multiverse.convert_to_half_card(_card, "left")
+						else
+							Multiverse.convert_to_half_card(_card, "right")
+						end
+					end
+				end
+			end
+			SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
+			SMODS.destroy_cards(cards, nil, true)
+			play_sound("slice1", 0.96 + math.random() * 0.08)
+			return true
+		end,
+	}))
+end
+
+function Multiverse.frankenstein_fuse()
+	local c1 = G.hand.highlighted[1]
+	local c2 = G.hand.highlighted[2]
+	local left_enh_key = c1.ability.mul_half_card == "left" and c1.config.center.key or c2.config.center.key
+	local right_enh_key = c1.ability.mul_half_card == "left" and c2.config.center.key or c1.config.center.key
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.2,
+		func = function()
+			local new_card = SMODS.add_card({ set = "Enhanced", key = "m_mul_frankenstein", no_edition = true })
+			new_card.ability.extra.enhancement1 = left_enh_key
+			new_card.ability.extra.enhancement2 = right_enh_key
+			SMODS.calculate_context({ playing_card_added = true, cards = new_card })
+			SMODS.destroy_cards({ c1, c2 }, nil, true)
+			return true
+		end,
+	}))
+end

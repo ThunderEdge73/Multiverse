@@ -114,7 +114,7 @@ SMODS.Enhancement({
 		end
 		if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) then
 			return {
-				no_destroy = true
+				no_destroy = { override_compat = true },
 			}
 		end
 	end,
@@ -169,10 +169,7 @@ SMODS.Enhancement({
 	loc_vars = function(self, info_queue, card)
 		if
 			Multiverse.is_valid_frankenstein(card)
-			or (
-				Multiverse.FUSION_HOVER
-				and Multiverse.can_frankenstein_fuse_selected()
-			)
+			or (Multiverse.FUSION_HOVER and Multiverse.can_frankenstein_fuse_selected())
 		then
 			local e1 = G.hand.highlighted[1] and G.hand.highlighted[1].config.center.key
 			local e2 = G.hand.highlighted[2] and G.hand.highlighted[2].config.center.key
@@ -200,7 +197,10 @@ SMODS.Enhancement({
 				[card.ability.extra.enhancement2] = true,
 			}
 		end
+		if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) then
+			return {
+				no_destroy = { override_compat = true },
+			}
+		end
 	end,
 })
-
-
