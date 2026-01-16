@@ -171,7 +171,15 @@ SMODS.Consumable({
 		delay(0.6)
 	end,
 	can_use = function(self, card)
-		return G.hand and #G.hand.highlighted == 1 and Multiverse.can_halve_selected()
+		local targets = {}
+		if G.hand then
+			for _, c in ipairs(G.hand.cards) do
+				if Multiverse.can_halve_card(c) then
+					targets[#targets + 1] = c
+				end
+			end
+		end
+		return #targets > 0
 	end,
 })
 

@@ -485,8 +485,8 @@ function Multiverse.can_frankenstein_fuse_selected()
 		and G.hand.highlighted[1].config.center.key ~= "c_base"
 		and G.hand.highlighted[2].config.center.key ~= "c_base"
 		and G.hand.highlighted[1].config.center.key ~= G.hand.highlighted[2].config.center.key
-		and Multiverse.is_valid_half(G.hand.highlighted[1].ability.mul_half_card)
-		and Multiverse.is_valid_half(G.hand.highlighted[2].ability.mul_half_card)
+		and Multiverse.is_valid_half(G.hand.highlighted[1])
+		and Multiverse.is_valid_half(G.hand.highlighted[2])
 		and G.hand.highlighted[1].ability.mul_half_card ~= G.hand.highlighted[2].ability.mul_half_card
 end
 

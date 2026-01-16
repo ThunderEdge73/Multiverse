@@ -258,8 +258,8 @@ return {
 				text = {
 					"Is treated as {C:attention}both",
 					"{C:attention}enhancements{} of the",
-					"cards destroyed to",
-					"create this card",
+					"cards fused by",
+					"{C:attention}Polymerization",
 				},
 			},
 		},
