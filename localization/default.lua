@@ -968,7 +968,8 @@ return {
 				text = {
 					"Fuse {C:attention}#1#{} selected",
 					"enhanced {C:attention}Half Cards",
-					"with {C:attention}opposite{} halves",
+					"with {C:attention}opposite{} sides and",
+					"{C:attention}different{} enhancements",
 					"into a {C:attention}Frankenstein Card",
 				},
 			},
@@ -1153,15 +1154,6 @@ return {
 					"and will {C:attention}stop{} applying its effects",
 					"{C:inactive}(Note that this card will receive{}",
 					"{C:inactive}Eternal while it is active){}",
-				},
-			},
-			mul_fuse = {
-				name = "Fuse",
-				text = {
-					"Destroys {C:attention}all{} selected cards",
-					"The result of the fusion",
-					"has a {C:attention}random{} rank and suit",
-					"unless otherwise specified",
 				},
 			},
 			--#endregion

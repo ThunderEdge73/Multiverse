@@ -182,10 +182,6 @@ SMODS.Consumable({
 	pos = { x = 0, y = 1 },
 	config = { max_highlighted = 2 },
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = {
-			set = "Other",
-			key = "mul_fuse",
-		}
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_frankenstein"]
 		return {
