@@ -91,7 +91,7 @@ end
 local set_sprites_hook = Card.set_sprites
 function Card:set_sprites(_center, _front)
 	set_sprites_hook(self, _center, _front)
-	if self.playing_card and self.ability and Multiverse.check_valid_half(self.ability.mul_half_card) then
+	if self.playing_card and self.ability and Multiverse.is_valid_half(self) then
 		if not self.children.mul_hitbox_indicator then
 			self.children.mul_hitbox_indicator =
 				SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, "mul_half_indicator", { x = 0, y = 0 })
@@ -103,17 +103,19 @@ function Card:set_sprites(_center, _front)
 		end
 	end
 	if Multiverse.can_receive_transmutable(self) then
-		self.children.transmutable_target = AnimatedSprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ANIMATION_ATLAS["mul_transmutable_target"],
-			{ x = 0, y = 0 }
-		)
-		self.children.transmutable_target.role.draw_major = self
-		self.children.transmutable_target.states.hover.can = false
-		self.children.transmutable_target.states.click.can = false
+		if not self.children.transmutable_target then
+			self.children.transmutable_target = SMODS.create_sprite(
+				self.T.x,
+				self.T.y,
+				self.T.w,
+				self.T.h,
+				"mul_transmutable_target",
+				{ x = 0, y = 0 }
+			)
+			self.children.transmutable_target.role.draw_major = self
+			self.children.transmutable_target.states.hover.can = false
+			self.children.transmutable_target.states.click.can = false
+		end
 	end
 end
 
@@ -240,4 +242,20 @@ function ease_dollars(mod, instant)
 		end
 	end
 	ease_dollars_hook(amt, instant)
+end
+
+local hover_hook = Card.hover
+function Card:hover()
+	if self.config.center.key == "c_mul_polymerization" then
+		Multiverse.FUSION_HOVER = true
+	end
+	hover_hook(self)
+end
+
+local stop_hover_hook = Card.stop_hover
+function Card:stop_hover()
+	stop_hover_hook(self)
+	if self.config.center.key == "c_mul_polymerization" then
+		Multiverse.FUSION_HOVER = false
+	end
 end

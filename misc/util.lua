@@ -438,10 +438,71 @@ end
 ---@param card Card
 ---@param half string
 function Multiverse.convert_to_half_card(card, half)
-	if not (card.playing_card and Multiverse.check_valid_half(half)) then
+	if not (card.playing_card and (half == "left" or half == "right")) then
 		return
 	end
+	if not Multiverse.is_valid_half(card) then
+		card.ability.extra_slots_used = card.ability.extra_slots_used - 0.5
+	end
 	card.ability.mul_half_card = half
-	card.ability.extra_slots_used = card.ability.extra_slots_used - 0.5
 	card:set_sprites()
+end
+
+function Multiverse.restore_from_half_card(card)
+	if not (card.playing_card and Multiverse.is_valid_half(card)) then
+		return
+	end
+	card.ability.extra_slots_used = card.ability.extra_slots_used + 0.5
+	card.ability.mul_half_card = nil
+	card:set_sprites()
+end
+
+function Multiverse.is_valid_half(card)
+	if not card then
+		return false
+	end
+	local value = (card.ability or {}).mul_half_card
+	return value == "left" or value == "right"
+end
+
+function Multiverse.is_valid_frankenstein(card)
+	if not card then
+		return false
+	end
+	return type((card.ability or {}).extra) == "table"
+		and card.ability.extra.enhancement1
+		and card.ability.extra.enhancement2
+		and card.ability.extra.enhancement1 ~= card.ability.extra.enhancement2
+end
+
+---@return boolean
+function Multiverse.can_frankenstein_fuse_selected()
+	return G.hand ~= nil
+		and G.hand.highlighted
+		and #G.hand.highlighted == 2
+		and not SMODS.is_eternal(G.hand.highlighted[1], { mul_fusion = true })
+		and not SMODS.is_eternal(G.hand.highlighted[2], { mul_fusion = true })
+		and G.hand.highlighted[1].config.center.key ~= "c_base"
+		and G.hand.highlighted[2].config.center.key ~= "c_base"
+		and G.hand.highlighted[1].config.center.key ~= G.hand.highlighted[2].config.center.key
+		and Multiverse.is_valid_half(G.hand.highlighted[1].ability.mul_half_card)
+		and Multiverse.is_valid_half(G.hand.highlighted[2].ability.mul_half_card)
+		and G.hand.highlighted[1].ability.mul_half_card ~= G.hand.highlighted[2].ability.mul_half_card
+end
+
+---@return boolean
+function Multiverse.can_halve_selected()
+	if not (G.hand and G.hand.highlighted and #G.hand.highlighted > 0) then
+		return false
+	end
+	for _, c in ipairs(G.hand.highlighted) do
+		if Multiverse.can_halve_card(c) then
+			return false
+		end
+	end
+	return true
+end
+
+function Multiverse.can_halve_card(card)
+	return not (SMODS.is_eternal(card, { mul_split = true }) or Multiverse.is_valid_half(card))
 end

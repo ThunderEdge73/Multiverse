@@ -124,7 +124,13 @@ SMODS.Consumable({
 		}
 	end,
 	use = function(self, card, area, copier)
-		local target = G.hand.highlighted[1]
+		local targets = {}
+		for _, c in ipairs(G.hand.cards) do
+			if Multiverse.can_halve_card(c) then
+				targets[#targets + 1] = c
+			end
+		end
+		local target = pseudorandom_element(targets, "mul_lightsaber")
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.4,
@@ -165,7 +171,7 @@ SMODS.Consumable({
 		delay(0.6)
 	end,
 	can_use = function(self, card)
-		return G.hand and #G.hand.highlighted == 1 and not SMODS.is_eternal(G.hand.highlighted[1], card)
+		return G.hand and #G.hand.highlighted == 1 and Multiverse.can_halve_selected()
 	end,
 })
 
@@ -176,6 +182,10 @@ SMODS.Consumable({
 	pos = { x = 0, y = 1 },
 	config = { max_highlighted = 2 },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {
+			set = "Other",
+			key = "mul_fuse",
+		}
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_frankenstein"]
 		return {
@@ -185,10 +195,6 @@ SMODS.Consumable({
 		}
 	end,
 	use = function(self, card, area, copier)
-		local c1 = G.hand.highlighted[1]
-		local c2 = G.hand.highlighted[2]
-		local left_enh_key = c1.ability.mul_half_card == "left" and c1.config.center.key or c2.config.center.key
-		local right_enh_key = c1.ability.mul_half_card == "left" and c2.config.center.key or c1.config.center.key
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.4,
@@ -198,6 +204,10 @@ SMODS.Consumable({
 				return true
 			end,
 		}))
+		local c1 = G.hand.highlighted[1]
+		local c2 = G.hand.highlighted[2]
+		local left_enh_key = c1.ability.mul_half_card == "left" and c1.config.center.key or c2.config.center.key
+		local right_enh_key = c1.ability.mul_half_card == "left" and c2.config.center.key or c1.config.center.key
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.2,
@@ -207,22 +217,12 @@ SMODS.Consumable({
 				new_card.ability.extra.enhancement2 = right_enh_key
 				SMODS.calculate_context({ playing_card_added = true, cards = new_card })
 				SMODS.destroy_cards({ c1, c2 }, nil, true)
-				play_sound("slice1", 0.96 + math.random() * 0.08)
 				return true
 			end,
 		}))
 		delay(0.6)
 	end,
 	can_use = function(self, card)
-		return G.hand
-			and #G.hand.highlighted == 2
-			and not SMODS.is_eternal(G.hand.highlighted[1], card)
-			and not SMODS.is_eternal(G.hand.highlighted[2], card)
-			and G.hand.highlighted[1].config.center.key ~= "c_base"
-			and G.hand.highlighted[2].config.center.key ~= "c_base"
-			and G.hand.highlighted[1].config.center.key ~= G.hand.highlighted[2].config.center.key
-			and Multiverse.check_valid_half(G.hand.highlighted[1].ability.mul_half_card)
-			and Multiverse.check_valid_half(G.hand.highlighted[2].ability.mul_half_card)
-			and G.hand.highlighted[1].ability.mul_half_card ~= G.hand.highlighted[2].ability.mul_half_card
+		return Multiverse.can_frankenstein_fuse_selected()
 	end,
 })

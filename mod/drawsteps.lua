@@ -99,7 +99,7 @@ SMODS.DrawStep({
 
 local draw_shadow_hook = Card.should_draw_shadow
 function Card:should_draw_shadow()
-	if Multiverse.check_valid_half((self.ability or {}).mul_half_card) then
+	if Multiverse.is_valid_half((self.ability or {}).mul_half_card) then
 		return self.facing == "back"
 	end
 	return draw_shadow_hook(self)
@@ -113,7 +113,7 @@ SMODS.DrawSteps["shadow"].func = function(card, layer)
 		and card.facing == "front"
 		and G.SETTINGS.GRAPHICS.shadows == "On"
 		and (
-			Multiverse.check_valid_half(card.ability.mul_half_card)
+			Multiverse.is_valid_half(card.ability.mul_half_card)
 			and (
 				(card.area and card.area ~= G.discard and card.area.config.type ~= "deck")
 				or not card.area
@@ -154,7 +154,7 @@ SMODS.DrawStep({
 	key = "half_card_render",
 	order = -9,
 	func = function(card, layer)
-		if Multiverse.check_valid_half(card.ability.mul_half_card) then
+		if Multiverse.is_valid_half(card.ability.mul_half_card) then
 			if not card.children.mul_hitbox_indicator then
 				card.children.mul_hitbox_indicator =
 					SMODS.create_sprite(card.T.x, card.T.y, card.T.w, card.T.h, "mul_half_indicator", { x = 0, y = 0 })

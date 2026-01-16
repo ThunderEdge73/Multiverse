@@ -112,6 +112,11 @@ SMODS.Enhancement({
 					* math.max(math.floor(#G.playing_cards / card.ability.extra.cards_per_retrigger), 1),
 			}
 		end
+		if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) then
+			return {
+				no_destroy = true
+			}
+		end
 	end,
 })
 
@@ -119,7 +124,7 @@ SMODS.Enhancement({
 	key = "sus_yellow",
 	atlas = "placeholder_modifiers",
 	pos = { x = 0, y = 0 },
-	config = { extra = { count = 0, money = 1, max_count = 3 } },
+	config = { extra = { count = 3, money = 1, max_count = 3 } },
 	weight = 5,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.money, card.ability.extra.max_count, card.ability.extra.count } }
@@ -127,7 +132,7 @@ SMODS.Enhancement({
 	calculate = function(self, card, context)
 		if context.discard and context.other_card == card and not context.other_card.debuff then
 			G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
-			card.ability.extra.count = card.ability.extra.count + 1
+			card.ability.extra.count = card.ability.extra.count - 1
 			return {
 				dollars = card.ability.extra.money,
 				func = function()
@@ -138,7 +143,7 @@ SMODS.Enhancement({
 						end,
 					}))
 				end,
-				remove = card.ability.extra.count >= card.ability.extra.max_count and true or false,
+				remove = card.ability.extra.count >= 0 and true or false,
 			}
 		end
 	end,
@@ -162,18 +167,29 @@ SMODS.Enhancement({
 		return false
 	end,
 	loc_vars = function(self, info_queue, card)
-		if Multiverse.is_valid_frankenstein(card) then
-			info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement1]
-			info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement2]
+		if
+			Multiverse.is_valid_frankenstein(card)
+			or (
+				Multiverse.FUSION_HOVER
+				and Multiverse.can_frankenstein_fuse_selected()
+			)
+		then
+			local e1 = G.hand.highlighted[1] and G.hand.highlighted[1].config.center.key
+			local e2 = G.hand.highlighted[2] and G.hand.highlighted[2].config.center.key
+
+			if not Multiverse.FUSION_HOVER then
+				info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement1 or e1]
+				info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement2 or e2]
+			end
 			return {
 				vars = {
-					localize({ type = "name_text", key = card.ability.extra.enhancement1, set = "Enhanced" }),
-					localize({ type = "name_text", key = card.ability.extra.enhancement2, set = "Enhanced" }),
+					localize({ type = "name_text", key = card.ability.extra.enhancement1 or e1, set = "Enhanced" }),
+					localize({ type = "name_text", key = card.ability.extra.enhancement2 or e2, set = "Enhanced" }),
 				},
 			}
 		else
 			return {
-				key = "m_mul_frankenstein_none"
+				key = "m_mul_frankenstein_none",
 			}
 		end
 	end,
@@ -187,16 +203,4 @@ SMODS.Enhancement({
 	end,
 })
 
-function Multiverse.check_valid_half(value)
-	return value == "left" or value == "right"
-end
 
-function Multiverse.is_valid_frankenstein(card)
-	if not card then
-		return false
-	end
-	return type((card.ability or {}).extra) == "table"
-		and card.ability.extra.enhancement1
-		and card.ability.extra.enhancement2
-		and card.ability.extra.enhancement1 ~= card.ability.extra.enhancement2
-end

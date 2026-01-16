@@ -126,7 +126,7 @@ SMODS.current_mod.calculate = function(self, context)
 				local discarded = 0
 				for _, c in ipairs(G.hand.cards) do
 					if
-						Multiverse.check_valid_half(c.ability.mul_half_card)
+						Multiverse.is_valid_half(c)
 						and not c.highlighted
 						and c.area == G.hand
 						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4, "mul_half_card_discard")

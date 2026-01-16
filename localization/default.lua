@@ -16,6 +16,7 @@ return {
 					"When hand is played,",
 					"{C:green}#2# in #3#{} chance to",
 					"{C:red}discard{} itself",
+					"{C:inactive}(Not an enhancement){}",
 				},
 			},
 			du_mul_half_left = {
@@ -258,7 +259,7 @@ return {
 					"Is treated as {C:attention}both",
 					"{C:attention}enhancements{} of the",
 					"cards destroyed to",
-					"create this card"
+					"create this card",
 				},
 			},
 		},
@@ -956,27 +957,19 @@ return {
 			c_mul_lightsaber = {
 				name = "The Lightsaber",
 				text = {
-					"Splits {C:attention}#1#{} selected",
-					"card in half",
+					"Splits {C:attention}#1#{} random",
+					"card held in hand",
+					"into {C:attention}2{} {C:attention}Half Cards{}",
+					"with {C:attention}opposite{} sides",
 				},
 			},
 			c_mul_polymerization = {
 				name = "Polymerization",
 				text = {
-					{
-						"Destroy {C:attention}#1#{} selected",
-						"enhanced {C:attention}Half Cards",
-						"with {C:attention}opposite{} halves",
-						"and different original",
-						"enhancements",
-					},
-					{
-						"Create a {C:attention}Frankenstein Card",
-						"with a random rank and",
-						"suit that is treated as",
-						"both destroyed cards'",
-						"{C:attention}original{} enhancements",
-					},
+					"Fuse {C:attention}#1#{} selected",
+					"enhanced {C:attention}Half Cards",
+					"with {C:attention}opposite{} halves",
+					"into a {C:attention}Frankenstein Card",
 				},
 			},
 		},
@@ -1160,6 +1153,15 @@ return {
 					"and will {C:attention}stop{} applying its effects",
 					"{C:inactive}(Note that this card will receive{}",
 					"{C:inactive}Eternal while it is active){}",
+				},
+			},
+			mul_fuse = {
+				name = "Fuse",
+				text = {
+					"Destroys {C:attention}all{} selected cards",
+					"The result of the fusion",
+					"has a {C:attention}random{} rank and suit",
+					"unless otherwise specified",
 				},
 			},
 			--#endregion
