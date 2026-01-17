@@ -1,11 +1,11 @@
 Multiverse.C.SKILL_GRADIENT = SMODS.Gradient({
-    key = "skill_gradient",
-    colours = {
-        HEX("FD5F55"),
-        HEX("FDA200"),
-        HEX("008BE3"),
-    },
-    cycle = 5
+	key = "skill_gradient",
+	colours = {
+		HEX("FD5F55"),
+		HEX("FDA200"),
+		HEX("008BE3"),
+	},
+	cycle = 5,
 })
 
 ---@type Multiverse.SkillCard
@@ -134,9 +134,9 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 			},
 		})
 	end,
-    set_card_type_badge = function (self, card, badges)
-        badges[#badges+1] = create_badge(localize("k_mul_skill"), Multiverse.C.SKILL_GRADIENT, nil, 1.2)
-    end
+	set_card_type_badge = function(self, card, badges)
+		badges[#badges + 1] = create_badge(localize("k_mul_skill"), Multiverse.C.SKILL_GRADIENT, nil, 1.2)
+	end,
 })
 
 G.FUNCS.mul_update_tp_cost = function(e)
@@ -178,23 +178,20 @@ G.FUNCS.mul_use_skill = function(e)
 	G.STATE = G.STATES.PLAY_TAROT
 	G.CONTROLLER.locks.use = true
 	Multiverse.ease_TP(-center:get_final_tp_cost(card))
+	draw_card(G.hand, G.play, 1, "up", true, card)
+	delay(0.2)
 	local res = center:use_skill(card) or "discard"
+    delay(0.6)
 	if res == "discard" then
-		SMODS.change_discard_limit(1)
-		G.FUNCS.discard_cards_from_highlighted(nil, true)
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				SMODS.change_discard_limit(-1)
-				return true
-			end,
-		}))
+		card.ability.discarded = true
+		draw_card(G.play, G.discard, 100, "down", false, card)
 	elseif res == "retain" then
-        card:highlight(false)
-    elseif res == "destroy" then
-        SMODS.destroy_cards(card, true)
-    else
-        --- TODO
-    end
+		draw_card(G.play, G.hand, 100, "down", false, card)
+	elseif res == "destroy" then
+		SMODS.destroy_cards(card, true)
+	else
+		--- TODO
+	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		delay = 0.2,

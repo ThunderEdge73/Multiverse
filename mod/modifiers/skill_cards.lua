@@ -5,6 +5,8 @@ Multiverse.SkillCard({
 		Multiverse.effect_animation(card, function()
 			print("Didnt crash")
 		end)
+
+        return "retain"
 	end,
 	loc_txt = {
 		name = "Test Skill",
