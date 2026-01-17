@@ -40,6 +40,7 @@ end
 function Multiverse.init_TP()
 	---@type integer
 	G.GAME.mul_TP = G.GAME.mul_TP or 0
+	G.GAME._gradual_TP_amt = G.GAME.mul_TP
 	---@type integer
 	G.GAME.mul_TP_max_gain = G.GAME.mul_TP_max_gain or 5
 	---@type integer
@@ -62,13 +63,20 @@ function Multiverse.ease_TP(amt, args)
 	})
 	if args.immediate then
 		G.GAME.mul_TP = G.GAME.mul_TP + actual_change
-		G.HUD:recalculate()
+		G.GAME._gradual_TP_amt = G.GAME.mul_TP
 	else
+		G.GAME._gradual_TP_amt = G.GAME.mul_TP
+		G.GAME.mul_TP = G.GAME.mul_TP + actual_change
 		G.E_MANAGER:add_event(Event({
-			func = function()
-				G.GAME.mul_TP = G.GAME.mul_TP + actual_change
-				G.HUD:recalculate()
-				return true
+			trigger = "ease",
+			ref_table = G.GAME,
+			ref_value = "_gradual_TP_amt",
+			blockable = false,
+			delay = 1,
+			ease_to = G.GAME._gradual_TP_amt + actual_change,
+			ease = "inoutquad",
+			func = function(n)
+				return math.floor(n)
 			end,
 		}))
 	end
@@ -76,7 +84,7 @@ end
 
 function Multiverse.create_TP_ui()
 	local col = {}
-	for i = 1, 20 do
+	for i = 1, 50 do
 		col[#col + 1] = {
 			n = G.UIT.R,
 			config = {
@@ -89,8 +97,7 @@ function Multiverse.create_TP_ui()
 					config = {
 						colour = G.C.DYN_UI.BOSS_DARK,
 						w = 0.5,
-						h = 0.1,
-						r = 0.2,
+						h = 0.06,
 					},
 				},
 			},
@@ -114,6 +121,7 @@ function Multiverse.create_TP_ui()
 									object = DynaText({
 										string = { localize("k_mul_TP") },
 										colours = { G.C.UI.TEXT_LIGHT },
+										shadow = true,
 										scale = 0.35,
 									}),
 								},
@@ -136,9 +144,13 @@ function Multiverse.create_TP_ui()
 												n = G.UIT.O,
 												config = {
 													object = DynaText({
-														string = { { ref_table = G.GAME, ref_value = "mul_TP" } },
+														string = {
+															{ ref_table = G.GAME, ref_value = "_gradual_TP_amt" },
+														},
 														colours = { G.C.IMPORTANT },
 														scale = 0.35,
+														shadow = true,
+														bump = true,
 													}),
 													id = "TP_display",
 													align = "cm",
@@ -157,6 +169,7 @@ function Multiverse.create_TP_ui()
 														string = { "%" },
 														colours = { G.C.IMPORTANT },
 														scale = 0.35,
+														shadow = true,
 													}),
 													align = "cm",
 												},
@@ -194,17 +207,34 @@ function Multiverse.create_TP_ui()
 							r = 0.1,
 							colour = G.C.DYN_UI.BOSS_MAIN,
 							emboss = 0.05,
+							padding = 0.01,
 						},
 						nodes = {
 							display,
 							{
 								n = G.UIT.R,
-								config = { align = "cm", padding = 0.01 },
+								config = { align = "cm" },
 								nodes = {
 									{
 										n = G.UIT.C,
-										config = { align = "cm", func = "mul_update_TP_bar", padding = 0.05 },
+										config = { align = "cm", func = "mul_update_TP_bar" },
 										nodes = col,
+									},
+								},
+							},
+							{
+								n = G.UIT.R,
+								config = {},
+								nodes = {
+									{
+										n = G.UIT.C,
+										config = { align = "cm" },
+										nodes = {
+											{
+												n = G.UIT.B,
+												config = { h = 0.05, w = 0.05 },
+											},
+										},
 									},
 								},
 							},
@@ -218,9 +248,18 @@ end
 
 function G.FUNCS.mul_update_TP_bar(e)
 	if e.children then
-		for i, node in ipairs(e.children) do
-			local is_floating = (#e.children - i) < math.ceil(G.GAME.mul_TP / 100 * #e.children)
-			node.children[1].config.colour = is_floating and Multiverse.C.RAINBOW_GRADIENT or G.C.DYN_UI.BOSS_DARK
+		for i = #e.children, 1, -1 do
+			local rev_index = #e.children - i + 1
+			local grad_TP_index = math.ceil(G.GAME._gradual_TP_amt * #e.children / 100)
+			local final_TP_index = math.ceil(G.GAME.mul_TP * #e.children / 100)
+			local col = G.C.DYN_UI.BOSS_DARK
+			if rev_index <= math.max(final_TP_index, grad_TP_index) then
+				col = G.C.FILTER
+				if rev_index >= math.min(final_TP_index, grad_TP_index) then
+					col = lighten(col, 0.4)
+				end
+			end
+			e.children[i].children[1].config.colour = col
 		end
 	end
 end

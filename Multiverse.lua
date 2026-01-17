@@ -20,18 +20,6 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 	},
 	cycle = 5,
 })
-Multiverse.C.RAINBOW_GRADIENT = SMODS.Gradient({
-	key = "rainbow_gradient",
-	colours = {
-		G.C.RED,
-		G.C.ORANGE,
-		darken(G.C.YELLOW, 0.15),
-		G.C.GREEN,
-		G.C.BLUE,
-		G.C.PURPLE,
-	},
-	cycle = 3,
-})
 
 Multiverse.selected_music_page = 1
 Multiverse.transmutable_sticker_anim_state = 0

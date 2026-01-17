@@ -1,13 +1,3 @@
-Multiverse.C.SKILL_GRADIENT = SMODS.Gradient({
-	key = "skill_gradient",
-	colours = {
-		HEX("FD5F55"),
-		HEX("FDA200"),
-		HEX("008BE3"),
-	},
-	cycle = 5,
-})
-
 ---@type Multiverse.SkillCard
 Multiverse.SkillCard = SMODS.Enhancement:extend({
 	obj_buffer = {},
@@ -135,7 +125,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 		})
 	end,
 	set_card_type_badge = function(self, card, badges)
-		badges[#badges + 1] = create_badge(localize("k_mul_skill"), Multiverse.C.SKILL_GRADIENT, nil, 1.2)
+		badges[#badges + 1] = create_badge(localize("k_mul_skill"), G.C.FILTER, nil, 1.2)
 	end,
 })
 
