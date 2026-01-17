@@ -74,6 +74,21 @@ SMODS.DrawStep({
 			card.children.mul_joker_use_button:draw()
 		end
 	end,
+	conditions = { vortex = false },
+})
+
+SMODS.DrawStep({
+	key = "skill_draw_ui",
+	order = -30,
+	func = function(card, layer)
+		if card.children.mul_skill_use_button and card.highlighted then
+			card.children.mul_skill_use_button:draw()
+		end
+		if card.children.mul_skill_cost_ui and card.area == G.hand then
+			card.children.mul_skill_cost_ui:draw()
+		end
+	end,
+	conditions = { vortex = false },
 })
 
 SMODS.DrawStep({

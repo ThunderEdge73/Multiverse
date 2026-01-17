@@ -36,23 +36,61 @@ Multiverse.joker_use_UI_def = function(card)
 			or G.CONTROLLER.locked
 			or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
 				and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
-		if obj:can_use_ability(card) and not locked then
+		if obj:can_use_ability(card) and not locked and not card.debuff then
+			local prev_state = G.STATE
+			G.TAROT_INTERRUPT = G.STATE
+			G.STATE = (G.STATE == G.STATES.TAROT_PACK and G.STATES.TAROT_PACK)
+				or (G.STATE == G.STATES.PLANET_PACK and G.STATES.PLANET_PACK)
+				or (G.STATE == G.STATES.SPECTRAL_PACK and G.STATES.SPECTRAL_PACK)
+				or (G.STATE == G.STATES.STANDARD_PACK and G.STATES.STANDARD_PACK)
+				or (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and G.STATES.SMODS_BOOSTER_OPENED)
+				or (G.STATE == G.STATES.BUFFOON_PACK and G.STATES.BUFFOON_PACK)
+				or G.STATES.PLAY_TAROT
+			G.CONTROLLER.locks.use = true
+			if G.shop and not G.shop.alignment.offset.py then
+				G.shop.alignment.offset.py = G.shop.alignment.offset.y
+				G.shop.alignment.offset.y = G.ROOM.T.y + 29
+			end
+			if G.blind_select and not G.blind_select.alignment.offset.py then
+				G.blind_select.alignment.offset.py = G.blind_select.alignment.offset.y
+				G.blind_select.alignment.offset.y = G.ROOM.T.y + 39
+			end
+			if G.round_eval and not G.round_eval.alignment.offset.py then
+				G.round_eval.alignment.offset.py = G.round_eval.alignment.offset.y
+				G.round_eval.alignment.offset.y = G.ROOM.T.y + 29
+			end
 			card:highlight(false)
+			obj:use_ability(card)
 			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
 				func = function()
-					obj:use_ability(card)
+					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						delay = 0.1,
+						func = function()
+							G.STATE = prev_state
+							G.TAROT_INTERRUPT = nil
+							G.CONTROLLER.locks.use = false
+							if G.shop then
+								G.shop.alignment.offset.y = G.shop.alignment.offset.py
+								G.shop.alignment.offset.py = nil
+							end
+							if G.blind_select then
+								G.blind_select.alignment.offset.y = G.blind_select.alignment.offset.py
+								G.blind_select.alignment.offset.py = nil
+							end
+							if G.round_eval then
+								G.round_eval.alignment.offset.y = G.round_eval.alignment.offset.py
+								G.round_eval.alignment.offset.py = nil
+							end
+							return true
+						end,
+					}))
 					return true
 				end,
 			}))
 		end
-	end
-	local col = G.C.UI.BACKGROUND_INACTIVE
-	local locked = (G.play and #G.play.cards > 0)
-		or G.CONTROLLER.locked
-		or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
-			and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
-	if obj:can_use_ability(card) and not locked then
-		col = G.C.GREEN
 	end
 	return {
 		n = G.UIT.ROOT,
@@ -66,9 +104,9 @@ Multiverse.joker_use_UI_def = function(card)
 					padding = 0.1,
 					hover = true,
 					shadow = true,
-					colour = col,
+					colour = G.C.UI.BACKGROUND_INACTIVE,
 					minw = 1.63,
-					func = "mul_check_usable",
+					func = "mul_can_use_joker",
 					ref_table = card,
 				},
 				nodes = {
@@ -119,36 +157,16 @@ Multiverse.joker_use_UI_def = function(card)
 	}
 end
 
-function G.FUNCS.mul_check_usable(e)
+function G.FUNCS.mul_can_use_joker(e)
 	local card = e.config.ref_table
 	local obj = card.config.center
 	local locked = (G.play and #G.play.cards > 0)
 		or G.CONTROLLER.locked
 		or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
 			and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
-	if obj:can_use_ability(card) and not locked then
+	if obj:can_use_ability(card) and not locked and not card.debuff then
 		e.config.colour = G.C.GREEN
 	else
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-	end
-end
-
-local highlight_hook = Card.highlight
-function Card:highlight(is_highlighted)
-	highlight_hook(self, is_highlighted)
-	local obj = self.config.center
-	if self.children.mul_joker_use_button then
-		self.children.mul_joker_use_button:remove()
-		self.children.mul_joker_use_button = nil
-	end
-	if
-		self.area == G.jokers
-		and is_highlighted
-		and obj.highlight_ui
-		and type(obj.highlight_ui) == "function"
-		and self.ability.set == "Joker"
-	then
-		---@type UIBox
-		self.children.mul_joker_use_button = obj:highlight_ui(self)
 	end
 end

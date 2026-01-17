@@ -227,7 +227,8 @@ function Multiverse.config_tab_definition()
 					ref_table = Multiverse.config,
 					ref_value = "debug",
 					callback = function()
-						if not Multiverse.debug then
+						---@diagnostic disable-next-line: undefined-global
+						if not mulDbg then
 							Multiverse.config.debug = false
 							return
 						end
@@ -530,7 +531,13 @@ function Multiverse.create_localized_rows(set, key, args)
 		end
 		table.insert(rows, {
 			n = G.UIT.R,
-			config = { align = "cm", padding = args.no_padding and 0 or 0.05, colour = args.bg_colour, r = 0.1, emboss = 0.05 },
+			config = {
+				align = "cm",
+				padding = args.no_padding and 0 or 0.05,
+				colour = args.bg_colour,
+				r = 0.1,
+				emboss = 0.05,
+			},
 			nodes = {
 				{
 					n = G.UIT.C,
@@ -553,7 +560,13 @@ function Multiverse.create_localized_rows(set, key, args)
 		end
 		table.insert(rows, {
 			n = G.UIT.R,
-			config = { align = "cm", padding = args.no_padding and 0 or 0.05, colour = args.bg_colour, r = 0.1, emboss = 0.05 },
+			config = {
+				align = "cm",
+				padding = args.no_padding and 0 or 0.05,
+				colour = args.bg_colour,
+				r = 0.1,
+				emboss = 0.05,
+			},
 			nodes = {
 				{
 					n = G.UIT.C,
@@ -705,7 +718,7 @@ function G.FUNCS.mul_deckenchantment_collection_page(args)
 					G.P_CENTERS["c_mul_enchanted_book"]
 				)
 				card.ability.extra.collection_enchant = pool[index].key
-				card:start_materialize({HEX("A61A1F"), HEX("CAA540")}, row > 1 or col > 1)
+				card:start_materialize({ HEX("A61A1F"), HEX("CAA540") }, row > 1 or col > 1)
 				G.your_collection[row]:emplace(card)
 				col = col + 1
 				if col > 5 then

@@ -174,8 +174,10 @@ end
 SMODS.draw_ignore_keys["transmutable_target"] = true
 SMODS.draw_ignore_keys["mul_joker_use_button"] = true
 SMODS.draw_ignore_keys["mul_hitbox_indicator"] = true
+SMODS.draw_ignore_keys["mul_skill_use_button"] = true
+SMODS.draw_ignore_keys["mul_skill_cost_ui"] = true
 
-function SMODS.current_mod.reset_game_globals()
+function SMODS.current_mod.reset_game_globals(run_start)
 	Multiverse.set_foddian_suit()
 	Multiverse.set_stand_arrow_suit()
 end
@@ -198,10 +200,26 @@ SMODS.optional_features.quantum_enhancements = true
 Multiverse.recursive_load("misc")
 Multiverse.recursive_load("mod")
 
-Multiverse.debug = false
+SMODS.current_mod.custom_collection_tabs = function()
+	return {
+		UIBox_button({
+			button = "your_collection_mul_deckenchantments",
+			id = "your_collection_mul_deckenchantments",
+			label = { localize("b_mul_deckenchantment_cards") },
+			minw = 5,
+		}),
+		UIBox_button({
+			button = "your_collection_mul_skillcards",
+			id = "your_collection_mul_skillcards",
+			label = { localize("b_mul_skill_cards") },
+			minw = 5,
+		}),
+	}
+end
+
 local debug, err = SMODS.load_file("debug.lua")
 if debug then
-	Multiverse.debug = true
+	mulDbg = {}
 	if Multiverse.config.debug then
 		debug()
 	end

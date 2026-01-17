@@ -113,3 +113,9 @@ SMODS.Atlas({
 	py = 95,
 	path = "half_indicator.png"
 })
+SMODS.Atlas({
+	key = "skill_placeholder",
+	px = 71,
+	py = 95,
+	path = "skill_placeholder.png"
+})

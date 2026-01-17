@@ -160,8 +160,10 @@ Multiverse.UsableJoker({
 	use_ability = function(self, card)
 		local cards_to_create = #G.hand.highlighted
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost, { instant = true })
+			Multiverse.ease_TP(-card.ability.extra.tp_cost)
 			SMODS.destroy_cards(G.hand.highlighted)
+		end)
+		Multiverse.effect_animation(card, function()
 			local cards = {}
 			for i = 1, cards_to_create do
 				cards[#cards + 1] = SMODS.add_card({
@@ -327,11 +329,13 @@ Multiverse.UsableJoker({
 		end
 	end,
 	use_ability = function(self, card)
-		Multiverse.ease_TP(-card.ability.extra.tp_cost)
-		ease_hands_played(card.ability.extra.hand_boost)
-		SMODS.calculate_effect({
-			message = localize("k_eaten_ex"),
-		}, card)
+		Multiverse.effect_animation(card, function()
+			Multiverse.ease_TP(-card.ability.extra.tp_cost)
+			ease_hands_played(card.ability.extra.hand_boost)
+			SMODS.calculate_effect({
+				message = localize("k_eaten_ex"),
+			}, card)
+		end)
 	end,
 	can_use_ability = function(self, card)
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost
@@ -449,17 +453,19 @@ Multiverse.UsableJoker({
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost and G.GAME.facing_blind
 	end,
 	use_ability = function(self, card)
-		Multiverse.ease_TP(-card.ability.extra.tp_cost)
-		Multiverse.change_blind_size(function(chips)
-			local ret = chips * card.ability.extra.blind_reduce_x
-			if to_big(G.GAME.round_resets.ante) >= to_big(10) then
-				ret = chips ^ card.ability.extra.blind_reduce_e
-			end
-			return ret
+		Multiverse.effect_animation(card, function()
+			Multiverse.ease_TP(-card.ability.extra.tp_cost)
+			Multiverse.change_blind_size(function(chips)
+				local ret = chips * card.ability.extra.blind_reduce_x
+				if to_big(G.GAME.round_resets.ante) >= to_big(10) then
+					ret = chips ^ card.ability.extra.blind_reduce_e
+				end
+				return ret
+			end)
+			SMODS.calculate_effect({
+				message = localize("k_mul_murdered"),
+				sound = "slice1",
+			}, card)
 		end)
-		SMODS.calculate_effect({
-			message = localize("k_mul_murdered"),
-			sound = "slice1",
-		}, card)
 	end,
 })

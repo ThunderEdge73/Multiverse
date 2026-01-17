@@ -57,7 +57,6 @@ SMODS.Enhancement({
 	atlas = "placeholder_modifiers",
 	pos = { x = 0, y = 0 },
 	config = { bonus = 22 },
-	weight = 5,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.bonus } }
 	end,
@@ -68,7 +67,6 @@ SMODS.Enhancement({
 	atlas = "placeholder_modifiers",
 	pos = { x = 0, y = 0 },
 	config = { extra = { retriggers = 1, odds = 4 } },
-	weight = 5,
 	loc_vars = function(self, info_queue, card)
 		local num, denom = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "mul_motivated")
 		return { vars = { card.ability.extra.retriggers, num, denom } }
@@ -125,7 +123,6 @@ SMODS.Enhancement({
 	atlas = "placeholder_modifiers",
 	pos = { x = 0, y = 0 },
 	config = { extra = { count = 3, money = 1, max_count = 3 } },
-	weight = 5,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.money, card.ability.extra.max_count, card.ability.extra.count } }
 	end,

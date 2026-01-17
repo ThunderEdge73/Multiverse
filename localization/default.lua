@@ -183,6 +183,9 @@ return {
 				},
 			},
 		},
+		mul_Skill = {
+
+		},
 		Enhanced = {
 			m_mul_calling_card = {
 				name = "Calling Card",
@@ -1133,10 +1136,11 @@ return {
 				},
 			},
 			mul_TP_desc = {
-				name = "TP",
+				name = "TP (Tension Points)",
 				text = {
 					"{C:attention}TP{} is used for activating",
 					"certain Jokers' abilities",
+					"and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
@@ -1271,11 +1275,13 @@ return {
 			k_mul_myth = "Myth",
 			k_mul_deckenchantment = "Deck Enchantment",
 			k_mul_enchantedbook = "Enchanted Book",
+			k_mul_skill = "Skill Card",
 			k_mul_activate = "Activate",
 			k_mul_ability = "Ability",
 			b_mul_myth_cards = "Myth Cards",
 			b_mul_deckenchantment_cards = "Deck Enchantments",
 			b_mul_enchantedbook_cards = "Enchanted Books",
+			b_mul_skill_cards = "Skill Cards",
 			b_mul_discord_server = "My Discord Server",
 			b_mul_landing_page = "About Me",
 			mul_stand_user = "Saved by Stand User via time reversal",
@@ -1365,9 +1371,10 @@ return {
 		labels = {
 			mul_transmutable = "Transmutable",
 			mul_traitorous = "Traitorous",
-			myth = "Myth",
-			deckenchantment = "Deck Enchantment",
-			enchantedbook = "Enchanted Book",
+			-- myth = "Myth",
+			-- deckenchantment = "Deck Enchantment",
+			-- enchantedbook = "Enchanted Book",
+			-- skill = "Skill Card",
 			k_mul_transmuted = "Transmuted",
 			mul_hyperdimensional = "Hyperdimensional",
 		},

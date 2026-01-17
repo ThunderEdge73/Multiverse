@@ -104,14 +104,8 @@ function Card:set_sprites(_center, _front)
 	end
 	if Multiverse.can_receive_transmutable(self) then
 		if not self.children.transmutable_target then
-			self.children.transmutable_target = SMODS.create_sprite(
-				self.T.x,
-				self.T.y,
-				self.T.w,
-				self.T.h,
-				"mul_transmutable_target",
-				{ x = 0, y = 0 }
-			)
+			self.children.transmutable_target =
+				SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, "mul_transmutable_target", { x = 0, y = 0 })
 			self.children.transmutable_target.role.draw_major = self
 			self.children.transmutable_target.states.hover.can = false
 			self.children.transmutable_target.states.click.can = false
@@ -258,4 +252,59 @@ function Card:stop_hover()
 	if self.config.center.key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = false
 	end
+end
+
+local highlight_hook = Card.highlight
+function Card:highlight(is_highlighted)
+	highlight_hook(self, is_highlighted)
+	local obj = self.config.center
+	if self.children.mul_joker_use_button then
+		self.children.mul_joker_use_button:remove()
+		self.children.mul_joker_use_button = nil
+	end
+	if self.children.mul_skill_use_button then
+		self.children.mul_skill_use_button:remove()
+		self.children.mul_skill_use_button = nil
+	end
+	if
+		self.area == G.jokers
+		and is_highlighted
+		and obj.highlight_ui
+		and type(obj.highlight_ui) == "function"
+		and self.ability.set == "Joker"
+	then
+		---@type UIBox
+		self.children.mul_joker_use_button = obj:highlight_ui(self)
+	end
+	if
+		self.area == G.hand
+		and is_highlighted
+		and obj.generate_use_ui
+		and type(obj.generate_use_ui) == "function"
+		and self.ability.set == "mul_Skill"
+	then
+		self.children.mul_skill_use_button = obj:generate_use_ui(self)
+	end
+end
+
+local card_update_hook = Card.update
+function Card:update(dt)
+	card_update_hook(self, dt)
+	if self.ability.set == "mul_Skill" then
+		if not self.children.mul_skill_cost_ui then
+			self.children.mul_skill_cost_ui = self.config.center:generate_cost_ui(self)
+		end
+	elseif self.children.mul_skill_cost_ui then
+		self.children.mul_skill_cost_ui:remove()
+		self.children.mul_skill_cost_ui = nil
+	end
+end
+
+local align_h_popup_hook = Card.align_h_popup
+function Card:align_h_popup()
+	local ret = align_h_popup_hook(self)
+	if ret.type == "tm" and self.children.mul_skill_cost_ui then
+		ret.offset.y = ret.offset.y - 0.6
+	end
+	return ret
 end

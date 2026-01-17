@@ -137,17 +137,6 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 	end,
 })
 
-SMODS.current_mod.custom_collection_tabs = function()
-	return {
-		UIBox_button({
-			button = "your_collection_mul_deckenchantments",
-			id = "your_collection_mul_deckenchantments",
-			label = { localize("b_mul_deckenchantment_cards") },
-			minw = 5,
-		}),
-	}
-end
-
 ---@param obj Multiverse.DeckEnchantment
 ---@param ench_data EnchantmentData
 ---@param colours table
