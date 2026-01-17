@@ -1147,6 +1147,30 @@ return {
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 				},
 			},
+			mul_TP_desc_joke1 = {
+				name = "TP (Toilet Paper)",
+				text = {
+					"{C:attention}TP{} is used for activating",
+					"certain Jokers' abilities",
+					"and {C:attention}Skill Cards{}",
+					"If total score of played",
+					"hand does not exceed current",
+					"blind size, gain {C:attention}#1#-#2#%{} TP",
+					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
+				},
+			},
+			mul_TP_desc_joke2 = {
+				name = "TP (Yes, you read that right)",
+				text = {
+					"{C:attention}TP{} is used for activating",
+					"certain Jokers' abilities",
+					"and {C:attention}Skill Cards{}",
+					"If total score of played",
+					"hand does not exceed current",
+					"blind size, gain {C:attention}#1#-#2#%{} TP",
+					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
+				},
+			},
 			mul_active_consumable = {
 				name = "Active Consumable",
 				text = {
