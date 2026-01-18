@@ -17,14 +17,6 @@ This mod introduces:
  - TP and Thaumaturgy Energy, two new currencies/meters that the mod utilizes heavily
  - Skill Cards, a new type of enhancement that is usable like a consumable
 
-> :page_facing_up: Note: Compatibility with other mods is **not** guaranteed.
-
-## Future Steps
-
-- [ ] Get *human-made* art for everything in this mod
-- [x] Ensure compatibility with Talisman
-- [ ] Create transmutations for other modded Jokers
-
 ## License
 
 This project is licensed under the GNU General Public License. This ensures that the software is free to use, modify, and distribute. For more details, read the license.
