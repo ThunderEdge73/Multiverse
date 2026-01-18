@@ -14,7 +14,6 @@ function Multiverse.init_blinds()
 		G.GAME.mul_undyne_damage_mult = 2
 	end
 	if G.GAME.blind and G.GAME.facing_blind then
-		Multiverse.show_TP_meter()
 		if G.GAME.blind.config.blind.key == "bl_mul_undying" and not G.GAME.blind.disabled then
 			Multiverse.show_blind_instructions("undying")
 		end

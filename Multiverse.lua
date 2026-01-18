@@ -205,6 +205,16 @@ SMODS.current_mod.custom_collection_tabs = function()
 	}
 end
 
+SMODS.current_mod.custom_card_areas = function(game)
+	game.mul_exhaust = CardArea(
+		game.discard.T.x,
+		game.discard.T.y,
+		game.discard.T.w,
+		game.discard.T.h,
+		{ type = "hand", card_limit = 1e308, max_highlighted = 1e308 }
+	)
+end
+
 local debug, err = SMODS.load_file("debug.lua")
 if debug then
 	mulDbg = {}

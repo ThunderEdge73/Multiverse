@@ -258,16 +258,15 @@ SMODS.Joker({
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		if not from_debuff then
-			G.GAME.waldo_spawn = true
+			Multiverse._CREATING_WALDO = true
 			local c = SMODS.add_card({
 				set = "Enhanced",
 				area = G.deck,
 				skip_materialize = true,
 				enhancement = "m_mul_waldo",
 			})
-			G.GAME.waldo_spawn = false
+			Multiverse._CREATING_WALDO = false
 			SMODS.calculate_context({ playing_card_added = true, cards = { c } })
-			G.GAME.waldo_already_created = true
 		end
 	end,
 	calculate = function(self, card, context)

@@ -35,6 +35,15 @@ return {
 					"{C:red}discard{} itself",
 				},
 			},
+			du_mul_exhausted = {
+				name = "Exhausted",
+				text = {
+					"Does not return",
+					"to deck until",
+					"{C:attention}Boss Blind{} is",
+					"defeated"
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {

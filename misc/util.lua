@@ -581,3 +581,26 @@ function Multiverse.frankenstein_fuse()
 		end,
 	}))
 end
+
+G.FUNCS.mul_draw_from_exhausted_to_deck = function(e)
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			local exhaust_count = #G.mul_exhaust.cards
+			for i = 1, exhaust_count do
+				draw_card(
+					G.mul_exhaust,
+					G.deck,
+					i * 100 / exhaust_count,
+					"up",
+					nil,
+					nil,
+					0.005,
+					i % 2 == 0,
+					nil,
+					math.max((21 - i) / 20, 0.7)
+				)
+			end
+			return true
+		end,
+	}))
+end

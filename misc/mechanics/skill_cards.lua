@@ -1,3 +1,8 @@
+SMODS.Shader({
+	key = "exhausted",
+	path = "exhausted.fs"
+})
+
 ---@type Multiverse.SkillCard
 Multiverse.SkillCard = SMODS.Enhancement:extend({
 	obj_buffer = {},
@@ -70,7 +75,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 									silent = true,
 									bump = true,
 									pop_in = 0,
-									scale = 0.5,
+									scale = 0.45,
 								}),
 							},
 							func = "mul_update_tp_cost",
@@ -176,11 +181,12 @@ G.FUNCS.mul_use_skill = function(e)
 		card.ability.discarded = true
 		draw_card(G.play, G.discard, 100, "down", false, card)
 	elseif res == "retain" then
-		draw_card(G.play, G.hand, 100, "down", false, card)
+		draw_card(G.play, G.hand, 100, "up", false, card)
 	elseif res == "destroy" then
 		SMODS.destroy_cards(card, true)
 	else
-		--- TODO
+		card.ability.mul_exhausted = true
+		draw_card(G.play, G.mul_exhaust, 100, "down", false, card)
 	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",

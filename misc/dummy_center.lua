@@ -76,3 +76,7 @@ Multiverse.DummyCenter({
 		}
 	end,
 })
+
+Multiverse.DummyCenter({
+	key = "exhausted",
+})

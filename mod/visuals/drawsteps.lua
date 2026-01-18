@@ -278,3 +278,15 @@ SMODS.DrawStep({
 	end,
 	conditions = { vortex = false, facing = "front" },
 })
+
+local greyed_draw_hook = SMODS.DrawSteps["greyed"].func
+SMODS.DrawSteps["greyed"].func = function(card, layer)
+	if card.mul_exhausted_display then
+		card.children.center:draw_shader("mul_exhausted", nil, card.ARGS.send_to_shader)
+		if card.children.front and (card.ability.delayed or not card:should_hide_front()) then
+			card.children.front:draw_shader("mul_exhausted", nil, card.ARGS.send_to_shader)
+		end
+	else
+		greyed_draw_hook(card, layer)
+	end
+end

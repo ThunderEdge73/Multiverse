@@ -122,17 +122,47 @@ function create_popup_UIBox_tooltip(tooltip)
 	return ret
 end
 
+function Multiverse.explode()
+	if not Multiverse.all_animations["explosion"].is_active then
+		Multiverse.start_animation("explosion")
+		play_sound("mul_deltarune_explosion", 1, 0.8)
+	end
+end
+
 local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
-	if center == "m_mul_waldo" and G.GAME.waldo_already_created and not G.GAME.waldo_spawn then
-		set_ability_hook(self, "c_base", initial, delay_sprites)
-		if not Multiverse.all_animations["explosion"].is_active then
-			Multiverse.start_animation("explosion")
-			play_sound("mul_deltarune_explosion", 1, 0.8)
-		end
-	else
-		set_ability_hook(self, center, initial, delay_sprites)
+	if
+		Multiverse.contains_value(G.playing_cards or {}, self)
+		and not Multiverse._CREATING_WALDO
+		and center == "m_mul_waldo"
+	then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				self:set_ability("c_base", initial, delay_sprites)
+				Multiverse.explode()
+				return true
+			end,
+		}))
+		return
 	end
+	set_ability_hook(self, center, initial, delay_sprites)
+end
+
+local copy_card_hook = copy_card
+function copy_card(other, new_card, card_scale, playing_card, strip_edition)
+	local ret = copy_card_hook(other, new_card, card_scale, playing_card, strip_edition)
+	if ret.config.center.key == "m_mul_waldo" then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if Multiverse.contains_value(G.playing_cards or {}, ret) then
+					ret:set_ability("c_base")
+					Multiverse.explode()
+				end
+				return true
+			end,
+		}))
+	end
+	return ret
 end
 
 local mousepressed_hook = love.mousepressed
@@ -209,9 +239,7 @@ function Game:start_run(args)
 	Multiverse.init_deck_enchantments()
 	G.E_MANAGER:add_event(Event({
 		func = function()
-			if not G.mul_TP_meter then
-				Multiverse.show_TP_meter()
-			end
+			Multiverse.show_TP_meter()
 			return true
 		end,
 	}))
