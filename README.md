@@ -14,7 +14,7 @@ This mod introduces:
  - New Tarot and Spectral cards to add more variety to the overall Balatro experience
  - Myth Cards, a new consumable type to facilitate this transmutation mechanic
  - Deck Enchantments, a way to augment your Deck and give it powers beyond what it should be able to do
- - TP and Thaumaturgy Energy, two new currencies/meters that the mod utilizes heavily
+ - Tension Points and Thaumaturgy Energy, two new currencies/meters that the mod utilizes heavily
  - Skill Cards, a new type of enhancement that is usable like a consumable
 
 ## License
