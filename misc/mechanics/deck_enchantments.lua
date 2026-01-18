@@ -444,7 +444,7 @@ end
 ---Set `singular` to true to force this to generate exactly 1 enchantment with a random level increment.
 ---Set `no_legendary` to true to prevent any legendary enchantments from showing up.
 ---`key_append` functions similarly to other usages of key_append.
----@param args {singular: boolean?, key_append: string?, no_legendary: boolean?, source: string?}
+---@param args {key_append: string?, no_legendary: boolean?, source: string?, guaranteed_curse: boolean?, forced_amt: integer?}
 function Multiverse.poll_deck_enchantments(args)
 	local temp = args or {}
 	local singular = temp.singular
@@ -454,9 +454,9 @@ function Multiverse.poll_deck_enchantments(args)
 	local ret = {}
 	local polled = {}
 	local luck_factor = Multiverse.clamp((G.GAME.mul_enchantment_luck or 0) / 100, 0, 1)
-	local amt = singular and 1
+	local amt = args.forced_amt
 		or Multiverse.weighted_pseudorandom("mul_ench_amt_" .. key_append, luck_factor, 0.4 + luck_factor / 5, 1, 3)
-	if not singular and pseudorandom("mul_lucky_4_" .. G.GAME.round_resets.ante, 1, 1000) <= 3 then
+	if not args.forced_amt and pseudorandom("mul_lucky_4_" .. G.GAME.round_resets.ante, 1, 1000) <= 3 then
 		amt = 4
 	end
 	for i = 1, amt do
@@ -528,22 +528,19 @@ function Multiverse.poll_deck_enchantments(args)
 			}
 		end
 		if i == amt then
-			local has_curse = not singular
-				and G.GAME.modifiers.mul_enable_curses
-				and pseudorandom("mul_generate_curse_" .. key_append)
-					> 0.9 + (G.GAME.mul_enchantment_luck or 0) * 0.09
+			local has_curse = args.guaranteed_curse
+				or (
+					not args.forced_amt
+					and G.GAME.modifiers.mul_enable_curses
+					and pseudorandom("mul_generate_curse_" .. key_append)
+						> 0.9 + (G.GAME.mul_enchantment_luck or 0) * 0.09
+				)
 			if has_curse then
 				local curse, c_index = Multiverse.weighted_poll(curse_pool, function(item)
 					return item.enchant_obj:get_weight()
 				end, "mul_select_curse_" .. key_append)
 				if curse and c_index then
-					local level_index = Multiverse.weighted_pseudorandom(
-						"mul_generate_level_" .. key_append,
-						1 - luck_factor,
-						0.3 + luck_factor / 5,
-						1,
-						#curse.level_pool
-					)
+					local level_index = pseudorandom("mul_generate_level_" .. key_append, 1, #curse.level_pool)
 					ret["curse"] = {
 						key = curse.enchant_key,
 						level_amt = curse.level_pool[level_index],
