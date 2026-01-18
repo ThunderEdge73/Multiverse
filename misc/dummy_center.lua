@@ -80,3 +80,11 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "exhausted",
 })
+
+Multiverse.DummyCenter({
+	key = "skill_cost_num",
+})
+
+Multiverse.DummyCenter({
+	key = "skill_cost_x",
+})

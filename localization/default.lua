@@ -45,15 +45,29 @@ return {
 				},
 			},
 			du_mul_visible_enchant = {
-				name = " ",
+				name = "NONE",
 				text = {
 					"{C:mul_enchantedbook}#1#",
 					"{C:inactive}(lvl. #2# -> lvl. #3#){}",
 				},
 			},
 			du_mul_hidden_enchant = {
-				name = " ",
+				name = "NONE",
 				text = { "{C:inactive}?????" },
+			},
+			du_mul_skill_cost_num = {
+				name = "NONE",
+				text = {
+					"Costs {C:attention}#1#{} TP"
+				},
+			},
+			du_mul_skill_cost_x = {
+				name = "NONE",
+				text = {
+					"Costs {C:attention}#1#{} TP",
+					"{C:inactive}(#1# is your{}",
+					"{C:inactive}current TP){}",
+				},
 			},
 		},
 		Blind = {
@@ -1157,7 +1171,7 @@ return {
 				name = "TP (Tension Points)",
 				text = {
 					"{C:attention}TP{} is used for activating",
-					"certain Jokers' abilities",
+					"certain {C:attention}Jokers'{} abilities",
 					"and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",
@@ -1169,7 +1183,7 @@ return {
 				name = "TP (Toilet Paper)",
 				text = {
 					"{C:attention}TP{} is used for activating",
-					"certain Jokers' abilities",
+					"certain {C:attention}Jokers'{} abilities",
 					"and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",
@@ -1181,7 +1195,7 @@ return {
 				name = "TP (Yes, you read that right)",
 				text = {
 					"{C:attention}TP{} is used for activating",
-					"certain Jokers' abilities",
+					"certain {C:attention}Jokers'{} abilities",
 					"and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",

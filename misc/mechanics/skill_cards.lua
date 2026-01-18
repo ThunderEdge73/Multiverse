@@ -1,6 +1,6 @@
 SMODS.Shader({
 	key = "exhausted",
-	path = "exhausted.fs"
+	path = "exhausted.fs",
 })
 
 ---@type Multiverse.SkillCard
@@ -22,6 +22,31 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 	inject_class = function(self)
 		G.P_CENTER_POOLS[self.set] = {}
 		SMODS.Enhancement.inject_class(self)
+	end,
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		local cost = self:get_final_tp_cost(card or self:create_fake_card(), true)
+		if not (card and card.area == G.hand) then
+			if cost == "X" then
+				localize({
+					type = "descriptions",
+					set = "mul_Dummy",
+					key = "du_mul_skill_cost_x",
+					nodes = desc_nodes,
+					AUT = full_UI_table,
+					vars = { cost },
+				})
+			else
+				localize({
+					type = "descriptions",
+					set = "mul_Dummy",
+					key = "du_mul_skill_cost_num",
+					nodes = desc_nodes,
+					AUT = full_UI_table,
+					vars = { cost },
+				})
+			end
+		end
+		Multiverse.SkillCard.super.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end,
 	use_skill = function(self, card) end,
 	--- DO NOT OVERRIDE
@@ -153,6 +178,7 @@ G.FUNCS.mul_can_use_skill = function(e)
 		and #G.hand.highlighted == 1
 		and G.hand.highlighted[1] == card
 		and G.GAME.mul_TP >= center:get_final_tp_cost(card)
+		and (center.tp_cost ~= "X" or G.GAME.mul_TP > 0)
 		and not locked
 		and not card.debuff
 		and center:can_use_skill(card)
@@ -176,7 +202,7 @@ G.FUNCS.mul_use_skill = function(e)
 	draw_card(G.hand, G.play, 1, "up", true, card)
 	delay(0.2)
 	local res = center:use_skill(card) or "discard"
-    delay(0.6)
+	delay(0.6)
 	if res == "discard" then
 		card.ability.discarded = true
 		draw_card(G.play, G.discard, 100, "down", false, card)
