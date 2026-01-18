@@ -59,7 +59,7 @@ Multiverse.joker_use_UI_def = function(card)
 				G.round_eval.alignment.offset.py = G.round_eval.alignment.offset.y
 				G.round_eval.alignment.offset.y = G.ROOM.T.y + 29
 			end
-			card:highlight(false)
+			G.jokers:remove_from_highlighted(card)
 			obj:use_ability(card)
 			G.E_MANAGER:add_event(Event({
 				trigger = "after",
