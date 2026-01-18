@@ -41,8 +41,19 @@ return {
 					"Does not return",
 					"to deck until",
 					"{C:attention}Boss Blind{} is",
-					"defeated"
+					"defeated",
 				},
+			},
+			du_mul_visible_enchant = {
+				name = " ",
+				text = {
+					"{C:mul_enchantedbook}#1#",
+					"{C:inactive}(lvl. #2# -> lvl. #3#){}",
+				},
+			},
+			du_mul_hidden_enchant = {
+				name = " ",
+				text = { "{C:inactive}?????" },
 			},
 		},
 		Blind = {
@@ -192,9 +203,7 @@ return {
 				},
 			},
 		},
-		mul_Skill = {
-
-		},
+		mul_Skill = {},
 		Enhanced = {
 			m_mul_calling_card = {
 				name = "Calling Card",
@@ -1273,13 +1282,6 @@ return {
 			},
 		},
 		dictionary = {
-			mul_enchant_visible_entry = {
-				"{C:mul_enchantedbook}#1#",
-				"{C:inactive}(lvl. #2# -> lvl. #3#){}",
-			},
-			mul_enchant_hidden_entry = {
-				"{C:inactive}?????",
-			},
 			enchantment_table = "Enchant your Deck",
 			k_mul_level_up = "Level Up!",
 			k_mul_level_down = "Level Down...",
