@@ -4,7 +4,7 @@
  <img width="500" height="350" alt="The logo for the mod." src="https://github.com/user-attachments/assets/4bc4d0f5-ad79-4286-9221-72b6e3287496" />
 </p>
 
-> :exclamation: Warning: The content in this mod does not currently support controller and mobile input methods. If you would like to add controller and mobile input support to this mod, make a PR to this repository.
+> :exclamation: Warning: The content in this mod does not currently support controller and mobile input methods.
 
 A Balatro mod where I add whatever I feel like to the game.
 This mod introduces:
