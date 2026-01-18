@@ -231,6 +231,14 @@ G.FUNCS.mul_use_skill = function(e)
 			return true
 		end,
 	}))
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.2,
+		func = function()
+			save_run()
+			return true
+		end,
+	}))
 end
 
 local inject_objects_hook = SMODS.injectObjects
