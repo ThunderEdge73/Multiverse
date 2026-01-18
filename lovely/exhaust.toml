@@ -1,0 +1,63 @@
+[manifest]
+version = "0.0.9"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+-- TARGET: add your own CardAreas for playing card evaluation
+'''
+position = "after"
+payload = '''
+t[#t+1] = G.mul_exhaust
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+G.FUNCS.draw_from_discard_to_deck()
+'''
+position = "after"
+payload = '''
+if G.GAME.blind:get_type() == "Boss" then
+    G.FUNCS.mul_draw_from_exhausted_to_deck()
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = '''
+if unplayed_only and not ((SUITS[visible_suit[j]][i].area and SUITS[visible_suit[j]][i].area == G.deck) or SUITS[visible_suit[j]][i].ability.wheel_flipped) then
+    greyed = true
+end
+local copy = copy_card(SUITS[visible_suit[j]][i], nil, _scale)
+'''
+position = "after"
+payload = '''
+local exhausted_display = nil
+if unplayed_only and SUITS[suit_map[j]][i].area and SUITS[suit_map[j]][i].area == G.mul_exhaust then
+    exhausted_display = true
+end
+copy.mul_exhausted_display = exhausted_display
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then
+'''
+position = "before"
+payload = '''
+if card and card.mul_exhausted_display then
+    info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhausted"]
+end
+'''
+match_indent = true

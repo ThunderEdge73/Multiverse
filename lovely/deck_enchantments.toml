@@ -55,3 +55,20 @@ elseif string.find(config.name, 'enchantment') then
     table.insert(left_text, {n=G.UIT.O, config={object = DynaText({string = text, colours = {G.C.FILTER}, shadow = true, pop_in = 0, scale = 0.6*scale, silent = true})}})
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "tag.lua"
+pattern = '''
+G.HUD_tags[HUD_tag_key+1]:set_alignment({type = 'bri',
+offset = {x=0.7,y=0},
+xy_bond = 'Weak',
+major = G.ROOM_ATTACH})
+'''
+position = "after"
+payload = '''
+if Multiverse.count_deck_enchantments() > 0 then
+    G.HUD_tags[HUD_tag_key+1].config.offset.y = -0.9
+end
+'''
+match_indent = true
