@@ -14,7 +14,7 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 	obj_buffer = {},
 	obj_table = Multiverse.DeckEnchantments,
 	unlocked = true,
-	discovered = false,
+	discovered = true,
 	config = {},
 	class_prefix = "de",
 	deck_incompat = {},
@@ -399,6 +399,9 @@ function Multiverse.update_deck_enchantments()
 	then
 		G.mul_deck_enchantment_tooltip:remove()
 		G.mul_deck_enchantment_tooltip = nil
+	end
+	if not G.P_CENTERS["c_mul_enchanted_book"].alerted then
+		G.P_CENTERS["c_mul_enchanted_book"].alerted = true
 	end
 end
 

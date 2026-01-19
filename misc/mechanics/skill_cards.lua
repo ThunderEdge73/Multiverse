@@ -248,3 +248,13 @@ function SMODS.injectObjects(class)
 		Multiverse.SkillCard:inject_class()
 	end
 end
+
+function Multiverse.interaction_UI_def()
+	
+end
+
+function Multiverse.show_interaction_ui(text)
+	
+end
+
+

@@ -1416,6 +1416,10 @@ return {
 				"Plays when facing",
 				"The Undying",
 			},
+			ml_skill_card_explanation = {
+				"Skill cards are sent to the discard pile when used, except if specified otherwise",
+				"Discard effects do not trigger if a Skill Card is used and sent to the discard pile",
+			}
 		},
 		labels = {
 			mul_transmutable = "Transmutable",
