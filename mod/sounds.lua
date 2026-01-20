@@ -15,7 +15,13 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
+	sync = {
+		["music1"] = true,
+		["music2"] = true,
+		["music3"] = true,
+		["music4"] = true,
+		["music5"] = true,
+	},
 	volume = 0.5,
 	pitch = 1,
 })
