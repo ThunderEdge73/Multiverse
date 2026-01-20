@@ -196,6 +196,18 @@ function Multiverse.handle_other_drawing(x_factor, y_factor)
 end
 
 function Multiverse.update_animations()
+	Multiverse.anchors = {
+		x = {
+			l = 0,
+			c = love.graphics.getWidth() / 2,
+			r = love.graphics.getWidth(),
+		},
+		y = {
+			t = 0,
+			c = love.graphics.getHeight() / 2,
+			b = love.graphics.getHeight(),
+		},
+	}
 	for key, anim in pairs(Multiverse.all_animations) do
 		if anim.is_active then
 			if anim.is_continuous then
