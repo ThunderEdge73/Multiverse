@@ -194,7 +194,7 @@ SMODS.Enhancement({
 				[card.ability.extra.enhancement2] = true,
 			}
 		end
-		if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) then
+		if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) and context.other_card == card then
 			return {
 				no_destroy = { override_compat = true },
 			}
