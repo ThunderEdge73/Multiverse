@@ -1066,6 +1066,14 @@ return {
 					"learn what it does",
 				},
 			},
+			mul_frozen_seal = {
+				name = "Frozen Seal",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult",
+					"Loses {X:mult,C:white}X#2#{} Mult",
+					"when scored"
+				}
+			},
 			--#region Activated ability descriptions
 			mul_steve_ability = {
 				name = "Ability: Crafting",
@@ -1422,6 +1430,7 @@ return {
 			-- skill = "Skill Card",
 			k_mul_transmuted = "Transmuted",
 			mul_hyperdimensional = "Hyperdimensional",
+			mul_frozen_seal = "Frozen Seal",
 		},
 		v_dictionary = {
 			a_mul_thaumaturgy_energy = "+#1# Energy",
