@@ -34,7 +34,7 @@ end
 function Multiverse.check_philosophers_stone()
 	if G.GAME.mul_thaumaturgy_energy >= 100 then
 		if #G.consumeables.cards < G.consumeables.config.card_limit then
-			Multiverse.ease_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, { from_magnum_opus = true })
+			Multiverse.ease_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, { from_philosophers_stone = true })
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					SMODS.add_card({

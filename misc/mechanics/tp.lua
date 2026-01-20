@@ -59,7 +59,7 @@ function Multiverse.ease_TP(amt, args)
 		mul_TP_altered = true,
 		amount = actual_change,
 		--True if the change in TP came from a played hand.
-		from_hand = args.from_scored_hand,
+		mul_from_hand = args.from_scored_hand,
 	})
 	if args.immediate then
 		G.GAME.mul_TP = G.GAME.mul_TP + actual_change

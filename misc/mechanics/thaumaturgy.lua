@@ -1,6 +1,6 @@
 ---Changes the current amount of Thaumaturgy Energy, and also triggers the relevant context.
 ---@param amt number
----@param args? {immediate: boolean?, silent: boolean?, from_magnum_opus: boolean?, from_charge: boolean?}
+---@param args? {immediate: boolean?, silent: boolean?, from_philosophers_stone: boolean?, from_charge: boolean?}
 function Multiverse.ease_thaumaturgy_energy(amt, args)
 	args = args or {}
 	if G.GAME.mul_time_machine_active and amt >= 0 then
@@ -14,10 +14,10 @@ function Multiverse.ease_thaumaturgy_energy(amt, args)
 		--True if the amount of Thaumaturgy Energy was changed.
 		mul_thaumaturgy_energy_altered = true,
 		amount = amt,
-		--True if the change in Thaumaturgy Energy came from generation of a Magnum Opus tag.
-		from_magnum_opus = args.from_magnum_opus,
+		--True if the change in Thaumaturgy Energy came from the creation of a Philosopher's Stone.
+		mul_from_philosophers_stone = args.from_philosophers_stone,
 		--True if the change in Thaumaturgy Energy came from the natural end of round bonus.
-		from_charge = args.from_charge,
+		mul_from_charge = args.from_charge,
 	})
 	local function change_thaumaturgy_energy(num)
 		num = num or 0

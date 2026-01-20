@@ -1,0 +1,14 @@
+---@meta
+
+---@class CalcContext
+---@field mul_philosophers_stone_check? boolean True after the end of round context happens. Used for checking if a Philosopher's Stone should spawn.
+---@field mul_dragon_transmute_check? boolean Used for Dragon's transmute condition.
+---@field mul_TP_altered? boolean True if TP has changed.
+---@field mul_from_hand? boolean True if TP has changed because a hand didn't oneshot the blind.
+---@field mul_thaumaturgy_energy_altered? boolean True if Thaumaturgy Energy has changed.
+---@field mul_from_philosophers_stone? boolean True if Thaumaturgy Energy has changed because a Philosopher's Stone was created.
+---@field mul_from_charge? boolean True if Thaumaturgy Energy has changed because of end of round energy generation.
+---@field mul_modify_deck_enchantments? boolean True if the deck's enchantments have changed.
+---@field mul_enchantment_removed? boolean True if an enchantment was removed from deck.
+---@field mul_enchantment_applied? boolean True if an enchantment was applied to deck.
+---@field mul_enchantment_object? Multiverse.DeckEnchantment The enchantment object of the enchantment whose level was modified.

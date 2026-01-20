@@ -233,6 +233,7 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		amount = delta,
 		mul_enchantment_removed = removed,
 		mul_enchantment_applied = added,
+		mul_enchantment_object = obj
 	})
 end
 
