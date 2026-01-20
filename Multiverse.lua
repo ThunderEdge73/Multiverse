@@ -214,9 +214,9 @@ SMODS.current_mod.custom_card_areas = function(game)
 	game.mul_exhaust = CardArea(
 		game.discard.T.x,
 		game.discard.T.y,
-		game.hand.T.w,
-		game.hand.T.h,
-		{ type = "hand", card_limit = 1e308, max_highlighted = 1e308 }
+		game.discard.T.w,
+		game.discard.T.h,
+		{ type = "discard", card_limit = 1e308, max_highlighted = 1e308 }
 	)
 end
 
