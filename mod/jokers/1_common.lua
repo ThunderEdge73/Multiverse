@@ -131,34 +131,6 @@ function Multiverse.set_foddian_suit()
 end
 
 SMODS.Joker({
-	key = "peashooter",
-	atlas = "placeholder",
-	pos = { x = 0, y = 0 },
-	config = { extra = { mult = 0, mult_inc = 1 } },
-	rarity = 1,
-	cost = 6,
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult_inc, card.ability.extra.mult } }
-	end,
-	calculate = function(self, card, context)
-		if context.before and context.main_eval and not context.blueprint then
-			if #context.full_hand == 1 then
-				SMODS.scale_card(card, {
-					ref_table = card.ability.extra,
-					ref_value = "mult",
-					scalar_value = "mult_inc",
-				})
-			end
-		end
-		if context.joker_main and card.ability.extra.mult > 0 then
-			return {
-				mult = card.ability.extra.mult,
-			}
-		end
-	end,
-})
-
-SMODS.Joker({
 	key = "slime",
 	atlas = "placeholder",
 	pos = { x = 0, y = 0 },
