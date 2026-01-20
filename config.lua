@@ -1,6 +1,6 @@
 return {
 	["debug"] = false,
-	["joke"] = true,
+	["joke"] = false,
 	["music"] = {
 		["Prophecy"] = true,
 		["Hammer of Justice"] = true,
