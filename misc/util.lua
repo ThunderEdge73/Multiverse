@@ -490,6 +490,11 @@ function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
 	else
 		cards = cards_to_split
 	end
+	for _, c in ipairs(cards) do
+		if not Multiverse.can_halve_card(c) then
+			return
+		end
+	end
 	local amt = num or 2
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
