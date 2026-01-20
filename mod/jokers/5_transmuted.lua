@@ -294,10 +294,6 @@ Multiverse.UsableJoker({
 				card.ability.extra.hand_boost,
 			},
 		})
-		table.insert(info_queue, {
-			set = "Other",
-			key = "mul_distributed_retriggers",
-		})
 		local hands = G.GAME and G.GAME.current_round.hands_left or 0
 		return {
 			vars = {

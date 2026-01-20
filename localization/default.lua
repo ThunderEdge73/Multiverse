@@ -881,8 +881,9 @@ return {
 				text = {
 					{
 						"{C:blue}+#1#{} hands",
-						"Distribute {C:attention}#2#{} retriggers",
-						"across all scored cards",
+						"Evenly distribute {C:attention}#2#{}",
+						"retriggers across",
+						"all scored cards",
 						"Increases retriggers",
 						"by {C:attention}#3#{} per hand remaining",
 						"{C:inactive}(Currently {C:attention}#4#{C:inactive} retriggers){}",
@@ -1063,17 +1064,6 @@ return {
 					"enchantment in an",
 					"unseeded run to",
 					"learn what it does",
-				},
-			},
-			mul_distributed_retriggers = {
-				name = "Distributed Retriggers",
-				text = {
-					"{C:attention}Distributes{} the number",
-					"of retriggers across the",
-					"area's cards as {C:attention}evenly{} as",
-					"possible, distributing any",
-					"leftover retriggers to the",
-					"{C:attention}leftmost{} cards in the area",
 				},
 			},
 			--#region Activated ability descriptions
