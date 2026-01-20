@@ -140,7 +140,7 @@ SMODS.Enhancement({
 						end,
 					}))
 				end,
-				remove = card.ability.extra.count >= 0 and true or false,
+				remove = card.ability.extra.count <= 0 and true or false,
 			}
 		end
 	end,

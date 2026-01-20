@@ -1,0 +1,20 @@
+[manifest]
+version = "0.0.9"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''
+local desired_y = G.TILE_H - G.hand.T.h - 1.9*((not G.deck_preview and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND)) and 1 or 0)
+'''
+position = "after"
+payload = '''
+if not G.deck_preview and G.STATE == G.STATES.MULTIVERSE_INTERACTION_HAND then
+    desired_y = desired_y - 1.9
+elseif G.STATE == G.STATES.MULTIVERSE_INTERACTION_JOKERS or G.STATE == G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES then
+    desired_y = G.TILE_H - G.hand.T.h + 4
+end
+'''
+match_indent = true

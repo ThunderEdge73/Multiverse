@@ -245,23 +245,12 @@ function Game:start_run(args)
 	}))
 end
 
-local can_sell_hook = Card.can_sell_card
-function Card:can_sell_card()
-	local ret = can_sell_hook(self)
-	if self.ability and type(self.ability.extra) == "table" and self.ability.extra.is_active then
-		return false
-	end
-	return ret
-end
-
 local ease_dollars_hook = ease_dollars
 function ease_dollars(mod, instant)
 	local amt = mod
 	if to_big(mod) > to_big(0) then
 		amt = amt * G.GAME.mul_money_mult
-		if to_big(amt) < to_big(1e15) then
-			amt = math.floor(to_number(amt) + 0.5)
-		end
+		amt = math.floor(amt + 0.5)
 	end
 	ease_dollars_hook(amt, instant)
 end

@@ -15,7 +15,7 @@ function Multiverse.show_TP_meter()
 		timer = "REAL",
 		blockable = false,
 		blocking = false,
-		delay = 0.4,
+		delay = 0.125,
 		ease = "inquad",
 	}))
 	G.mul_TP_meter:recalculate()
@@ -31,7 +31,7 @@ function Multiverse.hide_TP_meter()
 			timer = "REAL",
 			blockable = false,
 			blocking = false,
-			delay = 0.4,
+			delay = 0.125,
 			ease = "outquad",
 		}))
 	end

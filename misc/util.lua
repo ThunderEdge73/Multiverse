@@ -230,21 +230,17 @@ function Multiverse.effect_animation(card, func)
 	delay(0.6)
 end
 
----@param card Card
----@param func fun(playing_card: Card): nil
----@param filter_func? fun(playing_card: Card): boolean?
-function Multiverse.apply_to_hand_animation(card, func, filter_func)
-	local cards = {}
-	if not filter_func then
-		cards = G.hand.highlighted
-	else
-		Multiverse.apply_to_hand(function(playing_card)
-			if filter_func(playing_card) then
-				cards[#cards + 1] = playing_card
-			end
-		end)
+---@param trigger_card Card
+---@param cards Card[]
+---@param func fun(_card: Card): nil
+---@param filter_func? fun(_card: Card): boolean?
+---@param post? fun()
+function Multiverse.apply_to_cards_animation(trigger_card, cards, func, filter_func, post)
+	local all_cards = cards
+	if filter_func then
+		all_cards = Multiverse.filter(all_cards, filter_func)
 	end
-	if #cards == 0 then
+	if #all_cards == 0 then
 		return
 	end
 	G.E_MANAGER:add_event(Event({
@@ -252,43 +248,43 @@ function Multiverse.apply_to_hand_animation(card, func, filter_func)
 		delay = 0.4,
 		func = function()
 			play_sound("tarot1")
-			card:juice_up(0.3, 0.5)
+			trigger_card:juice_up(0.3, 0.5)
 			return true
 		end,
 	}))
-	for i = 1, #cards do
-		local percent = 1.15 - (i - 0.999) / (#cards - 0.998) * 0.3
+	for i = 1, #all_cards do
+		local percent = 1.15 - (i - 0.999) / (#all_cards - 0.998) * 0.3
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.15,
 			func = function()
-				cards[i]:flip()
+				all_cards[i]:flip()
 				play_sound("card1", percent)
-				cards[i]:juice_up(0.3, 0.3)
+				all_cards[i]:juice_up(0.3, 0.3)
 				return true
 			end,
 		}))
 	end
 	delay(0.2)
-	for i = 1, #cards do
+	for i = 1, #all_cards do
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.1,
 			func = function()
-				func(cards[i])
+				func(all_cards[i])
 				return true
 			end,
 		}))
 	end
-	for i = 1, #cards do
-		local percent = 0.85 + (i - 0.999) / (#cards - 0.998) * 0.3
+	for i = 1, #all_cards do
+		local percent = 0.85 + (i - 0.999) / (#all_cards - 0.998) * 0.3
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.15,
 			func = function()
-				cards[i]:flip()
+				all_cards[i]:flip()
 				play_sound("tarot2", percent, 0.6)
-				cards[i]:juice_up(0.3, 0.3)
+				all_cards[i]:juice_up(0.3, 0.3)
 				return true
 			end,
 		}))
@@ -297,8 +293,8 @@ function Multiverse.apply_to_hand_animation(card, func, filter_func)
 		trigger = "after",
 		delay = 0.2,
 		func = function()
-			if #G.hand.highlighted > 0 then
-				G.hand:unhighlight_all()
+			if post then
+				post()
 			end
 			return true
 		end,
@@ -559,4 +555,10 @@ G.FUNCS.mul_draw_from_exhausted_to_deck = function(e)
 			return true
 		end,
 	}))
+end
+
+function Multiverse.in_interaction()
+	return G.STATE == G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES
+		or G.STATE == G.STATES.MULTIVERSE_INTERACTION_HAND
+		or G.STATE == G.STATES.MULTIVERSE_INTERACTION_JOKERS
 end

@@ -67,31 +67,6 @@ SMODS.DrawStep({
 })
 
 SMODS.DrawStep({
-	key = "joker_use",
-	order = -30,
-	func = function(card, layer)
-		if card.children.mul_joker_use_button and card.highlighted then
-			card.children.mul_joker_use_button:draw()
-		end
-	end,
-	conditions = { vortex = false },
-})
-
-SMODS.DrawStep({
-	key = "skill_draw_ui",
-	order = -30,
-	func = function(card, layer)
-		if card.children.mul_skill_use_button and card.highlighted then
-			card.children.mul_skill_use_button:draw()
-		end
-		if card.children.mul_skill_cost_ui and card.area == G.hand then
-			card.children.mul_skill_cost_ui:draw()
-		end
-	end,
-	conditions = { vortex = false },
-})
-
-SMODS.DrawStep({
 	key = "enchantment_shader",
 	order = 1,
 	func = function(card, layer)
@@ -288,5 +263,22 @@ SMODS.DrawSteps["greyed"].func = function(card, layer)
 		end
 	else
 		greyed_draw_hook(card, layer)
+	end
+end
+
+local buttons_hook = SMODS.DrawSteps["tags_buttons"].func
+SMODS.DrawSteps["tags_buttons"].func = function(card, layer)
+	if card.children.mul_skill_cost_ui and card.area == G.hand then
+		card.children.mul_skill_cost_ui:draw()
+	end
+	if Multiverse.in_interaction() then
+		return
+	end
+	buttons_hook(card, layer)
+	if card.children.mul_skill_use_button and card.highlighted then
+		card.children.mul_skill_use_button:draw()
+	end
+	if card.children.mul_joker_use_button and card.highlighted then
+		card.children.mul_joker_use_button:draw()
 	end
 end

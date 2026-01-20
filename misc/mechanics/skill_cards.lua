@@ -172,7 +172,6 @@ G.FUNCS.mul_can_use_skill = function(e)
 		or G.CONTROLLER.locked
 		or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
 			and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
-
 	if
 		G.GAME.blind.in_blind
 		and #G.hand.highlighted == 1
@@ -228,14 +227,14 @@ G.FUNCS.mul_use_skill = function(e)
 					return true
 				end,
 			}))
-			return true
-		end,
-	}))
-	G.E_MANAGER:add_event(Event({
-		trigger = "after",
-		delay = 0.2,
-		func = function()
-			save_run()
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					save_run()
+					return true
+				end,
+			}))
 			return true
 		end,
 	}))
@@ -249,12 +248,261 @@ function SMODS.injectObjects(class)
 	end
 end
 
-function Multiverse.interaction_UI_def()
-	
+Multiverse.C.INTERACTION_BG = HEX("00000000")
+
+function Multiverse.interaction_UI_def(text)
+	return {
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm", minw = 100, minh = 100, colour = Multiverse.C.INTERACTION_BG },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							id = "interaction_text",
+							align = "cm",
+							object = DynaText({
+								string = { text },
+								bump = true,
+								scale = 0.8,
+								colours = { G.C.UI.TEXT_LIGHT },
+								silent = true,
+								shadow = true,
+								pop_in = 0,
+							}),
+						},
+					},
+				},
+			},
+		},
+	}
 end
 
-function Multiverse.show_interaction_ui(text)
-	
+---@param args {area?: visibleInteractionArea, display_text?: string, end_interaction?: fun(), can_end_interaction?: fun(): boolean?}
+function Multiverse.start_interaction(args)
+	args = args or {}
+	args.area = args.area or "hand"
+	args.display_text = args.display_text or "ERROR"
+	args.end_interaction = args.end_interaction or function() end
+	args.can_end_interaction = args.can_end_interaction or function()
+		return true
+	end
+
+	Multiverse.can_end_interaction = args.can_end_interaction
+	Multiverse.on_end_interaction = args.end_interaction
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					Multiverse.show_interaction_ui(args.display_text, args.area)
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
 end
 
+function G.FUNCS.mul_can_confirm_end_interaction(e)
+	if type(Multiverse.can_end_interaction) == "function" and Multiverse.can_end_interaction() then
+		e.config.colour = G.C.FILTER
+		e.config.button = "mul_end_interaction"
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	end
+end
 
+---@type fun(): boolean?
+function Multiverse.can_end_interaction()
+	return true
+end
+
+---@type fun()
+function Multiverse.on_end_interaction() end
+
+function G.FUNCS.mul_end_interaction(e)
+	Multiverse.on_end_interaction()
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			Multiverse.remove_interaction_ui()
+			return true
+		end,
+	}))
+end
+
+function Multiverse.confirm_end_interaction_UI_def()
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR, align = "cm" },
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { colour = G.C.CLEAR, align = "cm", padding = 0.2 },
+				nodes = {
+					UIBox_button({
+						label = { localize("k_mul_run_info") },
+						button = "run_info",
+						colour = G.C.RED,
+						col = true,
+					}),
+					UIBox_button({
+						label = { localize("k_mul_confirm") },
+						func = "mul_can_confirm_end_interaction",
+						colour = G.C.UI.BACKGROUND_INACTIVE,
+						col = true,
+					}),
+				},
+			},
+		},
+	}
+end
+
+G.STATES.MULTIVERSE_INTERACTION_HAND = -1
+G.STATES.MULTIVERSE_INTERACTION_JOKERS = -2
+G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES = -3
+Multiverse.interaction_old_data = {}
+
+---@alias visibleInteractionArea
+---| "hand"
+---| "jokers"
+---| "consumables"
+
+---@param text string
+---@param area? visibleInteractionArea
+function Multiverse.show_interaction_ui(text, area)
+	if Multiverse.in_interaction() then
+		return
+	end
+	G.F_NO_SAVING = true
+	local visible = area or "hand"
+	if G.mul_interact_menu then
+		G.mul_interact_menu:remove()
+		G.mul_interact_menu = nil
+	end
+	if visible == "hand" then
+		G.STATE = G.STATES.MULTIVERSE_INTERACTION_HAND
+		Multiverse.interaction_old_data.highlighted_limit = G.hand.config.highlighted_limit
+	elseif visible == "jokers" then
+		G.STATE = G.STATES.MULTIVERSE_INTERACTION_JOKERS
+		Multiverse.interaction_old_data.highlighted_limit = G.jokers.config.highlighted_limit
+	elseif visible == "consumables" then
+		G.STATE = G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES
+		Multiverse.interaction_old_data.highlighted_limit = G.consumeables.config.highlighted_limit
+	else
+		error("Invalid interaction focus area")
+	end
+	Multiverse.interaction_old_data.affected = visible
+	G.mul_interact_menu = UIBox({
+		definition = Multiverse.interaction_UI_def(text),
+		config = { offset = { x = 0, y = -1.5 }, major = G.ROOM_ATTACH, align = "cm" },
+	})
+	G.mul_end_interact_button = UIBox({
+		definition = Multiverse.confirm_end_interaction_UI_def(),
+		config = { offset = { x = 0, y = 2 }, major = G.ROOM_ATTACH, align = "bm" },
+	})
+	if visible == "hand" then
+		G.hand.T.x = 3.8536585365854
+		G.hand:hard_set_VT()
+		if G.buttons then
+			G.buttons:set_alignment({ offset = { x = 0, y = 3 } })
+		end
+		G.jokers.T.y = -4
+		G.consumeables.T.y = -4
+		G.hand.config.highlighted_limit = 1e308
+	elseif visible == "jokers" then
+		G.consumeables.T.y = -4
+		G.jokers.T.x = 3.8536585365854 + (G.hand.T.w - G.jokers.T.w) / 2
+		G.jokers.T.y = G.TILE_H - G.jokers.T.h - 1.9
+		G.jokers.config.highlighted_limit = 1e308
+	else
+		G.jokers.T.y = -4
+		G.consumeables.T.x = 3.8536585365854 + (G.hand.T.w - G.consumeables.T.w) / 2
+		G.consumeables.T.y = G.TILE_H - G.consumeables.T.h - 1.9
+		G.consumeables.config.highlighted_limit = 1e308
+	end
+	Multiverse.hide_TP_meter()
+	G.HUD:set_alignment({ offset = { x = -6.7, y = 0 } })
+	G.E_MANAGER:add_event(Event({
+		trigger = "ease",
+		ref_table = G.mul_end_interact_button.config.offset,
+		ref_value = "y",
+		ease_to = G.mul_end_interact_button.config.offset.y - 3,
+		timer = "REAL",
+		blockable = false,
+		blocking = false,
+		delay = 0.2,
+	}))
+	G.E_MANAGER:add_event(Event({
+		trigger = "ease",
+		ref_table = Multiverse.C.INTERACTION_BG,
+		ref_value = 4,
+		ease_to = 0.5,
+		delay = 0.3,
+		timer = "REAL",
+	}))
+end
+
+function Multiverse.remove_interaction_ui()
+	if Multiverse.in_interaction() then
+		if Multiverse.interaction_old_data.affected == "hand" then
+			G.hand.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+		elseif Multiverse.interaction_old_data.affected == "jokers" then
+			G.jokers.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+		else
+			G.consumeables.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+		end
+		G.mul_interact_menu:get_UIE_by_ID("interaction_text").config.object:pop_out(3)
+		G.STATE = G.STATES.SELECTING_HAND
+		G.hand.T.x = G.TILE_W - G.hand.T.w - 2.85
+		G.hand:hard_set_VT()
+		if G.buttons then
+			G.buttons:set_alignment({ offset = { x = 0, y = 0.3 } })
+		end
+		G.jokers.T.y = 0
+		G.jokers.T.x = G.hand.T.x - 0.1
+		G.consumeables.T.y = 0
+		G.consumeables.T.x = G.jokers.T.x + G.jokers.T.w + 0.2
+		Multiverse.show_TP_meter()
+		G.HUD:set_alignment({ offset = { x = -0.7, y = 0 } })
+		G.E_MANAGER:add_event(Event({
+			trigger = "ease",
+			ref_table = G.mul_end_interact_button.config.offset,
+			ref_value = "y",
+			ease_to = G.mul_end_interact_button.config.offset.y + 3,
+			timer = "REAL",
+			blockable = false,
+			blocking = false,
+			delay = 0.2,
+		}))
+		G.E_MANAGER:add_event(Event({
+			trigger = "ease",
+			ref_table = Multiverse.C.INTERACTION_BG,
+			ref_value = 4,
+			ease_to = 0,
+			delay = 0.3,
+			timer = "REAL",
+		}))
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.mul_interact_menu:remove()
+				G.mul_interact_menu = nil
+				G.mul_end_interact_button:remove()
+				G.mul_end_interact_button = nil
+				G.F_NO_SAVING = false
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.1,
+					func = function()
+						save_run()
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+	end
+end

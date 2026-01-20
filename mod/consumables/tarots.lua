@@ -101,10 +101,10 @@ SMODS.Consumable({
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_sus_yellow"]
 	end,
 	use = function(self, card, area, copier)
-		Multiverse.apply_to_hand_animation(card, function(playing_card)
-			playing_card:set_ability(card.ability.extra.enhancement)
-		end, function(playing_card)
-			return playing_card:is_suit(card.ability.extra.suit)
+		Multiverse.apply_to_cards_animation(card, G.hand.cards, function(_card)
+			_card:set_ability(card.ability.extra.enhancement)
+		end, function(_card)
+			return _card:is_suit(card.ability.extra.suit)
 		end)
 	end,
 })
