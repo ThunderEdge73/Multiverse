@@ -126,7 +126,7 @@ return {
 				name = "Justice",
 				text = {
 					"If you get hit, destroy {C:attention}1{} random card",
-					"held in hand",
+					"currently held in hand",
 				},
 			},
 		},
