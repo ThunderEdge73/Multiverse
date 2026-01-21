@@ -4,7 +4,7 @@
     "author": [
         "ThunderEdge73"
     ],
-    "description": "",
+    "description": "A mod that adds a lot of crazy mechanics to Balatro, while attempting to make Endless Mode more interesting.",
     "prefix": "mul",
     "main_file": "Multiverse.lua",
     "priority": 0,

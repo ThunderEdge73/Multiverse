@@ -58,7 +58,7 @@ return {
 			du_mul_skill_cost_num = {
 				name = "NONE",
 				text = {
-					"Costs {C:attention}#1#{} TP"
+					"Costs {C:attention}#1#{} TP",
 				},
 			},
 			du_mul_skill_cost_x = {
@@ -1071,8 +1071,8 @@ return {
 				text = {
 					"{X:mult,C:white}X#1#{} Mult",
 					"Loses {X:mult,C:white}X#2#{} Mult",
-					"when scored"
-				}
+					"when scored",
+				},
 			},
 			--#region Activated ability descriptions
 			mul_steve_ability = {
@@ -1252,19 +1252,6 @@ return {
 			},
 			--#endregion
 		},
-		Mod = {
-			Multiverse = {
-				name = "Multiverse",
-				text = {
-					"A {C:attention}conceptually crazy{} but {C:attention}mechanically balanced{} Balatro mod.",
-					"This mod contains new {C:attention}Jokers{}, {C:tarot}Tarots{}, {C:spectral}Spectrals{}, {C:attention}Blinds{}, {C:attention}card",
-					"{C:attention}enhancements{}, and {C:mul_transmuted}Myths{} (a new consumable type).",
-					"{C:mul_transmuted}Myth{} cards can help you obtain {C:mul_transmuted,E:1}Transmuted{} Jokers that enable",
-					"your runs to reach into high {C:attention}Antes{} in {C:attention}Endless Mode{} while doing so in a",
-					"way that doesn't invalidate the existence of vanilla content.",
-				},
-			},
-		},
 	},
 	misc = {
 		poker_hands = {
@@ -1383,7 +1370,7 @@ return {
 				"or unloading joke content and allowing debug functions to be called",
 			},
 			mul_config_menu_title = {
-				"Change Multiverse's settings here",
+				"Change {C:mul_transmuted}Multiverse{}'s settings here",
 			},
 			mul_music_menu_text = {
 				"Enable or disable certain songs that this mod uses",
@@ -1419,7 +1406,7 @@ return {
 			ml_skill_card_explanation = {
 				"Skill Cards are sent to the discard pile when used, except if specified otherwise",
 				"Discard effects do not trigger if a Skill Card is used and sent to the discard pile",
-			}
+			},
 		},
 		labels = {
 			mul_transmutable = "Transmutable",

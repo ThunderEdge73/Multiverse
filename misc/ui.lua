@@ -295,7 +295,9 @@ function Multiverse.config_tab_definition()
 end
 
 SMODS.current_mod.custom_ui = function(nodes)
-	table.insert(nodes, {
+	table.remove(nodes, 1)
+	table.remove(nodes, 1)
+	nodes[#nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "bm", padding = 0.05 },
 		nodes = {
@@ -322,7 +324,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 				},
 			},
 		},
-	})
+	}
 end
 
 function G.FUNCS.mul_discord_invite(e)
