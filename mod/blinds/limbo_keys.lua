@@ -151,7 +151,7 @@ function Multiverse.limbo_keys_end()
 			func = function()
 				if not Multiverse.has_guessed then
 					Multiverse.change_blind_size(function(chips)
-						return chips * 5
+						return chips * 3
 					end)
 					G.GAME.failed_limbo = true
 					Multiverse.start_animation("explosion")

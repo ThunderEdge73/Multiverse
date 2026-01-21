@@ -105,7 +105,7 @@ return {
 			psv_mul_memorization = {
 				name = "Memorization",
 				text = {
-					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X5{} Blind size",
+					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X3{} Blind size",
 				},
 			},
 			psv_mul_unsightreadable = {
