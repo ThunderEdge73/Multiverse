@@ -72,8 +72,9 @@ return {
 			du_mul_exhaust = {
 				name = "Exhaust",
 				text = {
-					"Removed from",
-					"deck until",
+					"When used, this",
+					"card is removed",
+					"from deck until",
 					"{C:attention}Boss Blind{} is",
 					"defeated",
 				}
