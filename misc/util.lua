@@ -567,3 +567,14 @@ function Multiverse.in_interaction()
 		or G.STATE == G.STATES.MULTIVERSE_INTERACTION_HAND
 		or G.STATE == G.STATES.MULTIVERSE_INTERACTION_JOKERS
 end
+
+function Multiverse.explode()
+	if not Multiverse.all_animations["explosion"].is_active then
+		Multiverse.start_animation("explosion")
+		play_sound("mul_deltarune_explosion", 1, 0.8)
+	end
+end
+
+function Multiverse.cannot_interrupt()
+	return Multiverse.in_limbo or Multiverse.in_undyne or Multiverse.very_important_thing
+end

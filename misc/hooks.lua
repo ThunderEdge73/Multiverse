@@ -90,7 +90,7 @@ end
 
 local set_sprites_hook = Card.set_sprites
 function Card:set_sprites(_center, _front)
-	set_sprites_hook(self, _center, _front)
+	local ret = set_sprites_hook(self, _center, _front)
 	if self.playing_card and self.ability and Multiverse.is_valid_half(self) then
 		if not self.children.mul_hitbox_indicator then
 			self.children.mul_hitbox_indicator =
@@ -111,6 +111,7 @@ function Card:set_sprites(_center, _front)
 			self.children.transmutable_target.states.click.can = false
 		end
 	end
+	return ret
 end
 
 local tooltip_hook = create_popup_UIBox_tooltip
@@ -122,20 +123,15 @@ function create_popup_UIBox_tooltip(tooltip)
 	return ret
 end
 
-function Multiverse.explode()
-	if not Multiverse.all_animations["explosion"].is_active then
-		Multiverse.start_animation("explosion")
-		play_sound("mul_deltarune_explosion", 1, 0.8)
-	end
-end
-
 local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
+	local c = center
 	if
 		Multiverse.contains_value(G.playing_cards or {}, self)
 		and not Multiverse._CREATING_WALDO
 		and center == "m_mul_waldo"
 	then
+		c = "c_base"
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				self:set_ability("c_base", initial, delay_sprites)
@@ -143,9 +139,8 @@ function Card:set_ability(center, initial, delay_sprites)
 				return true
 			end,
 		}))
-		return
 	end
-	set_ability_hook(self, center, initial, delay_sprites)
+	return set_ability_hook(self, c, initial, delay_sprites)
 end
 
 local copy_card_hook = copy_card
@@ -170,7 +165,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 	if Multiverse.very_important_thing then
 		return
 	end
-	mousepressed_hook(x, y, button, istouch, presses)
+	local ret = mousepressed_hook(x, y, button, istouch, presses)
 	if Multiverse.in_limbo == "end" and not Multiverse.has_guessed then
 		local clicked = Multiverse.detect_key_click(x, y)
 		if clicked then
@@ -186,6 +181,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 			end
 		end
 	end
+	return ret
 end
 
 local keypressed_hook = love.keypressed
@@ -193,16 +189,13 @@ function love.keypressed(key, scancode, is_repeat)
 	if Multiverse.very_important_thing then
 		return
 	end
-	keypressed_hook(key, scancode, is_repeat)
+	local ret = keypressed_hook(key, scancode, is_repeat)
 	if Multiverse.in_undyne then
 		if key == "left" or key == "right" or key == "up" or key == "down" then
 			Multiverse.shield_dir = key
 		end
 	end
-end
-
-function Multiverse.cannot_interrupt()
-	return Multiverse.in_limbo or Multiverse.in_undyne or Multiverse.very_important_thing
+	return ret
 end
 
 local options_hook = G.FUNCS.options
@@ -210,7 +203,7 @@ function G.FUNCS.options()
 	if Multiverse.cannot_interrupt() then
 		return
 	end
-	options_hook()
+	return options_hook()
 end
 
 local info_hook = G.FUNCS.run_info
@@ -218,7 +211,7 @@ function G.FUNCS.run_info()
 	if Multiverse.cannot_interrupt() then
 		return
 	end
-	info_hook()
+	return info_hook()
 end
 
 local deck_info_hook = G.FUNCS.deck_info
@@ -226,12 +219,12 @@ function G.FUNCS.deck_info()
 	if Multiverse.cannot_interrupt() then
 		return
 	end
-	deck_info_hook()
+	return deck_info_hook()
 end
 
 local start_run_hook = Game.start_run
 function Game:start_run(args)
-	start_run_hook(self, args)
+	local ret = start_run_hook(self, args)
 	Multiverse.init_TP()
 	Multiverse.init_thaumaturgy()
 	Multiverse.init_myth()
@@ -243,6 +236,7 @@ function Game:start_run(args)
 			return true
 		end,
 	}))
+	return ret
 end
 
 local ease_dollars_hook = ease_dollars
@@ -252,7 +246,7 @@ function ease_dollars(mod, instant)
 		amt = amt * G.GAME.mul_money_mult
 		amt = math.floor(amt + 0.5)
 	end
-	ease_dollars_hook(amt, instant)
+	return ease_dollars_hook(amt, instant)
 end
 
 local hover_hook = Card.hover
@@ -260,20 +254,21 @@ function Card:hover()
 	if self.config.center.key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = true
 	end
-	hover_hook(self)
+	return hover_hook(self)
 end
 
 local stop_hover_hook = Card.stop_hover
 function Card:stop_hover()
-	stop_hover_hook(self)
+	local ret = stop_hover_hook(self)
 	if self.config.center.key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = false
 	end
+	return ret
 end
 
 local highlight_hook = Card.highlight
 function Card:highlight(is_highlighted)
-	highlight_hook(self, is_highlighted)
+	local ret = highlight_hook(self, is_highlighted)
 	local obj = self.config.center
 	if self.children.mul_joker_use_button then
 		self.children.mul_joker_use_button:remove()
@@ -302,11 +297,12 @@ function Card:highlight(is_highlighted)
 	then
 		self.children.mul_skill_use_button = obj:generate_use_ui(self)
 	end
+	return ret
 end
 
 local card_update_hook = Card.update
 function Card:update(dt)
-	card_update_hook(self, dt)
+	local ret = card_update_hook(self, dt)
 	if self.ability.set == "mul_Skill" then
 		if not self.children.mul_skill_cost_ui then
 			self.children.mul_skill_cost_ui = self.config.center:generate_cost_ui(self)
@@ -315,6 +311,7 @@ function Card:update(dt)
 		self.children.mul_skill_cost_ui:remove()
 		self.children.mul_skill_cost_ui = nil
 	end
+	return ret
 end
 
 local align_h_popup_hook = Card.align_h_popup
