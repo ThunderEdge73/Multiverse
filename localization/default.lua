@@ -1316,6 +1316,7 @@ return {
 			},
 		},
 		dictionary = {
+			k_multiverse_desc = "A content mod by ThunderEdge",
 			enchantment_table = "Enchant your Deck",
 			k_mul_level_up = "Level Up!",
 			k_mul_level_down = "Level Down...",

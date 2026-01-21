@@ -429,7 +429,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 					{
 						n = G.UIT.T,
 						config = {
-							text = "A content mod by ThunderEdge",
+							text = localize("k_multiverse_desc"),
 							colour = G.C.UI.TEXT_LIGHT,
 							scale = 0.5
 						},
