@@ -223,7 +223,7 @@ function Multiverse.config_tab_definition()
 			nodes = {
 				create_toggle({
 					label = localize("mul_debug"),
-					active_colour = Multiverse.C.TRANSMUTED_GRADIENT,
+					active_colour = Multiverse.C.PRIMARY1,
 					ref_table = Multiverse.config,
 					ref_value = "debug",
 					callback = function()
@@ -249,7 +249,7 @@ function Multiverse.config_tab_definition()
 			nodes = {
 				create_toggle({
 					label = localize("mul_joke"),
-					active_colour = Multiverse.C.TRANSMUTED_GRADIENT,
+					active_colour = Multiverse.C.PRIMARY1,
 					ref_table = Multiverse.config,
 					ref_value = "joke",
 					callback = function()
@@ -450,6 +450,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 						button = "mul_discord_invite",
 						label = { localize("b_mul_discord_server") },
 						minw = 4.75,
+						colour = Multiverse.C.PRIMARY1
 					}),
 				},
 			},
@@ -461,6 +462,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 						button = "mul_landing_page",
 						label = { localize("b_mul_landing_page") },
 						minw = 4.75,
+						colour = Multiverse.C.PRIMARY1
 					}),
 				},
 			},
