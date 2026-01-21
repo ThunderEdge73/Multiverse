@@ -39,6 +39,7 @@ end
 
 SMODS.Blind({
 	key = "limbo",
+	dependencies = { "blindexpander" },
 	atlas = "multiverse_blinds",
 	pos = { x = 0, y = 0 },
 	boss_colour = HEX("F2994B"),
@@ -90,6 +91,7 @@ SMODS.Blind({
 
 SMODS.Blind({
 	key = "undying",
+	dependencies = { "blindexpander" },
 	atlas = "multiverse_blinds",
 	pos = { x = 0, y = 1 },
 	boss_colour = lighten(G.C.BLACK, 0.1),
