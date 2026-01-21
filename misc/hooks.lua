@@ -230,6 +230,7 @@ function Game:start_run(args)
 	Multiverse.init_myth()
 	Multiverse.init_blinds()
 	Multiverse.init_deck_enchantments()
+	Multiverse.init_skills()
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			Multiverse.show_TP_meter()

@@ -69,6 +69,22 @@ return {
 					"{C:inactive}current TP){}",
 				},
 			},
+			du_mul_exhaust = {
+				name = "Exhaust",
+				text = {
+					"Removed from",
+					"deck until",
+					"{C:attention}Boss Blind{} is",
+					"defeated",
+				}
+			},
+			du_mul_ultimate = {
+				name = "Ultimate",
+				text = {
+					"{C:red,E:2}Self-destructs{}",
+					"after being used"
+				}
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -217,7 +233,26 @@ return {
 				},
 			},
 		},
-		mul_Skill = {},
+		mul_Skill = {
+			sk_mul_snowgrave = {
+				name = "Snowgrave",
+				text = {
+					"{C:attention}Exhaust{}",
+					"After use, {C:attention}destroys{}",
+					"all selected cards",
+				}
+			},
+			sk_mul_ubw = {
+				name = "Unlimited Blade Works",
+				text = {
+					"{C:attention}Ultimate{}",
+					"After use, split {C:attention}1{} selected",
+					"card into {C:attention}#1#/#2#{} Half Cards",
+					"with {C:attention}random{} sides",
+					"{C:inactive}(Rounds up){}",
+				}
+			},
+		},
 		Enhanced = {
 			m_mul_calling_card = {
 				name = "Calling Card",
@@ -995,7 +1030,7 @@ return {
 				text = {
 					"Splits {C:attention}#1#{} random",
 					"card held in hand",
-					"into {C:attention}2{} {C:attention}Half Cards{}",
+					"into {C:attention}2{} Half Cards",
 					"with {C:attention}opposite{} sides",
 				},
 			},
@@ -1003,7 +1038,7 @@ return {
 				name = "Polymerization",
 				text = {
 					"Fuse {C:attention}#1#{} selected",
-					"enhanced {C:attention}Half Cards",
+					"enhanced Half Cards",
 					"with {C:attention}opposite{} sides and",
 					"{C:attention}different{} enhancements",
 					"into a {C:attention}Frankenstein Card",

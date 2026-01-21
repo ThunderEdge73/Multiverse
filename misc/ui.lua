@@ -297,9 +297,41 @@ end
 SMODS.current_mod.custom_ui = function(nodes)
 	table.remove(nodes, 1)
 	table.remove(nodes, 1)
+	G.mul_mod_menu_display = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		4.25 * G.CARD_W,
+		0.95 * G.CARD_H,
+		{ card_limit = 7, type = "title", highlight_limit = 0, collection = true }
+	)
+	for _, key in ipairs({
+		"c_mul_philosophers_stone",
+		"c_mul_perpetual_motion",
+		"j_mul_ren_amamiya",
+		"c_mul_enchanted_book",
+		"c_mul_lightsaber",
+		"c_mul_polymerization",
+		"sk_mul_rude_buster"
+	}) do
+	end
 	nodes[#nodes + 1] = {
 		n = G.UIT.R,
-		config = { align = "bm", padding = 0.05 },
+		config = {
+			align = "cm",
+		},
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					align = "cm",
+					object = G.mul_mod_menu_display,
+				},
+			},
+		},
+	}
+	nodes[#nodes + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.05 },
 		nodes = {
 			{
 				n = G.UIT.C,

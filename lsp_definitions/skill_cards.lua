@@ -28,7 +28,7 @@
 ---@field get_weight? fun(self: Multiverse.SkillCard|table): number? Used to modify the weight of the Enhancement. 
 ---@field tp_cost? number
 ---@field can_use_skill? fun(self: Multiverse.SkillCard|table, card: Card | table): boolean?
----@field use_skill? fun(self: Multiverse.SkillCard|table, card: Card | table): onSkillUse?
+---@field use_skill? fun(self: Multiverse.SkillCard|table, card: Card | table, paid_amt: integer, x: integer?): onSkillUse? x is nil if the skill card does not cost X
 ---@field get_final_tp_cost? fun(self: Multiverse.SkillCard|table, card: Card | table, ui_format: boolean?): number | string
 ---@field generate_cost_ui? fun(self: Multiverse.SkillCard|table, card: Card | table)
 ---@field generate_use_ui? fun(self: Multiverse.SkillCard|table, card: Card | table)

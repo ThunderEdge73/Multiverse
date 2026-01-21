@@ -57,7 +57,17 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 		if self.tp_cost == "X" then
 			return ui_format and "X" or G.GAME.mul_TP
 		end
-		local amt = (self.tp_cost - (card.ability.mul_tp_discount or 0))
+		local res = {}
+		local discount = 0
+		SMODS.calculate_context({ mul_change_skill_cost = true, other_card = card, mul_base_cost = self.tp_cost }, res)
+		for _, eff in pairs(res) do
+			for _, tab in pairs(eff) do
+				if tab.mul_tp_discount and type(tab.mul_tp_discount) == "number" then
+					discount = discount + tab.mul_tp_discount
+				end
+			end
+		end
+		local amt = math.max(self.tp_cost - (card.ability.mul_tp_discount or 0) - discount, 0)
 		return ui_format and format_ui_value(amt) or amt
 	end,
 	generate_cost_ui = function(self, card)
@@ -102,9 +112,9 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 									pop_in = 0,
 									scale = 0.45,
 								}),
+								func = "mul_update_tp_cost",
+								ref_table = card,
 							},
-							func = "mul_update_tp_cost",
-							ref_table = card,
 						},
 					},
 				},
@@ -162,7 +172,11 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 G.FUNCS.mul_update_tp_cost = function(e)
 	local card = e.config.ref_table
 	local center = card.config.center
-	e.config.object.string[1].string = center:get_final_tp_cost(card, true)
+	local old_str = e.config.object.config.string[1].string
+	e.config.object.config.string[1].string = center:get_final_tp_cost(card, true)
+	if old_str ~= center:get_final_tp_cost(card, true) then
+		e.config.object:update_text(true)
+	end
 end
 
 G.FUNCS.mul_can_use_skill = function(e)
@@ -177,7 +191,7 @@ G.FUNCS.mul_can_use_skill = function(e)
 		and #G.hand.highlighted == 1
 		and G.hand.highlighted[1] == card
 		and G.GAME.mul_TP >= center:get_final_tp_cost(card)
-		and (center.tp_cost ~= "X" or G.GAME.mul_TP > 0)
+		and (center.tp_cost ~= "X" or G.GAME.mul_TP > 0 or G.GAME.mul_x_boost > 0)
 		and not locked
 		and not card.debuff
 		and center:can_use_skill(card)
@@ -197,10 +211,15 @@ G.FUNCS.mul_use_skill = function(e)
 	G.TAROT_INTERRUPT = G.STATE
 	G.STATE = G.STATES.PLAY_TAROT
 	G.CONTROLLER.locks.use = true
-	Multiverse.ease_TP(-center:get_final_tp_cost(card))
+	local paid = center:get_final_tp_cost(card)
+	local x = nil
+	if center.tp_cost == "X" then
+		x = paid + G.GAME.mul_x_boost
+	end
+	Multiverse.ease_TP(-paid)
 	draw_card(G.hand, G.play, 1, "up", true, card)
 	delay(0.2)
-	local res = center:use_skill(card) or "discard"
+	local res = center:use_skill(card, paid, x) or "discard"
 	delay(0.6)
 	if res == "discard" then
 		card.ability.discarded = true
@@ -505,4 +524,32 @@ function Multiverse.remove_interaction_ui()
 			end,
 		}))
 	end
+end
+
+function Multiverse.init_skills()
+	---@type integer
+	G.GAME.mul_x_boost = G.GAME.mul_x_boost or 0
+end
+
+function Multiverse.get_final_X_value(center, card, ui_format, with_paren)
+	if not center.set == "mul_Skill" then
+		error("center is not mul_Skill")
+	end
+	if not center.tp_cost == "X" then
+		error("center does not have its cost set to X")
+	end
+	if ui_format then
+		local mod = G.GAME.mul_x_boost or 0
+		local str = "X"
+		if mod > 0 then
+			str = str .. " + " .. format_ui_value(mod)
+		elseif mod < 0 then
+			str = str .. " - " .. format_ui_value(math.abs(mod))
+		end
+		if with_paren and mod ~= 0 then
+			str = "(" .. str .. ")"
+		end
+		return str
+	end
+	return center:get_final_tp_cost(card, false) + (G.GAME.mul_x_boost or 0)
 end

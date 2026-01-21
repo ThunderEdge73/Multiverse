@@ -482,7 +482,7 @@ end
 ---@param cards_to_split Card | Card[]
 ---@param num? integer
 ---@param is_random? boolean
----@param forced_half? boolean
+---@param forced_half? string
 function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
 	local cards
 	if not cards_to_split[1] then -- If cards_to_split is a single card
