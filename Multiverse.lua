@@ -26,6 +26,8 @@ Multiverse.transmutable_sticker_anim_state = 0
 Multiverse.transmutable_target_anim_state = 0
 Multiverse.debug = false
 
+G.E_MANAGER.queues.mul_menu = {}
+
 ---Talisman compatibility?
 to_big = to_big or function(x)
 	return x

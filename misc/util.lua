@@ -149,6 +149,9 @@ function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac)
 		or (self.ability.set == "Spectral" and { G.C.SECONDARY_SET.Spectral })
 		or (self.ability.set == "Booster" and { G.C.BOOSTER })
 		or (self.ability.set == "Voucher" and { G.C.SECONDARY_SET.Voucher, G.C.CLEAR })
+		or (self.ability.set == "mul_Myth" and { G.C.SECONDARY_SET.mul_Myth })
+		or (self.ability.set == "mul_EnchantedBook" and { G.C.SECONDARY_SET.mul_EnchantedBook })
+		or (self.ability.set == "mul_Skill" and { G.C.FILTER, G.C.RED, G.C.BLUE })
 		or { G.C.GREEN }
 	self.children.particles = Particles(0, 0, 0, 0, {
 		timer_type = "TOTAL",

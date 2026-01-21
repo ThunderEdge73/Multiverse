@@ -297,22 +297,58 @@ end
 SMODS.current_mod.custom_ui = function(nodes)
 	table.remove(nodes, 1)
 	table.remove(nodes, 1)
-	G.mul_mod_menu_display = CardArea(
-		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
-		G.ROOM.T.h,
-		4.25 * G.CARD_W,
-		0.95 * G.CARD_H,
-		{ card_limit = 7, type = "title", highlight_limit = 0, collection = true }
-	)
-	for _, key in ipairs({
+	local centers = {
 		"c_mul_philosophers_stone",
 		"c_mul_perpetual_motion",
 		"j_mul_ren_amamiya",
 		"c_mul_enchanted_book",
 		"c_mul_lightsaber",
 		"c_mul_polymerization",
-		"sk_mul_rude_buster"
-	}) do
+		"sk_mul_ubw",
+	}
+	G.mul_mod_menu_display = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		5.25 * G.CARD_W,
+		1 * G.CARD_H,
+		{ card_limit = #centers, type = "title", highlight_limit = 0, collection = true }
+	)
+	for i, key in ipairs(centers) do
+		local card = Card(
+			G.mul_mod_menu_display.T.x + G.mul_mod_menu_display.T.w / 2,
+			G.mul_mod_menu_display.T.y,
+			G.CARD_W,
+			G.CARD_H,
+			G.P_CARDS.empty,
+			G.P_CENTERS[key]
+		)
+		card.dissolve = 1
+		G.mul_mod_menu_display:emplace(card)
+		card:flip()
+		G.E_MANAGER:add_event(
+			Event({
+				trigger = "after",
+				blocking = false,
+				delay = 0.25 * i,
+				func = function()
+					card:mul_no_juice_materialize(nil, true)
+					return true
+				end,
+			}),
+			"mul_menu"
+		)
+		G.E_MANAGER:add_event(
+			Event({
+				trigger = "after",
+				blocking = false,
+				delay = 0.25 * (i + 3),
+				func = function()
+					card:flip()
+					return true
+				end,
+			}),
+			"mul_menu"
+		)
 	end
 	nodes[#nodes + 1] = {
 		n = G.UIT.R,
@@ -325,6 +361,79 @@ SMODS.current_mod.custom_ui = function(nodes)
 				config = {
 					align = "cm",
 					object = G.mul_mod_menu_display,
+				},
+			},
+		},
+	}
+	local title_text = DynaText({
+		string = "Multiverse",
+		colours = { G.C.UI.TEXT_LIGHT },
+		shadow = true,
+		float = true,
+		silent = true,
+		spacing = 4,
+		scale = 1.5,
+		rotate = true,
+		pop_in = 0,
+		font = SMODS.Fonts["mul_reflect"],
+		text_effect = "mul_ui_multiverse_highlight",
+	})
+	title_text.states.visible = false
+	nodes[#nodes + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.05 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = title_text,
+						},
+					},
+				},
+			},
+		},
+	}
+	nodes[#nodes + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.01 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = Multiverse.version,
+							colour = G.C.UI.TEXT_LIGHT,
+							scale = 0.3,
+						},
+					},
+				},
+			},
+		},
+	}
+	nodes[#nodes + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.05 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = "A content mod by ThunderEdge",
+							colour = G.C.UI.TEXT_LIGHT,
+							scale = 0.5
+						},
+					},
 				},
 			},
 		},
