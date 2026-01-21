@@ -51,6 +51,7 @@ function Multiverse.add_limbo_keys()
 end
 
 function Multiverse.limbo_keys_intro()
+	G.GAME.failed_limbo = false
 	Multiverse.has_guessed = false
 	Multiverse.in_limbo = "start"
 	play_sound("mul_isolation_limbo", 1, 0.65)
@@ -149,9 +150,10 @@ function Multiverse.limbo_keys_end()
 			delay = 4 * G.SPEEDFACTOR,
 			func = function()
 				if not Multiverse.has_guessed then
-					Multiverse.change_blind_size(function (chips)
-						return chips * 10
+					Multiverse.change_blind_size(function(chips)
+						return chips * 5
 					end)
+					G.GAME.failed_limbo = true
 					Multiverse.start_animation("explosion")
 					play_sound("mul_deltarune_explosion", 1, 0.8)
 				end

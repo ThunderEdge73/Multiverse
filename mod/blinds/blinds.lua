@@ -17,6 +17,9 @@ function Multiverse.init_blinds()
 		if G.GAME.blind.config.blind.key == "bl_mul_undying" and not G.GAME.blind.disabled then
 			Multiverse.show_blind_instructions("undying")
 		end
+		if G.GAME.blind.config.blind.key == "bl_mul_limbo" and not G.GAME.blind.disabled then
+			Multiverse.show_blind_instructions("limbo")
+		end
 	end
 end
 
@@ -40,6 +43,10 @@ end
 SMODS.Blind({
 	key = "limbo",
 	dependencies = { "blindexpander" },
+	passives = {
+		"psv_mul_memorization",
+		"psv_mul_unsightreadable",
+	},
 	atlas = "multiverse_blinds",
 	pos = { x = 0, y = 0 },
 	boss_colour = HEX("F2994B"),
@@ -75,23 +82,47 @@ SMODS.Blind({
 		delay(18.6 * G.SPEEDFACTOR)
 	end,
 	disable = function(self)
-		if to_big(get_blind_amount(G.GAME.round_resets.ante) * G.GAME.blind.mult) < G.GAME.blind.chips then
-			G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante) * G.GAME.blind.mult
-			G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+		if G.GAME.failed_limbo then
+			Multiverse.change_blind_size(function(chips)
+				return chips / 5
+			end)
+			for i = 1, #G.hand.cards do
+				if G.hand.cards[i].facing == "back" then
+					G.hand.cards[i]:flip()
+				end
+			end
+			for _, playing_card in pairs(G.playing_cards) do
+				playing_card.ability.wheel_flipped = nil
+			end
 		end
 		Multiverse.hide_blind_instructions()
 	end,
-	loc_vars = function(self)
-		return { vars = { 10 } }
+	calculate = function(self, blind, context)
+		if not blind.disabled and G.GAME.failed_limbo then
+			if
+				context.stay_flipped
+				and context.to_area == G.hand
+				and G.GAME.current_round.hands_played == 0
+				and G.GAME.current_round.discards_used == 0
+			then
+				return {
+					stay_flipped = true,
+				}
+			end
+		end
 	end,
-	collection_loc_vars = function(self)
-		return { vars = { 10 } }
+	defeat = function(self)
+		G.GAME.failed_limbo = false
 	end,
 })
 
 SMODS.Blind({
 	key = "undying",
 	dependencies = { "blindexpander" },
+	passives = {
+		"psv_mul_determination",
+		"psv_mul_justice",
+	},
 	atlas = "multiverse_blinds",
 	pos = { x = 0, y = 1 },
 	boss_colour = lighten(G.C.BLACK, 0.1),
@@ -129,17 +160,14 @@ SMODS.Blind({
 	end,
 	set_blind = function(self)
 		Multiverse.show_blind_instructions("undying")
+		if G.GAME.round_resets.ante > 8 then
+			self.passives[#self.passives + 1] = "psv_mul_undying_extra"
+		end
 	end,
 	disable = function(self)
 		if G.GAME.chips < to_big(0) then
 			G.GAME.chips = to_big(0)
 		end
 		Multiverse.hide_blind_instructions()
-	end,
-	loc_vars = function(self)
-		return { vars = { 10 * (G.GAME.mul_undyne_damage_mult or 1) } }
-	end,
-	collection_loc_vars = function(self)
-		return { vars = { 10 * (G.GAME.mul_undyne_damage_mult or 1) } }
 	end,
 })

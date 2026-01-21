@@ -174,8 +174,9 @@ function love.mousepressed(x, y, button, istouch, presses)
 			Multiverse.limbo_safe = clicked.is_correct
 			if not clicked.is_correct then
 				Multiverse.change_blind_size(function(chips)
-					return chips * 10
+					return chips * 5
 				end)
+				G.GAME.failed_limbo = true
 				Multiverse.start_animation("explosion")
 				play_sound("mul_deltarune_explosion", 1, 0.8)
 			end

@@ -77,14 +77,14 @@ return {
 					"from deck until",
 					"{C:attention}Boss Blind{} is",
 					"defeated",
-				}
+				},
 			},
 			du_mul_ultimate = {
 				name = "Ultimate",
 				text = {
 					"{C:red,E:2}Self-destructs{}",
-					"after being used"
-				}
+					"after being used",
+				},
 			},
 		},
 		Blind = {
@@ -92,16 +92,41 @@ return {
 				name = "The Limbo",
 				text = {
 					"F O C U S",
-					"(X#1# Blind size",
-					"on failure)",
 				},
 			},
 			bl_mul_undying = {
 				name = "The Undying",
 				text = {
 					"Survive",
-					"(Lose chips equal to",
-					"#1#% of Blind size when hit)",
+				},
+			},
+		},
+		Passive = {
+			psv_mul_memorization = {
+				name = "Memorization",
+				text = {
+					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X5{} Blind size",
+				},
+			},
+			psv_mul_unsightreadable = {
+				name = "Unsightreadable",
+				text = {
+					"If the minigame was {C:attention}failed{}, flip all cards",
+					"drawn to hand {C:attention}facedown{}",
+				},
+			},
+			psv_mul_determination = {
+				name = "Determination",
+				text = {
+					"If you get hit, lose score equal to {C:attention}10%{} of",
+					"current Blind size",
+				},
+			},
+			psv_mul_justice = {
+				name = "Justice",
+				text = {
+					"If you get hit, destroy {C:attention}1{} random card",
+					"held in hand",
 				},
 			},
 		},
@@ -241,7 +266,7 @@ return {
 					"{C:attention}Exhaust{}",
 					"After use, {C:attention}destroys{}",
 					"all selected cards",
-				}
+				},
 			},
 			sk_mul_ubw = {
 				name = "Unlimited Blade Works",
@@ -251,7 +276,7 @@ return {
 					"card into {C:attention}#1#/#2#{} Half Cards",
 					"with {C:attention}random{} sides",
 					"{C:inactive}(Rounds up){}",
-				}
+				},
 			},
 		},
 		Enhanced = {

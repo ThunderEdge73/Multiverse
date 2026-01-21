@@ -338,6 +338,10 @@ end
 function Multiverse.process_undyne_hit(percent)
 	play_sound("mul_take_damage", 1, 0.7)
 	G.GAME.chips = G.GAME.chips - G.GAME.blind.chips / (percent * G.GAME.mul_undyne_damage_mult)
+	local target = pseudorandom_element(G.hand.cards, "undying_target")
+	if target then
+		SMODS.destroy_cards(target, nil, true)
+	end
 	if
 		(G.GAME.challenge == "c_mul_monsoon" and G.GAME.chips < -G.GAME.blind.chips / 2)
 		or G.GAME.challenge == "c_mul_cant_touch_this"
