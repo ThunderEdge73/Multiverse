@@ -635,11 +635,11 @@ SMODS.Consumable({
 function Multiverse.set_stand_arrow_suit()
 	if not G.GAME.current_round.mul_stand_arrow_suit then
 		G.GAME.current_round.mul_stand_arrow_suit =
-			pseudorandom_element(SMODS.Suit.obj_buffer, "mul_arrow" .. G.GAME.round_resets.ante)
+			pseudorandom_element(SMODS.Suits, "mul_arrow" .. G.GAME.round_resets.ante).key
 		return
 	end
-	local valid = Multiverse.filter(SMODS.Suit.obj_buffer, function(item)
-		return item ~= G.GAME.current_round.mul_stand_arrow_suit
+	local valid = Multiverse.filter(SMODS.Suits, function(item)
+		return item.key ~= G.GAME.current_round.mul_stand_arrow_suit
 	end)
 	if next(valid) then
 		G.GAME.current_round.mul_stand_arrow_suit = pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante)
