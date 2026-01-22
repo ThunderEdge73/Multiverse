@@ -1435,8 +1435,8 @@ return {
 				"Change {C:mul_transmuted}Multiverse{}'s settings here",
 			},
 			mul_music_menu_text = {
-				"Enable or disable certain songs that this mod uses",
-				"Hover over the song details to see when the song plays",
+				"{C:attention}Enable{} or {C:attention}disable{} certain songs that this mod uses",
+				"{C:attention}Hover{} over the song details to see when the song plays",
 			},
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",

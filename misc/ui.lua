@@ -313,7 +313,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 	table.remove(nodes, 1)
 	local centers = {
 		"c_mul_philosophers_stone",
-		"c_mul_perpetual_motion",
+		"c_mul_ufo",
 		"j_mul_ren_amamiya",
 		"c_mul_enchanted_book",
 		"c_mul_lightsaber",
