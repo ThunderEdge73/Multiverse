@@ -99,7 +99,7 @@ end
 function Multiverse.music_toggle(song, credit)
 	local toggle = Multiverse.create_custom_toggle({
 		label = "",
-		active_colour = Multiverse.C.TRANSMUTED_GRADIENT,
+		active_colour = Multiverse.C.PRIMARY1,
 		ref_table = Multiverse.config.music,
 		ref_value = song,
 		w = 0,
@@ -211,6 +211,20 @@ Multiverse.music_credits = {
 			{
 				"Battle Against a True Hero",
 				"Undertale OST",
+			},
+			{
+				"Seek",
+				"Among Us OST",
+			},
+		},
+		{
+			{
+				"Main Theme (TF2)",
+				"Team Fortress 2 OST",
+			},
+			{
+				"Isolation",
+				"NightHawk22",
 			},
 		},
 	},

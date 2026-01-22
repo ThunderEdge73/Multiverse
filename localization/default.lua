@@ -1463,7 +1463,19 @@ return {
 			},
 			["mul_Battle Against a True Hero"] = {
 				"Plays when facing",
-				"The Undying",
+				"{C:attention}The Undying",
+			},
+			["mul_Seek"] = {
+				"Plays when you",
+				"have {C:attention}Impostor{}",
+			},
+			["mul_Main Theme (TF2)"] = {
+				"Plays when you",
+				"have {C:attention}Heavy{}",
+			},
+			["mul_Isolation"] = {
+				"Plays when facing",
+				"{C:attention}The Limbo",
 			},
 			ml_skill_card_explanation = {
 				"Skill Cards are sent to the discard pile when used, except if specified otherwise",

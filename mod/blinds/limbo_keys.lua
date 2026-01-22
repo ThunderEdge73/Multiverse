@@ -54,7 +54,9 @@ function Multiverse.limbo_keys_intro()
 	G.GAME.failed_limbo = false
 	Multiverse.has_guessed = false
 	Multiverse.in_limbo = "start"
-	play_sound("mul_isolation_limbo", 1, 0.65)
+	if Multiverse.config.music["Isolation"] then
+		play_sound("mul_isolation_limbo", 1, 0.65)
+	end
 	Multiverse.limbo_anim_prog = 0
 	G.E_MANAGER:add_event(
 		Event({

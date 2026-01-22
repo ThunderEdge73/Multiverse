@@ -105,7 +105,7 @@ SMODS.Sound({
 				return 42069
 			end
 		end
-		if Multiverse.in_limbo then
+		if Multiverse.in_limbo and Multiverse.config.music["Isolation"] then
 			return 69420
 		end
 	end,
@@ -133,6 +133,36 @@ SMODS.Sound({
 			and Multiverse.config.music["Battle Against a True Hero"]
 		then
 			return 4
+		end
+	end,
+	sync = false,
+	volume = 0.7,
+	pitch = 1,
+})
+
+SMODS.Sound({
+	key = "seek_music",
+	path = "AmongUs_Seek.ogg",
+	select_music_track = function(self)
+		if G.jokers and Multiverse.config.music["Seek"] then
+			if next(SMODS.find_card("j_mul_impostor")) then
+				return 3
+			end
+		end
+	end,
+	sync = false,
+	volume = 0.7,
+	pitch = 1,
+})
+
+SMODS.Sound({
+	key = "TF2_main_theme_music",
+	path = "TF2_MainTheme.ogg",
+	select_music_track = function(self)
+		if G.jokers and Multiverse.config.music["Main Theme (TF2)"] then
+			if next(SMODS.find_card("j_mul_heavy")) then
+				return 3
+			end
 		end
 	end,
 	sync = false,
