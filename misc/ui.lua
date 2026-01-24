@@ -228,6 +228,50 @@ Multiverse.music_credits = {
 			},
 		},
 	},
+	{ -- page
+		{ -- row
+			{ -- song
+				"Prophecy", -- title
+				"Creo", -- source
+			},
+			-- {
+			-- 	"Life Will Change",
+			-- 	"Persona 5 OST",
+			-- },
+			-- {
+			-- 	"Pigstep",
+			-- 	"Minecraft OST",
+			-- },
+			-- {
+			-- 	"Hammer of Justice",
+			-- 	"Deltarune Chapter 4 OST",
+			-- },
+		},
+		{
+			{
+				"Sneaky Snitch",
+				"Kevin Macleod",
+			},
+			-- {
+			-- 	"Battle Against a True Hero",
+			-- 	"Undertale OST",
+			-- },
+			-- {
+			-- 	"Seek",
+			-- 	"Among Us OST",
+			-- },
+		},
+		{
+			{
+				"Main Theme (TF2)",
+				"Team Fortress 2 OST",
+			},
+			{
+				"Isolation",
+				"NightHawk22",
+			},
+		},
+	},
 }
 
 Multiverse.settings_changed = {
@@ -607,16 +651,18 @@ function G.FUNCS.mul_select_music_page(args)
 		return
 	end
 	Multiverse.selected_music_page = args.to_key
-	local def = Multiverse.music_tab_definition(Multiverse.selected_music_page)
-	local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_music_page")
-	if container then
-		container.config.object:remove()
-		container.config.object = UIBox({
-			definition = def,
-			config = { type = "cm", parent = container },
-		})
-		container.config.object:recalculate()
-	end
+	-- local def = Multiverse.music_tab_definition(Multiverse.selected_music_page)
+	-- local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_music_page")
+	-- if container then
+	-- 	container.config.object:remove()
+	-- 	container.config.object = UIBox({
+	-- 		definition = def,
+	-- 		config = { type = "cm", parent = container },
+	-- 	})
+	-- 	container.config.object:recalculate()
+	-- end
+	local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Music")
+	G.FUNCS.change_tab(element)
 end
 
 SMODS.current_mod.config_tab = function()
@@ -651,6 +697,193 @@ SMODS.current_mod.extra_tabs = function()
 			tab_definition_function = function()
 				return Multiverse.music_tab()
 			end,
+		},
+	}
+end
+
+Multiverse.selected_credits_page = 1
+
+function SMODS.current_mod.credits_tab()
+	G.mul_credits = {}
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.BLACK, align = "cm", r = 0.1, padding = 0.1, emboss = 0.05 },
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					id = "mul_credits_menu",
+					object = UIBox({
+						definition = Multiverse.credits_tab_definition(Multiverse.selected_credits_page),
+						config = { type = "cm" },
+					}),
+				},
+			},
+		},
+	}
+end
+
+Multiverse.credits_table = {
+	{ -- page
+		{ -- row
+			{ -- entry
+				card_key = "j_mul_thunderedge",
+				desc_key = "k_mul_thunderedge_credits",
+			},
+			{ -- entry
+				card_key = "j_mul_thunderedge",
+				desc_key = "k_mul_thunderedge_credits",
+			},
+		},
+		{ -- row
+			{ -- entry
+				card_key = "j_mul_thunderedge",
+				desc_key = "k_mul_thunderedge_credits",
+			},
+		},
+	},
+	{ -- page
+		{ -- row
+			{ -- entry
+				card_key = "j_mul_thunderedge",
+				desc_key = "k_mul_thunderedge_credits",
+			},
+		},
+	},
+}
+
+function Multiverse.credits_tab_definition(page)
+	rows = {}
+	for _, row in ipairs(Multiverse.credits_table[page]) do
+		local row_items = {}
+		for _, item in ipairs(row) do
+			table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
+		end
+		table.insert(rows, {
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = row_items,
+		})
+	end
+	local pages = {}
+	for i, _ in ipairs(Multiverse.credits_table) do
+		table.insert(pages, localize("k_page") .. string.format(" %s/%s", i, #Multiverse.credits_table))
+	end
+	table.insert(rows, {
+		n = G.UIT.R,
+		config = { align = "cm" },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {},
+				nodes = {
+					create_option_cycle({
+						options = pages,
+						current_option = page,
+						opt_callback = "mul_select_credits_page",
+					}),
+				},
+			},
+		},
+	})
+	return {
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.BLACK },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm", padding = 0.05 },
+				nodes = rows,
+			},
+		},
+	}
+end
+
+function G.FUNCS.mul_select_credits_page(args)
+	if not G.OVERLAY_MENU then
+		return
+	end
+	Multiverse.selected_credits_page = args.to_key
+	-- local def = Multiverse.credits_tab_definition(Multiverse.selected_credits_page)
+	-- local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_credits_menu")
+	-- if container then
+	-- 	container.config.object:remove()
+	-- 	container.config.object = UIBox({
+	-- 		definition = def,
+	-- 		config = { type = "cm", parent = container },
+	-- 	})
+	-- 	container.config.object:recalculate()
+	-- 	container.UIBox:recalculate()
+	-- end
+	local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Credits")
+	G.FUNCS.change_tab(element)
+end
+
+function Multiverse.generate_credits_desc_nodes(entry)
+	G.mul_credits[#G.mul_credits + 1] = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		G.CARD_W,
+		G.CARD_H,
+		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
+	)
+	local card = Card(
+		G.mul_credits[#G.mul_credits].T.x + G.mul_credits[#G.mul_credits].T.w / 2,
+		G.mul_credits[#G.mul_credits].T.y,
+		G.CARD_W * 0.9,
+		G.CARD_H * 0.9,
+		G.P_CARDS.empty,
+		G.P_CENTERS[entry.card_key]
+	)
+	card.dissolve = 1
+	G.mul_credits[#G.mul_credits]:emplace(card)
+	card:flip()
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "after",
+			blocking = false,
+			delay = 0.25,
+			func = function()
+				card:mul_no_juice_materialize(nil, true)
+				return true
+			end,
+		}),
+		"mul_menu"
+	)
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "after",
+			blocking = false,
+			delay = 1,
+			func = function()
+				card:flip()
+				return true
+			end,
+		}),
+		"mul_menu"
+	)
+	return {
+		n = G.UIT.C,
+		config = { align = "ct", padding = 0.05 },
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = G.mul_credits[#G.mul_credits],
+						},
+					},
+				},
+			},
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
+			},
 		},
 	}
 end

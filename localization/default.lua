@@ -1534,6 +1534,11 @@ return {
 		},
 		dictionary = {
 			k_multiverse_desc = "A content mod by ThunderEdge",
+			k_mul_thunderedge_credits = {
+				"Creator of {C:mul_transmuted}Multiverse{}",
+				"Implemented all of",
+				"{C:mul_transmuted}Multiverse{}'s mechanics"
+			},
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
 			k_mul_skills = "Learn Skills",
