@@ -537,7 +537,7 @@ SMODS.Booster({
 	weight = 1,
 	group_key = "k_mul_skills",
 	kind = "mul_skill",
-	cost = 4,
+	cost = 6,
 	create_card = function(self, card, i)
 		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
 		c:set_ability(
@@ -559,7 +559,7 @@ SMODS.Booster({
 	weight = 1,
 	group_key = "k_mul_skills",
 	kind = "mul_skill",
-	cost = 4,
+	cost = 6,
 	create_card = function(self, card, i)
 		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
 		c:set_ability(
@@ -581,7 +581,7 @@ SMODS.Booster({
 	weight = 0.25,
 	group_key = "k_mul_skills",
 	kind = "mul_skill",
-	cost = 4,
+	cost = 8,
 	create_card = function(self, card, i)
 		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
 		c:set_ability(
@@ -603,7 +603,7 @@ SMODS.Booster({
 	weight = 0.25,
 	group_key = "k_mul_skills",
 	kind = "mul_skill",
-	cost = 4,
+	cost = 8,
 	create_card = function(self, card, i)
 		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
 		c:set_ability(
