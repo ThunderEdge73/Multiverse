@@ -228,50 +228,6 @@ Multiverse.music_credits = {
 			},
 		},
 	},
-	{ -- page
-		{ -- row
-			{ -- song
-				"Prophecy", -- title
-				"Creo", -- source
-			},
-			-- {
-			-- 	"Life Will Change",
-			-- 	"Persona 5 OST",
-			-- },
-			-- {
-			-- 	"Pigstep",
-			-- 	"Minecraft OST",
-			-- },
-			-- {
-			-- 	"Hammer of Justice",
-			-- 	"Deltarune Chapter 4 OST",
-			-- },
-		},
-		{
-			{
-				"Sneaky Snitch",
-				"Kevin Macleod",
-			},
-			-- {
-			-- 	"Battle Against a True Hero",
-			-- 	"Undertale OST",
-			-- },
-			-- {
-			-- 	"Seek",
-			-- 	"Among Us OST",
-			-- },
-		},
-		{
-			{
-				"Main Theme (TF2)",
-				"Team Fortress 2 OST",
-			},
-			{
-				"Isolation",
-				"NightHawk22",
-			},
-		},
-	},
 }
 
 Multiverse.settings_changed = {
@@ -730,24 +686,6 @@ Multiverse.credits_table = {
 				card_key = "j_mul_thunderedge",
 				desc_key = "k_mul_thunderedge_credits",
 			},
-			{ -- entry
-				card_key = "j_mul_thunderedge",
-				desc_key = "k_mul_thunderedge_credits",
-			},
-		},
-		{ -- row
-			{ -- entry
-				card_key = "j_mul_thunderedge",
-				desc_key = "k_mul_thunderedge_credits",
-			},
-		},
-	},
-	{ -- page
-		{ -- row
-			{ -- entry
-				card_key = "j_mul_thunderedge",
-				desc_key = "k_mul_thunderedge_credits",
-			},
 		},
 	},
 }
@@ -823,8 +761,8 @@ function Multiverse.generate_credits_desc_nodes(entry)
 	G.mul_credits[#G.mul_credits + 1] = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
-		G.CARD_W,
-		G.CARD_H,
+		G.CARD_W * 0.9,
+		G.CARD_H * 0.9,
 		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
 	)
 	local card = Card(
@@ -868,7 +806,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		nodes = {
 			{
 				n = G.UIT.R,
-				config = { align = "cm" },
+				config = { align = "cm", padding = 0.05 },
 				nodes = {
 					{
 						n = G.UIT.O,
