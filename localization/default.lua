@@ -263,7 +263,7 @@ return {
 			sk_mul_strike = {
 				name = "Strike",
 				text = {
-					"{X:purple,C:white}/#1#{} Blind size",
+					"{X:purple,C:white}X#1#{} Blind size",
 					"when used",
 				},
 			},

@@ -1,18 +1,18 @@
 Multiverse.SkillCard({
 	key = "strike",
-	tp_cost = 10,
-	config = { extra = { blind_div = 2 }},
+	tp_cost = 15,
+	config = { extra = { blind_mult = 0.5 }},
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				card.ability.extra.blind_div
+				card.ability.extra.blind_mult
 			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function ()
 			Multiverse.change_blind_size(function (chips)
-				return chips / card.ability.extra.blind_div
+				return chips * card.ability.extra.blind_mult
 			end)
 		end)
 	end,
@@ -20,7 +20,7 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "snowgrave",
-	tp_cost = 40,
+	tp_cost = 50,
 	config = { extra = { seal = "mul_frozen" } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
