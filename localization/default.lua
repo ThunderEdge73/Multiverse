@@ -1588,13 +1588,13 @@ return {
 				"BEFORE I DISABLE YOU TOO",
 			},
 			mul_config_menu_text = {
-				"Debug Mode affects several elements of the mod for easier debugging",
-				"Debug Mode cannot be enabled, except if a certain file is loaded",
-				"{C:inactive}(If you wish to help me debug this mod, DM me and I will send{}",
+				"Debug Mode affects several elements of the mod for easier debugging.",
+				"Debug Mode {C:attention}cannot{} be enabled, except if a certain file is loaded.",
+				"{C:inactive}(If you want to contribute to this mod, DM me and I will send{}",
 				"{C:inactive}you a copy of the file that allows you to enable Debug Mode){}",
 				"If you change a setting here, the game will {C:attention}automatically{} restart",
-				"and apply any changes associated with the setting, such as loading",
-				"or unloading joke content and allowing debug functions to be called",
+				"and apply any changes associated with the setting as soon as you",
+				"exit this menu, such as enabling debug utilities or joke content.",
 			},
 			mul_config_menu_title = {
 				"Change {C:mul_transmuted}Multiverse{}'s settings here",

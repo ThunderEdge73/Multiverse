@@ -229,6 +229,30 @@ Multiverse.music_credits = {
 		},
 	},
 }
+
+Multiverse.settings_changed = {
+	dbg = false,
+	jke = false,
+}
+
+local exit_mods_hook = G.FUNCS.exit_mods
+function G.FUNCS.exit_mods(e)
+	if G.ACTIVE_MOD_UI == Multiverse and (Multiverse.settings_changed.jke or Multiverse.settings_changed.dbg) then
+		SMODS.save_all_config()
+		SMODS.restart_game()
+	end
+	exit_mods_hook(e)
+end
+
+local mod_menu_hook = G.FUNCS.mods_button
+function G.FUNCS.mods_button(e)
+	if G.ACTIVE_MOD_UI == Multiverse and (Multiverse.settings_changed.jke or Multiverse.settings_changed.dbg) then
+		SMODS.save_all_config()
+		SMODS.restart_game()
+	end
+	mod_menu_hook(e)
+end
+
 function Multiverse.config_tab_definition()
 	local mul_settings = {
 		{
@@ -246,13 +270,7 @@ function Multiverse.config_tab_definition()
 							Multiverse.config.debug = false
 							return
 						end
-						SMODS.save_all_config()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								SMODS.restart_game()
-								return true
-							end,
-						}))
+						Multiverse.settings_changed.dbg = not Multiverse.settings_changed.dbg
 					end,
 				}),
 			},
@@ -267,13 +285,7 @@ function Multiverse.config_tab_definition()
 					ref_table = Multiverse.config,
 					ref_value = "joke",
 					callback = function()
-						SMODS.save_all_config()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								SMODS.restart_game()
-								return true
-							end,
-						}))
+						Multiverse.settings_changed.jke = not Multiverse.settings_changed.jke
 					end,
 				}),
 			},
@@ -445,7 +457,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 						config = {
 							text = localize("k_multiverse_desc"),
 							colour = G.C.UI.TEXT_LIGHT,
-							scale = 0.5
+							scale = 0.5,
 						},
 					},
 				},
@@ -464,7 +476,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 						button = "mul_discord_invite",
 						label = { localize("b_mul_discord_server") },
 						minw = 4.75,
-						colour = Multiverse.C.PRIMARY1
+						colour = Multiverse.C.PRIMARY1,
 					}),
 				},
 			},
@@ -476,7 +488,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 						button = "mul_landing_page",
 						label = { localize("b_mul_landing_page") },
 						minw = 4.75,
-						colour = Multiverse.C.PRIMARY1
+						colour = Multiverse.C.PRIMARY1,
 					}),
 				},
 			},
@@ -487,7 +499,7 @@ end
 SMODS.current_mod.ui_config = {
 	colour = Multiverse.C.SECONDARY,
 	back_colour = Multiverse.C.PRIMARY1,
-	bg_colour = {Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6},
+	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
 	tab_button_colour = Multiverse.C.PRIMARY1,
 }
 
