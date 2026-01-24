@@ -5,7 +5,7 @@ function Multiverse.show_TP_meter()
 	end
 	G.mul_TP_meter = UIBox({
 		definition = Multiverse.create_TP_ui(),
-		config = { align = "tri", offset = { x = 4.3, y = -0.55 }, major = G.ROOM_ATTACH },
+		config = { align = "tri", offset = { x = 4.3, y = -0.55 }, major = G.ROOM_ATTACH, instance_type = "NODE" },
 	})
 	G.E_MANAGER:add_event(Event({
 		trigger = "ease",
@@ -23,6 +23,7 @@ end
 
 function Multiverse.hide_TP_meter()
 	if G.mul_TP_meter then
+		local final_x = G.mul_TP_meter.config.offset.x + 3
 		G.E_MANAGER:add_event(Event({
 			trigger = "ease",
 			ref_table = G.mul_TP_meter.config.offset,
@@ -33,6 +34,13 @@ function Multiverse.hide_TP_meter()
 			blocking = false,
 			delay = 0.125,
 			ease = "outquad",
+			func = function(n)
+				if n == final_x and G.mul_TP_meter then
+					G.mul_TP_meter:remove()
+					G.mul_TP_meter = nil
+				end
+				return n
+			end,
 		}))
 	end
 end

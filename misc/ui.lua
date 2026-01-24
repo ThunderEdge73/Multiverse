@@ -658,7 +658,15 @@ end
 function Multiverse.blind_instructions_HUD_def(key)
 	return {
 		n = G.UIT.ROOT,
-		config = { padding = 0.05, colour = lighten(G.C.JOKER_GREY, 0.5), align = "cm", r = 0.1 },
+		config = {
+			padding = 0.05,
+			colour = lighten(G.C.JOKER_GREY, 0.5),
+			align = "cm",
+			r = 0.1,
+			detailed_tooltip = { set = "Other", key = "mul_blind_keybind_info" },
+			detailed_tooltip_align = "cl",
+			detailed_tooltip_offset = { x = -0.1, y = 0 },
+		},
 		nodes = {
 			{
 				n = G.UIT.C,

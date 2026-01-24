@@ -1392,37 +1392,51 @@ return {
 			mul_TP_desc = {
 				name = "TP (Tension Points)",
 				text = {
-					"{C:attention}TP{} is used for activating",
+					"TP is used for activating",
 					"the abilities of certain",
 					"{C:attention}Jokers{} and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
+					"Hold {C:attention}P{} to make the TP meter",
+					"visible on top of any held {C:attention}Tags{}"
 				},
+			},
+			mul_blind_keybind_info = {
+				name = "Keybind Info",
+				text = {
+					"Hold {C:attention}I{} to make the current",
+					"Blind's instructions visible",
+					"on top of any held {C:attention}Tags{}"
+				}
 			},
 			mul_TP_desc_joke1 = {
 				name = "TP (Toilet Paper)",
 				text = {
-					"{C:attention}TP{} is used for activating",
+					"TP is used for activating",
 					"the abilities of certain",
 					"{C:attention}Jokers{} and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
+					"Hold {C:attention}P{} to make the TP meter",
+					"visible on top of any held {C:attention}Tags{}"
 				},
 			},
 			mul_TP_desc_joke2 = {
 				name = "TP (Yes, you read that right)",
 				text = {
-					"{C:attention}TP{} is used for activating",
+					"TP is used for activating",
 					"the abilities of certain",
 					"{C:attention}Jokers{} and {C:attention}Skill Cards{}",
 					"If total score of played",
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
+					"Hold {C:attention}P{} to make the TP meter",
+					"visible on top of any held {C:attention}Tags{}"
 				},
 			},
 			mul_active_consumable = {
