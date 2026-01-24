@@ -202,12 +202,20 @@ SMODS.current_mod.custom_collection_tabs = function()
 			id = "your_collection_mul_deckenchantments",
 			label = { localize("b_mul_deckenchantment_cards") },
 			minw = 5,
+			count = {
+				tally = #SMODS.collection_pool(Multiverse.DeckEnchantments),
+				of = #SMODS.collection_pool(Multiverse.DeckEnchantments)
+			},
 		}),
 		UIBox_button({
 			button = "your_collection_mul_skillcards",
 			id = "your_collection_mul_skillcards",
 			label = { localize("b_mul_skill_cards") },
 			minw = 5,
+			count = {
+				tally = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill),
+				of = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill)
+			}
 		}),
 	}
 end

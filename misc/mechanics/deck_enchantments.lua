@@ -135,9 +135,6 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 			"undiscovered"
 		)
 	end,
-	pre_inject_class = function(self)
-		G.P_CENTER_POOLS[self.set] = {}
-	end,
 })
 
 ---@param obj Multiverse.DeckEnchantment
