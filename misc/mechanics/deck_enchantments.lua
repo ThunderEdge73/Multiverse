@@ -356,7 +356,7 @@ function Multiverse.update_deck_enchantments()
 	if Multiverse.count_deck_enchantments() > 0 and G.deck and not G.mul_deck_enchantment_info then
 		G.mul_deck_enchantment_info = UIBox({
 			definition = Multiverse.deck_enchantment_info_UI_def(),
-			config = { align = "bri", offset = { x = 0, y = 0.65 }, major = G.consumeables },
+			config = { align = "bri", offset = { x = -0.1, y = 0.65 }, major = G.consumeables },
 		})
 		G.mul_deck_enchantment_info.states.collide.can = true
 	elseif Multiverse.count_deck_enchantments() == 0 and G.mul_deck_enchantment_info then
