@@ -135,6 +135,9 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 			"undiscovered"
 		)
 	end,
+	pre_inject_class = function(self)
+		G.P_CENTER_POOLS[self.set] = {}
+	end,
 })
 
 ---@param obj Multiverse.DeckEnchantment
@@ -233,7 +236,7 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		amount = delta,
 		mul_enchantment_removed = removed,
 		mul_enchantment_applied = added,
-		mul_enchantment_object = obj
+		mul_enchantment_object = obj,
 	})
 end
 
@@ -315,29 +318,32 @@ end
 function Multiverse.deck_enchantment_info_UI_def()
 	return {
 		n = G.UIT.ROOT,
-		config = { colour = G.C.UI.OUTLINE_LIGHT, r = 0.1, align = "cm", padding = 0.05 },
+		config = { colour = G.C.CLEAR },
 		nodes = {
 			{
 				n = G.UIT.C,
 				config = {
 					colour = G.C.RED,
-					r = 0.1,
+					r = 0.05,
 					padding = 0.05,
 					align = "cm",
-					minw = 0.55,
-					minh = 0.55,
-					emboss = 0.05,
+					minw = 0.45,
+					minh = 0.2,
 				},
 				nodes = {
 					{
-						n = G.UIT.O,
-						config = {
-							object = DynaText({
-								string = "i",
-								colours = { G.C.UI.TEXT_LIGHT },
-								scale = 0.4,
-							}),
-							align = "cm",
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.T,
+								config = {
+									text = "View Deck Enchantments",
+									scale = 0.25,
+									colour = G.C.UI.TEXT_LIGHT,
+									align = "cm",
+								},
+							},
 						},
 					},
 				},
@@ -350,18 +356,12 @@ function Multiverse.update_deck_enchantments()
 	if Multiverse.count_deck_enchantments() > 0 and G.deck and not G.mul_deck_enchantment_info then
 		G.mul_deck_enchantment_info = UIBox({
 			definition = Multiverse.deck_enchantment_info_UI_def(),
-			config = { align = "bri", offset = { x = 1.05, y = 0 }, major = G.deck },
+			config = { align = "bri", offset = { x = 0, y = 0.65 }, major = G.consumeables },
 		})
 		G.mul_deck_enchantment_info.states.collide.can = true
-		if G.HUD_tags and G.HUD_tags[1] then
-			G.HUD_tags[1].config.offset.y = -0.9
-		end
 	elseif Multiverse.count_deck_enchantments() == 0 and G.mul_deck_enchantment_info then
 		G.mul_deck_enchantment_info:remove()
 		G.mul_deck_enchantment_info = nil
-		if G.HUD_tags and G.HUD_tags[1] then
-			G.HUD_tags[1].config.offset.y = 0
-		end
 	end
 	if
 		G.mul_deck_enchantment_info
@@ -379,19 +379,12 @@ function Multiverse.update_deck_enchantments()
 		G.mul_deck_enchantment_tooltip = UIBox({
 			definition = G.UIDEF.card_h_popup(fake_card),
 			config = {
-				align = "tm",
-				offset = { x = #G.deck.cards * 0.004, y = -0.1 - #G.deck.cards * 0.004 },
-				major = G.deck,
+				align = "bm",
+				offset = { x = 0, y = 0.2 },
+				major = G.mul_deck_enchantment_info,
 				instance_type = "POPUP",
 			},
 		})
-		function G.mul_deck_enchantment_tooltip:update(dt)
-			self:set_alignment({
-				offset = { x = #G.deck.cards * 0.004, y = -0.1 - #G.deck.cards * 0.004 },
-			})
-			self:recalculate()
-			UIBox.update(self, dt)
-		end
 		G.mul_deck_enchantment_tooltip.states.collide.can = false
 		G.mul_deck_enchantment_tooltip:recalculate()
 	elseif
@@ -403,16 +396,6 @@ function Multiverse.update_deck_enchantments()
 	end
 	if not G.P_CENTERS["c_mul_enchanted_book"].alerted then
 		G.P_CENTERS["c_mul_enchanted_book"].alerted = true
-	end
-end
-
-local add_tag_hook = add_tag
-function add_tag(_tag)
-	add_tag_hook(_tag)
-	if Multiverse.count_deck_enchantments() > 0 then
-		if G.HUD_tags and G.HUD_tags[1] then
-			G.HUD_tags[1].config.offset.y = -0.9
-		end
 	end
 end
 

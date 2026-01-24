@@ -26,7 +26,7 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "netherite",
-	atlas = "placeholder_modifiers",
+	atlas = "modifiers_placeholder",
 	pos = { x = 0, y = 0 },
 	config = { h_dollars = 5, extra = { xmult = 0.01 } },
 	weight = 0,
@@ -54,7 +54,7 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "normal",
-	atlas = "placeholder_modifiers",
+	atlas = "modifiers_placeholder",
 	pos = { x = 0, y = 0 },
 	config = { bonus = 22 },
 	loc_vars = function(self, info_queue, card)
@@ -64,7 +64,7 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "motivated",
-	atlas = "placeholder_modifiers",
+	atlas = "modifiers_placeholder",
 	pos = { x = 0, y = 0 },
 	config = { extra = { retriggers = 1, odds = 4 } },
 	loc_vars = function(self, info_queue, card)
@@ -85,7 +85,7 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "waldo",
-	atlas = "placeholder_modifiers",
+	atlas = "modifiers_placeholder",
 	pos = { x = 0, y = 0 },
 	config = { extra = { retrigger_inc = 1, cards_per_retrigger = 5 } },
 	weight = 0,
@@ -120,7 +120,7 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "sus_yellow",
-	atlas = "placeholder_modifiers",
+	atlas = "modifiers_placeholder",
 	pos = { x = 0, y = 0 },
 	config = { extra = { count = 3, money = 1, max_count = 3 } },
 	loc_vars = function(self, info_queue, card)

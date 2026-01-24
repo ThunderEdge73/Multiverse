@@ -158,7 +158,7 @@ SMODS.Joker({
 					scalar_value = "xmult_inc",
 				})
 				return {
-					destroy = true,
+					remove = true,
 				}
 			end
 		end

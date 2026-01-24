@@ -11,7 +11,7 @@ SMODS.Atlas({
 	path = "placeholder_sticker.png",
 })
 SMODS.Atlas({
-	key = "placeholder_modifiers",
+	key = "modifiers_placeholder",
 	px = 71,
 	py = 95,
 	path = "placeholder_modifiers.png",
@@ -118,4 +118,30 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 	path = "skill_placeholder.png"
+})
+SMODS.Atlas({
+	key = "thunderedge",
+	px = 71,
+	py = 95,
+	path = "thunderedge.png"
+})
+SMODS.Atlas({
+	key = "enchantment_tag",
+	px = 34,
+	py = 34,
+	path = "enchant_tag.png"
+})
+SMODS.Atlas({
+	key = "booster_placeholder",
+	px = 71,
+	py = 95,
+	path = "placeholder_booster.png"
+})
+SMODS.Atlas({
+	key = "blind_placeholder",
+	px = 34,
+	py = 34,
+	path = "placeholder_blind.png",
+	atlas_table = "ANIMATION_ATLAS",
+	frames = 21,
 })

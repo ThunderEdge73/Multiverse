@@ -1,6 +1,6 @@
 SMODS.Seal({
 	key = "frozen",
-	atlas = "placeholder_modifiers",
+	atlas = "modifiers_placeholder",
 	pos = { x = 1, y = 0 },
 	badge_colour = HEX("86DAF9"),
 	config = { extra = { xmult = 2.5, xmult_dec = 0.05 } },

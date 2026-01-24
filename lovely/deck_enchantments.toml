@@ -56,19 +56,19 @@ elseif string.find(config.name, 'enchantment') then
 '''
 match_indent = true
 
-[[patches]]
-[patches.pattern]
-target = "tag.lua"
-pattern = '''
-G.HUD_tags[HUD_tag_key+1]:set_alignment({type = 'bri',
-offset = {x=0.7,y=0},
-xy_bond = 'Weak',
-major = G.ROOM_ATTACH})
-'''
-position = "after"
-payload = '''
-if Multiverse.count_deck_enchantments() > 0 then
-    G.HUD_tags[HUD_tag_key+1].config.offset.y = -0.9
-end
-'''
-match_indent = true
+# [[patches]]
+# [patches.pattern]
+# target = "tag.lua"
+# pattern = '''
+# G.HUD_tags[HUD_tag_key+1]:set_alignment({type = 'bri',
+# offset = {x=0.7,y=0},
+# xy_bond = 'Weak',
+# major = G.ROOM_ATTACH})
+# '''
+# position = "after"
+# payload = '''
+# if Multiverse.count_deck_enchantments() > 0 then
+#     G.HUD_tags[HUD_tag_key+1].config.offset.y = -0.9
+# end
+# '''
+# match_indent = true

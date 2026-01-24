@@ -36,7 +36,7 @@ function Multiverse.ease_thaumaturgy_energy(amt, args)
 		G.HUD:recalculate()
 		attention_text({
 			text = text .. tostring(math.abs(num)),
-			scale = 1,
+			scale = 0.6,
 			hold = 0.7,
 			cover = thaum_UI.parent,
 			cover_colour = col,
@@ -105,7 +105,7 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 								config = {
 									align = "cm",
 									r = 0.1,
-									minw = 1.2,
+									minw = 1.5,
 									colour = temp_col2,
 									id = "col_thaumaturgy_text",
 								},

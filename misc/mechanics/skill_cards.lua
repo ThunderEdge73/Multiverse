@@ -19,9 +19,8 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 	can_use_skill = function(self, card)
 		return true
 	end,
-	inject_class = function(self)
+	pre_inject_class = function(self)
 		G.P_CENTER_POOLS[self.set] = {}
-		SMODS.Enhancement.inject_class(self)
 	end,
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 		local cost = self:get_final_tp_cost(card or self:create_fake_card(), true)

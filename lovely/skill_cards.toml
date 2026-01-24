@@ -14,3 +14,15 @@ payload = '''
 if AUT.card_type == 'mul_Skill' then card_type = localize{type = 'name_text', key = card.config.center.key, set = 'mul_Skill'} end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' then
+'''
+position = "at"
+payload = '''
+elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' or card.ability.set == "mul_Skill" then
+'''
+match_indent = true

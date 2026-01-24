@@ -95,7 +95,7 @@ SMODS.Consumable({
 		},
 	},
 	can_use = function(self, card)
-		return G.hand ~= nil
+		return G.hand ~= nil and #G.hand.cards > 0
 	end,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_sus_yellow"]

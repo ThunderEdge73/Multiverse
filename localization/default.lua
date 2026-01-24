@@ -629,7 +629,34 @@ return {
 				},
 			},
 		},
+		Tag = {
+			tag_mul_enchantment = {
+				name = "Enchantment Tag",
+				text = {
+					"Immediately open a",
+					"free {C:mul_EnchantedBook}Enchantment Table"
+				}
+			},
+			tag_mul_dimensional = {
+				name = "Dimensional Tag",
+				text = {
+					"Immediately open a",
+					"free {C:attention}Dimension Pack"
+				}
+			}
+		},
 		Joker = {
+			j_mul_thunderedge = {
+				name = "ThunderEdge",
+				text = {
+					{
+						"Whenever you lose",
+						"Thaumaturgy Energy",
+						"or TP, {C:attention}refund{} half",
+						"the lost amount",
+					}
+				}
+			},
 			j_mul_bloodbath = {
 				name = "Bloodbath",
 				text = {
@@ -1081,6 +1108,70 @@ return {
 					"{C:mul_enchantedbook}enchantments{} to {C:attention}deck",
 				},
 			},
+			p_mul_dimension_normal1 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_normal2 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_normal3 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_normal4 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_jumbo1 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_jumbo2 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_mega1 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
+			p_mul_dimension_mega2 = {
+				name = "Dimension Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} items from",
+					"the {C:mul_transmuted}Multiverse{} mod",
+				},
+			},
 			mul_transmutable = {
 				name = "Transmutable",
 				text = {
@@ -1162,6 +1253,14 @@ return {
 					"Effect: {X:purple,C:white}X#2#{} Blind size",
 					"{X:purple,C:white}^#3#{} Blind size instead if",
 					"{C:attention}Ante{} is greater than {C:attention}#4#{}",
+				},
+			},
+			mul_thunderedge_ability = {
+				name = "Ability: Omniscience",
+				text = {
+					"Cost: {C:attention}#1#{} TP,{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
+					"Effect: Creates a",
+					"{C:attention}Dimensional Tag",
 				},
 			},
 			--#endregion
@@ -1344,6 +1443,7 @@ return {
 		dictionary = {
 			k_multiverse_desc = "A content mod by ThunderEdge",
 			enchantment_table = "Enchant your Deck",
+			dimension = "Traverse Reality",
 			k_mul_level_up = "Level Up!",
 			k_mul_level_down = "Level Down...",
 			k_mul_enchanted = "Enchanted!",
