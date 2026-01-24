@@ -260,6 +260,13 @@ return {
 			},
 		},
 		mul_Skill = {
+			sk_mul_strike = {
+				name = "Strike",
+				text = {
+					"{X:purple,C:white}/#1#{} Blind size",
+					"when used",
+				},
+			},
 			sk_mul_snowgrave = {
 				name = "Snowgrave",
 				text = {
@@ -1561,6 +1568,8 @@ return {
 			b_mul_skill_cards = "Skill Cards",
 			b_mul_discord_server = "My Discord Server",
 			b_mul_landing_page = "About Me",
+			k_mul_ubw = "Select 1 card to split into #1# Half Cards",
+			k_mul_snowgrave = "Select any number of cards to give Frozen Seals to",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

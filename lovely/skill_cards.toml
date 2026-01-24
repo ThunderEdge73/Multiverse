@@ -26,3 +26,15 @@ payload = '''
 elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' or card.ability.set == "mul_Skill" then
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _type == 'Edition' then _pool[#_pool + 1] = "e_foil"
+'''
+position = "after"
+payload = '''
+elseif _type == "mul_Skill" then _pool[#_pool + 1] = "sk_mul_strike"
+'''
+match_indent = true

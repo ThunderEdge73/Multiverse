@@ -1,8 +1,30 @@
 Multiverse.SkillCard({
+	key = "strike",
+	tp_cost = 10,
+	config = { extra = { blind_div = 2 }},
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.blind_div
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function ()
+			Multiverse.change_blind_size(function (chips)
+				return chips / card.ability.extra.blind_div
+			end)
+		end)
+	end,
+})
+
+Multiverse.SkillCard({
 	key = "snowgrave",
 	tp_cost = 40,
+	config = { extra = { seal = "mul_frozen" } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
+		info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		G.E_MANAGER:add_event(Event({
@@ -10,9 +32,19 @@ Multiverse.SkillCard({
 				Multiverse.start_interaction({
 					area = "hand",
 					end_interaction = function()
-						SMODS.destroy_cards(G.hand.highlighted)
+						Multiverse.apply_to_cards_animation(
+							card,
+							G.hand.highlighted,
+							function(_card)
+								_card:set_seal(card.ability.extra.seal)
+							end,
+							nil,
+							function()
+								G.hand:unhighlight_all()
+							end
+						)
 					end,
-					display_text = "Select any number of cards to destroy",
+					display_text = localize("k_mul_snowgrave"),
 				})
 				return true
 			end,
@@ -50,9 +82,10 @@ Multiverse.SkillCard({
 					can_end_interaction = function()
 						return #G.hand.highlighted == 1
 					end,
-					display_text = "Select 1 card to split into "
-					.. math.ceil(x / card.ability.extra.tp_per_split)
-						.. " Half Cards",
+					display_text = Multiverse.parse_vars(
+						localize("k_mul_ubw"),
+						math.ceil(x / card.ability.extra.tp_per_split)
+					),
 				})
 				return true
 			end,
