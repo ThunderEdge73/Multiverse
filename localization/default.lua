@@ -86,6 +86,13 @@ return {
 					"after being used",
 				},
 			},
+			du_mul_retain = {
+				name = "Retain",
+				text = {
+					"Returns to {C:attention}hand{}",
+					"after being used",
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {

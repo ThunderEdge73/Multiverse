@@ -88,3 +88,7 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "ultimate",
 })
+
+Multiverse.DummyCenter({
+	key = "retain",
+})
