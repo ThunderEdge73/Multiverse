@@ -130,6 +130,7 @@ SMODS.Sound({
 		if
 			G.GAME.blind
 			and G.GAME.blind.config.blind.key == "bl_mul_undying"
+			and not G.GAME.blind.disabled
 			and Multiverse.config.music["Battle Against a True Hero"]
 		then
 			return 4
