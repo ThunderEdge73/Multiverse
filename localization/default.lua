@@ -633,15 +633,15 @@ return {
 			tag_mul_enchantment = {
 				name = "Enchantment Tag",
 				text = {
-					"Immediately open a",
-					"free {C:mul_EnchantedBook}Enchantment Table"
+					"Gives a free",
+					"{C:mul_enchantedbook}Enchantment Table"
 				}
 			},
 			tag_mul_dimensional = {
 				name = "Dimensional Tag",
 				text = {
-					"Immediately open a",
-					"free {C:attention}Dimension Pack"
+					"Gives a free",
+					"{C:attention} Mega Dimension Pack"
 				}
 			}
 		},
