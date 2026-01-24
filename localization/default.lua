@@ -1112,64 +1112,64 @@ return {
 				name = "Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_normal2 = {
 				name = "Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_normal3 = {
 				name = "Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_normal4 = {
 				name = "Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_jumbo1 = {
-				name = "Dimension Pack",
+				name = "Jumbo Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_jumbo2 = {
-				name = "Dimension Pack",
+				name = "Jumbo Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_mega1 = {
-				name = "Dimension Pack",
+				name = "Mega Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			p_mul_dimension_mega2 = {
-				name = "Dimension Pack",
+				name = "Mega Dimension Pack",
 				text = {
 					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{} items from",
-					"the {C:mul_transmuted}Multiverse{} mod",
+					"{C:attention}#2#{} items from the",
+					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
 			mul_transmutable = {
