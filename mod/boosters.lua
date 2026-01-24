@@ -8,10 +8,11 @@ SMODS.Booster({
 	},
 	weight = 0.5,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 8,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -20,10 +21,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -54,10 +63,11 @@ SMODS.Booster({
 	},
 	weight = 0.5,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 8,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -66,10 +76,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -100,10 +118,11 @@ SMODS.Booster({
 	},
 	weight = 0.5,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 8,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -112,10 +131,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -146,10 +173,11 @@ SMODS.Booster({
 	},
 	weight = 0.5,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 8,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -158,10 +186,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -192,10 +228,11 @@ SMODS.Booster({
 	},
 	weight = 0.5,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 10,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -204,10 +241,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -238,10 +283,11 @@ SMODS.Booster({
 	},
 	weight = 0.5,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 10,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -250,10 +296,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -284,10 +338,11 @@ SMODS.Booster({
 	},
 	weight = 0.25,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 12,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -296,10 +351,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -330,10 +393,11 @@ SMODS.Booster({
 	},
 	weight = 0.25,
 	draw_hand = true,
-	group_key = "dimension",
-	kind = "dimension",
+	group_key = "k_mul_dimension",
+	kind = "mul_dimension",
 	cost = 12,
 	create_card = function(self, card, i)
+		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
 		if card_type == 1 then
 			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
@@ -342,10 +406,18 @@ SMODS.Booster({
 				key_append = "dimension",
 			})
 		elseif card_type == 2 then
-			c = SMODS.create_card({ set = "mul_Myth", area = G.pack_cards, skip_materialize = true, key_append = "dimension" })
+			c = SMODS.create_card({
+				set = "mul_Myth",
+				area = G.pack_cards,
+				skip_materialize = true,
+				key_append = "dimension",
+			})
 		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true, })
-			c:set_ability(SMODS.poll_enhancement({key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true}), true)
+			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+			c:set_ability(
+				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+				true
+			)
 		elseif card_type == 4 then
 			local pool = {}
 			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
@@ -367,6 +439,29 @@ SMODS.Booster({
 })
 
 SMODS.Booster({
+	key = "skill_normal1",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 3,
+		choose = 1,
+	},
+	weight = 1,
+	draw_hand = true,
+	group_key = "skill",
+	kind = "skill",
+	cost = 12,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
 	key = "enchantment_table_normal",
 	atlas = "enchantment_table",
 	pos = { x = 0, y = 0 },
@@ -375,10 +470,10 @@ SMODS.Booster({
 		extra = 3,
 		choose = 1,
 	},
-	weight = 2,
+	weight = 3,
 	draw_hand = false,
-	group_key = "enchantment_table",
-	kind = "enchantment",
+	group_key = "k_mul_enchantment_table",
+	kind = "mul_enchantment",
 	cost = 10,
 	create_card = function(self, card, i)
 		local c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
