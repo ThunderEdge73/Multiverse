@@ -40,7 +40,7 @@ SMODS.Tag({
 		if context.type == "new_blind_choice" then
 			local lock = tag.ID
 			G.CONTROLLER.locks[lock] = true
-			tag:yep("+", G.C.SECONDARY_SET.mul_EnchantedBook, function()
+			tag:yep("+", Multiverse.C.TRANSMUTED_GRADIENT, function()
 				local booster = SMODS.add_card({ key = "p_mul_dimension_mega1", area = G.play })
 				booster.T.x = G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2
 				booster.T.y = G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2
