@@ -336,7 +336,7 @@ SMODS.Booster({
 		extra = 8,
 		choose = 2,
 	},
-	weight = 0.25,
+	weight = 0.125,
 	draw_hand = true,
 	group_key = "k_mul_dimension",
 	kind = "mul_dimension",
@@ -391,7 +391,7 @@ SMODS.Booster({
 		extra = 8,
 		choose = 2,
 	},
-	weight = 0.25,
+	weight = 0.125,
 	draw_hand = true,
 	group_key = "k_mul_dimension",
 	kind = "mul_dimension",
@@ -447,10 +447,163 @@ SMODS.Booster({
 		choose = 1,
 	},
 	weight = 1,
-	draw_hand = true,
-	group_key = "skill",
-	kind = "skill",
-	cost = 12,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_normal2",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 3,
+		choose = 1,
+	},
+	weight = 1,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_normal3",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 3,
+		choose = 1,
+	},
+	weight = 1,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_normal4",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 3,
+		choose = 1,
+	},
+	weight = 1,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_jumbo1",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 5,
+		choose = 1,
+	},
+	weight = 1,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_jumbo2",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 5,
+		choose = 1,
+	},
+	weight = 1,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_mega1",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 5,
+		choose = 2,
+	},
+	weight = 0.25,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
+	create_card = function(self, card, i)
+		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+		return c
+	end,
+})
+
+SMODS.Booster({
+	key = "skill_mega2",
+	atlas = "booster_placeholder",
+	pos = { x = 0, y = 0 },
+	config = {
+		extra = 5,
+		choose = 2,
+	},
+	weight = 0.25,
+	group_key = "k_mul_skills",
+	kind = "mul_skill",
+	cost = 4,
 	create_card = function(self, card, i)
 		local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
 		c:set_ability(
@@ -471,7 +624,6 @@ SMODS.Booster({
 		choose = 1,
 	},
 	weight = 3,
-	draw_hand = false,
 	group_key = "k_mul_enchantment_table",
 	kind = "mul_enchantment",
 	cost = 10,

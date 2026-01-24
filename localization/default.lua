@@ -1172,6 +1172,70 @@ return {
 					"{C:mul_transmuted}Multiverse{} mod",
 				},
 			},
+			p_mul_skill_normal1 = {
+				name = "Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_normal2 = {
+				name = "Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_normal3 = {
+				name = "Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_normal4 = {
+				name = "Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_jumbo1 = {
+				name = "Jumbo Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_jumbo2 = {
+				name = "Jumbo Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_mega1 = {
+				name = "Mega Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
+			p_mul_skill_mega2 = {
+				name = "Mega Skill Pack",
+				text = {
+					"Choose {C:attention}#1#{} of up to",
+					"{C:attention}#2#{} Skill Cards to",
+					"add to your deck",
+				},
+			},
 			mul_transmutable = {
 				name = "Transmutable",
 				text = {
@@ -1444,6 +1508,7 @@ return {
 			k_multiverse_desc = "A content mod by ThunderEdge",
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
+			k_mul_skills = "Learn Skills",
 			k_mul_level_up = "Level Up!",
 			k_mul_level_down = "Level Down...",
 			k_mul_enchanted = "Enchanted!",
