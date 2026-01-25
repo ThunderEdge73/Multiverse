@@ -834,7 +834,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
-				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
+				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.05 }),
 			},
 		},
 	}
