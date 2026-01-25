@@ -137,8 +137,10 @@ function Card:mul_safe_dissolve(dissolve_colours, silent, dissolve_time_fac, no_
 	}))
 end
 
-function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac)
+function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac, args)
 	local dissolve_time = 0.6 * (timefac or 1)
+	local temp = args or {}
+	local blocking = temp.blocking
 	self.states.visible = true
 	self.states.hover.can = false
 	self.dissolve = 1
@@ -183,6 +185,7 @@ function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac)
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		blockable = false,
+		blocking = blocking,
 		delay = 0.5 * dissolve_time,
 		func = function()
 			if self.children.particles then
@@ -194,6 +197,7 @@ function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac)
 	G.E_MANAGER:add_event(Event({
 		trigger = "ease",
 		blockable = false,
+		blocking = blocking,
 		ref_table = self,
 		ref_value = "dissolve",
 		ease_to = 0,
@@ -205,6 +209,7 @@ function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac)
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		blockable = false,
+		blocking = blocking,
 		delay = 1.05 * dissolve_time,
 		func = function()
 			self.states.hover.can = true

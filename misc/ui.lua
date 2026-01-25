@@ -357,7 +357,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 				blocking = false,
 				delay = 0.25 * i,
 				func = function()
-					card:mul_no_juice_materialize(nil, true)
+					card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
 					return true
 				end,
 			}),
@@ -646,6 +646,14 @@ SMODS.current_mod.config_tab = function()
 	}
 end
 
+-- Multiverse.test_ui_def = function()
+-- 	return {
+-- 		n = G.UIT.ROOT,
+-- 		config = {},
+-- 		nodes = {},
+-- 	}
+-- end
+
 SMODS.current_mod.extra_tabs = function()
 	return {
 		{
@@ -654,6 +662,12 @@ SMODS.current_mod.extra_tabs = function()
 				return Multiverse.music_tab()
 			end,
 		},
+		-- {
+		-- 	label = "Test",
+		-- 	tab_definition_function = function()
+		-- 		return Multiverse.test_ui_def()
+		-- 	end,
+		-- },
 	}
 end
 
@@ -761,7 +775,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 	G.mul_credits[#G.mul_credits + 1] = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
-		G.CARD_W * 0.9,
+		G.CARD_W,
 		G.CARD_H * 0.9,
 		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
 	)
@@ -782,7 +796,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 			blocking = false,
 			delay = 0.25,
 			func = function()
-				card:mul_no_juice_materialize(nil, true)
+				card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
 				return true
 			end,
 		}),
@@ -806,7 +820,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		nodes = {
 			{
 				n = G.UIT.R,
-				config = { align = "cm", padding = 0.05 },
+				config = { align = "cm", padding = 0.1 },
 				nodes = {
 					{
 						n = G.UIT.O,
