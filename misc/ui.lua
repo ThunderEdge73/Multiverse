@@ -649,8 +649,18 @@ end
 Multiverse.test_ui_def = function()
 	return {
 		n = G.UIT.ROOT,
-		config = {},
-		nodes = {},
+		config = {
+			emboss = 0.05,
+			r = 0.1,
+			padding = 0.1,
+			colour = G.C.BLACK,
+			align = "cm",
+			minw = 6,
+			minh = 4
+		},
+		nodes = {
+			
+		},
 	}
 end
 
