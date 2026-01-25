@@ -496,12 +496,12 @@ SMODS.current_mod.custom_ui = function(nodes)
 	}
 end
 
-SMODS.current_mod.ui_config = {
-	colour = Multiverse.C.SECONDARY,
-	back_colour = Multiverse.C.PRIMARY1,
-	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
-	tab_button_colour = Multiverse.C.PRIMARY1,
-}
+-- SMODS.current_mod.ui_config = {
+-- 	colour = Multiverse.C.SECONDARY,
+-- 	back_colour = Multiverse.C.PRIMARY1,
+-- 	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
+-- 	tab_button_colour = Multiverse.C.PRIMARY1,
+-- }
 
 function G.FUNCS.mul_discord_invite(e)
 	love.system.openURL("https://discord.gg/TTEU5K3XC5")
@@ -646,13 +646,13 @@ SMODS.current_mod.config_tab = function()
 	}
 end
 
--- Multiverse.test_ui_def = function()
--- 	return {
--- 		n = G.UIT.ROOT,
--- 		config = {},
--- 		nodes = {},
--- 	}
--- end
+Multiverse.test_ui_def = function()
+	return {
+		n = G.UIT.ROOT,
+		config = {},
+		nodes = {},
+	}
+end
 
 SMODS.current_mod.extra_tabs = function()
 	return {
@@ -662,12 +662,12 @@ SMODS.current_mod.extra_tabs = function()
 				return Multiverse.music_tab()
 			end,
 		},
-		-- {
-		-- 	label = "Test",
-		-- 	tab_definition_function = function()
-		-- 		return Multiverse.test_ui_def()
-		-- 	end,
-		-- },
+		{
+			label = "Test",
+			tab_definition_function = function()
+				return Multiverse.test_ui_def()
+			end,
+		},
 	}
 end
 
