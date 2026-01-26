@@ -659,7 +659,28 @@ Multiverse.test_ui_def = function()
 			minh = 4
 		},
 		nodes = {
-			
+			{
+				n = G.UIT.C,
+				config = {
+					padding = 0.1,
+					colour = G.C.BLUE,
+					align = "cm",
+					minw = 3,
+					minh = 6
+				},
+				nodes = {},
+			},
+			{
+				n = G.UIT.C,
+				config = {
+					padding = 0.1,
+					colour = G.C.RED,
+					align = "cm",
+					minw = 3,
+					minh = 6
+				},
+				nodes = {},
+			},
 		},
 	}
 end
