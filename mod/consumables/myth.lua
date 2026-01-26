@@ -78,54 +78,82 @@ SMODS.Consumable({
 				end,
 			}))
 		end
+		for i = 1, 3 do
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.7,
+				func = function()
+					joker_to_transmute:juice_up(0.3, 0.5)
+					if joker_to_transmute.children.particles then
+						joker_to_transmute.children.particles:remove()
+					end
+					if card.children.particles then
+						card.children.particles:remove()
+					end
+					joker_to_transmute.children.particles = Particles(0, 0, G.CARD_W, G.CARD_H, {
+						timer_type = "TOTAL",
+						timer = 0.025,
+						scale = 0.25,
+						speed = 1.5,
+						lifespan = 0.9,
+						attach = joker_to_transmute,
+						colours = { Multiverse.C.PRIMARY1, Multiverse.C.PRIMARY2 },
+						fill = true,
+					})
+					card.children.particles = Particles(0, 0, G.CARD_W, G.CARD_H, {
+						timer_type = "TOTAL",
+						timer = 0.025,
+						scale = 0.25,
+						speed = 1.5,
+						lifespan = 0.9,
+						attach = card,
+						colours = { Multiverse.C.PRIMARY1, Multiverse.C.PRIMARY2 },
+						fill = true,
+					})
+					card:juice_up(0.3, 0.5)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.9,
+				func = function()
+					if joker_to_transmute.children.particles then
+						joker_to_transmute.children.particles.max = 0
+					end
+					if card.children.particles then
+						card.children.particles.max = 0
+					end
+					return true
+				end,
+			}))
+		end
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 0.15,
+			delay = 0.7,
 			func = function()
-				play_sound("card1", 1.15)
+				if joker_to_transmute.children.particles then
+					joker_to_transmute.children.particles:remove()
+					joker_to_transmute.children.particles = nil
+				end
+				if card.children.particles then
+					card.children.particles:remove()
+					card.children.particles = nil
+				end
+				card:mul_safe_dissolve(nil, true, 1.6, true)
+				joker_to_transmute:mul_safe_dissolve(nil, false, 1.6, true, { no_particles = true })
 				return true
 			end,
 		}))
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 1.65,
+			delay = 1.2,
 			func = function()
-				joker_to_transmute:juice_up(0.3, 0.5)
-				card:juice_up(0.3, 0.5)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 1.65,
-			func = function()
-				joker_to_transmute:juice_up(0.3, 0.5)
-				card:juice_up(0.3, 0.5)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 1.65,
-			func = function()
-				joker_to_transmute:juice_up(0.3, 0.5)
-				card:juice_up(0.3, 0.5)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 1.65,
-			func = function()
-				joker_to_transmute:mul_safe_dissolve(nil, false, 1.6, true)
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 1.5,
-			func = function()
-				joker_to_transmute:remove_sticker("mul_transmutable")
+				if card.children.particles then
+					card.children.particles:remove()
+					card.children.particles = nil
+				end
+				Multiverse.remove_all_stickers(joker_to_transmute)
 				joker_to_transmute:set_ability(transmute_key)
 				joker_to_transmute:set_cost()
 				play_sound("tarot2", 0.85, 0.6)
@@ -133,17 +161,10 @@ SMODS.Consumable({
 				return true
 			end,
 		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 1.85,
-			func = function()
-				play_sound("card1", 1.15)
-				return true
-			end,
-		}))
 		delay(0.5)
 	end,
 })
+
 SMODS.Consumable({
 	key = "holy_grail",
 	set = "mul_Myth",

@@ -73,24 +73,17 @@ function Multiverse.get_unique_pseudorandom_elements(t, n, seed)
 	return ret
 end
 
----@param card Card
-function Multiverse.get_card_x_pos(card)
-	return 155 * Multiverse.get_screen_x_scale() + card.children.center.CT.x * card.children.center.scale.x / 1.0445
-end
-
-function Multiverse.get_card_y_pos(card)
-	return 127.5 * Multiverse.get_screen_y_scale() + card.children.center.CT.y * card.children.center.scale.y / 1.39
-end
-
 ---Basically just Card:start_dissolve but doesnt destroy the card
-function Card:mul_safe_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
+function Card:mul_safe_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice, args)
 	local dissolve_time = 0.7 * (dissolve_time_fac or 1)
+	local temp = args or {}
+	local no_particles = temp.no_particles
 	self.dissolve = 0
 	self.dissolve_colours = dissolve_colours or { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD, G.C.JOKER_GREY }
 	if not no_juice then
 		self:juice_up()
 	end
-	local childParts = Particles(0, 0, 0, 0, {
+	local childParts = (not no_particles) and Particles(0, 0, 0, 0, {
 		timer_type = "TOTAL",
 		timer = 0.01 * dissolve_time,
 		scale = 0.1,
@@ -105,7 +98,9 @@ function Card:mul_safe_dissolve(dissolve_colours, silent, dissolve_time_fac, no_
 		blockable = false,
 		delay = 0.7 * dissolve_time,
 		func = function()
-			childParts:fade(0.3 * dissolve_time)
+			if childParts then
+				childParts:fade(0.3 * dissolve_time)
+			end
 			return true
 		end,
 	}))
@@ -140,6 +135,7 @@ end
 function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac, args)
 	local dissolve_time = 0.6 * (timefac or 1)
 	local temp = args or {}
+	local no_particles = temp.no_particles
 	local blocking = temp.blocking
 	self.states.visible = true
 	self.states.hover.can = false
@@ -155,16 +151,18 @@ function Card:mul_no_juice_materialize(dissolve_colours, silent, timefac, args)
 		or (self.ability.set == "mul_EnchantedBook" and { G.C.SECONDARY_SET.mul_EnchantedBook })
 		or (self.ability.set == "mul_Skill" and { G.C.FILTER, G.C.RED, G.C.BLUE })
 		or { G.C.GREEN }
-	self.children.particles = Particles(0, 0, 0, 0, {
-		timer_type = "TOTAL",
-		timer = 0.025 * dissolve_time,
-		scale = 0.25,
-		speed = 3,
-		lifespan = 0.7 * dissolve_time,
-		attach = self,
-		colours = self.dissolve_colours,
-		fill = true,
-	})
+	if not no_particles then
+		self.children.particles = Particles(0, 0, 0, 0, {
+			timer_type = "TOTAL",
+			timer = 0.025 * dissolve_time,
+			scale = 0.25,
+			speed = 3,
+			lifespan = 0.7 * dissolve_time,
+			attach = self,
+			colours = self.dissolve_colours,
+			fill = true,
+		})
+	end
 	if not silent then
 		if
 			not G.last_materialized
@@ -341,6 +339,14 @@ function Multiverse.get_stickers(card)
 		end
 	end
 	return stickers
+end
+
+---@param card Card
+function Multiverse.remove_all_stickers(card)
+	local keys = Multiverse.get_stickers(card)
+	for _, key in ipairs(keys) do
+		card:remove_sticker(key)
+	end
 end
 
 ---Gets the most played hand, as well as the number of times it has been played

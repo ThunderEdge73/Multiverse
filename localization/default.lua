@@ -278,8 +278,9 @@ return {
 				name = "Snowgrave",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, {C:attention}destroys{}",
-					"all selected cards",
+					"After use, gives all",
+					"selected cards",
+					"{C:attention}Frozen Seals",
 				},
 			},
 			sk_mul_ubw = {
