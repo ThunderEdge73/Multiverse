@@ -668,7 +668,34 @@ Multiverse.test_ui_def = function()
 					minw = 3,
 					minh = 6
 				},
-				nodes = {},
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							minw = 3,
+							minh = 3,
+							padding = 0.1,
+							align = "cm",
+							colour = G.C.WHITE,
+							emboss = 0.05,
+							r = 0.1
+						},
+						nodes = {}
+					},
+					{
+						n = G.UIT.R,
+						config = {
+							minw = 3,
+							minh = 3,
+							padding = 0.1,
+							align = "cm",
+							colour = G.C.WHITE,
+							emboss = 0.05,
+							r = 0.1
+						},
+						nodes = {}
+					}
+				},
 			},
 			{
 				n = G.UIT.C,
@@ -679,7 +706,34 @@ Multiverse.test_ui_def = function()
 					minw = 3,
 					minh = 6
 				},
-				nodes = {},
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							minw = 3,
+							minh = 3,
+							padding = 0.1,
+							align = "cm",
+							colour = G.C.WHITE,
+							emboss = 0.05,
+							r = 0.1
+						},
+						nodes = {}
+					},
+					{
+						n = G.UIT.R,
+						config = {
+							minw = 3,
+							minh = 3,
+							padding = 0.1,
+							align = "cm",
+							colour = G.C.WHITE,
+							emboss = 0.05,
+							r = 0.1
+						},
+						nodes = {}
+					}
+				},
 			},
 		},
 	}
