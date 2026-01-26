@@ -94,6 +94,7 @@ SMODS.Atlas({
 	path = "target.png",
 	frames = 2,
 	atlas_table = "ANIMATION_ATLAS",
+	fps = 6,
 })
 SMODS.Atlas({
 	key = "enchantment_book",

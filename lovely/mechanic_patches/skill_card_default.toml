@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _type == 'Edition' then _pool[#_pool + 1] = "e_foil"
+'''
+position = "after"
+payload = '''
+elseif _type == "mul_Skill" then _pool[#_pool + 1] = "sk_mul_strike"
+'''
+match_indent = true

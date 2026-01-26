@@ -1,0 +1,30 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+-- TARGET: add your own CardAreas for playing card evaluation
+'''
+position = "after"
+payload = '''
+t[#t+1] = G.mul_exhaust
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+G.FUNCS.draw_from_discard_to_deck()
+'''
+position = "after"
+payload = '''
+if G.GAME.blind:get_type() == "Boss" then
+    G.FUNCS.mul_draw_from_exhausted_to_deck()
+end
+'''
+match_indent = true
