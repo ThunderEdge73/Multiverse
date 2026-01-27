@@ -121,10 +121,10 @@ SMODS.Atlas({
 	path = "skill_placeholder.png"
 })
 SMODS.Atlas({
-	key = "thunderedge",
+	key = "contributors",
 	px = 71,
 	py = 95,
-	path = "thunderedge.png"
+	path = "contributors.png"
 })
 SMODS.Atlas({
 	key = "enchantment_tag",

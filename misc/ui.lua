@@ -700,6 +700,10 @@ Multiverse.credits_table = {
 				card_key = "j_mul_thunderedge",
 				desc_key = "k_mul_thunderedge_credits",
 			},
+			{ -- entry
+				card_key = "j_mul_proto",
+				desc_key = "k_mul_proto_credits",
+			},
 		},
 	},
 }

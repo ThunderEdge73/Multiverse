@@ -672,6 +672,17 @@ return {
 					}
 				}
 			},
+			j_mul_proto = {
+				name = "Proto",
+				text = {
+					{
+						"Gains {X:mult,C:white}X#1#{} Mult per",
+						"{C:attention}unique{} rank in",
+						"played hand",
+						"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
+					}
+				}
+			},
 			j_mul_bloodbath = {
 				name = "Bloodbath",
 				text = {
@@ -1539,6 +1550,11 @@ return {
 				"Creator of {C:mul_transmuted}Multiverse{}",
 				"Implemented all of",
 				"{C:mul_transmuted}Multiverse{}'s mechanics"
+			},
+			k_mul_proto_credits = {
+				"Added some {C:attention}challenges{}",
+				"Added attack patterns",
+				"for {C:attention}The Undying{}"
 			},
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
