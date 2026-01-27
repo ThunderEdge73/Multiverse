@@ -3,7 +3,6 @@ SMODS.Shader({
 	path = "exhausted.fs",
 })
 
----@type Multiverse.SkillCard
 Multiverse.SkillCard = SMODS.Enhancement:extend({
 	obj_buffer = {},
 	class_prefix = "sk",
