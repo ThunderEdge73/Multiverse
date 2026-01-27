@@ -196,10 +196,13 @@ Multiverse.undyne_attacks = {
 }
 
 ---@param i integer?
----@param p {[1]: number, [2]: "left" | "up" | "down" | "right", [3]: boolean, [4]: number}[]?
+---@param p integer | {[1]: number, [2]: "left" | "up" | "down" | "right", [3]: boolean, [4]: number}[]?
 Multiverse.start_undyne_attack = function(i, p)
 	local index = i or 1
-	local pattern = Multiverse.undyne_attacks[p] or Multiverse.undyne_attacks[math.random(#Multiverse.undyne_attacks)]
+	local pattern = p or Multiverse.undyne_attacks[math.random(#Multiverse.undyne_attacks)]
+	if type(p) == "number" then
+		pattern = Multiverse.undyne_attacks[p]
+	end
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",

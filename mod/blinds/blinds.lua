@@ -135,10 +135,10 @@ SMODS.Blind({
 	end,
 })
 
-function Multiverse.undying_press_play_effect()
+function Multiverse.undying_press_play_effect(index)
 	Multiverse.undyne_spears = {}
 	Multiverse.in_undyne = true
-	local num_attacks = Multiverse.start_undyne_attack()
+	local num_attacks = Multiverse.start_undyne_attack(nil, index)
 	G.E_MANAGER:add_event(Event({
 		trigger = "immediate",
 		func = function()
