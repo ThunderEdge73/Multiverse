@@ -16,6 +16,7 @@ function Multiverse.init_blinds()
 	G.GAME.mul_undyne_damage_mult = 1
 
 	Multiverse.in_undyne = false
+	Multiverse.undyne_spears = {}
 	Multiverse.in_limbo = nil
 
 	if G.GAME.challenge == "c_mul_monsoon" then
@@ -136,7 +137,6 @@ SMODS.Blind({
 
 function Multiverse.undying_press_play_effect()
 	Multiverse.undyne_spears = {}
-	Multiverse.done_attacking = false
 	Multiverse.in_undyne = true
 	local num_attacks = Multiverse.start_undyne_attack()
 	G.E_MANAGER:add_event(Event({
