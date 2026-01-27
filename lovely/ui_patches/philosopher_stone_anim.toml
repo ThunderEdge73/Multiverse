@@ -27,12 +27,20 @@ position = "after"
 payload = '''
 if card.config.center.key == "c_mul_philosophers_stone" then
     G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay =  1.05,
         func = function()
             area:remove_card(card)
             card:remove()
             card = nil
             return true
         end
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay =  1.051,
     }))
 end
 '''

@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+if card.config.center.key ~= "c_base" then
+'''
+position = "at"
+payload = '''
+if card.config.center.key ~= "c_base" and card.ability.set ~= "mul_Skill" then
+'''
+match_indent = true
