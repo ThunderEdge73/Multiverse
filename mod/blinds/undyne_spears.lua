@@ -304,7 +304,7 @@ function Multiverse.update_spears()
 			if spear.r < 35 then
 				Multiverse.process_undyne_hit(10)
 				spear.active = false
-			elseif spear.r < 70 then
+			elseif spear.r < 75 then
 				local check_dir = spear.is_reversed and Multiverse.opposite_sides[spear.dir] or spear.dir
 				if check_dir == Multiverse.shield_dir then
 					spear.active = false
