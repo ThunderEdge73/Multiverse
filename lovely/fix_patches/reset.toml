@@ -1,0 +1,32 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''
+if self.held_key_times[key] > 0.7 then
+'''
+position = "before"
+payload = '''
+if Multiverse.cannot_interrupt() then
+    goto skip_reset
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''
+else
+    self.held_key_times[key] = self.held_key_times[key] + dt
+end
+'''
+position = "after"
+payload = '''
+::skip_reset::
+'''
+match_indent = true
