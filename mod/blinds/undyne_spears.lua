@@ -199,7 +199,7 @@ Multiverse.undyne_attacks = {
 ---@param p {[1]: number, [2]: "left" | "up" | "down" | "right", [3]: boolean, [4]: number}[]?
 Multiverse.start_undyne_attack = function(i, p)
 	local index = i or 1
-	local pattern = p or Multiverse.undyne_attacks[p] or Multiverse.undyne_attacks[math.random(#Multiverse.undyne_attacks)]
+	local pattern = Multiverse.undyne_attacks[p] or Multiverse.undyne_attacks[math.random(#Multiverse.undyne_attacks)]
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
