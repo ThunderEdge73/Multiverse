@@ -14,6 +14,10 @@ end
 function Multiverse.init_blinds()
 	---@type number
 	G.GAME.mul_undyne_damage_mult = 1
+
+	Multiverse.in_undyne = false
+	Multiverse.in_limbo = nil
+
 	if G.GAME.challenge == "c_mul_monsoon" then
 		G.GAME.mul_undyne_damage_mult = 2
 	end
@@ -49,6 +53,36 @@ function Multiverse.hide_blind_instructions()
 	end
 end
 
+function Multiverse.limbo_set_effect()
+	Multiverse.show_blind_instructions("limbo")
+	Multiverse.in_limbo = "pre_start"
+	if pseudorandom("mul_limbo", 1, 1000) < 8 then
+		Multiverse.secret_limbo = true
+		Multiverse.HIDDEN_KEY_COLOR = { 1, 1, 1, 1 }
+	else
+		Multiverse.secret_limbo = false
+		Multiverse.HIDDEN_KEY_COLOR = { 224 / 255, 85 / 255, 32 / 255, 1 }
+	end
+	Multiverse.add_limbo_keys()
+	ease_background_colour_blind(G.STATES.BLIND_SELECT)
+	attention_text({
+		scale = 0.7,
+		text = localize({ type = "variable", key = "a_mul_limbo_popup", vars = { 10 } }),
+		hold = G.SPEEDFACTOR * 2.4,
+		align = "cm",
+		offset = { x = 0, y = -1 },
+		major = G.play,
+	})
+	delay(2 * G.SPEEDFACTOR)
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			Multiverse.limbo_keys_intro()
+			return true
+		end,
+	}))
+	delay(18.6 * G.SPEEDFACTOR)
+end
+
 SMODS.Blind({
 	key = "limbo",
 	dependencies = { "blindexpander" },
@@ -63,33 +97,7 @@ SMODS.Blind({
 	boss = { min = 3 },
 	mult = 2,
 	set_blind = function(self)
-		Multiverse.show_blind_instructions("limbo")
-		Multiverse.in_limbo = "pre_start"
-		if pseudorandom("mul_limbo", 1, 1000) < 8 then
-			Multiverse.secret_limbo = true
-			Multiverse.HIDDEN_KEY_COLOR = { 1, 1, 1, 1 }
-		else
-			Multiverse.secret_limbo = false
-			Multiverse.HIDDEN_KEY_COLOR = { 224 / 255, 85 / 255, 32 / 255, 1 }
-		end
-		Multiverse.add_limbo_keys()
-		ease_background_colour_blind(G.STATES.BLIND_SELECT)
-		attention_text({
-			scale = 0.7,
-			text = localize({ type = "variable", key = "a_mul_limbo_popup", vars = { 10 } }),
-			hold = G.SPEEDFACTOR * 2.4,
-			align = "cm",
-			offset = { x = 0, y = -1 },
-			major = G.play,
-		})
-		delay(2 * G.SPEEDFACTOR)
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				Multiverse.limbo_keys_intro()
-				return true
-			end,
-		}))
-		delay(18.6 * G.SPEEDFACTOR)
+		Multiverse.limbo_set_effect()
 	end,
 	disable = function(self)
 		if G.GAME.failed_limbo then
@@ -126,6 +134,35 @@ SMODS.Blind({
 	end,
 })
 
+function Multiverse.undying_press_play_effect()
+	Multiverse.undyne_spears = {}
+	Multiverse.done_attacking = false
+	Multiverse.in_undyne = true
+	local num_attacks = Multiverse.start_undyne_attack()
+	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
+		func = function()
+			if
+				Multiverse.undyne_spears[num_attacks]
+				and not Multiverse.undyne_spears[num_attacks].active
+				and Multiverse.in_undyne
+			then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					blockable = false,
+					blocking = false,
+					delay = 0.5 * G.SPEEDFACTOR,
+					func = function()
+						Multiverse.in_undyne = false
+						return true
+					end,
+				}))
+			end
+			return not Multiverse.in_undyne
+		end,
+	}))
+end
+
 SMODS.Blind({
 	key = "undying",
 	dependencies = { "blindexpander" },
@@ -141,32 +178,7 @@ SMODS.Blind({
 	mult = 2,
 	press_play = function(self)
 		if not G.GAME.blind.disabled then
-			Multiverse.undyne_spears = {}
-			Multiverse.done_attacking = false
-			Multiverse.in_undyne = true
-			local num_attacks = Multiverse.start_undyne_attack()
-			G.E_MANAGER:add_event(Event({
-				trigger = "immediate",
-				func = function()
-					if
-						Multiverse.undyne_spears[num_attacks]
-						and not Multiverse.undyne_spears[num_attacks].active
-						and Multiverse.in_undyne
-					then
-						G.E_MANAGER:add_event(Event({
-							trigger = "after",
-							blockable = false,
-							blocking = false,
-							delay = 0.5 * G.SPEEDFACTOR,
-							func = function()
-								Multiverse.in_undyne = false
-								return true
-							end,
-						}))
-					end
-					return not Multiverse.in_undyne
-				end,
-			}))
+			Multiverse.undying_press_play_effect()
 		end
 	end,
 	set_blind = function(self)

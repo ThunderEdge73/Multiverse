@@ -65,7 +65,7 @@ Multiverse.opposite_sides = {
 
 ---@type {[1]: number, [2]: "left" | "up" | "down" | "right", [3]: boolean, [4]: number}[][]
 Multiverse.undyne_attacks = {
-	{
+	{ -- 1
 		{ 800, "right", false, 0.35 },
 		{ 800, "left", true, 0.35 },
 		{ 800, "left", false, 0.35 },
@@ -79,7 +79,7 @@ Multiverse.undyne_attacks = {
 		{ 1000, "down", false, 0.2 },
 		{ 1000, "left", false, 0.2 },
 	},
-	{
+	{ -- 2
 		{ 500, "right", false, 0.25 },
 		{ 500, "right", true, 0.25 },
 		{ 500, "right", false, 0.25 },
@@ -92,7 +92,7 @@ Multiverse.undyne_attacks = {
 		{ 800, "left", true, 0.4 },
 		{ 1500, "up", false, 2 },
 	},
-	{
+	{ -- 3
 		{ 200, "right", false, 0.25 },
 		{ 200, "up", false, 0.25 },
 		{ 200, "right", false, 0.25 },
@@ -112,7 +112,7 @@ Multiverse.undyne_attacks = {
 		{ 200, "up", true, 0.25 },
 		{ 200, "down", true, 0.25 },
 	},
-	{
+	{ -- 4
 		{ 1000, "up", false, 0.25 },
 		{ 1000, "down", false, 0.25 },
 		{ 1000, "right", false, 0.25 },
@@ -130,7 +130,7 @@ Multiverse.undyne_attacks = {
 		{ 1000, "left", false, 0.25 },
 		{ 1000, "right", false, 0.25 },
 	},
-	{
+	{ -- 5
 		{ 800, "up", false, 0.4 },
 		{ 800, "up", false, 0.2 },
 		{ 800, "up", false, 0.2 },
@@ -147,7 +147,7 @@ Multiverse.undyne_attacks = {
 		{ 800, "up", true, 0.2 },
 		{ 800, "up", false, 0.2 },
 	},
-	{
+	{ -- 6
 		{ 700, "down", false, 0.3 },
 		{ 300, "left", true, 0.3 },
 		{ 700, "right", false, 0.3 },
@@ -165,7 +165,7 @@ Multiverse.undyne_attacks = {
 		{ 700, "left", false, 0.3 },
 		{ 700, "right", false, 0.3 },
 	},
-	{
+	{ -- 7
 		{ 800, "left", false, 0.3 },
 		{ 800, "right", false, 0.3 },
 		{ 800, "up", false, 0.3 },
@@ -181,7 +181,7 @@ Multiverse.undyne_attacks = {
 		{ 800, "left", false, 0.3 },
 		{ 1500, "right", false, 2 },
 	},
-	{
+	{ -- 8
 		{ 700, "left", false, 0.3 },
 		{ 400, "right", true, 0.6 },
 		{ 700, "right", true, 0.3 },
@@ -199,7 +199,7 @@ Multiverse.undyne_attacks = {
 ---@param p {[1]: number, [2]: "left" | "up" | "down" | "right", [3]: boolean, [4]: number}[]?
 Multiverse.start_undyne_attack = function(i, p)
 	local index = i or 1
-	local pattern = p or Multiverse.undyne_attacks[math.random(#Multiverse.undyne_attacks)]
+	local pattern = p or Multiverse.undyne_attacks[p] or Multiverse.undyne_attacks[math.random(#Multiverse.undyne_attacks)]
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
