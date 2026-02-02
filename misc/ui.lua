@@ -1258,7 +1258,7 @@ function G.FUNCS.mul_skillcard_collection_page(args)
 		end
 		local pool = SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill)
 		local row, col = 1, 1
-		for index, obj in ipairs(pool) do
+		for index, _ in ipairs(pool) do
 			if index <= (page - 1) * rows * cols then
 			elseif index > page * rows * cols then
 				break
