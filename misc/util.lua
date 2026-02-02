@@ -68,6 +68,7 @@ function Multiverse.get_unique_pseudorandom_elements(t, n, seed)
 	for i = 1, math.min(n, #t) do
 		local target_index, eligible_index = pseudorandom_element(eligible, seed)
 		ret[#ret + 1] = t[target_index]
+	---@diagnostic disable-next-line: param-type-mismatch
 		table.remove(eligible, eligible_index)
 	end
 	return ret
@@ -591,4 +592,11 @@ end
 
 function Multiverse.cannot_interrupt()
 	return Multiverse.in_limbo or Multiverse.in_undyne or Multiverse.very_important_thing
+end
+
+function Multiverse.lose()
+	G.STATE = G.STATES.GAME_OVER
+	G:save_settings()
+	G.FILE_HANDLER.force = true
+	G.STATE_COMPLETE = false
 end

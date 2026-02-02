@@ -194,3 +194,45 @@ SMODS.Blind({
 		Multiverse.hide_blind_instructions()
 	end,
 })
+
+SMODS.Blind({
+	key = "time_eater",
+	dependencies = { "blindexpander" },
+	passives = {
+		"psv_mul_time_warp",
+		"psv_mul_draw_reduction",
+	},
+	modifies_draw = true,
+	atlas = "blind_placeholder",
+	pos = { x = 0, y = 0 },
+	boss_colour = lighten(G.C.PURPLE, 0.1),
+	boss = { min = 5 },
+	mult = 2,
+	set_blind = function(self)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								G.GAME.blind.after_first_draw = true
+								return true
+							end
+						}))
+						return true
+					end
+				}))
+				return true
+			end
+		}))
+	end,
+	calculate = function(self, blind, context)
+		if not blind.disabled then
+			if context.drawing_cards and context.amount > 4 and blind.after_first_draw then
+				return {
+					cards_to_draw = 4
+				}
+			end
+		end
+	end,
+})

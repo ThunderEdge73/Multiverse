@@ -299,6 +299,34 @@ function Card:highlight(is_highlighted)
 	then
 		self.children.mul_skill_use_button = obj:generate_use_ui(self)
 	end
+	if
+		G.GAME.blind
+		and G.GAME.blind.in_blind
+		and G.GAME.blind.config.blind.key == "bl_mul_time_eater"
+		and is_highlighted
+		and not G.GAME.blind.disabled
+	then
+		G.GAME.mul_time_eater_count = (G.GAME.mul_time_eater_count or 0) + 1
+		if G.GAME.mul_time_eater_count == 12 then
+			G.GAME.mul_time_eater_count = 0
+			ease_hands_played(-1)
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					if G.GAME.current_round.hands_left <= 0 then
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 1.8,
+							func = function ()
+								Multiverse.lose()
+								return true
+							end
+						}))
+					end
+					return true
+				end,
+			}))
+		end
+	end
 	return ret
 end
 

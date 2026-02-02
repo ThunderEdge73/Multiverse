@@ -107,6 +107,12 @@ return {
 					"Survive",
 				},
 			},
+			bl_mul_time_eater = {
+				name = "The Time Eater",
+				text = {
+					"Ah... company.",
+				},
+			},
 		},
 		Passive = {
 			psv_mul_memorization = {
@@ -134,6 +140,22 @@ return {
 				text = {
 					"If you get hit, destroy {C:attention}1{} random card",
 					"currently held in hand",
+				},
+			},
+			psv_mul_time_warp = {
+				name = "Time Warp",
+				text = {
+					"For every {C:attention}12{} cards selected, {C:blue}-1{} hand",
+					"this round",
+					"If you have {C:blue}0{} or less hands because of",
+					"this effect, {C:red}lose the run",
+				},
+			},
+			psv_mul_draw_reduction = {
+				name = "Draw Reduction",
+				text = {
+					"If you would draw {C:attention}5{} or more cards,",
+					"draw {C:attention}4{} cards instead",
 				},
 			},
 		},

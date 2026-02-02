@@ -351,9 +351,6 @@ function Multiverse.process_undyne_hit(percent)
 	then
 		Multiverse.in_undyne = nil
 		Multiverse.undyne_spears = {}
-		G.STATE = G.STATES.GAME_OVER
-		G:save_settings()
-		G.FILE_HANDLER.force = true
-		G.STATE_COMPLETE = false
+		Multiverse.lose()
 	end
 end
