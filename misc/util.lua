@@ -68,8 +68,7 @@ function Multiverse.get_unique_pseudorandom_elements(t, n, seed)
 	for i = 1, math.min(n, #t) do
 		local target_index, eligible_index = pseudorandom_element(eligible, seed)
 		ret[#ret + 1] = t[target_index]
-	---@diagnostic disable-next-line: param-type-mismatch
-		table.remove(eligible, eligible_index)
+			table.remove(eligible, eligible_index)
 	end
 	return ret
 end
@@ -396,7 +395,6 @@ end
 ---@param operation number | fun(chips: number): number
 function Multiverse.change_blind_size(operation)
 	if G.GAME.facing_blind then
-		local returns = {}
 		local amt = type(operation) == "function" and operation(G.GAME.blind.chips) or (G.GAME.blind.chips + operation)
 		G.GAME.blind.chips = math.floor(amt + 0.5)
 		G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)

@@ -209,6 +209,7 @@ SMODS.Blind({
 	boss = { min = 5 },
 	mult = 2,
 	set_blind = function(self)
+		G.GAME.mul_time_eater_count = 0
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				G.E_MANAGER:add_event(Event({
@@ -227,6 +228,11 @@ SMODS.Blind({
 		}))
 	end,
 	calculate = function(self, blind, context)
+		if context.before then
+			if #context.scoring_hand > 5 then
+				
+			end
+		end
 		if not blind.disabled then
 			if context.drawing_cards and context.amount > 4 and blind.after_first_draw then
 				return {
@@ -236,3 +242,46 @@ SMODS.Blind({
 		end
 	end,
 })
+
+-- SMODS.Blind({
+-- 	key = "spire_shield",
+-- 	dependencies = { "blindexpander" },
+-- 	passives = {
+-- 		"psv_mul_artifact",
+-- 		"psv_mul_bulky",
+-- 	},
+-- 	modifies_draw = true,
+-- 	atlas = "blind_placeholder",
+-- 	pos = { x = 0, y = 0 },
+-- 	boss_colour = lighten(G.C.BLUE, 0.1),
+-- 	boss = { showdown = true },
+-- 	mult = 4,
+-- 	disable = function(self)
+-- 		G.GAME.mul_disable_times = (G.GAME.mul_disable_times or 0) + 1
+-- 		if G.GAME.mul_disable_times <= 1 then
+-- 			G.GAME.blind.disabled = false
+-- 		else
+-- 			Multiverse.change_blind_size(function(chips)
+-- 				return chips / 2
+-- 			end)
+-- 		end
+-- 	end
+-- })
+
+-- SMODS.Blind({
+-- 	key = "spire_spear",
+-- 	dependencies = { "blindexpander" },
+-- 	passives = {
+-- 		"psv_mul_artifact",
+-- 		"psv_mul_flanking",
+-- 	},
+-- 	modifies_draw = true,
+-- 	atlas = "blind_placeholder",
+-- 	pos = { x = 0, y = 0 },
+-- 	boss_colour = lighten(G.C.BLUE, 0.1),
+-- 	boss = { showdown = true },
+-- 	mult = 2,
+-- 	disable = function(self)
+		
+-- 	end,
+-- })

@@ -300,7 +300,8 @@ function Card:highlight(is_highlighted)
 		self.children.mul_skill_use_button = obj:generate_use_ui(self)
 	end
 	if
-		G.GAME.blind
+		self.playing_card
+		and G.GAME.blind
 		and G.GAME.blind.in_blind
 		and G.GAME.blind.config.blind.key == "bl_mul_time_eater"
 		and is_highlighted

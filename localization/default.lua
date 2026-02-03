@@ -145,8 +145,10 @@ return {
 			psv_mul_time_warp = {
 				name = "Time Warp",
 				text = {
-					"For every {C:attention}12{} cards selected, {C:blue}-1{} hand",
-					"this round",
+					"{C:blue}-1{} hands this round for every {C:attention}12{} playing",
+					"cards selected this round",
+					"Playing card selection count {C:attention}resets{} if",
+					"played hand contains {C:attention}5{} scoring cards",
 					"If you have {C:blue}0{} or less hands because of",
 					"this effect, {C:red}lose the run",
 				},
