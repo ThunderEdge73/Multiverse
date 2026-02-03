@@ -230,7 +230,7 @@ SMODS.Blind({
 	calculate = function(self, blind, context)
 		if context.before then
 			if #context.scoring_hand > 5 then
-				
+				G.GAME.mul_time_eater_count = 0
 			end
 		end
 		if not blind.disabled then
