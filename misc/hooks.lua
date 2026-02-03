@@ -317,10 +317,10 @@ function Card:highlight(is_highlighted)
 						G.E_MANAGER:add_event(Event({
 							trigger = "after",
 							delay = 1.8,
-							func = function ()
+							func = function()
 								Multiverse.lose()
 								return true
-							end
+							end,
 						}))
 					end
 					return true
