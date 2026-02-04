@@ -215,7 +215,7 @@ return {
 			psv_mul_debilitate = {
 				name = "Debilitate",
 				text = {
-					"After drawing cards, {C:red}debuff{} 1 random",
+					"After drawing cards, {C:red}debuff{} {C:attention}1{} random",
 					"card in hand and {C:attention}flip 1{} other",
 					"random card in hand",
 				},
