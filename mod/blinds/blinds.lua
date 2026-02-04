@@ -241,6 +241,7 @@ SMODS.Blind({
 	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
 	boss = { showdown = true },
 	mult = 4,
+	no_collection = true,
 	disable = function(self)
 		G.GAME.mul_disable_times = G.GAME.mul_disable_times + 1
 		if G.GAME.mul_disable_times <= 1 then
@@ -272,6 +273,10 @@ SMODS.Blind({
 	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
 	boss = { showdown = true },
 	mult = 2,
+	no_collection = true,
+	in_pool = function(self)
+		return false
+	end,
 	disable = function(self)
 		G.GAME.mul_disable_times = G.GAME.mul_disable_times + 1
 		if G.GAME.mul_disable_times <= 1 then
@@ -314,9 +319,17 @@ SMODS.Blind({
 	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
 	boss = { showdown = true },
 	mult = 2,
+	in_pool = function(self)
+		return false
+	end,
 	disable = function(self)
 		Multiverse.apply_to_playing_cards(function(playing_card)
 			SMODS.debuff_card(playing_card, false, "mul_corrupt_heart")
+		end)
+		Multiverse.apply_to_hand(function (playing_card)
+			if playing_card.facing == "back" then
+				playing_card:flip()
+			end
 		end)
 	end,
 	calculate = function(self, blind, context)
