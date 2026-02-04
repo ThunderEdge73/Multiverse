@@ -226,6 +226,7 @@ SMODS.Blind({
 
 SMODS.Blind({
 	key = "spire_shield",
+	dollars = 8,
 	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_artifact",
@@ -256,6 +257,7 @@ SMODS.Blind({
 
 SMODS.Blind({
 	key = "spire_spear",
+	dollars = 8,
 	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_artifact",
@@ -294,6 +296,7 @@ SMODS.Blind({
 
 SMODS.Blind({
 	key = "corrupt_heart",
+	dollars = 8,
 	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_artifact",
