@@ -208,25 +208,6 @@ SMODS.Blind({
 	boss_colour = lighten(G.C.PURPLE, 0.1),
 	boss = { min = 5 },
 	mult = 2,
-	set_blind = function(self)
-		G.GAME.mul_time_eater_count = 0
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								G.GAME.blind.after_first_draw = true
-								return true
-							end
-						}))
-						return true
-					end
-				}))
-				return true
-			end
-		}))
-	end,
 	calculate = function(self, blind, context)
 		if context.before then
 			if #context.scoring_hand > 5 then
@@ -236,52 +217,145 @@ SMODS.Blind({
 		if not blind.disabled then
 			if context.drawing_cards and context.amount > 4 and blind.after_first_draw then
 				return {
-					cards_to_draw = 4
+					cards_to_draw = 4,
 				}
 			end
 		end
 	end,
 })
 
--- SMODS.Blind({
--- 	key = "spire_shield",
--- 	dependencies = { "blindexpander" },
--- 	passives = {
--- 		"psv_mul_artifact",
--- 		"psv_mul_bulky",
--- 	},
--- 	modifies_draw = true,
--- 	atlas = "blind_placeholder",
--- 	pos = { x = 0, y = 0 },
--- 	boss_colour = lighten(G.C.BLUE, 0.1),
--- 	boss = { showdown = true },
--- 	mult = 4,
--- 	disable = function(self)
--- 		G.GAME.mul_disable_times = (G.GAME.mul_disable_times or 0) + 1
--- 		if G.GAME.mul_disable_times <= 1 then
--- 			G.GAME.blind.disabled = false
--- 		else
--- 			Multiverse.change_blind_size(function(chips)
--- 				return chips / 2
--- 			end)
--- 		end
--- 	end
--- })
+SMODS.Blind({
+	key = "spire_shield",
+	dependencies = { "blindexpander" },
+	passives = {
+		"psv_mul_artifact",
+		"psv_mul_bulky",
+	},
+	debuff = {
+		mul_artifact = 1,
+	},
+	modifies_draw = true,
+	atlas = "blind_placeholder",
+	pos = { x = 0, y = 0 },
+	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
+	boss = { showdown = true },
+	mult = 4,
+	disable = function(self)
+		G.GAME.mul_disable_times = G.GAME.mul_disable_times + 1
+		if G.GAME.mul_disable_times <= 1 then
+			G.GAME.blind.disabled = false
+		else
+			Multiverse.change_blind_size(function(chips)
+				return chips / 2
+			end)
+		end
+	end,
+	summon = "bl_mul_spire_spear",
+	phase_refresh = true,
+})
 
--- SMODS.Blind({
--- 	key = "spire_spear",
--- 	dependencies = { "blindexpander" },
--- 	passives = {
--- 		"psv_mul_artifact",
--- 		"psv_mul_flanking",
--- 	},
--- 	modifies_draw = true,
--- 	atlas = "blind_placeholder",
--- 	pos = { x = 0, y = 0 },
--- 	boss_colour = lighten(G.C.BLUE, 0.1),
--- 	boss = { showdown = true },
--- 	mult = 2,
--- 	disable = function(self)
-		
--- 	end,
--- })
+SMODS.Blind({
+	key = "spire_spear",
+	dependencies = { "blindexpander" },
+	passives = {
+		"psv_mul_artifact",
+		"psv_mul_surrounding",
+	},
+	debuff = {
+		mul_artifact = 1,
+	},
+	modifies_draw = true,
+	atlas = "blind_placeholder",
+	pos = { x = 0, y = 0 },
+	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
+	boss = { showdown = true },
+	mult = 2,
+	disable = function(self)
+		G.GAME.mul_disable_times = G.GAME.mul_disable_times + 1
+		if G.GAME.mul_disable_times <= 1 then
+			G.GAME.blind.disabled = false
+		end
+	end,
+	calculate = function(self, blind, context)
+		if not blind.disabled and context.modify_scoring_hand and context.in_scoring then
+			if
+				context.other_card == context.scoring_hand[1]
+				or context.other_card == context.scoring_hand[#context.scoring_hand]
+			then
+				return {
+					remove_from_hand = true,
+				}
+			end
+		end
+	end,
+	summon = "bl_mul_corrupt_heart",
+	phase_refresh = true,
+})
+
+SMODS.Blind({
+	key = "corrupt_heart",
+	dependencies = { "blindexpander" },
+	passives = {
+		"psv_mul_artifact",
+		"psv_mul_invincible",
+		"psv_mul_beat_of_death",
+		"psv_mul_debilitate",
+	},
+	debuff = {
+		mul_immutable = true,
+		mul_artifact = 1,
+	},
+	modifies_draw = true,
+	atlas = "blind_placeholder",
+	pos = { x = 0, y = 0 },
+	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
+	boss = { showdown = true },
+	mult = 2,
+	disable = function(self)
+		Multiverse.apply_to_playing_cards(function(playing_card)
+			SMODS.debuff_card(playing_card, false, "mul_corrupt_heart")
+		end)
+	end,
+	calculate = function(self, blind, context)
+		if not blind.disabled then
+			if context.individual and context.cardarea == G.play then
+				return {
+					chips = -20,
+				}
+			end
+			if context.hand_drawn then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.4,
+					func = function()
+						local target = pseudorandom_element(G.hand.cards, "mul_corrupt_heart")
+						if target then
+							SMODS.debuff_card(target, true, "mul_corrupt_heart")
+							target:juice_up()
+							local pool = {}
+							for _, c in ipairs(G.hand.cards) do
+								if c ~= target then
+									pool[#pool + 1] = c
+								end
+							end
+							local target2 = pseudorandom_element(pool, "mul_corrupt_heart")
+							if target2 then
+								G.E_MANAGER:add_event(Event({
+									trigger = "after",
+									delay = 0.4,
+									func = function()
+										target2:flip()
+										target2:juice_up()
+										return true
+									end,
+								}))
+							end
+						end
+						return true
+					end,
+				}))
+			end
+		end
+	end,
+	phase_refresh = true,
+})

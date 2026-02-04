@@ -62,33 +62,36 @@ end
 
 SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
-	if context.setting_blind and next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				if G.GAME.blind.disabled then
-					local rows = localize("k_mul_eggman_speech")
-					for _, row in ipairs(rows) do
-						local len = string.len(row)
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								attention_text({
-									scale = 0.7,
-									text = row,
-									hold = (len * 0.05 + 0.3) * G.SPEEDFACTOR,
-									align = "cm",
-									offset = { x = 0, y = -1.7 },
-									major = G.play,
-								})
-								return true
-							end,
-						}))
-						delay((len * 0.05 + 0.5) * G.SPEEDFACTOR)
+	if context.setting_blind then
+		G.GAME.mul_disable_times = 0
+		if next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					if G.GAME.blind.disabled then
+						local rows = localize("k_mul_eggman_speech")
+						for _, row in ipairs(rows) do
+							local len = string.len(row)
+							G.E_MANAGER:add_event(Event({
+								func = function()
+									attention_text({
+										scale = 0.7,
+										text = row,
+										hold = (len * 0.05 + 0.3) * G.SPEEDFACTOR,
+										align = "cm",
+										offset = { x = 0, y = -1.7 },
+										major = G.play,
+									})
+									return true
+								end,
+							}))
+							delay((len * 0.05 + 0.5) * G.SPEEDFACTOR)
+						end
+						G.GAME.mul_eggman_secret = true
 					end
-					G.GAME.mul_eggman_secret = true
-				end
-				return true
-			end,
-		}))
+					return true
+				end,
+			}))
+		end
 	end
 	if context.end_of_round and not context.game_over and context.main_eval then
 		Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_rate, { from_charge = true })
@@ -151,7 +154,12 @@ SMODS.current_mod.calculate = function(self, context)
 			Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
 		end
 	end
-	if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) and context.other_card.ability.set == "mul_Skill" then
+	if
+		context.check_eternal
+		and context.trigger
+		and (context.trigger.mul_fusion or context.trigger.mul_split)
+		and context.other_card.ability.set == "mul_Skill"
+	then
 		return {
 			no_destroy = { override_compat = true },
 		}
@@ -204,7 +212,7 @@ SMODS.current_mod.custom_collection_tabs = function()
 			minw = 5,
 			count = {
 				tally = #SMODS.collection_pool(Multiverse.DeckEnchantments),
-				of = #SMODS.collection_pool(Multiverse.DeckEnchantments)
+				of = #SMODS.collection_pool(Multiverse.DeckEnchantments),
 			},
 		}),
 		UIBox_button({
@@ -214,8 +222,8 @@ SMODS.current_mod.custom_collection_tabs = function()
 			minw = 5,
 			count = {
 				tally = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill),
-				of = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill)
-			}
+				of = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill),
+			},
 		}),
 	}
 end

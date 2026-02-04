@@ -238,7 +238,26 @@ function Game:start_run(args)
 			return true
 		end,
 	}))
+	local blind_ref = G.GAME.blind
+	G.GAME.blind = setmetatable({}, {
+		__newindex = function(_, k, v)
+			if not (k == "chips" and (blind_ref.config.blind.debuff or {}).mul_immutable) then
+				blind_ref[k] = v
+			end
+		end,
+		__index = function(_, k)
+			return blind_ref[k]
+		end
+	})
 	return ret
+end
+
+local disable_blind_hook = Blind.disable
+function Blind:disable()
+	G.GAME.mul_disable_times = (G.GAME.mul_disable_times or 0) + 1
+	if (self.config.blind.debuff.mul_artifact or 0) < G.GAME.mul_disable_times then
+		return disable_blind_hook(self)
+	end
 end
 
 local ease_dollars_hook = ease_dollars
@@ -316,7 +335,7 @@ function Card:highlight(is_highlighted)
 					if G.GAME.current_round.hands_left <= 0 then
 						G.E_MANAGER:add_event(Event({
 							trigger = "after",
-							delay = 1.8,
+							delay = 2,
 							func = function()
 								Multiverse.lose()
 								return true

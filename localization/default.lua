@@ -113,6 +113,24 @@ return {
 					"Ah... company.",
 				},
 			},
+			bl_mul_spire_spear = {
+				name = "Spire Spear",
+				text = {
+					"Cleanse the Spire",
+				},
+			},
+			bl_mul_spire_shield = {
+				name = "Spire Shield",
+				text = {
+					"Cleanse the Spire",
+				},
+			},
+			bl_mul_corrupt_heart = {
+				name = "Corrupt Heart",
+				text = {
+					"Cleanse the Spire",
+				},
+			},
 		},
 		Passive = {
 			psv_mul_memorization = {
@@ -158,6 +176,48 @@ return {
 				text = {
 					"If you would draw {C:attention}5{} or more cards,",
 					"draw {C:attention}4{} cards instead",
+				},
+			},
+			psv_mul_artifact = {
+				name = "Artifact",
+				text = {
+					"Prevent the first time this {C:attention}Boss Blind{}",
+					"would be {C:attention}disabled{} this round",
+				},
+			},
+			psv_mul_bulky = {
+				name = "Bulky",
+				text = {
+					"The required score to defeat this",
+					"{C:attention}Boss Blind{} is {C:attention}doubled",
+				},
+			},
+			psv_mul_surrounding = {
+				name = "Surrounding",
+				text = {
+					"{C:attention}Remove{} leftmost and rightmost scored",
+					"cards from scoring",
+				},
+			},
+			psv_mul_invincible = {
+				name = "Invincible",
+				text = {
+					"The required score to defeat this",
+					"{C:attention}Boss Blind{} cannot be reduced",
+				},
+			},
+			psv_mul_beat_of_death = {
+				name = "Beat of Death",
+				text = {
+					"Scored cards give {C:blue}-20{} Chips",
+				},
+			},
+			psv_mul_debilitate = {
+				name = "Debilitate",
+				text = {
+					"After drawing cards, {C:red}debuff{} 1 random",
+					"card in hand and {C:attention}flip 1{} other",
+					"random card in hand",
 				},
 			},
 		},
