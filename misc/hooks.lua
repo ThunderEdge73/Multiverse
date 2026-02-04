@@ -241,7 +241,7 @@ function Game:start_run(args)
 	local blind_ref = G.GAME.blind
 	G.GAME.blind = setmetatable({}, {
 		__newindex = function(_, k, v)
-			if not (k == "chips" and (blind_ref.config.blind.debuff or {}).mul_immutable) then
+			if not (k == "chips" and (blind_ref.config.blind.debuff or {}).mul_immutable and blind_ref[k] > v) then
 				blind_ref[k] = v
 			end
 		end,
