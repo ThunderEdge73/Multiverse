@@ -215,7 +215,11 @@ SMODS.Blind({
 			end
 		end
 		if not blind.disabled then
-			if context.drawing_cards and context.amount > 4 and blind.after_first_draw then
+			if
+				context.drawing_cards
+				and context.amount > 4
+				and (G.GAME.current_round.hands_played ~= 0 or G.GAME.current_round.discards_used ~= 0)
+			then
 				return {
 					cards_to_draw = 4,
 				}
@@ -326,7 +330,7 @@ SMODS.Blind({
 		Multiverse.apply_to_playing_cards(function(playing_card)
 			SMODS.debuff_card(playing_card, false, "mul_corrupt_heart")
 		end)
-		Multiverse.apply_to_hand(function (playing_card)
+		Multiverse.apply_to_hand(function(playing_card)
 			if playing_card.facing == "back" then
 				playing_card:flip()
 			end
