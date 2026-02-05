@@ -257,6 +257,7 @@ SMODS.Blind({
 		end
 	end,
 	summon = "bl_mul_spire_spear",
+	precedes_next = true,
 	phase_refresh = true,
 })
 
@@ -300,6 +301,7 @@ SMODS.Blind({
 		end
 	end,
 	summon = "bl_mul_corrupt_heart",
+	precedes_next = true,
 	phase_refresh = true,
 })
 

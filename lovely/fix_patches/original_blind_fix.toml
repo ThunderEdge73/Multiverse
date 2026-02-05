@@ -11,8 +11,8 @@ G.GAME.blind.original_blind = G.GAME.blind.original_blind or G.GAME.blind.config
 '''
 position = "after"
 payload = '''
-if G.GAME.blind.original_blind == "bl_mul_spire_shield" then
-    G.GAME.blind.original_blind = "bl_mul_corrupt_heart"
+if G.GAME.blind.config.blind.precedes_next then
+    G.GAME.blind.original_blind = Multiverse.get_actual_original_blind(G.GAME.blind.config.blind.key)
 end
 '''
 match_indent = true

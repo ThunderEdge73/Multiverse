@@ -598,3 +598,11 @@ function Multiverse.lose()
 	G.FILE_HANDLER.force = true
 	G.STATE_COMPLETE = false
 end
+
+function Multiverse.get_actual_original_blind(key)
+	local obj = G.P_BLINDS[key]
+	if obj.precedes_next and obj.summon then
+		return Multiverse.get_actual_original_blind(obj.summon)
+	end
+	return key
+end
