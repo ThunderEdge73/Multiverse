@@ -337,7 +337,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 		mul_Myth = "your_collection_mul_myths",
 		Tarot = "your_collection_tarots",
 		mul_EnchantedBook = "your_collection_mul_deckenchantments",
-		mul_Skill = "your_collection_mul_skillcards"
+		mul_Skill = "your_collection_mul_skillcards",
 	}
 	G.mul_mod_menu_display = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
@@ -478,32 +478,22 @@ SMODS.current_mod.custom_ui = function(nodes)
 	}
 	nodes[#nodes + 1] = {
 		n = G.UIT.R,
-		config = { align = "cm", padding = 0.05 },
+		config = { align = "cm", padding = 0.2 },
 		nodes = {
-			{
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = {
-					UIBox_button({
-						button = "mul_discord_invite",
-						label = { localize("b_mul_discord_server") },
-						minw = 4.75,
-						colour = Multiverse.C.PRIMARY1,
-					}),
-				},
-			},
-			{
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = {
-					UIBox_button({
-						button = "mul_landing_page",
-						label = { localize("b_mul_landing_page") },
-						minw = 4.75,
-						colour = Multiverse.C.PRIMARY1,
-					}),
-				},
-			},
+			UIBox_button({
+				button = "mul_discord_invite",
+				label = { localize("b_mul_discord_server") },
+				minw = 5,
+				colour = Multiverse.C.PRIMARY1,
+				col = true,
+			}),
+			UIBox_button({
+				button = "mul_landing_page",
+				label = { localize("b_mul_landing_page") },
+				minw = 5,
+				colour = Multiverse.C.PRIMARY1,
+				col = true,
+			}),
 		},
 	}
 end
@@ -969,12 +959,97 @@ function Multiverse.create_localized_rows(set, key, args)
 end
 
 function Multiverse.blindexpander_check_UIBox()
+	Multiverse.init_thunderedge_discovered = G.P_CENTERS["j_mul_thunderedge"].discovered
+	local button_row = {}
+	local area = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		G.CARD_W,
+		G.CARD_H,
+		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
+	)
+	G.P_CENTERS["j_mul_thunderedge"].discovered = true
+	local card = Card(
+		area.T.x + area.T.w / 2,
+		area.T.y,
+		G.CARD_W * 1.1,
+		G.CARD_H * 1.1,
+		G.P_CARDS.empty,
+		G.P_CENTERS["j_mul_thunderedge"]
+	)
+	card.no_ui = true
+	area:emplace(card)
+	card.config.center.alerted = false
+	if not card.children.alert then
+		card.children.alert = UIBox({
+			definition = create_UIBox_card_alert(),
+			config = {
+				align = "tri",
+				offset = { x = -0.1, y = 0.1 },
+				parent = card,
+			},
+		})
+	end
+	if not blindexpander then
+		-- blindexpander not loaded
+		if not SMODS.Mods["blindexpander"] then
+			-- blindexpander not installed
+			button_row[#button_row + 1] = UIBox_button({
+				button = "mul_blindexpander_redirect",
+				label = { localize("b_mul_download_blindexpander") },
+				minw = 8,
+				colour = Multiverse.C.PRIMARY1,
+			})
+		else
+			local outdated_install = false
+			local curr_ver = {}
+			local target_ver = {}
+			for num in string.gmatch(SMODS.Mods["blindexpander"].version, "%w+") do
+				curr_ver[#curr_ver + 1] = num
+			end
+			for num in string.gmatch(Multiverse.min_blindexpander_version, "%w+") do
+				target_ver[#target_ver + 1] = num
+			end
+			for i = 1, #curr_ver do
+				if curr_ver[i] < target_ver[i] then
+					outdated_install = true
+					break
+				end
+			end
+			button_row[#button_row + 1] = UIBox_button({
+				button = (not outdated_install) and "mul_enable_blindexpander" or "mul_blindexpander_redirect",
+				label = (not outdated_install) and { localize("b_mul_enable_blindexpander") }
+					or { localize("b_mul_update_blindexpander") },
+				minw = 8,
+				colour = Multiverse.C.PRIMARY1,
+			})
+		end
+		button_row[#button_row + 1] = UIBox_button({
+			button = "mul_continue_without_blindexpander",
+			label = { localize("b_mul_continue") },
+			minw = 8,
+			colour = Multiverse.C.PRIMARY1,
+		})
+	else -- assume that blindexpander is outdated
+		button_row[#button_row + 1] = UIBox_button({
+			button = "mul_disable_blindexpander",
+			label = { localize("b_mul_disable_blindexpander") },
+			minw = 8,
+			colour = Multiverse.C.PRIMARY1,
+		})
+		button_row[#button_row + 1] = UIBox_button({
+			button = "mul_blindexpander_redirect",
+			label = { localize("b_mul_update_blindexpander") },
+			minw = 8,
+			colour = Multiverse.C.PRIMARY1,
+		})
+	end
 	return {
 		n = G.UIT.ROOT,
-		config = { align = "cm", minw = G.ROOM.T.w * 5, minh = G.ROOM.T.h * 5, colour = Multiverse.ui_config.colour },
+		config = { align = "cm", minw = G.ROOM.T.w * 5, minh = G.ROOM.T.h * 5, colour = Multiverse.ui_config.bg_colour },
 		nodes = {
 			{
-				n = G.UIT.C,
+				n = G.UIT.R,
 				config = {
 					align = "cm",
 					minh = 1,
@@ -986,16 +1061,67 @@ function Multiverse.blindexpander_check_UIBox()
 				},
 				nodes = {
 					{
-						n = G.UIT.R,
+						n = G.UIT.C,
 						config = {
 							colour = Multiverse.ui_config.colour,
 							align = "cm",
 							minh = 1,
 							r = 0.2,
-							padding = 0.2,
 							minw = 1,
+							padding = 0.1,
 						},
-
+						nodes = {
+							{
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+									padding = 0.2
+								},
+								nodes = {
+									{
+										n = G.UIT.C,
+										config = {
+											align = "cm",
+										},
+										nodes = {
+											{
+												n = G.UIT.O,
+												config = {
+													object = area,
+												},
+											},
+										},
+									},
+									{
+										n = G.UIT.C,
+										config = {
+											align = "cm",
+										},
+										nodes = Multiverse.create_localized_rows(
+											nil,
+											blindexpander and "mul_blindexpander_outdated"
+												or "mul_blindexpander_missing",
+											{
+												text_scale = 1.25,
+												loc_vars = {
+													Multiverse.min_blindexpander_version,
+													SMODS.Mods["blindexpander"] and SMODS.Mods["blindexpander"].version
+														or localize("k_mul_none"),
+												},
+											}
+										),
+									},
+								},
+							},
+							{
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+									padding = 0.2,
+								},
+								nodes = button_row,
+							},
+						},
 					},
 				},
 			},
@@ -1003,9 +1129,77 @@ function Multiverse.blindexpander_check_UIBox()
 	}
 end
 
+local delete_profile_hook = G.FUNCS.delete_profile
+function G.FUNCS.delete_profile(e)
+	G.PROFILES[G.SETTINGS.profile].mul_blindexpander_optout = nil
+	delete_profile_hook(e)
+end
+
+function G.FUNCS.mul_continue_without_blindexpander(e)
+	G.PROFILES[G.SETTINGS.profile].mul_blindexpander_optout = true
+	G.P_CENTERS["j_mul_thunderedge"].discovered = Multiverse.init_thunderedge_discovered
+	G.FUNCS.exit_overlay_menu()
+end
+
+function G.FUNCS.mul_disable_blindexpander(e)
+	G.PROFILES[G.SETTINGS.profile].mul_blindexpander_optout = true
+	for _, mod in ipairs(SMODS.find_mod("blindexpander")) do
+		require("SMODS.preflight.loader").addToBlacklist(mod.blacklist_name)
+		mod.blacklisted = true
+	end
+	SMODS.save_all_config()
+	SMODS.restart_game()
+end
+
+function G.FUNCS.mul_enable_blindexpander(e)
+	local mod = SMODS.Mods["blindexpander"]
+	if mod.lovelyIgnored then
+		Multiverse.NFS.remove(SMODS.MODS_DIR .. "/" .. mod.blacklist_name .. "/.lovelyignore")
+		mod.lovelyIgnored = false
+	end
+	if mod.blacklisted then
+		require("SMODS.preflight.loader").removeFromBlacklist(mod.blacklist_name)
+		mod.blacklisted = false
+	end
+	SMODS.save_all_config()
+	SMODS.restart_game()
+end
+
+function G.FUNCS.mul_blindexpander_redirect(e)
+	SMODS.save_all_config()
+	love.system.openURL("https://github.com/Mysthaps/blindexpander/archive/refs/heads/master.zip")
+	love.event.quit()
+end
+
 function Multiverse.blindexpander_check_overlay()
+	Multiverse.blindexpander_check = true
+
+	local outdated_install = false
+	local curr_ver = {}
+	local target_ver = {}
+
+	if SMODS.Mods["blindexpander"] then
+		for num in string.gmatch(SMODS.Mods["blindexpander"].version, "%w+") do
+			curr_ver[#curr_ver + 1] = num
+		end
+		for num in string.gmatch(Multiverse.min_blindexpander_version, "%w+") do
+			target_ver[#target_ver + 1] = num
+		end
+		for i = 1, #curr_ver do
+			if curr_ver[i] < target_ver[i] then
+				outdated_install = true
+				break
+			end
+		end
+	end
+
+	if blindexpander and not outdated_install then
+		Multiverse.blindexpander_check = false
+		return
+	end
+
 	G.SETTINGS.paused = true
 	G.FUNCS.overlay_menu({
-		definition = Multiverse.create_UIBox_your_collection_skillcards(),
+		definition = Multiverse.blindexpander_check_UIBox(),
 	})
 end

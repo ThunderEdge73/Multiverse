@@ -391,7 +391,7 @@ function Multiverse.update_deck_enchantments()
 		G.mul_deck_enchantment_tooltip:remove()
 		G.mul_deck_enchantment_tooltip = nil
 	end
-	if not G.P_CENTERS["c_mul_enchanted_book"].alerted then
+	if G.P_CENTERS["c_mul_enchanted_book"] and not G.P_CENTERS["c_mul_enchanted_book"].alerted then
 		G.P_CENTERS["c_mul_enchanted_book"].alerted = true
 	end
 end

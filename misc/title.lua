@@ -3,6 +3,29 @@
 local main_menu_hook = Game.main_menu
 function Game.main_menu(change_context)
 	local ret = main_menu_hook(change_context)
+	local outdated_install = false
+	local curr_ver = {}
+	local target_ver = {}
+	for num in string.gmatch(SMODS.Mods["blindexpander"].version, "%w+") do
+		curr_ver[#curr_ver + 1] = num
+	end
+	for num in string.gmatch(Multiverse.min_blindexpander_version, "%w+") do
+		target_ver[#target_ver + 1] = num
+	end
+	for i = 1, #curr_ver do
+		if curr_ver[i] < target_ver[i] then
+			outdated_install = true
+			break
+		end
+	end
+	if (blindexpander and outdated_install) or (not blindexpander and not G.PROFILES[G.SETTINGS.profile].mul_blindexpander_optout) then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				Multiverse.blindexpander_check_overlay()
+				return true
+			end
+		}))
+	end
 	G.SPLASH_MULTIVERSE_LOGO = Sprite(
 		0,
 		0,

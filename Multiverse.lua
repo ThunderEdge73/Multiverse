@@ -20,6 +20,7 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 	},
 	cycle = 5,
 })
+Multiverse.min_blindexpander_version = "1.2.0"
 
 Multiverse.NFS = SMODS.NFS or NFS
 

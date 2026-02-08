@@ -1,4 +1,4 @@
-if not blindexpander then
+if not blindexpander or not blindexpander.Passive then
 	return
 end
 
