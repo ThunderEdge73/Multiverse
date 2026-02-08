@@ -21,10 +21,11 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 	cycle = 5,
 })
 
+Multiverse.NFS = SMODS.NFS or NFS
+
 Multiverse.selected_music_page = 1
 Multiverse.transmutable_sticker_anim_state = 0
 Multiverse.transmutable_target_anim_state = 0
-Multiverse.debug = false
 
 G.E_MANAGER.queues.mul_menu = {}
 
@@ -187,7 +188,7 @@ end
 
 ---@param path string
 function Multiverse.recursive_load(path)
-	local files = NFS.getDirectoryItems(Multiverse.path .. path)
+	local files = Multiverse.NFS.getDirectoryItems(Multiverse.path .. path)
 	for _, item in ipairs(files) do
 		if string.sub(item, -4) == ".lua" then
 			print("Multiverse: Loading " .. item:gsub("%d+_", ""))
@@ -248,4 +249,4 @@ if debug then
 	end
 end
 
-Multiverse.debug_info = { ["Debug Mode"] = (Multiverse.debug and "Enabled" or "Disabled") }
+Multiverse.debug_info = { ["Debug Mode"] = (Multiverse.config.debug and "Enabled" or "Disabled") }

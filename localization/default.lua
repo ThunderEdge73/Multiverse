@@ -136,7 +136,7 @@ return {
 			psv_mul_memorization = {
 				name = "Memorization",
 				text = {
-					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X3{} Blind size",
+					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X#1#{} Blind size",
 				},
 			},
 			psv_mul_unsightreadable = {
@@ -149,22 +149,22 @@ return {
 			psv_mul_determination = {
 				name = "Determination",
 				text = {
-					"If you get hit, lose score equal to {C:attention}10%{} of",
+					"If you get hit, lose score equal to {C:attention}#1#%{} of",
 					"current Blind size",
 				},
 			},
 			psv_mul_justice = {
 				name = "Justice",
 				text = {
-					"If you get hit, destroy {C:attention}1{} random card",
+					"If you get hit, destroy {C:attention}#1#{} random card",
 					"currently held in hand",
 				},
 			},
 			psv_mul_time_warp = {
 				name = "Time Warp",
 				text = {
-					"{C:blue}-1{} hands this round for every {C:attention}12{} playing",
-					"cards selected this round",
+					"{C:blue}-1{} hands this round for every {C:attention}12{} {C:inactive}(#1#){}",
+					"playing cards selected this round",
 					"Playing card selection count {C:attention}resets{} if",
 					"played hand contains {C:attention}5{} scoring cards",
 					"If you have {C:blue}0{} or less hands because of",
@@ -181,7 +181,7 @@ return {
 			psv_mul_artifact = {
 				name = "Artifact",
 				text = {
-					"Prevent the first time this {C:attention}Boss Blind{}",
+					"Prevent the next {C:attention}#1#{} time(s) this {C:attention}Boss Blind{}",
 					"would be {C:attention}disabled{} this round",
 				},
 			},
@@ -209,15 +209,15 @@ return {
 			psv_mul_beat_of_death = {
 				name = "Beat of Death",
 				text = {
-					"Scored cards give {C:blue}-20{} Chips",
+					"Scored cards give {C:blue}#1#{} Chips",
 				},
 			},
 			psv_mul_debilitate = {
 				name = "Debilitate",
 				text = {
-					"After drawing cards, {C:red}debuff{} {C:attention}1{} random",
-					"card in hand and {C:attention}flip 1{} other",
-					"random card in hand",
+					"After drawing cards, {C:red}debuff{} {C:attention}#1#{} random",
+					"undebuffed card in hand and {C:attention}flip #1#{} other",
+					"random face up card in hand",
 				},
 			},
 		},

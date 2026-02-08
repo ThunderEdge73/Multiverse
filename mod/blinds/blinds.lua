@@ -118,12 +118,7 @@ SMODS.Blind({
 	end,
 	calculate = function(self, blind, context)
 		if not blind.disabled and G.GAME.failed_limbo then
-			if
-				context.stay_flipped
-				and context.to_area == G.hand
-				and G.GAME.current_round.hands_played == 0
-				and G.GAME.current_round.discards_used == 0
-			then
+			if context.stay_flipped and context.to_area == G.hand then
 				return {
 					stay_flipped = true,
 				}
@@ -183,9 +178,6 @@ SMODS.Blind({
 	end,
 	set_blind = function(self)
 		Multiverse.show_blind_instructions("undying")
-		if G.GAME.round_resets.ante > 8 then
-			self.passives[#self.passives + 1] = "psv_mul_undying_extra"
-		end
 	end,
 	disable = function(self)
 		if G.GAME.chips < to_big(0) then
@@ -209,11 +201,6 @@ SMODS.Blind({
 	boss = { min = 5 },
 	mult = 2,
 	calculate = function(self, blind, context)
-		if context.before then
-			if #context.scoring_hand > 5 then
-				G.GAME.mul_time_eater_count = 0
-			end
-		end
 		if not blind.disabled then
 			if
 				context.drawing_cards
@@ -236,29 +223,17 @@ SMODS.Blind({
 		"psv_mul_artifact",
 		"psv_mul_bulky",
 	},
-	debuff = {
-		mul_artifact = 1,
-	},
 	modifies_draw = true,
 	atlas = "blind_placeholder",
 	pos = { x = 0, y = 0 },
 	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
 	boss = { showdown = true },
-	mult = 4,
-	no_collection = true,
-	disable = function(self)
-		G.GAME.mul_disable_times = G.GAME.mul_disable_times + 1
-		if G.GAME.mul_disable_times <= 1 then
-			G.GAME.blind.disabled = false
-		else
-			Multiverse.change_blind_size(function(chips)
-				return chips / 2
-			end)
-		end
-	end,
+	mult = 2,
+	no_collection = not Multiverse.config.debug,
 	summon = "bl_mul_spire_spear",
-	precedes_next = true,
+	precedes_original = true,
 	phase_refresh = true,
+	summon_while_disabled = true,
 })
 
 SMODS.Blind({
@@ -268,9 +243,6 @@ SMODS.Blind({
 	passives = {
 		"psv_mul_artifact",
 		"psv_mul_surrounding",
-	},
-	debuff = {
-		mul_artifact = 1,
 	},
 	modifies_draw = true,
 	atlas = "blind_placeholder",
@@ -282,27 +254,10 @@ SMODS.Blind({
 	in_pool = function(self)
 		return false
 	end,
-	disable = function(self)
-		G.GAME.mul_disable_times = G.GAME.mul_disable_times + 1
-		if G.GAME.mul_disable_times <= 1 then
-			G.GAME.blind.disabled = false
-		end
-	end,
-	calculate = function(self, blind, context)
-		if not blind.disabled and context.modify_scoring_hand and context.in_scoring then
-			if
-				context.other_card == context.scoring_hand[1]
-				or context.other_card == context.scoring_hand[#context.scoring_hand]
-			then
-				return {
-					remove_from_hand = true,
-				}
-			end
-		end
-	end,
 	summon = "bl_mul_corrupt_heart",
-	precedes_next = true,
+	precedes_original = true,
 	phase_refresh = true,
+	summon_while_disabled = true,
 })
 
 SMODS.Blind({
@@ -317,7 +272,6 @@ SMODS.Blind({
 	},
 	debuff = {
 		mul_immutable = true,
-		mul_artifact = 1,
 	},
 	modifies_draw = true,
 	atlas = "blind_placeholder",
@@ -327,57 +281,6 @@ SMODS.Blind({
 	mult = 2,
 	in_pool = function(self)
 		return false
-	end,
-	disable = function(self)
-		Multiverse.apply_to_playing_cards(function(playing_card)
-			SMODS.debuff_card(playing_card, false, "mul_corrupt_heart")
-		end)
-		Multiverse.apply_to_hand(function(playing_card)
-			if playing_card.facing == "back" then
-				playing_card:flip()
-			end
-		end)
-	end,
-	calculate = function(self, blind, context)
-		if not blind.disabled then
-			if context.individual and context.cardarea == G.play then
-				return {
-					chips = -20,
-				}
-			end
-			if context.hand_drawn then
-				G.E_MANAGER:add_event(Event({
-					trigger = "after",
-					delay = 0.4,
-					func = function()
-						local target = pseudorandom_element(G.hand.cards, "mul_corrupt_heart")
-						if target then
-							SMODS.debuff_card(target, true, "mul_corrupt_heart")
-							target:juice_up()
-							local pool = {}
-							for _, c in ipairs(G.hand.cards) do
-								if c ~= target then
-									pool[#pool + 1] = c
-								end
-							end
-							local target2 = pseudorandom_element(pool, "mul_corrupt_heart")
-							if target2 then
-								G.E_MANAGER:add_event(Event({
-									trigger = "after",
-									delay = 0.4,
-									func = function()
-										target2:flip()
-										target2:juice_up()
-										return true
-									end,
-								}))
-							end
-						end
-						return true
-					end,
-				}))
-			end
-		end
 	end,
 	phase_refresh = true,
 })

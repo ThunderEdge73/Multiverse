@@ -247,15 +247,28 @@ function Game:start_run(args)
 		end,
 		__index = function(_, k)
 			return blind_ref[k]
-		end
+		end,
 	})
 	return ret
 end
 
 local disable_blind_hook = Blind.disable
 function Blind:disable()
-	G.GAME.mul_disable_times = (G.GAME.mul_disable_times or 0) + 1
-	if (self.config.blind.debuff.mul_artifact or 0) < G.GAME.mul_disable_times then
+	local res = {}
+	SMODS.calculate_context({mul_prevent_disable = true, blind = self}, res)
+	local prevent_disable = false
+	for _, eff in pairs(res) do
+		for _, tab in pairs(eff) do
+			local is_already_prevented = prevent_disable
+			if tab.prevent_disable then
+				prevent_disable = true
+				if type(tab.prevent_disable) == "function" then
+					tab.prevent_disable(is_already_prevented)
+				end
+			end
+		end
+	end
+	if not prevent_disable then
 		return disable_blind_hook(self)
 	end
 end
@@ -289,6 +302,9 @@ end
 
 local highlight_hook = Card.highlight
 function Card:highlight(is_highlighted)
+	if self.playing_card and is_highlighted then
+		SMODS.calculate_context({ mul_highlighted = true, other_card = self })
+	end
 	local ret = highlight_hook(self, is_highlighted)
 	local obj = self.config.center
 	if self.children.mul_joker_use_button then
@@ -317,35 +333,6 @@ function Card:highlight(is_highlighted)
 		and self.ability.set == "mul_Skill"
 	then
 		self.children.mul_skill_use_button = obj:generate_use_ui(self)
-	end
-	if
-		self.playing_card
-		and G.GAME.blind
-		and G.GAME.blind.in_blind
-		and G.GAME.blind.config.blind.key == "bl_mul_time_eater"
-		and is_highlighted
-		and not G.GAME.blind.disabled
-	then
-		G.GAME.mul_time_eater_count = (G.GAME.mul_time_eater_count or 0) + 1
-		if G.GAME.mul_time_eater_count == 12 then
-			G.GAME.mul_time_eater_count = 0
-			ease_hands_played(-1)
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					if G.GAME.current_round.hands_left <= 0 then
-						G.E_MANAGER:add_event(Event({
-							trigger = "after",
-							delay = 2,
-							func = function()
-								Multiverse.lose()
-								return true
-							end,
-						}))
-					end
-					return true
-				end,
-			}))
-		end
 	end
 	return ret
 end

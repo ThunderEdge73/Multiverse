@@ -1,15 +1,15 @@
 ---@type Multiverse.limbo_key[]
 Multiverse.limbo_keys = {}
 
-local key_file = assert(NFS.newFileData(Multiverse.path .. "assets/misc/limbo_key.png"))
+local key_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/limbo_key.png"))
 local key_data = assert(love.image.newImageData(key_file))
 Multiverse.LIMBO_KEY_SPRITE = assert(love.graphics.newImage(key_data))
 
-local blunder_file = assert(NFS.newFileData(Multiverse.path .. "assets/misc/blunder.png"))
+local blunder_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/blunder.png"))
 local blunder_data = assert(love.image.newImageData(blunder_file))
 Multiverse.BLUNDER_SPRITE = assert(love.graphics.newImage(blunder_data))
 
--- local limbo_instructions_file = assert(NFS.newFileData(Multiverse.path .. "assets/misc/limbo_instructions.png"))
+-- local limbo_instructions_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/limbo_instructions.png"))
 -- local limbo_instructions_data = assert(love.image.newImageData(limbo_instructions_file))
 -- Multiverse.LIMBO_INSTRUCTIONS_SPRITE = assert(love.graphics.newImage(limbo_instructions_data))
 
