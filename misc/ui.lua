@@ -350,12 +350,13 @@ SMODS.current_mod.custom_ui = function(nodes)
 		)
 		card.dissolve = 1
 		G.mul_mod_menu_display:emplace(card)
-		card:flip()
+		card.facing = "back"
+		card.sprite_facing = "back"
 		G.E_MANAGER:add_event(
 			Event({
 				trigger = "after",
 				blocking = false,
-				delay = 0.25 * i,
+				delay = 0.05 + 0.25 * (i - 1),
 				func = function()
 					card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
 					return true
@@ -367,7 +368,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 			Event({
 				trigger = "after",
 				blocking = false,
-				delay = 0.25 * (i + 3),
+				delay = 0.05 + 0.25 * (i + 2),
 				func = function()
 					card:flip()
 					return true
@@ -496,13 +497,6 @@ SMODS.current_mod.custom_ui = function(nodes)
 	}
 end
 
-SMODS.current_mod.ui_config = {
-	colour = Multiverse.C.SECONDARY,
-	back_colour = Multiverse.C.PRIMARY1,
-	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
-	tab_button_colour = Multiverse.C.PRIMARY1,
-}
-
 function G.FUNCS.mul_discord_invite(e)
 	love.system.openURL("https://discord.gg/TTEU5K3XC5")
 end
@@ -556,6 +550,7 @@ function Multiverse.music_tab_definition(page)
 						options = pages,
 						current_option = page,
 						opt_callback = "mul_select_music_page",
+						colour = Multiverse.ui_config.tab_button_colour,
 					}),
 				},
 			},
@@ -699,10 +694,12 @@ Multiverse.credits_table = {
 			{ -- entry
 				card_key = "j_mul_thunderedge",
 				desc_key = "k_mul_thunderedge_credits",
+				link = "https://github.com/ThunderEdge73/Multiverse",
 			},
 			{ -- entry
 				card_key = "j_mul_proto",
 				desc_key = "k_mul_proto_credits",
+				link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
 			},
 		},
 	},
@@ -737,6 +734,7 @@ function Multiverse.credits_tab_definition(page)
 						options = pages,
 						current_option = page,
 						opt_callback = "mul_select_credits_page",
+						colour = Multiverse.ui_config.tab_button_colour,
 					}),
 				},
 			},
@@ -791,14 +789,19 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		G.P_CARDS.empty,
 		G.P_CENTERS[entry.card_key]
 	)
+	function card:click()
+		Moveable.click(self)
+		love.system.openURL(entry.link)
+	end
 	card.dissolve = 1
 	G.mul_credits[#G.mul_credits]:emplace(card)
-	card:flip()
+	card.facing = "back"
+	card.sprite_facing = "back"
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
 			blocking = false,
-			delay = 0.25,
+			delay = 0.05,
 			func = function()
 				card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
 				return true
@@ -810,7 +813,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		Event({
 			trigger = "after",
 			blocking = false,
-			delay = 1,
+			delay = 0.8,
 			func = function()
 				card:flip()
 				return true
@@ -952,4 +955,46 @@ function Multiverse.create_localized_rows(set, key, args)
 		})
 	end
 	return rows
+end
+
+function Multiverse.blindexpander_check_UIBox()
+	return {
+		n = G.UIT.ROOT,
+		config = { align = "cm", minw = G.ROOM.T.w * 5, minh = G.ROOM.T.h * 5, colour = Multiverse.ui_config.colour },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					align = "cm",
+					minh = 1,
+					r = 0.3,
+					padding = 0.07,
+					minw = 1,
+					colour = G.C.JOKER_GREY,
+					emboss = 0.1,
+				},
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							colour = Multiverse.ui_config.colour,
+							align = "cm",
+							minh = 1,
+							r = 0.2,
+							padding = 0.2,
+							minw = 1,
+						},
+
+					},
+				},
+			},
+		},
+	}
+end
+
+function Multiverse.blindexpander_check_overlay()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = Multiverse.create_UIBox_your_collection_skillcards(),
+	})
 end

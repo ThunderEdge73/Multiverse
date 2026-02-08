@@ -25,9 +25,15 @@ Multiverse.NFS = SMODS.NFS or NFS
 
 Multiverse.selected_music_page = 1
 Multiverse.transmutable_sticker_anim_state = 0
-Multiverse.transmutable_target_anim_state = 0
 
 G.E_MANAGER.queues.mul_menu = {}
+
+SMODS.current_mod.ui_config = {
+	colour = Multiverse.C.SECONDARY,
+	back_colour = Multiverse.C.PRIMARY1,
+	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
+	tab_button_colour = Multiverse.C.PRIMARY1,
+}
 
 ---Talisman compatibility?
 to_big = to_big or function(x)
