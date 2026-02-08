@@ -332,6 +332,13 @@ SMODS.current_mod.custom_ui = function(nodes)
 		"c_mul_polymerization",
 		"sk_mul_ubw",
 	}
+	local funcs = {
+		Joker = "your_collection_jokers",
+		mul_Myth = "your_collection_mul_myths",
+		Tarot = "your_collection_tarots",
+		mul_EnchantedBook = "your_collection_mul_deckenchantments",
+		mul_Skill = "your_collection_mul_skillcards"
+	}
 	G.mul_mod_menu_display = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
@@ -348,6 +355,10 @@ SMODS.current_mod.custom_ui = function(nodes)
 			G.P_CARDS.empty,
 			G.P_CENTERS[key]
 		)
+		function card:click()
+			Moveable.click(self)
+			G.FUNCS[funcs[G.P_CENTERS[key].set]]()
+		end
 		card.dissolve = 1
 		G.mul_mod_menu_display:emplace(card)
 		card.facing = "back"
