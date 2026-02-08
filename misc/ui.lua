@@ -353,12 +353,18 @@ SMODS.current_mod.custom_ui = function(nodes)
 			G.CARD_W,
 			G.CARD_H,
 			G.P_CARDS.empty,
-			G.P_CENTERS[key]
+			G.P_CENTERS[key],
+			{
+				bypass_discovery_center = true,
+				bypass_lock = true,
+				bypass_discovery_ui = true,
+			}
 		)
 		function card:click()
 			Moveable.click(self)
 			G.FUNCS[funcs[G.P_CENTERS[key].set]]()
 		end
+		card.no_ui = true
 		card.dissolve = 1
 		G.mul_mod_menu_display:emplace(card)
 		card.facing = "back"
@@ -788,8 +794,14 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		G.CARD_W * 0.9,
 		G.CARD_H * 0.9,
 		G.P_CARDS.empty,
-		G.P_CENTERS[entry.card_key]
+		G.P_CENTERS[entry.card_key],
+		{
+			bypass_discovery_center = true,
+			bypass_lock = true,
+			bypass_discovery_ui = true,
+		}
 	)
+	card.no_ui = true
 	function card:click()
 		Moveable.click(self)
 		love.system.openURL(entry.link)
@@ -959,7 +971,6 @@ function Multiverse.create_localized_rows(set, key, args)
 end
 
 function Multiverse.blindexpander_check_UIBox()
-	Multiverse.init_thunderedge_discovered = G.P_CENTERS["j_mul_thunderedge"].discovered
 	local button_row = {}
 	local area = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
@@ -968,14 +979,18 @@ function Multiverse.blindexpander_check_UIBox()
 		G.CARD_H,
 		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
 	)
-	G.P_CENTERS["j_mul_thunderedge"].discovered = true
 	local card = Card(
 		area.T.x + area.T.w / 2,
 		area.T.y,
 		G.CARD_W * 1.1,
 		G.CARD_H * 1.1,
 		G.P_CARDS.empty,
-		G.P_CENTERS["j_mul_thunderedge"]
+		G.P_CENTERS["j_mul_thunderedge"],
+		{
+			bypass_discovery_center = true,
+			bypass_lock = true,
+			bypass_discovery_ui = true,
+		}
 	)
 	card.no_ui = true
 	area:emplace(card)
@@ -1075,7 +1090,7 @@ function Multiverse.blindexpander_check_UIBox()
 								n = G.UIT.R,
 								config = {
 									align = "cm",
-									padding = 0.2
+									padding = 0.2,
 								},
 								nodes = {
 									{
@@ -1137,7 +1152,6 @@ end
 
 function G.FUNCS.mul_continue_without_blindexpander(e)
 	G.PROFILES[G.SETTINGS.profile].mul_blindexpander_optout = true
-	G.P_CENTERS["j_mul_thunderedge"].discovered = Multiverse.init_thunderedge_discovered
 	G.FUNCS.exit_overlay_menu()
 end
 
