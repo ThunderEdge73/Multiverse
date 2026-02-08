@@ -204,31 +204,6 @@ SMODS.optional_features.quantum_enhancements = true
 Multiverse.recursive_load("misc")
 Multiverse.recursive_load("mod")
 
-SMODS.current_mod.custom_collection_tabs = function()
-	return {
-		UIBox_button({
-			button = "your_collection_mul_deckenchantments",
-			id = "your_collection_mul_deckenchantments",
-			label = { localize("b_mul_deckenchantment_cards") },
-			minw = 5,
-			count = {
-				tally = #SMODS.collection_pool(Multiverse.DeckEnchantments),
-				of = #SMODS.collection_pool(Multiverse.DeckEnchantments),
-			},
-		}),
-		UIBox_button({
-			button = "your_collection_mul_skillcards",
-			id = "your_collection_mul_skillcards",
-			label = { localize("b_mul_skill_cards") },
-			minw = 5,
-			count = {
-				tally = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill),
-				of = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill),
-			},
-		}),
-	}
-end
-
 SMODS.current_mod.custom_card_areas = function(game)
 	game.mul_exhaust = CardArea(
 		game.discard.T.x,
@@ -238,8 +213,6 @@ SMODS.current_mod.custom_card_areas = function(game)
 		{ type = "discard", card_limit = 1e308, max_highlighted = 1e308 }
 	)
 end
-
-G.I.MUL_INTERACT_UIBOX = {}
 
 local debug, err = SMODS.load_file("debug.lua")
 if debug then
