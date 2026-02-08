@@ -9,7 +9,6 @@ SMODS.Sticker({
 		return { vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 } }
 	end,
 	sets = { Joker = true },
-	draw = function(self, card, layer) end,
 	calculate = function(self, card, context)
 		if context.end_of_round and not context.blueprint and not context.game_over and context.main_eval then
 			Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_per_joker, { from_charge = true })
@@ -24,13 +23,6 @@ SMODS.Sticker({
 		end
 	end,
 })
-
-function Multiverse.update_transmutable_sticker_anim_state()
-	Multiverse.transmutable_sticker_anim_state = Multiverse.transmutable_sticker_anim_state + (G.real_dt * 18 / 0.9)
-	if Multiverse.transmutable_sticker_anim_state >= 18 then
-		Multiverse.transmutable_sticker_anim_state = Multiverse.transmutable_sticker_anim_state - 18
-	end
-end
 
 SMODS.Sticker({
 	key = "traitorous",

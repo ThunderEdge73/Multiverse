@@ -1,0 +1,12 @@
+-- SMODS.ScreenShader({
+-- 	key = "transmute_effect",
+-- 	path = "transmute_effect.fs",
+-- 	send_vars = function(self)
+-- 		return {
+-- 			stage = Multiverse.transmute_anim_stage,
+-- 		}
+-- 	end,
+-- 	should_apply = function(self)
+-- 		return Multiverse.transmute_anim_stage and Multiverse.transmute_anim_stage > 0
+-- 	end,
+-- })

@@ -82,7 +82,9 @@ function Game:update(dt)
 	local ret = update_hook(self, dt)
 	Multiverse.update_animations()
 	Multiverse.update_spears()
-	Multiverse.update_transmutable_sticker_anim_state()
+	if G.shared_stickers then
+		G.shared_stickers["mul_transmutable"]:animate()
+	end
 	Multiverse.update_deck_enchantments()
 	Multiverse.update_main_menu()
 	return ret

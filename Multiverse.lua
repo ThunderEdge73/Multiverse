@@ -25,7 +25,6 @@ Multiverse.min_blindexpander_version = "1.2.0"
 Multiverse.NFS = SMODS.NFS or NFS
 
 Multiverse.selected_music_page = 1
-Multiverse.transmutable_sticker_anim_state = 0
 
 G.E_MANAGER.queues.mul_menu = {}
 
