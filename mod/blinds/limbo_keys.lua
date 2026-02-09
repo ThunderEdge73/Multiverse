@@ -60,7 +60,7 @@ function Multiverse.limbo_keys_intro()
 	Multiverse.limbo_anim_prog = 0
 	G.E_MANAGER:add_event(
 		Event({
-			delay = 4.75 * G.SPEEDFACTOR,
+			delay = 4.75 * G.SETTINGS.GAMESPEED,
 			trigger = "ease",
 			ease_to = 1,
 			ref_table = Multiverse,
@@ -101,7 +101,7 @@ function Multiverse.limbo_keys_swap(count)
 	Multiverse.assign_limbo_key_ids()
 	G.E_MANAGER:add_event(
 		Event({
-			delay = 0.278 * G.SPEEDFACTOR,
+			delay = 0.278 * G.SETTINGS.GAMESPEED,
 			trigger = "ease",
 			ease_to = 1,
 			ease = "quad",
@@ -149,7 +149,7 @@ function Multiverse.limbo_keys_end()
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
-			delay = 4 * G.SPEEDFACTOR,
+			delay = 4 * G.SETTINGS.GAMESPEED,
 			func = function()
 				if not Multiverse.has_guessed then
 					Multiverse.change_blind_size(function(chips)

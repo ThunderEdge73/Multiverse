@@ -609,3 +609,38 @@ function Multiverse.get_true_coords(moveable)
 		(G.ROOM.T.y + transform.y + transform.h * 0.5) * scale,
 	}
 end
+
+function Multiverse.modify_current_score(num, silent, no_juice)
+	if G.GAME.chips then
+		if not no_juice then
+			SMODS.juice_up_blind()
+		end
+		G.GAME.chips = G.GAME.chips + num
+		if not silent then
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.06 * G.SETTINGS.GAMESPEED,
+				blockable = false,
+				blocking = false,
+				func = function()
+					play_sound("tarot2", 0.76, 0.4)
+					return true
+				end,
+			}))
+			play_sound("tarot2", 1, 0.4)
+		end
+		if G.GAME.chips >= G.GAME.blind.chips then
+			G.E_MANAGER:add_event(Event({
+				blocking = false,
+				func = function()
+					if G.STATE == G.STATES.SELECTING_HAND then
+						G.STATE = G.STATES.HAND_PLAYED
+						G.STATE_COMPLETE = true
+						end_round()
+						return true
+					end
+				end,
+			}))
+		end
+	end
+end

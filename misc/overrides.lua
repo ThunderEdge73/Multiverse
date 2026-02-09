@@ -187,7 +187,7 @@ SMODS.Joker:take_ownership("chicot", {
 		G.E_MANAGER:add_event(Event({
 			blockable = false,
 			trigger = "after",
-			delay = 12.7 * G.SPEEDFACTOR,
+			delay = 12.7 * G.SETTINGS.GAMESPEED,
 			func = function()
 				Multiverse.very_important_thing = false
 				Multiverse.stop_video("chicot_summoning")

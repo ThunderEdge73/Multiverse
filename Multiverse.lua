@@ -86,7 +86,7 @@ SMODS.current_mod.calculate = function(self, context)
 									attention_text({
 										scale = 0.7,
 										text = row,
-										hold = (len * 0.05 + 0.3) * G.SPEEDFACTOR,
+										hold = (len * 0.05 + 0.3) * G.SETTINGS.GAMESPEED,
 										align = "cm",
 										offset = { x = 0, y = -1.7 },
 										major = G.play,
@@ -94,7 +94,7 @@ SMODS.current_mod.calculate = function(self, context)
 									return true
 								end,
 							}))
-							delay((len * 0.05 + 0.5) * G.SPEEDFACTOR)
+							delay((len * 0.05 + 0.5) * G.SETTINGS.GAMESPEED)
 						end
 						G.GAME.mul_eggman_secret = true
 					end

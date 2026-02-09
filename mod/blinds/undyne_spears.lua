@@ -206,7 +206,7 @@ Multiverse.start_undyne_attack = function(i, p)
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
-			delay = pattern[index][4] * G.SPEEDFACTOR,
+			delay = pattern[index][4] * G.SETTINGS.GAMESPEED,
 			func = function()
 				table.insert(Multiverse.undyne_spears, {
 					r = 850,
@@ -320,7 +320,7 @@ function Multiverse.update_spears()
 				G.E_MANAGER:add_event(
 					Event({
 						trigger = "ease",
-						delay = math.min(0.2, 0.3 - spear.velocity / 10000) * G.SPEEDFACTOR,
+						delay = math.min(0.2, 0.3 - spear.velocity / 10000) * G.SETTINGS.GAMESPEED,
 						ease_to = spear.theta + math.pi,
 						ref_table = spear,
 						ref_value = "theta",
@@ -340,8 +340,9 @@ end
 
 function Multiverse.process_undyne_hit(percent)
 	play_sound("mul_take_damage", 1, 0.7)
-	G.GAME.chips = G.GAME.chips - G.GAME.blind.chips / (percent * G.GAME.mul_undyne_damage_mult)
+	Multiverse.modify_current_score(-G.GAME.blind.chips / (percent * G.GAME.mul_undyne_damage_mult), true)
 	local target = pseudorandom_element(G.hand.cards, "undying_target")
+	SMODS.juice_up_blind()
 	if target then
 		SMODS.destroy_cards(target, nil, true)
 	end

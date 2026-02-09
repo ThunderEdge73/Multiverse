@@ -69,19 +69,19 @@ function Multiverse.limbo_set_effect()
 	attention_text({
 		scale = 0.7,
 		text = localize({ type = "variable", key = "a_mul_limbo_popup", vars = { 10 } }),
-		hold = G.SPEEDFACTOR * 2.4,
+		hold = G.SETTINGS.GAMESPEED * 2.4,
 		align = "cm",
 		offset = { x = 0, y = -1 },
 		major = G.play,
 	})
-	delay(2 * G.SPEEDFACTOR)
+	delay(2 * G.SETTINGS.GAMESPEED)
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			Multiverse.limbo_keys_intro()
 			return true
 		end,
 	}))
-	delay(18.6 * G.SPEEDFACTOR)
+	delay(18.6 * G.SETTINGS.GAMESPEED)
 end
 
 SMODS.Blind({
@@ -146,7 +146,7 @@ function Multiverse.undying_press_play_effect(index)
 					trigger = "after",
 					blockable = false,
 					blocking = false,
-					delay = 0.5 * G.SPEEDFACTOR,
+					delay = 0.5 * G.SETTINGS.GAMESPEED,
 					func = function()
 						Multiverse.in_undyne = false
 						return true

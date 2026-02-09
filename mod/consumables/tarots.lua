@@ -43,7 +43,7 @@ SMODS.Consumable({
 		G.E_MANAGER:add_event(Event({
 			blockable = false,
 			trigger = "after",
-			delay = 218 * G.SPEEDFACTOR,
+			delay = 218 * G.SETTINGS.GAMESPEED,
 			func = function()
 				Multiverse.very_important_thing = false
 				Multiverse.stop_video("bad_apple")
@@ -72,7 +72,7 @@ SMODS.Consumable({
 		Multiverse.start_animation("eating_burger")
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 60 * G.SPEEDFACTOR,
+			delay = 60 * G.SETTINGS.GAMESPEED,
 			blockable = false,
 			blocking = false,
 			func = function()

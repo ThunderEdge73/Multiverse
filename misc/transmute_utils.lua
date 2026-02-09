@@ -45,11 +45,11 @@ function Multiverse.check_philosophers_stone()
 				end,
 			}))
 		else
-			delay(2.2 * G.SPEEDFACTOR)
+			delay(2.2 * G.SETTINGS.GAMESPEED)
 			attention_text({
 				scale = 1.4,
 				text = localize("k_no_room_ex"),
-				hold = 2 * G.SPEEDFACTOR,
+				hold = 2 * G.SETTINGS.GAMESPEED,
 				align = "cm",
 				offset = { x = 0, y = -1.7 },
 				major = G.play,
@@ -57,7 +57,7 @@ function Multiverse.check_philosophers_stone()
 			attention_text({
 				scale = 0.7,
 				text = localize("k_mul_make_room"),
-				hold = 2 * G.SPEEDFACTOR,
+				hold = 2 * G.SETTINGS.GAMESPEED,
 				align = "cm",
 				offset = { x = 0, y = -0.5 },
 				major = G.play,
@@ -65,7 +65,7 @@ function Multiverse.check_philosophers_stone()
 			attention_text({
 				scale = 0.7,
 				text = localize("k_mul_make_room2"),
-				hold = 2 * G.SPEEDFACTOR,
+				hold = 2 * G.SETTINGS.GAMESPEED,
 				align = "cm",
 				offset = { x = 0, y = 0.3 },
 				major = G.play,
