@@ -68,7 +68,7 @@ function Multiverse.get_unique_pseudorandom_elements(t, n, seed)
 	for i = 1, math.min(n, #t) do
 		local target_index, eligible_index = pseudorandom_element(eligible, seed)
 		ret[#ret + 1] = t[target_index]
-			table.remove(eligible, eligible_index)
+		table.remove(eligible, eligible_index)
 	end
 	return ret
 end
@@ -83,16 +83,17 @@ function Card:mul_safe_dissolve(dissolve_colours, silent, dissolve_time_fac, no_
 	if not no_juice then
 		self:juice_up()
 	end
-	local childParts = (not no_particles) and Particles(0, 0, 0, 0, {
-		timer_type = "TOTAL",
-		timer = 0.01 * dissolve_time,
-		scale = 0.1,
-		speed = 2,
-		lifespan = 0.7 * dissolve_time,
-		attach = self,
-		colours = self.dissolve_colours,
-		fill = true,
-	})
+	local childParts = not no_particles
+		and Particles(0, 0, 0, 0, {
+			timer_type = "TOTAL",
+			timer = 0.01 * dissolve_time,
+			scale = 0.1,
+			speed = 2,
+			lifespan = 0.7 * dissolve_time,
+			attach = self,
+			colours = self.dissolve_colours,
+			fill = true,
+		})
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		blockable = false,
@@ -597,4 +598,14 @@ function Multiverse.lose()
 	G:save_settings()
 	G.FILE_HANDLER.force = true
 	G.STATE_COMPLETE = false
+end
+
+---@param moveable Moveable
+function Multiverse.get_true_coords(moveable)
+	local transform = moveable.VT or moveable.T
+	local scale = G.TILESIZE * G.TILESCALE
+	return {
+		(G.ROOM.T.x + transform.x + transform.w * 0.5) * scale,
+		(G.ROOM.T.y + transform.y + transform.h * 0.5) * scale,
+	}
 end

@@ -170,3 +170,23 @@ SMODS.Sound({
 	volume = 0.7,
 	pitch = 1,
 })
+
+SMODS.Sound({
+	key = "transmute1",
+	path = "transmute1.ogg",
+})
+
+SMODS.Sound({
+	key = "transmute2",
+	path = "transmute2.ogg",
+})
+
+SMODS.Sound({
+	key = "transmute3",
+	path = "transmute3.ogg",
+})
+
+SMODS.Sound({
+	key = "transmute_final",
+	path = "transmute_final.ogg",
+})

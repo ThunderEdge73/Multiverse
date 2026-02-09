@@ -56,6 +56,9 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		local joker_to_transmute = G.jokers.highlighted[1]
+		---@type Card
+		Multiverse.transmuting_card = joker_to_transmute
+		Multiverse.transmute_card_stage = 0
 		local count = 0
 		for _, j in ipairs(G.jokers.cards) do
 			if j:is_rarity("mul_transmuted") then
@@ -83,6 +86,8 @@ SMODS.Consumable({
 				trigger = "after",
 				delay = 0.7,
 				func = function()
+					ease_value(Multiverse, "transmute_card_stage", 1, nil, nil, true, 2.5)
+					play_sound("mul_transmute" .. i, 0.9 + i / 10, 0.7)
 					joker_to_transmute:juice_up(0.3, 0.5)
 					if joker_to_transmute.children.particles then
 						joker_to_transmute.children.particles:remove()
@@ -127,11 +132,14 @@ SMODS.Consumable({
 					return true
 				end,
 			}))
+			delay(1)
 		end
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.7,
 			func = function()
+				ease_value(Multiverse, "transmute_card_stage", 1, nil, nil, true, 6.5)
+				play_sound("mul_transmute_final", 1.2, 0.8)
 				if joker_to_transmute.children.particles then
 					joker_to_transmute.children.particles:remove()
 					joker_to_transmute.children.particles = nil
@@ -141,27 +149,27 @@ SMODS.Consumable({
 					card.children.particles = nil
 				end
 				card:mul_safe_dissolve(nil, true, 1.6, true)
-				joker_to_transmute:mul_safe_dissolve(nil, false, 1.6, true, { no_particles = true })
 				return true
 			end,
 		}))
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 1.2,
+			delay = 1.5,
 			func = function()
-				if card.children.particles then
-					card.children.particles:remove()
-					card.children.particles = nil
-				end
 				Multiverse.remove_all_stickers(joker_to_transmute)
 				joker_to_transmute:set_ability(transmute_key)
 				joker_to_transmute:set_cost()
-				play_sound("tarot2", 0.85, 0.6)
-				joker_to_transmute:mul_no_juice_materialize(nil, false, 1.6)
 				return true
 			end,
 		}))
-		delay(0.5)
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 4.5,
+			func = function()
+				Multiverse.transmuting_card = nil
+				return true
+			end,
+		}))
 	end,
 })
 
