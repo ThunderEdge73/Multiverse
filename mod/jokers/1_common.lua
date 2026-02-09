@@ -176,7 +176,7 @@ SMODS.Joker({
 			}
 		end
 		if context.remove_playing_cards then
-			card.ability.extra.transmute_progress = card.ability.extra.transmute_progress + #context.removed
+			Multiverse.increment_transmute_progress(card, #context.removed)
 		end
 	end,
 	pools = { ["mul_can_transmute"] = true },

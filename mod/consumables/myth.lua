@@ -355,7 +355,6 @@ SMODS.Consumable({
 			play_sound("timpani")
 			Multiverse.increment_transmute_progress(target, nil, card.ability.extra.progress_percent)
 			target:juice_up(0.3, 0.5)
-			Multiverse.transmute_check(target)
 		end)
 	end,
 })
@@ -548,7 +547,6 @@ SMODS.Consumable({
 			local target = G.jokers.highlighted[1]
 			Multiverse.increment_transmute_progress(target, nil, card.ability.extra.progress_percent)
 			target:juice_up(0.3, 0.5)
-			Multiverse.transmute_check(target)
 		end)
 	end,
 })

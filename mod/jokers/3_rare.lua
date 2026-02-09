@@ -148,7 +148,6 @@ SMODS.Joker({
 				end
 				if amt > 0 then
 					Multiverse.increment_transmute_progress(card, amt)
-					Multiverse.transmute_check(card)
 				end
 			end
 			if context.discard and context.other_card:get_id() == 13 then
