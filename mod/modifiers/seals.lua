@@ -13,13 +13,23 @@ SMODS.Seal({
 				xmult = math.max(card.ability.seal.extra.xmult, 1),
 				func = function()
 					if card.seal == "mul_frozen" and card.ability.seal.extra.xmult > 1 then
-						SMODS.scale_card(card, {
-							ref_table = card.ability.seal.extra,
-							ref_value = "xmult",
-							scalar_value = "xmult_dec",
-							operation = "-",
-							message_key = "a_xmult_minus",
-						})
+						if not next(SMODS.find_card("j_mul_frozone")) then
+							SMODS.scale_card(card, {
+								ref_table = card.ability.seal.extra,
+								ref_value = "xmult",
+								scalar_value = "xmult_dec",
+								operation = "-",
+								message_key = "a_xmult_minus",
+							})
+						else
+							SMODS.scale_card(card, {
+								ref_table = card.ability.seal.extra,
+								ref_value = "xmult",
+								scalar_value = "xmult_dec",
+								operation = "+",
+								message_key = "a_xmult",
+							})
+						end
 					end
 					if card.ability.seal.extra.xmult <= 1 and not card.mul_melted then
                         card.mul_melted = true

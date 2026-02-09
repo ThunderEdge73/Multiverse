@@ -163,6 +163,7 @@ SMODS.Joker({
 	atlas = "placeholder",
 	pos = { x = 0, y = 0 },
 	config = { extra = { rank = "Jack" } },
+	transmute_req = Multiverse.set_transmute_requirements(10),
 	rarity = 1,
 	cost = 5,
 	blueprint_compat = false,
@@ -175,4 +176,8 @@ SMODS.Joker({
 			}
 		end
 	end,
+	pools = { ["mul_can_transmute"] = true },
+	transmutes_into = "j_mul_frozone",
+	mul_grail = { "c_justice", "c_hanged_man", "c_immolate", "c_mul_lightsaber" },
+	mul_tree_of_eden = { "j_trading" }, -- UPDATE LATER
 })

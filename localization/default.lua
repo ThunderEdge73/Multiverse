@@ -1105,6 +1105,20 @@ return {
 					},
 				},
 			},
+			j_mul_frozone = {
+				name = "Frozone",
+				text = {
+					{
+						"{C:attention}Frozen Seals{} instead gain",
+						"{X:mult,C:white}X#1#{} Mult when scored",
+						"Scored {C:attention}Glass Cards{} with",
+						"a {C:attention}Frozen Seal{} can't shatter",
+					},
+					{
+						"{C:inactive,s:0.8}Where's my super suit?",
+					},
+				},
+			},
 		},
 		Spectral = {
 			c_mul_eternity = {
@@ -1437,6 +1451,14 @@ return {
 					"{C:attention}Dimensional Tag",
 				},
 			},
+			mul_frozone_ability = {
+				name = "Ability: Freeze",
+				text = {
+					"Cost: {C:attention}#1#{} TP",
+					"Effect: Apply a {C:attention}Frozen",
+					"{C:attention}Seal{} to {C:attention}#2#{} selected card",
+				},
+			},
 			--#endregion
 			--#region Transmutation hints
 			joker_hint = {
@@ -1484,6 +1506,14 @@ return {
 				text = {
 					"Obtain {C:attention}#2#{} different",
 					"Jokers while owned",
+					"{C:inactive}(#1#/#2#){}",
+				},
+			},
+			mul_jack_frost_hint = {
+				name = "Hint",
+				text = {
+					"Destroy {C:attention}#1#{}",
+					"playing cards",
 					"{C:inactive}(#1#/#2#){}",
 				},
 			},
