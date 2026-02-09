@@ -26,7 +26,7 @@
 ---@field take_ownership? fun(self: Multiverse.SkillCard|table, key: string, obj: Multiverse.SkillCard|table, silent?: boolean): nil|table|Multiverse.SkillCard Takes control of vanilla objects. Child class must have get_obj for this to function
 ---@field get_obj? fun(self: Multiverse.SkillCard|table, key: string): Multiverse.SkillCard|table? Returns an object if one matches the `key`. 
 ---@field get_weight? fun(self: Multiverse.SkillCard|table): number? Used to modify the weight of the Enhancement. 
----@field tp_cost? number
+---@field tp_cost? number | "X"
 ---@field can_use_skill? fun(self: Multiverse.SkillCard|table, card: Card | table): boolean?
 ---@field use_skill? fun(self: Multiverse.SkillCard|table, card: Card | table, paid_amt: integer, x: integer?): onSkillUse? x is nil if the skill card does not cost X
 ---@field get_final_tp_cost? fun(self: Multiverse.SkillCard|table, card: Card | table, ui_format: boolean?): number | string
