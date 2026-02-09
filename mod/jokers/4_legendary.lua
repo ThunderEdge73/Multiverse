@@ -55,7 +55,7 @@ Multiverse.UsableJoker({
 	end,
 })
 
-Multiverse.UsableJoker({
+SMODS.Joker({
 	key = "proto",
 	atlas = "contributors",
 	pos = { x = 2, y = 0 },

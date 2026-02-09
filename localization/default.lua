@@ -1111,8 +1111,8 @@ return {
 					{
 						"{C:attention}Frozen Seals{} instead gain",
 						"{X:mult,C:white}X#1#{} Mult when scored",
-						"Scored {C:attention}Glass Cards{} with",
-						"a {C:attention}Frozen Seal{} can't shatter",
+						"{C:attention}Frozen Seals{} also trigger",
+						"while held in hand"
 					},
 					{
 						"{C:inactive,s:0.8}Where's my super suit?",
@@ -1693,6 +1693,7 @@ return {
 			k_mul_eliminated = "Eliminated!",
 			k_mul_boom = "Boom!",
 			k_mul_murdered = "Murdered!",
+			k_mul_frozen = "Frozen!",
 			k_mul_thaumaturgy_energy = "Thaumaturgy Energy",
 			k_mul_make_room = "Must have at least 1 available consumable slot",
 			k_mul_make_room2 = "in order to create a Philosopher's Stone...",

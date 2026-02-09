@@ -489,14 +489,7 @@ Multiverse.UsableJoker({
 			},
 		}
 	end,
-	config = { extra = { xmult_inc = 0.25, tp_cost = 10, max_selected = 1, seal = "mul_frozen" } },
-	calculate = function(self, card, context)
-		if context.fix_probability and context.identifier == "glass" and context.trigger_obj.seal == "mul_frozen" then
-			return {
-				numerator = 0
-			}
-		end
-	end,
+	config = { extra = { xmult_inc = 0.05, tp_cost = 10, max_selected = 1, seal = "mul_frozen" } },
 	use_ability = function(self, card)
 		local target = G.hand.highlighted[1]
 		Multiverse.effect_animation(card, function()

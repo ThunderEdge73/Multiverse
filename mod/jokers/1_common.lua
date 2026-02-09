@@ -162,7 +162,7 @@ SMODS.Joker({
 	key = "jack_frost",
 	atlas = "placeholder",
 	pos = { x = 0, y = 0 },
-	config = { extra = { rank = "Jack" } },
+	config = { extra = { rank = "Jack", transmute_progress = 0 } },
 	transmute_req = Multiverse.set_transmute_requirements(10),
 	rarity = 1,
 	cost = 5,
@@ -174,6 +174,9 @@ SMODS.Joker({
 			return {
 				message = localize("k_mul_converted")
 			}
+		end
+		if context.remove_playing_cards then
+			card.ability.extra.transmute_progress = card.ability.extra.transmute_progress + #context.removed
 		end
 	end,
 	pools = { ["mul_can_transmute"] = true },

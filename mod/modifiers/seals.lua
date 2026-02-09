@@ -8,7 +8,10 @@ SMODS.Seal({
 		return { vars = { card.ability.seal.extra.xmult, card.ability.seal.extra.xmult_dec } }
 	end,
 	calculate = function(self, card, context)
-		if context.main_scoring and context.cardarea == G.play then
+		if
+			context.main_scoring
+			and (context.cardarea == G.play or (context.cardarea == G.hand and next(SMODS.find_card("j_mul_frozone"))))
+		then
 			return {
 				xmult = math.max(card.ability.seal.extra.xmult, 1),
 				func = function()
@@ -32,11 +35,11 @@ SMODS.Seal({
 						end
 					end
 					if card.ability.seal.extra.xmult <= 1 and not card.mul_melted then
-                        card.mul_melted = true
+						card.mul_melted = true
 						G.E_MANAGER:add_event(Event({
 							func = function()
 								card:set_seal(nil)
-                                card.mul_melted = nil
+								card.mul_melted = nil
 								return true
 							end,
 						}))

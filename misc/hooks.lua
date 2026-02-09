@@ -129,9 +129,9 @@ local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
 	local c = center
 	if
-		Multiverse.contains_value(G.playing_cards or {}, self)
+		center == "m_mul_waldo"
+		and Multiverse.contains_value(G.playing_cards or {}, self)
 		and not Multiverse._CREATING_WALDO
-		and center == "m_mul_waldo"
 	then
 		c = "c_base"
 		G.E_MANAGER:add_event(Event({

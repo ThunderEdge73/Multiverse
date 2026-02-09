@@ -170,9 +170,7 @@ SMODS.current_mod.calculate = function(self, context)
 		and (context.trigger.mul_fusion or context.trigger.mul_split)
 		and context.other_card.ability.set == "mul_Skill"
 	then
-		return {
-			no_destroy = { override_compat = true },
-		}
+		ret[#ret + 1] = { no_destroy = { override_compat = true } }
 	end
 	Multiverse.calculate_deck_enchantments(context, ret)
 	if #ret == 0 then
