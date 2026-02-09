@@ -1,6 +1,6 @@
 Multiverse.SkillCard({
 	key = "strike",
-	tp_cost = 15,
+	tp_cost = 5,
 	config = { extra = { blind_mult = 0.5 }},
 	loc_vars = function(self, info_queue, card)
 		return {
