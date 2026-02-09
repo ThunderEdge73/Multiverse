@@ -138,7 +138,7 @@ SMODS.Consumable({
 			trigger = "after",
 			delay = 0.7,
 			func = function()
-				ease_value(Multiverse, "transmute_card_stage", 1, nil, nil, true, 6.5)
+				ease_value(Multiverse, "transmute_card_stage", 1, nil, nil, true, 7)
 				play_sound("mul_transmute_final", 1.2, 0.8)
 				if joker_to_transmute.children.particles then
 					joker_to_transmute.children.particles:remove()
@@ -162,9 +162,11 @@ SMODS.Consumable({
 				return true
 			end,
 		}))
+		delay(4.5)
 		G.E_MANAGER:add_event(Event({
+			blocking = false,
 			trigger = "after",
-			delay = 4.5,
+			delay = 2.5,
 			func = function()
 				Multiverse.transmuting_card = nil
 				return true
