@@ -154,7 +154,7 @@ SMODS.Consumable({
 		}))
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 1.5,
+			delay = 3.5,
 			func = function()
 				Multiverse.remove_all_stickers(joker_to_transmute)
 				joker_to_transmute:set_ability(transmute_key)
@@ -162,7 +162,7 @@ SMODS.Consumable({
 				return true
 			end,
 		}))
-		delay(4.5)
+		delay(2.5)
 		G.E_MANAGER:add_event(Event({
 			blocking = false,
 			trigger = "after",
