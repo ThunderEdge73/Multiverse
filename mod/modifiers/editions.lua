@@ -17,7 +17,7 @@ SMODS.Edition({
 	weight = 4,
 	in_shop = true,
 	in_pool = function(self, args)
-		if args.source == "sta" then return false end
+		if args and args.source == "sta" then return false end
 		if G.jokers then
 			for _, j in ipairs(G.jokers.cards) do
 				if j:is_rarity("mul_transmuted") or j.ability.mul_transmutable then
