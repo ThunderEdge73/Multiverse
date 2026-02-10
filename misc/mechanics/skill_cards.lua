@@ -214,7 +214,7 @@ G.FUNCS.mul_use_skill = function(e)
 	if center.tp_cost == "X" then
 		x = paid + G.GAME.mul_x_boost
 	end
-	Multiverse.ease_TP(-paid)
+	Multiverse.ease_TP(-paid, { from_skill = true })
 	draw_card(G.hand, G.play, 1, "up", true, card)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"
