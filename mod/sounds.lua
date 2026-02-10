@@ -190,3 +190,29 @@ SMODS.Sound({
 	key = "transmute_final",
 	path = "transmute_final.ogg",
 })
+
+SMODS.Sound({
+	key = "dimension_pack_music",
+	path = "dimensional_pack.ogg",
+	select_music_track = function(self)
+		if
+			G.booster_pack
+			and not G.booster_pack.REMOVED
+			and SMODS.OPENED_BOOSTER
+			and (
+				SMODS.OPENED_BOOSTER.config.center.kind == "mul_dimension"
+				or SMODS.OPENED_BOOSTER.config.center.kind == "mul_skill"
+			)
+		then
+			return 1
+		end
+	end,
+	pitch = 1,
+	sync = {
+		music1 = true,
+		music2 = true,
+		music3 = true,
+		music4 = true,
+		music5 = true,
+	},
+})
