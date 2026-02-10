@@ -73,7 +73,6 @@ end
 SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
 	if context.setting_blind then
-		G.GAME.mul_disable_times = 0
 		if next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
 			G.E_MANAGER:add_event(Event({
 				func = function()
@@ -163,6 +162,7 @@ SMODS.current_mod.calculate = function(self, context)
 		else
 			Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
 		end
+		G.GAME.mul_temp_bonuses = {}
 	end
 	if
 		context.check_eternal
@@ -173,6 +173,9 @@ SMODS.current_mod.calculate = function(self, context)
 		ret[#ret + 1] = { no_destroy = { override_compat = true } }
 	end
 	Multiverse.calculate_deck_enchantments(context, ret)
+	if context.final_scoring_step then
+		ret[#ret + 1] = G.GAME.mul_temp_bonuses
+	end
 	if #ret == 0 then
 		return nil
 	elseif #ret == 1 then

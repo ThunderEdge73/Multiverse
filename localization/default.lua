@@ -354,8 +354,8 @@ return {
 			sk_mul_strike = {
 				name = "Strike",
 				text = {
-					"{X:purple,C:white}X#1#{} Blind size",
-					"when used",
+					"{X:mult,C:white}X#1#{} Mult for next",
+					"played hand",
 				},
 			},
 			sk_mul_snowgrave = {
