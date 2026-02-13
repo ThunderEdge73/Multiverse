@@ -371,12 +371,13 @@ return {
 				name = "Unlimited Blade Works",
 				text = {
 					"{C:attention}Ultimate{}",
-					"After use, split {C:attention}1{} selected",
+					"After use, splits {C:attention}1{} selected",
 					"card into {C:attention}#1#/#2#{} Half Cards",
 					"with {C:attention}random{} sides",
 					"{C:inactive}(Rounds up){}",
 				},
 			},
+			
 		},
 		Enhanced = {
 			m_mul_calling_card = {

@@ -264,8 +264,9 @@ function Multiverse.count_deck_enchantment_levels()
 end
 
 function Multiverse.parse_vars(str, vars)
+	local safe_vars = vars or {}
 	return string.gsub(str, "(#%d+#)", function(matched)
-		return tostring(vars[tonumber(string.gsub(matched, "[#%s]", ""), 10)])
+		return tostring(safe_vars[tonumber(string.gsub(matched, "[#%s]", ""), 10)])
 	end)
 end
 
