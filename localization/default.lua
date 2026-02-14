@@ -377,7 +377,6 @@ return {
 					"{C:inactive}(Rounds up){}",
 				},
 			},
-			
 		},
 		Enhanced = {
 			m_mul_calling_card = {

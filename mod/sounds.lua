@@ -15,13 +15,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = {
-		["music1"] = true,
-		["music2"] = true,
-		["music3"] = true,
-		["music4"] = true,
-		["music5"] = true,
-	},
 	volume = 0.5,
 	pitch = 1,
 })
@@ -36,7 +29,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.6,
 	pitch = 1,
 })
@@ -51,7 +43,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.6,
 	pitch = 1,
 })
@@ -66,7 +57,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.9,
 	pitch = 1,
 })
@@ -86,7 +76,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
@@ -109,7 +98,6 @@ SMODS.Sound({
 			return 69420
 		end
 	end,
-	sync = false,
 	volume = 0,
 })
 
@@ -136,7 +124,6 @@ SMODS.Sound({
 			return 4
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
@@ -151,7 +138,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
@@ -166,7 +152,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
