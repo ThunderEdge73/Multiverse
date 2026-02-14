@@ -30,7 +30,43 @@ float get_dist_from_line( vec2 p1, vec2 p2, vec2 target) {
 vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
 {
     //add coordinate-modifying effects here
-    vec4 tex = Texel(texture, texture_coords);
+
+    vec2 temp_coords = texture_coords;
+    float PI = 3.14159265359;
+
+    for (int i = 0; i < 8; i++) {
+        vec4 current_slash;
+        if (i == 0) {
+            current_slash = slash1;
+        } else if (i == 1) {
+            current_slash = slash2;
+        } else if (i == 2) {
+            current_slash = slash3;
+        } else if (i == 3) {
+            current_slash = slash4;
+        } else if (i == 4) {
+            current_slash = slash5;
+        } else if (i == 5) {
+            current_slash = slash6;
+        } else if (i == 6) {
+            current_slash = slash7;
+        } else {
+            current_slash = slash8;
+        }
+
+        vec2 p1 = weighted_midpoint(current_slash.xy * bottom_right, bottom_right / 2.0, 0.8);
+        vec2 p2 = weighted_midpoint(current_slash.zw * bottom_right, bottom_right / 2.0, 0.8);
+
+        float min_dist = clamp((progress - i) * 10.0, 0.0, 10.0);
+        if (get_dist_from_line(p1, p2, screen_coords) >= min_dist && p2 != screen_coords) {
+            vec2 line = p2 - p1;
+            vec2 perp = normalize(vec2(line.y, -line.x)) * min_dist / length(bottom_right) * 1.75;
+            float sign = -sign(acos(dot(perp, p2 - screen_coords) / (min_dist * length(p2 - screen_coords))) - PI/2);
+            temp_coords += perp * sign * clamp(9.0 - progress, 0.0, 1.0);
+        }
+    }
+
+    vec4 tex = Texel(texture, temp_coords);
     // add colour-modifying effects here
     
     for (int i = 0; i < 8; i++) {

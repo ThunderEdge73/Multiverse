@@ -61,7 +61,7 @@ function Multiverse.start_slashes()
 	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
-		delay = 0.5,
+		delay = 2.5,
 		func = function()
 			ease_value(Multiverse, "slash_stage", 1, nil, nil, true, 2)
 			return true
