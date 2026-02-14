@@ -1,23 +1,26 @@
 Multiverse.SkillCard({
 	key = "strike",
 	tp_cost = 5,
-	config = { extra = { xmult = 2 } },
+	config = { extra = { blind_mult = 0.9 } },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				card.ability.extra.xmult,
+				card.ability.extra.blind_mult,
 			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
-			Multiverse.temp_xmult(card.ability.extra.xmult)
+			Multiverse.change_blind_size(function(chips)
+				return chips * card.ability.extra.blind_mult
+			end)
 		end)
 	end,
 })
 
 Multiverse.SkillCard({
 	key = "snowgrave",
+	no_save_on_use = true,
 	tp_cost = 50,
 	config = { extra = { seal = "mul_frozen" } },
 	loc_vars = function(self, info_queue, card)
@@ -52,9 +55,10 @@ Multiverse.SkillCard({
 })
 
 Multiverse.SkillCard({
-	key = "ubw",
+	key = "jud_slash",
 	tp_cost = "X",
 	config = { extra = { tp_per_split = 5 } },
+	no_save_on_use = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ultimate"]
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
@@ -71,9 +75,12 @@ Multiverse.SkillCard({
 				Multiverse.start_interaction({
 					area = "hand",
 					end_interaction = function()
+						Multiverse.start_slashes(G.hand.highlighted[1])
 						Multiverse.halve_cards(
 							G.hand.highlighted[1],
 							math.ceil(x / card.ability.extra.tp_per_split),
+							true,
+							nil,
 							true
 						)
 					end,
@@ -82,12 +89,23 @@ Multiverse.SkillCard({
 					end,
 					display_text = Multiverse.parse_vars(
 						localize("k_mul_ubw"),
-						math.ceil(x / card.ability.extra.tp_per_split)
+						{ math.ceil(x / card.ability.extra.tp_per_split) }
 					),
 				})
 				return true
 			end,
 		}))
 		return "destroy"
+	end,
+	can_use_skill = function(self, card)
+		local targets = {}
+		if G.hand then
+			for _, c in ipairs(G.hand.cards) do
+				if Multiverse.can_halve_card(c) and c ~= card then
+					targets[#targets + 1] = c
+				end
+			end
+		end
+		return #targets > 0
 	end,
 })

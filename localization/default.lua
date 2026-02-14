@@ -354,8 +354,7 @@ return {
 			sk_mul_strike = {
 				name = "Strike",
 				text = {
-					"{X:mult,C:white}X#1#{} Mult for next",
-					"played hand",
+					"{X:purple,C:white}X#1#{} Blind size",
 				},
 			},
 			sk_mul_snowgrave = {
@@ -367,8 +366,8 @@ return {
 					"{C:attention}Frozen Seals",
 				},
 			},
-			sk_mul_ubw = {
-				name = "Unlimited Blade Works",
+			sk_mul_jud_slash = {
+				name = "Judgement Slash",
 				text = {
 					"{C:attention}Ultimate{}",
 					"After use, splits {C:attention}1{} selected",

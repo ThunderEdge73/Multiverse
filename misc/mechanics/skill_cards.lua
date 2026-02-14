@@ -248,7 +248,9 @@ G.FUNCS.mul_use_skill = function(e)
 				trigger = "after",
 				delay = 0.1,
 				func = function()
-					save_run()
+					if not center.no_save_on_use then
+						save_run()
+					end
 					return true
 				end,
 			}))
@@ -342,6 +344,7 @@ end
 function Multiverse.on_end_interaction() end
 
 function G.FUNCS.mul_end_interaction(e)
+	Multiverse.can_end_interaction = nil
 	Multiverse.on_end_interaction()
 	G.E_MANAGER:add_event(Event({
 		func = function()
@@ -530,22 +533,6 @@ function Multiverse.init_skills()
 
 	---@type table
 	G.GAME.mul_temp_bonuses = G.GAME.mul_temp_bonuses or {}
-end
-
-function Multiverse.temp_xmult(amount)
-	G.GAME.mul_temp_bonuses["xmult"] = (G.GAME.mul_temp_bonuses["xmult"] or 1) * amount
-end
-
-function Multiverse.temp_mult(amount)
-	G.GAME.mul_temp_bonuses["mult"] = (G.GAME.mul_temp_bonuses["mult"] or 0) * amount
-end
-
-function Multiverse.temp_xchips(amount)
-	G.GAME.mul_temp_bonuses["xchips"] = (G.GAME.mul_temp_bonuses["xchips"] or 1) * amount
-end
-
-function Multiverse.temp_chips(amount)
-	G.GAME.mul_temp_bonuses["chips"] = (G.GAME.mul_temp_bonuses["chips"] or 0) + amount
 end
 
 function Multiverse.get_final_X_value(center, card, ui_format, with_paren)

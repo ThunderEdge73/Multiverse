@@ -29,6 +29,7 @@ SMODS.ScreenShader({
 			slash8 = Multiverse.screen_slashes[8],
 			bottom_right = { love.graphics.getWidth(), love.graphics.getHeight() },
 			progress = Multiverse.slash_stage,
+			card_pos = Multiverse.slash_pos or Multiverse.get_true_coords(Multiverse.slash_card),
 		}
 	end,
 	should_apply = function(self)
@@ -36,9 +37,10 @@ SMODS.ScreenShader({
 	end,
 })
 
-function Multiverse.start_slashes()
+function Multiverse.start_slashes(card)
 	Multiverse.screen_slashes = {}
 	Multiverse.slash_stage = 0
+	Multiverse.slash_card = card
 	for _ = 1, 8 do
 		Multiverse.screen_slashes[#Multiverse.screen_slashes + 1] = {
 			math.random(),
@@ -51,9 +53,9 @@ function Multiverse.start_slashes()
 	for _ = 1, 8 do
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 0.5,
+			delay = 0.3,
 			func = function()
-				ease_value(Multiverse, "slash_stage", 1, nil, nil, true, 0.3)
+				ease_value(Multiverse, "slash_stage", 1, nil, nil, true, 0.2)
 				play_sound("slice1", 0.96 + math.random() * 0.08, 1.1)
 				return true
 			end,
@@ -61,8 +63,9 @@ function Multiverse.start_slashes()
 	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
-		delay = 2.5,
+		delay = 2.1,
 		func = function()
+			Multiverse.slash_pos = Multiverse.get_true_coords(Multiverse.slash_card)
 			ease_value(Multiverse, "slash_stage", 1, nil, nil, true, 2)
 			return true
 		end,
@@ -70,7 +73,9 @@ function Multiverse.start_slashes()
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		delay = 2.1,
+		blocking = false,
 		func = function()
+			Multiverse.slash_pos = nil
 			Multiverse.slashes_active = false
 			return true
 		end,

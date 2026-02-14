@@ -497,7 +497,8 @@ end
 ---@param num? integer
 ---@param is_random? boolean
 ---@param forced_half? string
-function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
+---@param silent? boolean
+function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half, silent)
 	local cards
 	if not cards_to_split[1] then -- If cards_to_split is a single card
 		cards = { cards_to_split }
@@ -547,7 +548,9 @@ function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
 			end
 			SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
 			SMODS.destroy_cards(cards, nil, true)
-			play_sound("slice1", 0.96 + math.random() * 0.08)
+			if not silent then
+				play_sound("slice1", 0.96 + math.random() * 0.08)
+			end
 			return true
 		end,
 	}))
