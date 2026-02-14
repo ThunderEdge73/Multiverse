@@ -3,10 +3,7 @@ extern vec2 pos;
 extern float time;
 
 vec3 blend( vec3 c1, vec3 c2, float c1_bias) {
-    float r = c1.r * c1_bias + c2.r * (1 - c1_bias);
-    float g = c1.g * c1_bias + c2.g * (1 - c1_bias);
-    float b = c1.b * c1_bias + c2.b * (1 - c1_bias);
-    return vec3(r, g, b);
+    return c1 * c1_bias + c2 * (1 - c1_bias);
 }
 
 vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
