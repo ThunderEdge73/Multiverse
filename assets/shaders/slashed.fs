@@ -60,7 +60,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
         float min_dist = clamp((progress - i) * 10.0, 0.0, 10.0);
         if (get_dist_from_line(p1, p2, screen_coords) >= min_dist && p2 != screen_coords) {
             vec2 line = p2 - p1;
-            vec2 perp = normalize(vec2(line.y, -line.x)) * min_dist / length(bottom_right) * 1.65;
+            vec2 perp = normalize(vec2(line.y, -line.x)) * min_dist / length(bottom_right) * sqrt(2.0);
             float sign = -sign(acos(dot(perp, p2 - screen_coords) / (min_dist * length(p2 - screen_coords))) - PI/2);
             temp_coords += perp * sign * clamp(9.0 - progress, 0.0, 1.0);
         }
