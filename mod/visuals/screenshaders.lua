@@ -19,14 +19,8 @@ SMODS.ScreenShader({
 	path = "slashed.fs",
 	send_vars = function(self)
 		return {
-			slash1 = Multiverse.screen_slashes[1],
-			slash2 = Multiverse.screen_slashes[2],
-			slash3 = Multiverse.screen_slashes[3],
-			slash4 = Multiverse.screen_slashes[4],
-			slash5 = Multiverse.screen_slashes[5],
-			slash6 = Multiverse.screen_slashes[6],
-			slash7 = Multiverse.screen_slashes[7],
-			slash8 = Multiverse.screen_slashes[8],
+			slashes = { array = Multiverse.screen_slashes },
+			blue_phases = { array = Multiverse.blue_color_amts },
 			bottom_right = { love.graphics.getWidth(), love.graphics.getHeight() },
 			progress = Multiverse.slash_stage,
 			card_pos = Multiverse.slash_pos or Multiverse.get_true_coords(Multiverse.slash_card),
@@ -39,23 +33,26 @@ SMODS.ScreenShader({
 
 function Multiverse.start_slashes(card)
 	Multiverse.screen_slashes = {}
+	Multiverse.blue_color_amts = {}
 	Multiverse.slash_stage = 0
 	Multiverse.slash_card = card
-	for _ = 1, 8 do
+	for _ = 1, 10 do
 		Multiverse.screen_slashes[#Multiverse.screen_slashes + 1] = {
 			math.random(),
 			math.random(),
 			math.random(),
 			math.random(),
 		}
+		Multiverse.blue_color_amts[#Multiverse.blue_color_amts + 1] = 0
 	end
 	Multiverse.slashes_active = true
-	for _ = 1, 8 do
+	for i = 1, 10 do
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.3,
 			func = function()
 				ease_value(Multiverse, "slash_stage", 1, nil, nil, true, 0.2)
+				ease_value(Multiverse.blue_color_amts, i, 1, nil, nil, true, 1.4)
 				play_sound("slice1", 0.96 + math.random() * 0.08, 1.1)
 				return true
 			end,
