@@ -9,9 +9,8 @@ SMODS.Rarity({
 
 SMODS.Joker({
 	key = "ren_amamiya",
-	atlas = "ren_amamiya",
-	pos = { x = 0, y = 0 },
-	soul_pos = { x = 1, y = 0 },
+	atlas = "placeholder",
+	pos = { x = 4, y = 0 },
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
