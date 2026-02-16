@@ -92,3 +92,7 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "retain",
 })
+
+Multiverse.DummyCenter({
+	key = "impervious",
+})
