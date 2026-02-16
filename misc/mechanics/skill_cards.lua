@@ -112,6 +112,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 								}),
 								func = "mul_update_tp_cost",
 								ref_table = card,
+								align = "cm"
 							},
 						},
 					},
@@ -174,6 +175,7 @@ G.FUNCS.mul_update_tp_cost = function(e)
 	e.config.object.config.string[1].string = center:get_final_tp_cost(card, true)
 	if old_str ~= center:get_final_tp_cost(card, true) then
 		e.config.object:update_text(true)
+		card.children.mul_skill_cost_ui:recalculate()
 	end
 end
 
