@@ -65,8 +65,7 @@ return {
 				name = "NONE",
 				text = {
 					"Costs {C:attention}#1#{} TP",
-					"{C:inactive}(#1# is your{}",
-					"{C:inactive}current TP){}",
+					"{C:inactive}(#1# is your current TP){}",
 				},
 			},
 			du_mul_exhaust = {
