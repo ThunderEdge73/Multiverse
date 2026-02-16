@@ -671,7 +671,7 @@ function Multiverse.set_stand_arrow_suit()
 		return item.key ~= G.GAME.current_round.mul_stand_arrow_suit
 	end)
 	if next(valid) then
-		G.GAME.current_round.mul_stand_arrow_suit = pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante)
+		G.GAME.current_round.mul_stand_arrow_suit = pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante).key
 	end
 end
 
