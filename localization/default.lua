@@ -180,8 +180,8 @@ return {
 			psv_mul_draw_reduction = {
 				name = "Draw Reduction",
 				text = {
-					"If you would draw {C:attention}5{} or more cards,",
-					"draw {C:attention}4{} cards instead",
+					"If you would draw {C:attention}#1#{} or more cards,",
+					"draw {C:attention}#2#{} cards instead",
 				},
 			},
 			psv_mul_artifact = {

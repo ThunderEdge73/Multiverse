@@ -41,7 +41,7 @@ blindexpander.Passive({
 		}
 	end,
 	calculate = function(self, blind, passive, context)
-        if context.before then
+		if context.before then
 			if #context.scoring_hand > 5 then
 				passive.config.selected = 0
 			end
@@ -50,7 +50,7 @@ blindexpander.Passive({
 			passive.config.selected = passive.config.selected + 1
 			if passive.config.selected == 12 then
 				passive.config.selected = 0
-                passive.config.hands_removed = passive.config.hands_removed + 1
+				passive.config.hands_removed = passive.config.hands_removed + 1
 				ease_hands_played(-1)
 				G.E_MANAGER:add_event(Event({
 					func = function()
@@ -70,12 +70,33 @@ blindexpander.Passive({
 			end
 		end
 	end,
-    remove = function (self, passive, from_disable)
-        ease_hands_played(passive.config.hands_removed)
-        if from_disable then
-            passive.config.hands_removed = 0
-        end
-    end
+	remove = function(self, passive, from_disable)
+		ease_hands_played(passive.config.hands_removed)
+		if from_disable then
+			passive.config.hands_removed = 0
+		end
+	end,
+})
+
+blindexpander.Passive({
+	key = "draw_reduction",
+	config = { max_draw = 4 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.max_draw + 1, passive.config.max_draw },
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if
+			context.drawing_cards
+			and context.amount > passive.config.max_draw
+			and (G.GAME.current_round.hands_played ~= 0 or G.GAME.current_round.discards_used ~= 0)
+		then
+			return {
+				cards_to_draw = passive.config.max_draw,
+			}
+		end
+	end,
 })
 
 blindexpander.Passive({
@@ -189,16 +210,16 @@ blindexpander.Passive({
 blindexpander.Passive({
 	key = "bulky",
 	config = { mult = 2 },
-    apply = function(self, passive, from_disable)
-        Multiverse.change_blind_size(function(chips)
+	apply = function(self, passive, from_disable)
+		Multiverse.change_blind_size(function(chips)
 			return chips * passive.config.mult
 		end)
-    end,
+	end,
 	remove = function(self, passive, from_disable)
-        Multiverse.change_blind_size(function(chips)
+		Multiverse.change_blind_size(function(chips)
 			return chips / passive.config.mult
 		end)
-    end,
+	end,
 })
 
 blindexpander.Passive({
@@ -207,13 +228,13 @@ blindexpander.Passive({
 	loc_vars = function(self, blind, passive)
 		return {
 			vars = { passive.config.xmult },
-			key = passive.fake_card and "psv_mul_vulnerable_infoqueue" or nil
+			key = passive.fake_card and "psv_mul_vulnerable_infoqueue" or nil,
 		}
 	end,
 	calculate = function(self, blind, passive, context)
 		if context.final_scoring_step then
 			return {
-				xmult = passive.config.xmult
+				xmult = passive.config.xmult,
 			}
 		end
 		if context.after then
@@ -221,7 +242,7 @@ blindexpander.Passive({
 				func = function()
 					blind:remove_passive("psv_mul_vulnerable")
 					return true
-				end
+				end,
 			}))
 		end
 	end,

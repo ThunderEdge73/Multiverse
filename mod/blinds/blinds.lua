@@ -197,17 +197,4 @@ SMODS.Blind({
 	boss_colour = lighten(G.C.PURPLE, 0.1),
 	boss = { min = 5 },
 	mult = 2,
-	calculate = function(self, blind, context)
-		if not blind.disabled then
-			if
-				context.drawing_cards
-				and context.amount > 4
-				and (G.GAME.current_round.hands_played ~= 0 or G.GAME.current_round.discards_used ~= 0)
-			then
-				return {
-					cards_to_draw = 4,
-				}
-			end
-		end
-	end,
 })
