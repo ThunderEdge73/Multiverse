@@ -23,7 +23,7 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 
 Multiverse.transmute_card_stage = 0
 
-Multiverse.min_blindexpander_version = "1.2.0"
+Multiverse.min_blindexpander_version = "1.2.1"
 
 Multiverse.NFS = SMODS.NFS or NFS
 
@@ -66,6 +66,9 @@ function Multiverse.handle_debuffs(card)
 		ret["debuff"] = true
 	end
 	if G.GAME.mul_objection_active and card.playing_card then
+		ret["prevent_debuff"] = true
+	end
+	if card.config.center.mul_impervious then
 		ret["prevent_debuff"] = true
 	end
 	return ret

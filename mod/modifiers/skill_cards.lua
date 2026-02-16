@@ -149,11 +149,9 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "objection",
 	tp_cost = 30,
+	mul_impervious = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impervious"]
-	end,
-	set_ability = function(self, card, initial, delay_sprites)
-		SMODS.debuff_card(card, "prevent_debuff", "mul_impervious")
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
@@ -167,7 +165,7 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "teio_step",
-	tp_cost = 30,
+	tp_cost = 40,
 	config = { extra = { affected = 2, retriggers = 1 } },
 	no_save_on_use = true,
 	loc_vars = function(self, info_queue, card)
@@ -209,4 +207,30 @@ Multiverse.SkillCard({
 	can_use_skill = function(self, card)
 		return #G.hand.cards > 1
 	end,
+})
+
+Multiverse.SkillCard({
+	key = "rude_buster",
+	tp_cost = 25,
+	config = { extra = { blind_mult = 0.5, status = "psv_mul_vulnerable" } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
+		return {
+			vars = {
+				card.ability.extra.blind_mult,
+			},
+		}
+	end,
+	dependencies = { "blindexpander" },
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function ()
+			Multiverse.change_blind_size(function (chips)
+				return chips * card.ability.extra.blind_mult
+			end)
+			G.GAME.blind:add_passive(card.ability.extra.status)
+		end)
+	end,
+	can_use_skill = function (self, card)
+		return not find_passive(card.ability.extra.status)
+	end
 })

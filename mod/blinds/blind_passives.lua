@@ -204,3 +204,29 @@ blindexpander.Passive({
 		end)
     end,
 })
+
+blindexpander.Passive({
+	key = "vulnerable",
+	config = { xmult = 2 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.xmult },
+			key = passive.fake_card and "psv_mul_vulnerable_infoqueue" or nil
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if context.final_scoring_step then
+			return {
+				xmult = passive.config.xmult
+			}
+		end
+		if context.after then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					blind:remove_passive("psv_mul_vulnerable")
+					return true
+				end
+			}))
+		end
+	end,
+})

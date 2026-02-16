@@ -93,6 +93,13 @@ return {
 					"after being used",
 				},
 			},
+			du_mul_impervious = {
+				name = "Impervious",
+				text = {
+					"Cannot be",
+					"{C:red}debuffed",
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -218,6 +225,22 @@ return {
 					"After drawing cards, {C:red}debuff{} {C:attention}#1#{} random",
 					"undebuffed card in hand and {C:attention}flip #1#{} other",
 					"random face up card in hand",
+				},
+			},
+			psv_mul_vulnerable = {
+				name = "Vulnerable",
+				text = {
+					"During final score calculation, {X:mult,C:white}X#1#{} Mult",
+					"{C:attention}Removed{} after playing a hand",
+				},
+			},
+			psv_mul_vulnerable_infoqueue = {
+				name = "Vulnerable",
+				text = {
+					"During final score",
+					"calculation, {X:mult,C:white}X#1#{} Mult",
+					"{C:attention}Removed{} after",
+					"playing a hand",
 				},
 			},
 		},
@@ -397,8 +420,17 @@ return {
 				name = "Sky High Teio Step",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, {C:attention}#1#{} selected cards",
-					"gain {C:attention}+#2#{} retriggers permanently",
+					"After use, {C:attention}#1#{} selected",
+					"cards gain {C:attention}+#2#{} retriggers",
+					"permanently",
+				},
+			},
+			sk_mul_rude_buster = {
+				name = "Rude Buster",
+				text = {
+					"{X:purple,C:white}X#1#{} Blind size",
+					"Applies {C:attention}Vulnerable{}",
+					"to current blind",
 				},
 			},
 		},
