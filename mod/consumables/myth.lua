@@ -484,7 +484,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 12, money_penalty = 2 } },
 	loc_vars = function(self, info_queue, card)
@@ -557,7 +556,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 6, shop_penalty = 1 } },
 	loc_vars = function(self, info_queue, card)
@@ -602,7 +600,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 12 } },
 	loc_vars = function(self, info_queue, card)
@@ -671,7 +668,8 @@ function Multiverse.set_stand_arrow_suit()
 		return item.key ~= G.GAME.current_round.mul_stand_arrow_suit
 	end)
 	if next(valid) then
-		G.GAME.current_round.mul_stand_arrow_suit = pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante).key
+		G.GAME.current_round.mul_stand_arrow_suit =
+			pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante).key
 	end
 end
 
@@ -714,7 +712,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 16 } },
 	loc_vars = function(self, info_queue, card)
@@ -829,7 +826,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 8 } },
 	loc_vars = function(self, info_queue, card)
@@ -926,7 +922,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_penalty = 8, hands = 2, discards = 2 } },
 	loc_vars = function(self, info_queue, card)
@@ -988,7 +983,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_penalty = 12, joker_slots = 1 } },
 	loc_vars = function(self, info_queue, card)
@@ -1039,7 +1033,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, progress_boost = 1 } },
 	loc_vars = function(self, info_queue, card)
