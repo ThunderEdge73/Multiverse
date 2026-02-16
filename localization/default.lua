@@ -419,9 +419,9 @@ return {
 				name = "Sky High Teio Step",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, {C:attention}#1#{} selected",
-					"cards gain {C:attention}+#2#{} retriggers",
-					"permanently",
+					"After use, up to {C:attention}#1#{} selected",
+					"cards permanently gain",
+					"{C:attention}+#2#{} retriggers",
 				},
 			},
 			sk_mul_rude_buster = {
@@ -1769,9 +1769,9 @@ return {
 			b_mul_discord_server = "My Discord Server",
 			b_mul_landing_page = "About Me",
 			k_mul_ubw = "Select 1 card to split into #1# Half Cards",
-			k_mul_snowgrave = "Select any number of cards to give Frozen Seals to",
+			k_mul_snowgrave = "Apply Frozen Seals to any number of selected cards",
 			k_mul_sinful_shell = "Select up to #1# cards to destroy",
-			k_mul_teio_step = "Select up to #1# cards and give them +#2# retriggers",
+			k_mul_teio_step = "Select up to #1# cards to gain +#2# retriggers",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",
