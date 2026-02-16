@@ -376,6 +376,31 @@ return {
 					"{C:inactive}(Rounds up){}",
 				},
 			},
+			sk_mul_sinful_shell = {
+				name = "Sinful Shell",
+				text = {
+					"{C:attention}Exhaust{}",
+					"After use, destroy up",
+					"to {C:attention}#1#/#2#{} selected cards",
+					"{C:inactive}(Rounds up){}",
+				},
+			},
+			sk_mul_objection = {
+				name = "Objection",
+				text = {
+					"{C:attention}Impervious{}",
+					"Playing cards cannot",
+					"be {C:red}debuffed{} this round",
+				},
+			},
+			sk_mul_teio_step = {
+				name = "Sky High Teio Step",
+				text = {
+					"{C:attention}Exhaust{}",
+					"After use, {C:attention}#1#{} selected cards",
+					"gain {C:attention}+#2#{} retriggers permanently",
+				},
+			},
 		},
 		Enhanced = {
 			m_mul_calling_card = {
@@ -1739,6 +1764,8 @@ return {
 			},
 			k_mul_ubw = "Select 1 card to split into #1# Half Cards",
 			k_mul_snowgrave = "Select any number of cards to give Frozen Seals to",
+			k_mul_sinful_shell = "Select up to #1# cards to destroy",
+			k_mul_teio_step = "Select up to #1# cards and give them +#2# retriggers",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

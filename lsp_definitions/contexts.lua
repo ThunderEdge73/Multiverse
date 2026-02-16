@@ -3,6 +3,7 @@
 ---@class CalcContext
 ---@field mul_philosophers_stone_check? boolean True after the end of round context happens. Used for checking if a Philosopher's Stone should spawn.
 ---@field mul_dragon_transmute_check? boolean Used for Dragon's transmute condition.
+---@field mul_highlighted? boolean Whether or not a playing card has been selected.
 ---@field mul_TP_altered? boolean True if TP has changed.
 ---@field mul_from_hand? boolean True if TP has changed because a hand didn't oneshot the blind.
 ---@field mul_thaumaturgy_energy_altered? boolean True if Thaumaturgy Energy has changed.

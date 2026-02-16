@@ -58,16 +58,17 @@ SMODS.ObjectType({
 
 ---@param card Card
 function Multiverse.handle_debuffs(card)
+	local ret = {}
 	if Multiverse.is_kryptonite_debuffed(card) then
-		return {
-			debuff = true,
-		}
+		ret["debuff"] = true
 	end
 	if Multiverse.is_stand_arrow_debuffed(card) then
-		return {
-			debuff = true,
-		}
+		ret["debuff"] = true
 	end
+	if G.GAME.mul_objection_active and card.playing_card then
+		ret["prevent_debuff"] = true
+	end
+	return ret
 end
 
 SMODS.current_mod.calculate = function(self, context)
@@ -103,6 +104,7 @@ SMODS.current_mod.calculate = function(self, context)
 		end
 	end
 	if context.end_of_round and not context.game_over and context.main_eval then
+		G.GAME.mul_objection_active = false
 		Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_rate, { from_charge = true })
 		if context.beat_boss then
 			G.GAME.num_bosses_defeated = (G.GAME.num_bosses_defeated or 0) + 1

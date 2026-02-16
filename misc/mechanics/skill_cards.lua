@@ -316,7 +316,12 @@ function Multiverse.start_interaction(args)
 		func = function()
 			G.E_MANAGER:add_event(Event({
 				func = function()
-					Multiverse.show_interaction_ui(args.display_text, args.area)
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							Multiverse.show_interaction_ui(args.display_text, args.area)
+							return true
+						end,
+					}))
 					return true
 				end,
 			}))
