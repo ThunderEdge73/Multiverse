@@ -1,7 +1,3 @@
-if not blindexpander or not blindexpander.Passive then
-	return
-end
-
 blindexpander.Passive({
 	key = "memorization",
 	config = { mult = 3 },

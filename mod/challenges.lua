@@ -1,5 +1,4 @@
 SMODS.Challenge({
-	dependencies = { "blindexpander" },
 	key = "waterfall",
 	rules = {
 		custom = {
@@ -32,7 +31,6 @@ end
 
 SMODS.Challenge({
 	key = "monsoon",
-	dependencies = { "blindexpander" },
 	rules = {
 		custom = {
 			{ id = "mul_waterfall1" },
@@ -55,7 +53,6 @@ SMODS.Challenge({
 
 SMODS.Challenge({
 	key = "cant_touch_this",
-	dependencies = { "blindexpander" },
 	rules = {
 		custom = {
 			{ id = "mul_waterfall1" },

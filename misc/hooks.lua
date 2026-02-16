@@ -189,7 +189,7 @@ end
 
 local keypressed_hook = love.keypressed
 function love.keypressed(key, scancode, is_repeat)
-	if Multiverse.very_important_thing or (Multiverse.blindexpander_check and key == "escape") then
+	if Multiverse.very_important_thing then
 		return
 	end
 	local ret = keypressed_hook(key, scancode, is_repeat)

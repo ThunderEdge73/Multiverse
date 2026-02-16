@@ -221,7 +221,6 @@ Multiverse.SkillCard({
 			},
 		}
 	end,
-	dependencies = { "blindexpander" },
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function ()
 			Multiverse.change_blind_size(function (chips)

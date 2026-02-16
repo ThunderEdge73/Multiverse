@@ -86,7 +86,6 @@ end
 
 SMODS.Blind({
 	key = "limbo",
-	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_memorization",
 		"psv_mul_unsightreadable",
@@ -160,7 +159,6 @@ end
 
 SMODS.Blind({
 	key = "undying",
-	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_determination",
 		"psv_mul_justice",
@@ -189,7 +187,6 @@ SMODS.Blind({
 
 SMODS.Blind({
 	key = "time_eater",
-	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_time_warp",
 		"psv_mul_draw_reduction",
@@ -218,7 +215,6 @@ SMODS.Blind({
 SMODS.Blind({
 	key = "spire_shield",
 	dollars = 8,
-	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_artifact",
 		"psv_mul_bulky",
@@ -239,7 +235,6 @@ SMODS.Blind({
 SMODS.Blind({
 	key = "spire_spear",
 	dollars = 8,
-	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_artifact",
 		"psv_mul_surrounding",
@@ -263,7 +258,6 @@ SMODS.Blind({
 SMODS.Blind({
 	key = "corrupt_heart",
 	dollars = 8,
-	dependencies = { "blindexpander" },
 	passives = {
 		"psv_mul_artifact",
 		"psv_mul_invincible",

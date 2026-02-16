@@ -23,8 +23,6 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 
 Multiverse.transmute_card_stage = 0
 
-Multiverse.min_blindexpander_version = "1.2.1"
-
 Multiverse.NFS = SMODS.NFS or NFS
 
 Multiverse.selected_music_page = 1
