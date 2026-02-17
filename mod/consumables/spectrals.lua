@@ -3,7 +3,7 @@ SMODS.Consumable({
 	set = "Spectral",
 	atlas = "placeholder",
 	pos = { x = 1, y = 1 },
-	config = { max_highlighted = 1 },
+	config = { extra = { destroyed = 1 } },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
@@ -18,28 +18,31 @@ SMODS.Consumable({
 				end
 			end
 		end
-		return { key = (has_incompat and "c_mul_eternity_alt") or nil, vars = { card.ability.max_highlighted } }
+		return { key = (has_incompat and "c_mul_eternity_alt") or nil, vars = { card.ability.extra.destroyed } }
 	end,
 	can_use = function(self, card)
-		return G.hand and #G.hand.highlighted == 1 and G.jokers and #G.jokers.cards > 0
+		return G.jokers and #G.jokers.cards > 0 and #G.hand.cards > 0
 	end,
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			local cards_to_destroy = {}
-			for _, playing_card in ipairs(G.hand.cards) do
-				if not playing_card.highlighted then
-					cards_to_destroy[#cards_to_destroy + 1] = playing_card
-				end
-			end
 			for _, j in ipairs(G.jokers.cards) do
-				if not j.config.center.eternal_compat then
+				if j.config.center.eternal_compat == false then
 					cards_to_destroy[#cards_to_destroy + 1] = j
 				else
-					j:set_eternal(true)
+					j:add_sticker("eternal", true)
 					j:juice_up(0.3, 0.5)
 				end
 			end
+			local count = 0
+			for _, j in ipairs(G.jokers.cards) do
+				if j.ability.eternal then
+					count = count + 1
+				end
+			end
+			local destroyed = Multiverse.get_unique_pseudorandom_elements(G.hand.cards, count, "mul_eternity")
 			Multiverse.start_animation("lightning")
+			cards_to_destroy = SMODS.merge_lists({cards_to_destroy, destroyed})
 			SMODS.destroy_cards(cards_to_destroy)
 		end)
 	end,

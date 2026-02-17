@@ -1197,20 +1197,18 @@ return {
 			c_mul_eternity = {
 				name = "Eternity",
 				text = {
-					"Select {C:attention}#1#{} card in hand",
-					"Destroys all unselected",
-					"cards in hand and gives",
-					"all Jokers {C:attention}Eternal{}",
+					"Gives all Jokers {C:attention}Eternal{}",
+					"Destroy {C:attention}#1#{} random card in",
+					"hand per {C:attention}Eternal{} Joker",
 				},
 			},
 			c_mul_eternity_alt = {
 				name = "Eternity",
 				text = {
-					"Select {C:attention}#1#{} card in hand",
-					"Destroys all unselected",
-					"cards in hand and gives",
-					"all Jokers {C:attention}Eternal{}",
-					"{C:inactive}(Destroys all Jokers that",
+					"Gives all Jokers {C:attention}Eternal{}",
+					"Destroy {C:attention}#1#{} random card in",
+					"hand per {C:attention}Eternal{} Joker",
+					"{C:inactive}(Destroy all Jokers that",
 					"{C:inactive}cannot become Eternal)",
 				},
 			},
