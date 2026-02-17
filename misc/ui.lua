@@ -291,7 +291,11 @@ function Multiverse.config_tab_definition()
 			},
 		},
 	}
-	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_config_menu_title", { text_scale = 1.5 })
+	local mul_nodes = Multiverse.create_localized_rows(
+		nil,
+		"mul_config_menu_title",
+		{ text_scale = 2, bg_colour = G.C.CLEAR, no_padding = true }
+	)
 	mul_nodes[#mul_nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm" },
@@ -419,7 +423,6 @@ SMODS.current_mod.custom_ui = function(nodes)
 		scale = 1.5,
 		rotate = true,
 		pop_in = 0,
-		font = SMODS.Fonts["mul_reflect"],
 		text_effect = "mul_ui_multiverse_highlight",
 	})
 	title_text.states.visible = false
@@ -710,19 +713,89 @@ Multiverse.credits_table = {
 			},
 		},
 	},
+	"MISC_CREDITS",
 }
 
 function Multiverse.credits_tab_definition(page)
 	rows = {}
-	for _, row in ipairs(Multiverse.credits_table[page]) do
-		local row_items = {}
-		for _, item in ipairs(row) do
-			table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
+	if type(Multiverse.credits_table[page]) == "table" then
+		for _, row in ipairs(Multiverse.credits_table[page]) do
+			local row_items = {}
+			for _, item in ipairs(row) do
+				table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
+			end
+			table.insert(rows, {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = row_items,
+			})
 		end
+	else
+		local insp_text = DynaText({
+			string = localize("mul_inspirations"),
+			colours = { G.C.UI.TEXT_LIGHT },
+			shadow = true,
+			float = true,
+			silent = true,
+			spacing = 5,
+			scale = 1,
+			rotate = true,
+			pop_in = 0,
+			text_effect = "mul_ui_multiverse_highlight",
+		})
+		insp_text.states.visible = false
 		table.insert(rows, {
 			n = G.UIT.R,
 			config = { align = "cm" },
-			nodes = row_items,
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "cm", padding = 0.1 },
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.O,
+									config = {
+										object = insp_text,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.B,
+									config = {
+										h = 0.2,
+										w = 0.5,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.3, loc_vars = {
+								colours = {
+									darken(HEX("8dffa8"), 0.2),
+									HEX("F4A6C7"),
+									HEX("800080"),
+									HEX("FE0001"),
+									HEX("4d1575"),
+									HEX("7E7AFF"),
+									HEX("ff8c8c"),
+									HEX("fd9712"),
+								}
+							} }),
+						},
+					},
+				},
+			},
 		})
 	end
 	local pages = {}
@@ -785,14 +858,14 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
 		G.CARD_W,
-		G.CARD_H * 0.9,
+		G.CARD_H,
 		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
 	)
 	local card = Card(
 		G.mul_credits[#G.mul_credits].T.x + G.mul_credits[#G.mul_credits].T.w / 2,
 		G.mul_credits[#G.mul_credits].T.y,
-		G.CARD_W * 0.9,
-		G.CARD_H * 0.9,
+		G.CARD_W,
+		G.CARD_H,
 		G.P_CARDS.empty,
 		G.P_CENTERS[entry.card_key],
 		{
@@ -854,7 +927,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
-				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.05 }),
+				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
 			},
 		},
 	}

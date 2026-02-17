@@ -438,7 +438,7 @@ return {
 				},
 			},
 			sk_mul_rum_seventh = {
-				name = {"Rank-Up-Magic", "The Seventh One"},
+				name = { "Rank-Up-Magic", "The Seventh One" },
 				text = {
 					"{C:attention}Ultimate, Impulse{}",
 					"After use, destroy {C:attention}#1#{} selected",
@@ -806,16 +806,16 @@ return {
 				name = "Enchantment Tag",
 				text = {
 					"Gives a free",
-					"{C:mul_enchantedbook}Enchantment Table"
-				}
+					"{C:mul_enchantedbook}Enchantment Table",
+				},
 			},
 			tag_mul_dimensional = {
 				name = "Dimensional Tag",
 				text = {
 					"Gives a free",
-					"{C:attention} Mega Dimension Pack"
-				}
-			}
+					"{C:attention} Mega Dimension Pack",
+				},
+			},
 		},
 		Joker = {
 			j_mul_thunderedge = {
@@ -826,8 +826,8 @@ return {
 						"Thaumaturgy Energy",
 						"or TP, {C:attention}refund{} half",
 						"the lost amount",
-					}
-				}
+					},
+				},
 			},
 			j_mul_proto = {
 				name = "Proto",
@@ -837,8 +837,8 @@ return {
 						"{C:attention}unique{} rank in",
 						"played hand",
 						"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
-					}
-				}
+					},
+				},
 			},
 			j_mul_bloodbath = {
 				name = "Bloodbath",
@@ -1185,7 +1185,7 @@ return {
 						"{C:attention}Frozen Seals{} instead gain",
 						"{X:mult,C:white}X#1#{} Mult when scored",
 						"{C:attention}Frozen Seals{} also trigger",
-						"while held in hand"
+						"while held in hand",
 					},
 					{
 						"{C:inactive,s:0.8}Where's my super suit?",
@@ -1613,7 +1613,7 @@ return {
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}"
+					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_blind_keybind_info = {
@@ -1621,8 +1621,8 @@ return {
 				text = {
 					"Hold {C:attention}I{} to make the current",
 					"Blind's instructions visible",
-					"on top of any held {C:attention}Tags{}"
-				}
+					"on top of any held {C:attention}Tags{}",
+				},
 			},
 			mul_TP_desc_joke1 = {
 				name = "TP (Toilet Paper)",
@@ -1635,7 +1635,7 @@ return {
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}"
+					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_TP_desc_joke2 = {
@@ -1649,7 +1649,7 @@ return {
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}"
+					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_active_consumable = {
@@ -1736,12 +1736,12 @@ return {
 			k_mul_thunderedge_credits = {
 				"Creator of {C:mul_transmuted}Multiverse{}",
 				"Implemented all of",
-				"{C:mul_transmuted}Multiverse{}'s mechanics"
+				"{C:mul_transmuted}Multiverse{}'s mechanics",
 			},
 			k_mul_proto_credits = {
 				"Added some {C:attention}challenges{}",
 				"Added attack patterns",
-				"for {C:attention}The Undying{}"
+				"for {C:attention}The Undying{}",
 			},
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
@@ -1841,11 +1841,22 @@ return {
 				"exit this menu, such as enabling debug utilities or joke content.",
 			},
 			mul_config_menu_title = {
-				"Change {C:mul_transmuted}Multiverse{}'s settings here",
+				"{C:white}Change {C:mul_transmuted}Multiverse{C:white}'s settings here",
 			},
 			mul_music_menu_text = {
 				"{C:attention}Enable{} or {C:attention}disable{} certain songs that this mod uses",
 				"{C:attention}Hover{} over the song details to see when the song plays",
+			},
+			mul_inspirations = "Inspirations",
+			mul_misc_credits = {
+				"{V:1}Aikoyori {C:inactive}(Aikoyori's Shenanigans)",
+				"{V:2}nh6574 {C:inactive}(Joyous Spring)",
+				"{V:3}Mysthaps {C:inactive}(Lobotomy Corporation)",
+				"{V:4}Ruby {C:inactive}(Entropy, DATA EXPUNGED)",
+				"{V:5}GhostSalt {C:inactive}(Phanta, Catan, BFDI)",
+				"{V:6}Revo {C:inactive}(Revo's Vault, Judgement)",
+				"{V:7}Lily Felli {C:inactive}(Valkarri, Aquillari)",
+				"{V:8}TheOneGoofAli {C:inactive}(TOGA's Stuff)",
 			},
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",
