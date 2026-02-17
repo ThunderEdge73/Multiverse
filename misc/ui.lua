@@ -330,7 +330,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 		"c_mul_enchanted_book",
 		"c_mul_lightsaber",
 		"c_mul_polymerization",
-		"sk_mul_ubw",
+		"sk_mul_teio_step",
 	}
 	local funcs = {
 		Joker = "your_collection_jokers",
