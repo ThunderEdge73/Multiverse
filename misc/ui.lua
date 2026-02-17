@@ -804,7 +804,7 @@ function Multiverse.credits_tab_definition(page)
 						{
 							n = G.UIT.R,
 							config = { align = "cm" },
-							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.2, loc_vars = {
+							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.232, loc_vars = {
 								colours = {
 									darken(HEX("8dffa8"), 0.2),
 									HEX("F4A6C7"),
