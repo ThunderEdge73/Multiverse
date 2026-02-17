@@ -1583,7 +1583,7 @@ return {
 			mul_jack_frost_hint = {
 				name = "Hint",
 				text = {
-					"Destroy {C:attention}#1#{}",
+					"Destroy {C:attention}#2#{}",
 					"playing cards",
 					"{C:inactive}(#1#/#2#){}",
 				},

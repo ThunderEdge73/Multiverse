@@ -167,6 +167,9 @@ SMODS.Joker({
 	rarity = 1,
 	cost = 5,
 	blueprint_compat = false,
+	loc_vars = function (self, info_queue, card)
+		Multiverse.transmute_info_queue(card, info_queue)
+	end,
 	calculate = function(self, card, context)
 		if context.before and context.scoring_hand[1] then
 			assert(SMODS.change_base(context.scoring_hand[1], nil, "Jack"))
