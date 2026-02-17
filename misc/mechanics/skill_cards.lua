@@ -569,3 +569,27 @@ function Multiverse.get_final_X_value(center, card, ui_format, with_paren)
 	end
 	return center:get_final_tp_cost(card, false) + (G.GAME.mul_x_boost or 0)
 end
+
+local has_no_suit_hook = SMODS.has_no_suit
+function SMODS.has_no_suit(card)
+	if card.ability.set == "mul_Skill" then
+		return true
+	end
+	return has_no_suit_hook(card)
+end
+
+local has_no_rank_hook = SMODS.has_no_rank
+function SMODS.has_no_rank(card)
+	if card.ability.set == "mul_Skill" then
+		return true
+	end
+	return has_no_rank_hook(card)
+end
+
+local never_scores_hook = SMODS.never_scores
+function SMODS.never_scores(card)
+	if card.ability.set == "mul_Skill" then
+		return true
+	end
+	return never_scores_hook(card)
+end
