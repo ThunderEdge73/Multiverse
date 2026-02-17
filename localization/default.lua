@@ -45,24 +45,20 @@ return {
 				},
 			},
 			du_mul_visible_enchant = {
-				name = "NONE",
 				text = {
 					"{C:mul_enchantedbook}#1#",
 					"{C:inactive}(lvl. #2# -> lvl. #3#){}",
 				},
 			},
 			du_mul_hidden_enchant = {
-				name = "NONE",
 				text = { "{C:inactive}?????" },
 			},
 			du_mul_skill_cost_num = {
-				name = "NONE",
 				text = {
 					"Costs {C:attention}#1#{} TP",
 				},
 			},
 			du_mul_skill_cost_x = {
-				name = "NONE",
 				text = {
 					"Costs {C:attention}#1#{} TP",
 					"{C:inactive}(#1# is your current TP){}",
@@ -97,6 +93,15 @@ return {
 				text = {
 					"Cannot be",
 					"{C:red}debuffed",
+				},
+			},
+			du_mul_impulse = {
+				name = "Impulse",
+				text = {
+					"If no hands or",
+					"discards were",
+					"used this round,",
+					"{C:attention}-#1#%{} TP cost",
 				},
 			},
 		},
@@ -430,6 +435,19 @@ return {
 					"{X:purple,C:white}X#1#{} Blind size",
 					"Applies {C:attention}Vulnerable{}",
 					"to current blind",
+				},
+			},
+			sk_mul_rum_seventh = {
+				name = {"Rank-Up-Magic", "The Seventh One"},
+				text = {
+					"{C:attention}Ultimate, Impulse{}",
+					"After use, destroy {C:attention}#1#{} selected",
+					"Jokers with the {C:attention}same{} rarity,",
+					"then create a random Joker",
+					"that can become {C:mul_transmuted}Transmutable{}",
+					"and {C:attention}increase{} that Joker's",
+					"progress towards becoming",
+					"{C:mul_transmuted}Transmutable{} by {C:attention}#2#%{}",
 				},
 			},
 		},
@@ -1771,7 +1789,8 @@ return {
 			k_mul_ubw = "Select 1 card to split into #1# Half Cards",
 			k_mul_snowgrave = "Apply Frozen Seals to any number of selected cards",
 			k_mul_sinful_shell = "Select up to #1# cards to destroy",
-			k_mul_teio_step = "Select up to #1# cards to gain +#2# retriggers",
+			k_mul_teio_step = "Give +#2# retriggers permanently to up to #1# selected cards",
+			k_mul_rum_seventh = "Select #1# Jokers to destroy",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

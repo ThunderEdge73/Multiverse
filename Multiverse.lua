@@ -156,6 +156,17 @@ SMODS.current_mod.calculate = function(self, context)
 		}))
 		delay(0.7)
 	end
+	if context.mul_change_skill_cost then
+		if
+			context.other_card.config.center.mul_impulse
+			and G.GAME.current_round.hands_played == 0
+			and G.GAME.current_round.discards_used == 0
+		then
+			ret[#ret+1] = {
+				skill_tp_cost_mult = 0.5
+			}
+		end
+	end
 	if context.after then
 		if SMODS.last_hand_oneshot then
 			if next(SMODS.find_card("j_mul_ren_amamiya")) then

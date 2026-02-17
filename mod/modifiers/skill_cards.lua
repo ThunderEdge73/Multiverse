@@ -222,14 +222,76 @@ Multiverse.SkillCard({
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		Multiverse.effect_animation(card, function ()
-			Multiverse.change_blind_size(function (chips)
+		Multiverse.effect_animation(card, function()
+			Multiverse.change_blind_size(function(chips)
 				return chips * card.ability.extra.blind_mult
 			end)
 			G.GAME.blind:add_passive(card.ability.extra.status)
 		end)
 	end,
-	can_use_skill = function (self, card)
+	can_use_skill = function(self, card)
 		return not find_passive(card.ability.extra.status)
-	end
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "rum_seventh",
+	tp_cost = 100,
+	mul_impulse = true,
+	config = { extra = { affected = 2, percent = 100 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ultimate"]
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impulse"]
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
+		return {
+			vars = {
+				card.ability.extra.affected,
+				card.ability.extra.percent,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.start_interaction({
+			area = "jokers",
+			end_interaction = function()
+				local c = SMODS.add_card({ set = "mul_can_transmute", key_append = "mul_rum_seventh" })
+				Multiverse.increment_transmute_progress(c, nil, card.ability.extra.percent)
+				SMODS.destroy_cards(G.jokers.highlighted)
+			end,
+			can_end_interaction = function()
+				local count = 0
+				for _, j in ipairs(G.jokers.highlighted) do
+					if not SMODS.is_eternal(j, card) then
+						count = count + 1
+					end
+				end
+				if count ~= 2 then
+					return false
+				end
+				local same_rarity = G.jokers.highlighted[1].config.center.rarity
+					== G.jokers.highlighted[2].config.center.rarity
+				return count == 2 and same_rarity
+			end,
+			display_text = Multiverse.parse_vars(localize("k_mul_rum_seventh"), { card.ability.extra.affected }),
+		})
+		return "destroy"
+	end,
+	can_use_skill = function(self, card)
+		local rarity_counts = {}
+		for _, j in ipairs(G.jokers.cards) do
+			if not SMODS.is_eternal(j, card) then
+				rarity_counts[j.config.center.rarity] = (rarity_counts[j.config.center.rarity] or 0) + 1
+			end
+		end
+		for _, count in pairs(rarity_counts) do
+			if count >= 2 then
+				return true
+			end
+		end
+		return false
+	end,
 })

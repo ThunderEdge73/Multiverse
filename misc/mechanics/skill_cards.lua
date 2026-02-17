@@ -57,15 +57,20 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 		end
 		local res = {}
 		local discount = 0
+		local cost_mult = 1
 		SMODS.calculate_context({ mul_change_skill_cost = true, other_card = card, mul_base_cost = self.tp_cost }, res)
 		for _, eff in pairs(res) do
 			for _, tab in pairs(eff) do
 				if tab.skill_tp_discount and type(tab.skill_tp_discount) == "number" then
-					discount = discount + tab.skill_tp_discount
+					discount = discount - math.floor(tab.skill_tp_discount) -- flat modifications
+				end
+				if tab.skill_tp_cost_mult and type(tab.skill_tp_cost_mult) == "number" then
+					cost_mult = cost_mult * tab.skill_tp_cost_mult -- multiplicative modifications
 				end
 			end
 		end
-		local amt = math.max(self.tp_cost - (card.ability.mul_skill_tp_discount or 0) - discount, 0)
+		local amt =
+			math.max(math.floor((self.tp_cost - (card.ability.mul_skill_tp_discount or 0) - discount) * cost_mult), 0)
 		return ui_format and format_ui_value(amt) or amt
 	end,
 	generate_cost_ui = function(self, card)
@@ -112,7 +117,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 								}),
 								func = "mul_update_tp_cost",
 								ref_table = card,
-								align = "cm"
+								align = "cm",
 							},
 						},
 					},
