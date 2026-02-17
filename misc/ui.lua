@@ -414,7 +414,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 		},
 	}
 	local title_text = DynaText({
-		string = "Multiverse",
+		string = localize("mul_multiverse"),
 		colours = { G.C.UI.TEXT_LIGHT },
 		shadow = true,
 		float = true,
@@ -719,6 +719,30 @@ Multiverse.credits_table = {
 function Multiverse.credits_tab_definition(page)
 	rows = {}
 	if type(Multiverse.credits_table[page]) == "table" then
+		local contributor_text = DynaText({
+			string = localize("mul_contributors"),
+			colours = { G.C.UI.TEXT_LIGHT },
+			shadow = true,
+			float = true,
+			silent = true,
+			spacing = 5,
+			scale = 1,
+			rotate = true,
+			pop_in = 0,
+			text_effect = "mul_ui_multiverse_highlight",
+		})
+		table.insert(rows, {
+			n = G.UIT.R,
+			config = { align = "cm", padding = 0.1 },
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						object = contributor_text
+					}
+				}
+			},
+		})
 		for _, row in ipairs(Multiverse.credits_table[page]) do
 			local row_items = {}
 			for _, item in ipairs(row) do
@@ -750,11 +774,11 @@ function Multiverse.credits_tab_definition(page)
 			nodes = {
 				{
 					n = G.UIT.C,
-					config = { align = "cm", padding = 0.1 },
+					config = { align = "cm" },
 					nodes = {
 						{
 							n = G.UIT.R,
-							config = { align = "cm" },
+							config = { align = "cm", padding = 0.1 },
 							nodes = {
 								{
 									n = G.UIT.O,
@@ -771,7 +795,7 @@ function Multiverse.credits_tab_definition(page)
 								{
 									n = G.UIT.B,
 									config = {
-										h = 0.2,
+										h = 0.3,
 										w = 0.5,
 									},
 								},
@@ -780,7 +804,7 @@ function Multiverse.credits_tab_definition(page)
 						{
 							n = G.UIT.R,
 							config = { align = "cm" },
-							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.3, loc_vars = {
+							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.2, loc_vars = {
 								colours = {
 									darken(HEX("8dffa8"), 0.2),
 									HEX("F4A6C7"),
@@ -790,6 +814,9 @@ function Multiverse.credits_tab_definition(page)
 									HEX("7E7AFF"),
 									HEX("ff8c8c"),
 									HEX("fd9712"),
+									HEX("f51bbc"),
+									HEX("7a2eb6"),
+									HEX("8b61ad"),
 								}
 							} }),
 						},
