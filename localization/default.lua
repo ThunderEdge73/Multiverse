@@ -254,6 +254,15 @@ return {
 					"{C:attention}Removed{} after playing {C:attention}2{} {C:inactive}(#1#){} hands",
 				},
 			},
+			psv_mul_burning_infoqueue = {
+				name = "Burning",
+				text = {
+					"Level up played",
+					"poker hand once",
+					"{C:attention}Removed{} after",
+					"playing {C:attention}2{} {C:inactive}(#1#){} hands"
+				},
+			},
 		},
 		mul_DeckEnchantment = {
 			de_mul_dark_affinity = {
@@ -441,7 +450,7 @@ return {
 				text = {
 					"{X:purple,C:white}X#1#{} Blind size",
 					"Applies {C:attention}Vulnerable{}",
-					"to current blind",
+					"to current Blind",
 				},
 			},
 			sk_mul_rum_seventh = {
@@ -455,6 +464,13 @@ return {
 					"and {C:attention}increase{} that Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#2#%{}",
+				},
+			},
+			sk_mul_fireball = {
+				name = "Fireball",
+				text = {
+					"Applies {C:attention}Burning{}",
+					"to current Blind",
 				},
 			},
 		},
