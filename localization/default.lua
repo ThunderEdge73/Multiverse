@@ -974,9 +974,9 @@ return {
 				text = {
 					{
 						"{C:green}#1# in #2#{} chance",
-						"to give {X:mult,C:white}X#3#{} Mult",
-						"If this probability fails, instead",
-						"give {C:mult}+#4#{} Mult",
+						"for {X:mult,C:white}X#3#{} Mult",
+						"If this probability",
+						"fails, {C:mult}+#4#{} Mult",
 					},
 					{
 						"{C:inactive,s:0.8}The 50/50 feels like a",
@@ -1152,12 +1152,11 @@ return {
 				text = {
 					{
 						"{C:blue}+#1#{} hands",
-						"Evenly distribute {C:attention}#2#{}",
+						"Evenly distribute {C:attention}#3#{}",
 						"retriggers across",
 						"all scored cards",
-						"Increases retriggers",
-						"by {C:attention}#3#{} per hand remaining",
-						"{C:inactive}(Currently {C:attention}#4#{C:inactive} retriggers){}",
+						"Increases by {C:attention}#2#{}",
+						"per hand remaining",
 					},
 					{
 						"{C:inactive,s:0.8}It costs 400,000 dollars to",

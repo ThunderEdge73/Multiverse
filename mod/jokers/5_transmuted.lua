@@ -297,7 +297,6 @@ Multiverse.UsableJoker({
 		return {
 			vars = {
 				card.ability.extra.hands,
-				card.ability.extra.retriggers,
 				card.ability.extra.retriggers_per_hand,
 				card.ability.extra.retriggers + card.ability.extra.retriggers_per_hand * hands,
 			},
