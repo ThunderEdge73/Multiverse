@@ -247,6 +247,13 @@ return {
 					"playing a hand",
 				},
 			},
+			psv_mul_burning = {
+				name = "Burning",
+				text = {
+					"Level up played poker hand once",
+					"{C:attention}Removed{} after playing {C:attention}2{} {C:inactive}(#1#){} hands",
+				},
+			},
 		},
 		mul_DeckEnchantment = {
 			de_mul_dark_affinity = {

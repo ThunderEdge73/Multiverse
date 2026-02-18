@@ -240,7 +240,35 @@ blindexpander.Passive({
 		if context.after then
 			G.E_MANAGER:add_event(Event({
 				func = function()
-					blind:remove_passive("psv_mul_vulnerable")
+					blind:remove_passive(self.key)
+					return true
+				end,
+			}))
+		end
+	end,
+})
+
+blindexpander.Passive({
+	key = "burning",
+	config = { hands_left = 2 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.hands_left },
+			key = passive.fake_card and "psv_mul_burning_infoqueue" or nil,
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if context.before then
+			passive.config.hands_left = passive.config.hands_left - 1
+            return {
+                level_up = true,
+                message = localize('k_level_up_ex')
+            }
+        end
+		if context.after and passive.config.hands_left <= 0 then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					blind:remove_passive(self.key)
 					return true
 				end,
 			}))

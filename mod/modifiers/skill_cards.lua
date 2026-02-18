@@ -295,3 +295,20 @@ Multiverse.SkillCard({
 		return false
 	end,
 })
+
+Multiverse.SkillCard({
+	key = "fireball",
+	tp_cost = 25,
+	config = { extra = { status = "mul_burning" } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = blindexpander.Passives["psv_mul_burning"]
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function ()
+			G.GAME.blind:add_passive(card.ability.extra.status)
+		end)
+	end,
+	can_use_skill = function(self, card)
+		return not find_passive(card.ability.extra.status)
+	end,
+})
