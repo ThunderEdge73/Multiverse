@@ -253,7 +253,7 @@ blindexpander.Passive({
 	config = { discards_left = 2 },
 	loc_vars = function(self, blind, passive)
 		return {
-			vars = { passive.config.hands_left },
+			vars = { passive.config.discards_left },
 			key = passive.fake_card and "psv_mul_burning_infoqueue" or nil,
 		}
 	end,
