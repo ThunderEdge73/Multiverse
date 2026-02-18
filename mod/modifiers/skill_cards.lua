@@ -299,7 +299,7 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "fireball",
 	tp_cost = 25,
-	config = { extra = { status = "mul_burning" } },
+	config = { extra = { status = "psv_mul_burning" } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = blindexpander.Passives["psv_mul_burning"]
 	end,
