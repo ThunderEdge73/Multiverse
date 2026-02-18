@@ -1850,7 +1850,7 @@ return {
 			mul_inspirations = "Inspirations",
 			mul_misc_credits = {
 				"{V:1}Aikoyori {C:inactive}(Aikoyori's Shenanigans)",
-				"{V:2}nh6574 {C:inactive}(Joyous Spring)",
+				"{V:2}nh6574 {C:inactive}(JoyousSpring)",
 				"{V:3}Mysthaps {C:inactive}(Lobotomy Corporation)",
 				"{V:4}Ruby {C:inactive}(Entropy, DATA EXPUNGED)",
 				"{V:5}GhostSalt {C:inactive}(Phanta, Catan, etc.)",
