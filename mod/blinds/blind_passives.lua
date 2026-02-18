@@ -250,7 +250,7 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "burning",
-	config = { hands_left = 2 },
+	config = { discards_left = 2 },
 	loc_vars = function(self, blind, passive)
 		return {
 			vars = { passive.config.hands_left },
@@ -258,20 +258,23 @@ blindexpander.Passive({
 		}
 	end,
 	calculate = function(self, blind, passive, context)
-		if context.before then
-			passive.config.hands_left = passive.config.hands_left - 1
-            return {
-                level_up = true,
-                message = localize('k_level_up_ex')
-            }
-        end
-		if context.after and passive.config.hands_left <= 0 then
-			G.E_MANAGER:add_event(Event({
+		if context.pre_discard and not context.hook then
+			passive.config.discards_left = passive.config.discards_left - 1
+			local text, _ = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
+			return {
+				level_up = true,
+				level_up_hand = text,
 				func = function()
-					blind:remove_passive(self.key)
-					return true
+					if passive.config.discards_left <= 0 then
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								blind:remove_passive(self.key)
+								return true
+							end,
+						}))
+					end
 				end,
-			}))
+			}
 		end
 	end,
 })

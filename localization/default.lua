@@ -250,17 +250,17 @@ return {
 			psv_mul_burning = {
 				name = "Burning",
 				text = {
-					"Level up played poker hand once",
-					"{C:attention}Removed{} after playing {C:attention}2{} {C:inactive}(#1#){} hands",
+					"Level up discarded poker hand once",
+					"{C:attention}Removed{} after discarding {C:attention}2{} {C:inactive}(#1#){} times",
 				},
 			},
 			psv_mul_burning_infoqueue = {
 				name = "Burning",
 				text = {
-					"Level up played",
+					"Level up discarded",
 					"poker hand once",
 					"{C:attention}Removed{} after",
-					"playing {C:attention}2{} {C:inactive}(#1#){} hands"
+					"discarding {C:attention}2{} {C:inactive}(#1#){} times"
 				},
 			},
 		},
