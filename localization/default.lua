@@ -1947,7 +1947,6 @@ return {
 			},
 			ml_skill_card_explanation = {
 				"Skill Cards are sent to the discard pile when used, except if specified otherwise",
-				"Discard effects do not trigger if a Skill Card is used and sent to the discard pile",
 				"Skill Cards have no rank or suit, and will not score regardless of played poker hand",
 			},
 		},

@@ -329,7 +329,7 @@ Multiverse.SkillCard({
 		Multiverse.start_interaction({
 			area = "hand",
 			end_interaction = function()
-				local amt = #G.hand.cards.highlighted * card.ability.extra.tp_per_discard
+				local amt = #G.hand.highlighted * card.ability.extra.tp_per_discard
 				if amt > 0 then
 					G.FUNCS.discard_cards_from_highlighted(nil, true)
 					G.E_MANAGER:add_event(Event({
