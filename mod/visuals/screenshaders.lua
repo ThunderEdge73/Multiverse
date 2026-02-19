@@ -24,6 +24,8 @@ SMODS.ScreenShader({
 			bottom_right = { love.graphics.getWidth(), love.graphics.getHeight() },
 			progress = Multiverse.slash_stage,
 			card_pos = Multiverse.slash_pos or Multiverse.get_true_coords(Multiverse.slash_card),
+			game_scale = G.TILESIZE * G.TILESCALE,
+			card_w = G.CARD_W,
 		}
 	end,
 	should_apply = function(self)
