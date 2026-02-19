@@ -520,7 +520,7 @@ SMODS.Consumable({
 			end
 		end)
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -598,7 +598,7 @@ SMODS.Consumable({
 			end
 		end)
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -668,7 +668,7 @@ SMODS.Consumable({
 			end)
 		end
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -780,7 +780,7 @@ SMODS.Consumable({
 			return { stay_flipped = true }
 		end
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -899,7 +899,7 @@ SMODS.Consumable({
 			end)
 		end
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -1005,7 +1005,7 @@ SMODS.Consumable({
 			end
 		end)
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -1061,7 +1061,7 @@ SMODS.Consumable({
 			end
 		end)
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
@@ -1103,7 +1103,7 @@ SMODS.Consumable({
 			end
 		end)
 	end,
-	set_ability = function (self, card, initial, delay_sprites)
+	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.is_active then
 			card:remove_sticker("eternal")
 		end
