@@ -477,8 +477,9 @@ return {
 				name = "Ultra Instinct",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, discard any",
-					"number of selected cards",
+					"After use, discard",
+					"any number of",
+					"selected cards",
 					"Gain {C:attention}#1#%{} TP per",
 					"discarded card",
 				},
@@ -488,7 +489,8 @@ return {
 				text = {
 					"{C:attention}Exhaust{}",
 					"Convert all Thaumaturgy",
-					"Energy into TP"
+					"Energy into TP",
+					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)"
 				},
 			},
 		},

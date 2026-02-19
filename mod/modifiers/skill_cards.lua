@@ -319,6 +319,11 @@ Multiverse.SkillCard({
 	config = { extra = { tp_per_discard = 4 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
+		return {
+			vars = {
+				card.ability.extra.tp_per_discard
+			}
+		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.start_interaction({
@@ -346,6 +351,11 @@ Multiverse.SkillCard({
 	tp_cost = 0,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
+		return {
+			vars = {
+				G.GAME.mul_thaumaturgy_energy or 0
+			}
+		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
