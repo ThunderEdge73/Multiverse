@@ -635,8 +635,8 @@ return {
 					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}",
 				},
 			},
-			c_mul_theory = {
-				name = "Theory of Everything",
+			c_mul_panacea = {
+				name = "Panacea",
 				text = {
 					"Creates a random Joker",
 					"that can become {C:mul_transmuted}Transmutable{}",
@@ -670,8 +670,8 @@ return {
 					"{C:red}Rare{} Joker",
 				},
 			},
-			c_mul_gnosis = {
-				name = "Archon's Gnosis",
+			c_mul_sacrifice = {
+				name = "Sacrificial Ritual",
 				text = {
 					"{C:attention}Destroys{} selected Joker that",
 					"can become {C:mul_transmuted}Transmutable{}",

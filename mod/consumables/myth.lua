@@ -310,7 +310,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "theory",
+	key = "panacea",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
@@ -453,7 +453,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "gnosis",
+	key = "sacrifice",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
