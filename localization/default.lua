@@ -473,8 +473,8 @@ return {
 					"to current Blind",
 				},
 			},
-			sk_mul_aurafarming = {
-				name = "Aurafarming",
+			sk_mul_ultra_instinct = {
+				name = "Ultra Instinct",
 				text = {
 					"{C:attention}Exhaust{}",
 					"After use, discard any",
@@ -1823,7 +1823,7 @@ return {
 			k_mul_sinful_shell = "Select up to #1# cards to destroy",
 			k_mul_teio_step = "Give +#2# retriggers permanently to up to #1# selected cards",
 			k_mul_rum_seventh = "Select #1# Jokers to destroy",
-			k_mul_aurafarming = "Discard any number of selected cards",
+			k_mul_ultra_instinct = "Discard any number of selected cards",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

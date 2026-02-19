@@ -314,7 +314,7 @@ Multiverse.SkillCard({
 })
 
 Multiverse.SkillCard({
-	key = "aurafarming",
+	key = "ultra_instinct",
 	tp_cost = 0,
 	config = { extra = { tp_per_discard = 4} },
 	loc_vars = function(self, info_queue, card)
@@ -335,7 +335,7 @@ Multiverse.SkillCard({
 					}))
 				end
 			end,
-			display_text = localize("k_mul_aurafarming"),
+			display_text = localize("k_mul_ultra_instinct"),
 		})
 		return "exhaust"
 	end,
