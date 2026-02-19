@@ -459,7 +459,7 @@ SMODS.Consumable({
 	pos = { x = 0, y = 0 },
 	discovered = true,
 	cost = 6,
-	config = { extra = { thaum_energy = 35 } },
+	config = { extra = { thaum_energy = 50 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.thaum_energy } }
 	end,
