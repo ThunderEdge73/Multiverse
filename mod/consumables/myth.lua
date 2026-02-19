@@ -520,6 +520,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -592,6 +598,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -655,6 +667,12 @@ SMODS.Consumable({
 				SMODS.recalc_debuff(playing_card)
 			end)
 		end
+	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
 	end,
 })
 
@@ -761,6 +779,12 @@ SMODS.Consumable({
 		if card.ability.extra.is_active and context.stay_flipped and context.to_area == G.hand then
 			return { stay_flipped = true }
 		end
+	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
 	end,
 })
 
@@ -875,6 +899,12 @@ SMODS.Consumable({
 			end)
 		end
 	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 ---@param card Card
@@ -975,6 +1005,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -1025,6 +1061,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -1060,6 +1102,12 @@ SMODS.Consumable({
 				card:remove_sticker("eternal")
 			end
 		end)
+	end,
+	set_ability = function (self, card, initial, delay_sprites)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
 	end,
 	calculate = function(self, card, context)
 		if
