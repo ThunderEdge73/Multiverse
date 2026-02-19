@@ -7,15 +7,16 @@ dump_lua = true
 [patches.pattern]
 target = "functions/UI_definitions.lua"
 pattern = '''
-{n=G.UIT.R, config={align = "cm", id = 'row_round'}, nodes={
-    {n=G.UIT.C, config={align = "cm"}, nodes=contents.buttons},
-    {n=G.UIT.C, config={align = "cm"}, nodes=contents.round}
-}},
+{n=G.UIT.R, config={minh = spacing},nodes={}},
 '''
 position = "after"
 payload = '''
 Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale),
+{n=G.UIT.R, config={minh = spacing},nodes={}},
 '''
+match_indent = true
+times = 1
+
 # '''
 # {n=G.UIT.R, config={align = "cm", id = "row_thaumaturgy"}, nodes = {
 #     {n=G.UIT.C, config={align = "cm", padding = 0.05, minw = 1.45, minh = 0.55, colour = temp_col, emboss = 0.05, r = 0.1, detailed_tooltip = {set = "Other", key = "mul_thaumaturgy_desc"}}, nodes={
@@ -31,7 +32,6 @@ Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale),
 #     }},
 # }},
 # '''
-match_indent = true
 
 [[patches]]
 [patches.pattern]
