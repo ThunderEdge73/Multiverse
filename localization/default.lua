@@ -483,6 +483,14 @@ return {
 					"discarded card",
 				},
 			},
+			sk_mul_aurafarming = {
+				name = "Aurafarming",
+				text = {
+					"{C:attention}Exhaust{}",
+					"Convert all Thaumaturgy",
+					"Energy into TP"
+				},
+			},
 		},
 		Enhanced = {
 			m_mul_calling_card = {

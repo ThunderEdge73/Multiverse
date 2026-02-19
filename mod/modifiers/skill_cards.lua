@@ -304,7 +304,7 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = blindexpander.Passives["psv_mul_burning"]
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		Multiverse.effect_animation(card, function ()
+		Multiverse.effect_animation(card, function()
 			G.GAME.blind:add_passive(card.ability.extra.status)
 		end)
 	end,
@@ -316,7 +316,7 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "ultra_instinct",
 	tp_cost = 0,
-	config = { extra = { tp_per_discard = 4} },
+	config = { extra = { tp_per_discard = 4 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 	end,
@@ -331,12 +331,31 @@ Multiverse.SkillCard({
 						func = function()
 							Multiverse.ease_TP(amt)
 							return true
-						end
+						end,
 					}))
 				end
 			end,
 			display_text = localize("k_mul_ultra_instinct"),
 		})
 		return "exhaust"
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "aurafarming",
+	tp_cost = 0,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			local amt = G.GAME.mul_thaumaturgy_energy
+			Multiverse.ease_thaumaturgy_energy(-amt)
+			Multiverse.ease_TP(amt)
+		end)
+		return "exhaust"
+	end,
+	can_use_skill = function(self, card)
+		return G.GAME.mul_thaumaturgy_energy > 0
 	end,
 })
