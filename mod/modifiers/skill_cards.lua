@@ -312,3 +312,22 @@ Multiverse.SkillCard({
 		return not find_passive(card.ability.extra.status)
 	end,
 })
+
+-- Multiverse.SkillCard({
+-- 	key = "aurafarming",
+-- 	tp_cost = 0,
+-- 	config = { extra = { tp_per_discard = 4} },
+-- 	loc_vars = function(self, info_queue, card)
+-- 		info_queue[#info_queue + 1] = blindexpander.Passives["psv_mul_burning"]
+-- 	end,
+-- 	use_skill = function(self, card, paid_amt, x)
+-- 		Multiverse.start_interaction({
+-- 			area = "hand",
+-- 			end_interaction = function()
+-- 				G.FUNCS.discard_cards_from_highlighted(nil, true)
+-- 			end,
+-- 			display_text = Multiverse.parse_vars(localize("k_mul_aurafarming"), { card.ability.extra.tp_per_discard }),
+-- 		})
+-- 		return "exhaust"
+-- 	end,
+-- })

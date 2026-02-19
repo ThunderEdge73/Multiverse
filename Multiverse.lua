@@ -174,7 +174,12 @@ SMODS.current_mod.calculate = function(self, context)
 				-- Multiverse.start_animation("ren_cut_in")
 			end
 		else
-			Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
+					return true
+				end
+			}))
 		end
 		G.GAME.mul_temp_bonuses = {}
 	end
