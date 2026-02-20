@@ -646,7 +646,7 @@ return {
 				text = {
 					"{C:attention}Halve{} your Thaumaturgy Energy",
 					"Gain TP equal to the amount",
-					"of Thaumaturgy Energy {C:attention}lost",
+					"of Thaumaturgy Energy lost",
 					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}",
 				},
 			},
