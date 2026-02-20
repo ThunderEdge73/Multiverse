@@ -26,8 +26,12 @@ Multiverse.UsableJoker({
 		if context.mul_TP_altered and context.amount < 0 then
 			local num = math.floor(-context.amount / 2)
 			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.7 + 0.1 * G.SPEEDFACTOR,
+				blocking = false,
 				func = function()
 					Multiverse.ease_TP(num)
+					delay(0.7 + 0.1 * G.SPEEDFACTOR)
 					return true
 				end,
 			}))
@@ -35,8 +39,12 @@ Multiverse.UsableJoker({
 		if context.mul_thaumaturgy_energy_altered and context.amount < 0 then
 			local num = math.floor(-context.amount / 2)
 			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.7 + 0.1 * G.SPEEDFACTOR,
+				blocking = false,
 				func = function()
 					Multiverse.ease_thaumaturgy_energy(num)
+					delay(0.7 + 0.1 * G.SPEEDFACTOR)
 					return true
 				end,
 			}))

@@ -19,6 +19,7 @@ function Multiverse.ease_thaumaturgy_energy(amt, args)
 		--True if the change in Thaumaturgy Energy came from the natural end of round bonus.
 		mul_from_charge = args.from_charge,
 	})
+	G.GAME.mul_thaumaturgy_energy_buffer = (G.GAME.mul_thaumaturgy_energy_buffer or 0) + amt
 	local function change_thaumaturgy_energy(num)
 		num = num or 0
 		if num == 0 then
@@ -32,6 +33,7 @@ function Multiverse.ease_thaumaturgy_energy(amt, args)
 			col = G.C.RED
 		end
 		G.GAME.mul_thaumaturgy_energy = G.GAME.mul_thaumaturgy_energy + num
+		G.GAME.mul_thaumaturgy_energy_buffer = nil
 		thaum_UI.config.object:update()
 		G.HUD:recalculate()
 		attention_text({
