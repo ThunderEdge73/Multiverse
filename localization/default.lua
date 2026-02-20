@@ -636,7 +636,7 @@ return {
 			c_mul_chaos_emeralds = {
 				name = "Chaos Emeralds",
 				text = {
-					"{C:attention}Increases{} selected Joker's",
+					"Increase {C:attention}1{} selected Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#1#%{}",
 				},
@@ -670,11 +670,12 @@ return {
 			c_mul_shadow_crystal = {
 				name = "Shadow Crystal",
 				text = {
-					"{C:attention}Sets{} selected Joker's progress",
-					"towards becoming {C:mul_transmuted}Transmutable{}",
-					"to its requirement minus {C:attention}1{}",
-					"Gives the selected Joker",
-					"{C:attention}Traitorous{}",
+					"Set {C:attention}1{} selected Joker's",
+					"progress towards becoming",
+					"{C:mul_transmuted}Transmutable{} to its",
+					"requirement minus {C:attention}1{}",
+					"Gives the selected",
+					"Joker {C:attention}Traitorous{}",
 				},
 			},
 			c_mul_necronomicon = {
@@ -710,7 +711,7 @@ return {
 				name = "Three Goddesses Statue",
 				text = {
 					"Sets Thaumaturgy Energy to{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
-					"{C:attention}Increases{} selected Joker's",
+					"Increase {C:attention}1{} selected Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#1#%{}",
 					"{C:inactive}(Cannot be used while Thaumaturgy{}",
@@ -742,7 +743,7 @@ return {
 				name = "Moon Berry",
 				text = {
 					"Adds {C:dark_edition}Polychrome{} to",
-					"selected Joker",
+					"{C:attention}1{} selected Joker",
 					"Lose{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 				},
 			},
@@ -759,7 +760,7 @@ return {
 			c_mul_master_sword = {
 				name = "Master Sword",
 				text = {
-					"{C:attention}Destroys{} selected Joker",
+					"Destroy {C:attention}1{} selected Joker",
 					"with at least {C:attention}1{} sticker",
 					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per sticker",
 					"on selected Joker",
@@ -788,7 +789,7 @@ return {
 			c_mul_infinity_gauntlet = {
 				name = "Infinity Gauntlet",
 				text = {
-					"{C:attention}Increases{} selected Joker's",
+					"Increase {C:attention}1{} selected Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#1#%{}",
 					"Randomly destroys {C:attention}half{}",

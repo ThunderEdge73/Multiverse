@@ -315,6 +315,13 @@ SMODS.Consumable({
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
+	loc_vars = function (self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
+	end,
 	discovered = true,
 	cost = 6,
 	can_use = function(self, card)
@@ -341,6 +348,11 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return {
 			vars = {
 				card.ability.extra.progress_percent,
@@ -400,6 +412,11 @@ SMODS.Consumable({
 	discovered = true,
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_traitorous",
@@ -462,6 +479,11 @@ SMODS.Consumable({
 	cost = 6,
 	config = { extra = { thaum_energy = 50 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return { vars = { card.ability.extra.thaum_energy } }
 	end,
 	can_use = function(self, card)
@@ -538,6 +560,11 @@ SMODS.Consumable({
 	cost = 6,
 	config = { extra = { min_energy = 40, progress_percent = 50 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return { vars = { card.ability.extra.progress_percent, card.ability.extra.min_energy } }
 	end,
 	can_use = function(self, card)
@@ -922,6 +949,11 @@ SMODS.Consumable({
 	cost = 6,
 	config = { extra = { progress_percent = 50 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return { vars = { card.ability.extra.progress_percent } }
 	end,
 	can_use = function(self, card)
@@ -1079,6 +1111,11 @@ SMODS.Consumable({
 	cost = 6,
 	config = { extra = { is_active = false, progress_boost = 1 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_active_consumable",
