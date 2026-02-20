@@ -374,7 +374,7 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "dupe_glitch",
-	tp_cost = 10,
+	tp_cost = 15,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_retain"]
 		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
