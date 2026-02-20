@@ -494,6 +494,15 @@ return {
 					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)"
 				},
 			},
+			sk_mul_dupe_glitch = {
+				name = "Duplication Glitch",
+				text = {
+					"{C:attention}Retain{}",
+					"Create a {C:dark_edition}Negative",
+					"copy of {C:attention}1{} selected",
+					"consumable",
+				},
+			},
 		},
 		Enhanced = {
 			m_mul_calling_card = {
@@ -1842,6 +1851,7 @@ return {
 			k_mul_teio_step = "Give +#2# retriggers permanently to up to #1# selected cards",
 			k_mul_rum_seventh = "Select #1# Jokers to destroy",
 			k_mul_ultra_instinct = "Discard any number of selected cards",
+			k_mul_dupe_glitch = "Create a Negative copy of 1 selected consumable",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

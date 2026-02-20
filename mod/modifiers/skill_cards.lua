@@ -321,8 +321,8 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
 			vars = {
-				card.ability.extra.tp_per_discard
-			}
+				card.ability.extra.tp_per_discard,
+			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
@@ -333,6 +333,8 @@ Multiverse.SkillCard({
 				if amt > 0 then
 					G.FUNCS.discard_cards_from_highlighted(nil, true)
 					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						delay = 0.3,
 						func = function()
 							Multiverse.ease_TP(amt)
 							return true
@@ -353,8 +355,8 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
 			vars = {
-				G.GAME.mul_thaumaturgy_energy or 0
-			}
+				G.GAME.mul_thaumaturgy_energy or 0,
+			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
@@ -367,5 +369,39 @@ Multiverse.SkillCard({
 	end,
 	can_use_skill = function(self, card)
 		return G.GAME.mul_thaumaturgy_energy > 0
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "dupe_glitch",
+	tp_cost = 10,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_retain"]
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.start_interaction({
+			area = "consumables",
+			end_interaction = function()
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						local card_to_copy = G.consumeables.highlighted[1]
+						local copied_card = copy_card(card_to_copy)
+						copied_card:set_edition("e_negative", true)
+						copied_card:add_to_deck()
+						G.consumeables:emplace(copied_card)
+						return true
+					end,
+				}))
+			end,
+			can_end_interaction = function()
+				return #G.consumeables.highlighted == 1
+			end,
+			display_text = localize("k_mul_dupe_glitch"),
+		})
+		return "retain"
+	end,
+	can_use_skill = function(self, card)
+		return #G.consumeables.cards > 0
 	end,
 })

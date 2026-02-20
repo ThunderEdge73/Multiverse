@@ -482,10 +482,13 @@ function Multiverse.remove_interaction_ui()
 	if Multiverse.in_interaction() then
 		if Multiverse.interaction_old_data.affected == "hand" then
 			G.hand.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+			G.hand:unhighlight_all()
 		elseif Multiverse.interaction_old_data.affected == "jokers" then
 			G.jokers.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+			G.jokers:unhighlight_all()
 		else
 			G.consumeables.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+			G.consumeables:unhighlight_all()
 		end
 		G.mul_interact_menu:get_UIE_by_ID("interaction_text").config.object:pop_out(3)
 		G.STATE = G.STATES.SELECTING_HAND
