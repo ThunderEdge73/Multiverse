@@ -310,7 +310,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "panacea",
+	key = "mithridate",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },

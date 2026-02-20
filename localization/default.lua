@@ -647,8 +647,8 @@ return {
 					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}",
 				},
 			},
-			c_mul_panacea = {
-				name = "Panacea",
+			c_mul_mithridate = {
+				name = "Mithridate",
 				text = {
 					"Creates a random Joker",
 					"that can become {C:mul_transmuted}Transmutable{}",
