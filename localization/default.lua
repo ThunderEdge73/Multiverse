@@ -699,7 +699,7 @@ return {
 			c_mul_puzzle = {
 				name = "Millenium Puzzle",
 				text = {
-					"While active, increases",
+					"While active, increase",
 					"{C:attention}base{} Thaumaturgy Energy",
 					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 					"but {C:attention}halves{} money earned",
@@ -721,7 +721,7 @@ return {
 			c_mul_ufo = {
 				name = "UFO",
 				text = {
-					"While active, increases",
+					"While active, increase",
 					"{C:attention}base{} Thaumaturgy Energy",
 					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but {C:attention}-#2#{}",
 					"card slots available in shop",
@@ -731,7 +731,7 @@ return {
 			c_mul_stand_arrow = {
 				name = "Stand Arrow",
 				text = {
-					"While active, increases",
+					"While active, increase",
 					"{C:attention}base{} Thaumaturgy Energy",
 					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but",
 					"{C:red}debuffs{} all {V:1}#2#{} cards",
@@ -750,7 +750,7 @@ return {
 			c_mul_elder_scroll = {
 				name = "Elder Scroll",
 				text = {
-					"While active, increases {C:attention}base{}",
+					"While active, increase {C:attention}base{}",
 					"Thaumaturgy Energy recharge",
 					"rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but all playing",
 					"cards are {C:attention}facedown{}",
@@ -779,7 +779,7 @@ return {
 			c_mul_kryptonite = {
 				name = "Kryptonite",
 				text = {
-					"While active, increases {C:attention}base{}",
+					"While active, increase {C:attention}base{}",
 					"Thaumaturgy Energy recharge",
 					"rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but {C:red}debuffs{}",
 					"all {C:red}Rare{} Jokers",
@@ -800,7 +800,7 @@ return {
 				name = "Super Star",
 				text = {
 					"While active, {C:blue}+#1#{} hands and",
-					"{C:red}+#2#{} discards but decreases",
+					"{C:red}+#2#{} discards but decrease",
 					"{C:attention}base{} Thaumaturgy Energy",
 					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#3#{}",
 					"{C:inactive}(Currently #4#){}",
@@ -810,7 +810,7 @@ return {
 				name = "Matrix",
 				text = {
 					"While active, {C:attention}+#1#{} Joker",
-					"slots but decreases",
+					"slots but decrease",
 					"{C:attention}base{} Thaumaturgy Energy",
 					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
 					"{C:inactive}(Currently #3#){}",
