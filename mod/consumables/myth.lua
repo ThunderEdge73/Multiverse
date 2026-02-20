@@ -29,7 +29,7 @@ SMODS.Consumable({
 	set = "mul_Myth",
 	atlas = "p_stone",
 	pos = { x = 0, y = 0 },
-	config = { extra = { energy_per_joker = 15 } },
+	config = { extra = { energy_per_joker = 10 } },
 	discovered = true,
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
