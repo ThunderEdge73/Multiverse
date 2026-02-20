@@ -404,7 +404,8 @@ return {
 				name = "Snowgrave",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, gives all",
+					"After use, gives",
+					"{C:attention}any{} number of",
 					"selected cards",
 					"{C:attention}Frozen Seals",
 				},
@@ -478,7 +479,7 @@ return {
 				text = {
 					"{C:attention}Exhaust{}",
 					"After use, discard",
-					"any number of",
+					"{C:attention}any{} number of",
 					"selected cards",
 					"Gain {C:attention}#1#%{} TP per",
 					"discarded card",
