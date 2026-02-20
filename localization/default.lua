@@ -55,12 +55,12 @@ return {
 			},
 			du_mul_skill_cost_num = {
 				text = {
-					"Costs {C:attention}#1#{} TP",
+					"Costs {C:attention}#1#%{} TP",
 				},
 			},
 			du_mul_skill_cost_x = {
 				text = {
-					"Costs {C:attention}#1#{} TP",
+					"Costs {C:attention}#1#%{} TP",
 					"{C:inactive}(#1# is your current TP){}",
 				},
 			},
@@ -1533,7 +1533,7 @@ return {
 			mul_steve_ability = {
 				name = "Ability: Crafting",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: Destroy any number",
 					"of selected cards, then",
 					"create an equal number",
@@ -1544,7 +1544,7 @@ return {
 			mul_heavy_ability = {
 				name = "Ability: Sandvich",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: Gain {C:blue}+#2#{} hands",
 					"this round",
 				},
@@ -1552,7 +1552,7 @@ return {
 			mul_impostor_ability = {
 				name = "Ability: Murder",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: {X:purple,C:white}X#2#{} Blind size",
 					"{X:purple,C:white}^#3#{} Blind size instead if",
 					"{C:attention}Ante{} is greater than {C:attention}#4#{}",
@@ -1561,7 +1561,7 @@ return {
 			mul_thunderedge_ability = {
 				name = "Ability: Omniscience",
 				text = {
-					"Cost: {C:attention}#1#{} TP,{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
+					"Cost: {C:attention}#1#%{} TP,{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
 					"Effect: Creates a",
 					"{C:attention}Dimensional Tag",
 				},
@@ -1569,7 +1569,7 @@ return {
 			mul_frozone_ability = {
 				name = "Ability: Freeze",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: Apply a {C:attention}Frozen",
 					"{C:attention}Seal{} to {C:attention}#2#{} selected card",
 				},
@@ -1965,7 +1965,7 @@ return {
 		},
 		v_dictionary = {
 			a_mul_thaumaturgy_energy = "+#1# Energy",
-			a_mul_TP = "+#1# TP",
+			a_mul_TP = "+#1#% TP",
 			a_mul_x_blind_size = "X#1# Blind Size",
 			a_mul_plus_blind_size = "+#1# Blind Size",
 			a_mul_limbo_popup = "F O C U S (X#1# Blind size on failure)",
