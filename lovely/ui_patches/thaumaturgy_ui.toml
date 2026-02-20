@@ -7,31 +7,16 @@ dump_lua = true
 [patches.pattern]
 target = "functions/UI_definitions.lua"
 pattern = '''
-{n=G.UIT.R, config={minh = spacing},nodes={}},
+{n=G.UIT.R, config={align = "cm", id = 'row_round'}, nodes={
+    {n=G.UIT.C, config={align = "cm"}, nodes=contents.buttons},
+    {n=G.UIT.C, config={align = "cm"}, nodes=contents.round}
+}},
 '''
 position = "after"
 payload = '''
 Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale),
-{n=G.UIT.R, config={minh = spacing},nodes={}},
 '''
 match_indent = true
-times = 1
-
-# '''
-# {n=G.UIT.R, config={align = "cm", id = "row_thaumaturgy"}, nodes = {
-#     {n=G.UIT.C, config={align = "cm", padding = 0.05, minw = 1.45, minh = 0.55, colour = temp_col, emboss = 0.05, r = 0.1, detailed_tooltip = {set = "Other", key = "mul_thaumaturgy_desc"}}, nodes={
-#         {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
-#             {n=G.UIT.T, config={text = localize('k_mul_thaumaturgy_energy') .. ":", minh = 0.33, scale = 0.85*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
-#             {n=G.UIT.C, config={minw = 0.05}},
-#             {n=G.UIT.C, config={align = "cm", r = 0.1, minw = 1.2, colour = temp_col2, id = 'col_thaumaturgy_text'}, nodes={
-#                 {n=G.UIT.O, config={object = DynaText({string = "+", colours = {Multiverse.C.TRANSMUTED_GRADIENT}, shadow = true, scale = 1.4*scale, text_effect = "mul_rotate", font = SMODS.Fonts["mul_thaum_icon"], y_offset = -10})}},
-#                 {n=G.UIT.B, config={h=0.08,w=0.08}},
-#                 {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'mul_thaumaturgy_energy'}}, colours = {Multiverse.C.TRANSMUTED_GRADIENT},shadow = true, scale = 1.4*scale}),id = 'thaumaturgy_UI_count'}},
-#             }},
-#         }},
-#     }},
-# }},
-# '''
 
 [[patches]]
 [patches.pattern]

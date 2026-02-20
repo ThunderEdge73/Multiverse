@@ -196,9 +196,6 @@ function Multiverse.handle_other_drawing(x_factor, y_factor)
 end
 
 function Multiverse.update_animations()
-	if G.shared_stickers then
-		G.shared_stickers["mul_transmutable"]:animate()
-	end
 	Multiverse.anchors = {
 		x = {
 			l = 0,

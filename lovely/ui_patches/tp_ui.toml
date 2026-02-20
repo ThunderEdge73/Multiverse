@@ -43,16 +43,3 @@ if self.config.detailed_tooltip_offset then
 end
 '''
 match_indent = true
-
-# [[patches]]
-# [patches.pattern]
-# target = "functions/UI_definitions.lua"
-# pattern = '''
-# {n=G.UIT.C, config={align = "cm"}, nodes=contents.round}
-# '''
-# position = "at"
-# payload = '''
-# {n=G.UIT.C, config={align = "cm", maxw = 2}, nodes=contents.round},
-# -- Multiverse.create_TP_ui().nodes[1].nodes[1],
-# '''
-# match_indent = true
