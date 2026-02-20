@@ -431,7 +431,7 @@ SMODS.Consumable({
 		local total = G.GAME.mul_thaumaturgy_energy or 0
 		return {
 			vars = {
-				total / 2,
+				math.floor(total / 2),
 			},
 		}
 	end,
