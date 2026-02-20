@@ -184,6 +184,7 @@ SMODS.Consumable({
 	discovered = true,
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
 		return { vars = { card.ability.extra.num_consumables } }
 	end,
 	can_use = function(self, card)

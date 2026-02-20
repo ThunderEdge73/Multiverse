@@ -601,9 +601,11 @@ return {
 			c_mul_holy_grail = {
 				name = "Holy Grail",
 				text = {
-					"Creates {C:attention}#1#{} {C:dark_edition}Negative{} consumables that",
-					"are relevant to the {C:mul_transmuted}transmutation{}",
-					"of selected Joker",
+					"Creates {C:attention}#1#{} {C:dark_edition}Negative{}",
+					"consumables that are",
+					"relevant to the",
+					"{C:mul_transmuted}transmutation{} of",
+					"{C:attention}1{} selected Joker",
 				},
 			},
 			c_mul_perpetual_motion = {
@@ -617,9 +619,10 @@ return {
 			c_mul_tree_of_eden = {
 				name = "Tree of Eden",
 				text = {
-					"Creates a random Joker that is",
-					"relevant to the {C:mul_transmuted}transmutation{}",
-					"of selected Joker",
+					"Creates a random Joker",
+					"that is relevant to",
+					"the {C:mul_transmuted}transmutation{} of",
+					"{C:attention}1{} selected Joker",
 				},
 			},
 			c_mul_sphere = {
@@ -650,8 +653,9 @@ return {
 			c_mul_mithridate = {
 				name = "Mithridate",
 				text = {
-					"Creates a random Joker",
-					"that can become {C:mul_transmuted}Transmutable{}",
+					"Creates a random",
+					"Joker that can",
+					"become {C:mul_transmuted}Transmutable{}",
 				},
 			},
 			c_mul_rosetta_stone = {
@@ -685,8 +689,9 @@ return {
 			c_mul_sacrifice = {
 				name = "Sacrificial Ritual",
 				text = {
-					"{C:attention}Destroys{} selected Joker that",
-					"can become {C:mul_transmuted}Transmutable{}",
+					"Destroy {C:attention}1{} selected",
+					"Joker that can",
+					"become {C:mul_transmuted}Transmutable{}",
 					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 				},
 			},
