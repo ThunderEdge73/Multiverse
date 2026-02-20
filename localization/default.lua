@@ -446,8 +446,8 @@ return {
 					"{C:attention}+#2#{} retriggers",
 				},
 			},
-			sk_mul_sabotage = {
-				name = "Bloon Sabotage",
+			sk_mul_embrittlement = {
+				name = "Embrittlement",
 				text = {
 					"{X:purple,C:white}X#1#{} Blind size",
 					"Applies {C:attention}Vulnerable{}",

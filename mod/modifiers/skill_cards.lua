@@ -210,7 +210,7 @@ Multiverse.SkillCard({
 })
 
 Multiverse.SkillCard({
-	key = "sabotage",
+	key = "embrittlement",
 	tp_cost = 25,
 	config = { extra = { blind_mult = 0.5, status = "psv_mul_vulnerable" } },
 	loc_vars = function(self, info_queue, card)
