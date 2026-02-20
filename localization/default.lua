@@ -489,8 +489,10 @@ return {
 				name = "Aurafarming",
 				text = {
 					"{C:attention}Exhaust{}",
-					"Convert all Thaumaturgy",
-					"Energy into TP",
+					"Set Thaumaturgy",
+					"Energy to{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
+					"Gain {C:attention}1%{} TP for",
+					"every{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}1{} lost",
 					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)"
 				},
 			},
@@ -751,7 +753,7 @@ return {
 			c_mul_moon_berry = {
 				name = "Moon Berry",
 				text = {
-					"Adds {C:dark_edition}Polychrome{} to",
+					"Give {C:dark_edition}Polychrome{} to",
 					"{C:attention}1{} selected Joker",
 					"Lose{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 				},
@@ -780,7 +782,7 @@ return {
 			c_mul_unicorn_horn = {
 				name = "Unicorn's Horn",
 				text = {
-					"{C:red}Nullifies{} the next decrease",
+					"{C:red}Nullify{} the next decrease",
 					"in Thaumaturgy Energy",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} nullifications){}",
 				},
@@ -840,7 +842,7 @@ return {
 			c_mul_palace_treasure = {
 				name = "Palace Treasure",
 				text = {
-					"Sets Thaumaturgy",
+					"Set Thaumaturgy",
 					"Energy to{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
 					"Earn {C:money}$1{} for",
 					"every{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} lost",
