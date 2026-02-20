@@ -80,7 +80,7 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 					align = "cm",
 					padding = 0.05,
 					minw = 1.45 * 2 + 0.13,
-					minh = 0.55,
+					minh = 0.7,
 					colour = temp_col,
 					emboss = 0.05,
 					r = 0.1,
@@ -89,7 +89,7 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 				nodes = {
 					{
 						n = G.UIT.R,
-						config = { align = "cm", padding = 0.05 },
+						config = { align = "cm" },
 						nodes = {
 							{
 								n = G.UIT.C,
@@ -97,9 +97,9 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 									align = "cm",
 									r = 0.1,
 									minw = 1.28 * 2 + 0.13,
+									minh = 0.55,
 									colour = temp_col2,
 									id = "col_thaumaturgy_text",
-									padding = 0.05
 								},
 								nodes = {
 									{
