@@ -827,7 +827,7 @@ return {
 				text = {
 					"Sets Thaumaturgy Energy to{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
 					"Earn {C:money}$1{} for every{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} lost",
-					"{C:inactive}(Currently {C:money}#2#{C:inactive}){}",
+					"{C:inactive}(Currently {C:money}$#2#{C:inactive}){}",
 				},
 			},
 			c_mul_journal = {
