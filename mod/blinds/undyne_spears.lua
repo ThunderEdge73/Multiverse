@@ -354,13 +354,12 @@ Multiverse.start_undyne_attack = function(i, p)
 										nil,
 										nil,
 										true,
-										0.5 * G.SETTINGS.GAMESPEED,
-										"inoutquad"
+										0.5 * G.SETTINGS.GAMESPEED
 									)
 									G.E_MANAGER:add_event(
 										Event({
 											trigger = "after",
-											delay = 0.5 * G.SETTINGS.GAMESPEED,
+											delay = 0.51 * G.SETTINGS.GAMESPEED,
 											func = function()
 												Multiverse.dark_bg_active = false
 												Multiverse.in_undyne = false

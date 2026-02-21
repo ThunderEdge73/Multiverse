@@ -110,7 +110,7 @@ SMODS.Blind({
 function Multiverse.undying_press_play_effect(index)
 	Multiverse.undyne_spears = {}
 	Multiverse.in_undyne = true
-	ease_value(Multiverse, "dark_bg_percent", -1, nil, nil, true, 0.5 * G.SETTINGS.GAMESPEED, "inoutquad")
+	ease_value(Multiverse, "dark_bg_percent", -1, nil, nil, true, 0.5 * G.SETTINGS.GAMESPEED)
 	delay(0.5 * G.SETTINGS.GAMESPEED, "other")
 	Multiverse.start_undyne_attack(nil, index)
 	Multiverse.dark_bg_active = true
