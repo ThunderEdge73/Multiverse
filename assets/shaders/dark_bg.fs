@@ -8,7 +8,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     // add colour-modifying effects here
     
     if (distance(center, screen_coords) >= radius) {
-        tex.rgb = tex.rgb / 4;
+        tex.rgb = tex.rgb / 4.5;
     }
 
     return tex;
