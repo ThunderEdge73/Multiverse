@@ -55,7 +55,8 @@ function Multiverse.hide_blind_instructions()
 end
 
 function Multiverse.limbo_set_effect()
-	Multiverse.show_blind_instructions("limbo")
+	Multiverse.dark_bg_active = true
+	ease_value(Multiverse, "dark_bg_percent", -1, nil, "REAL", true, 0.5)
 	Multiverse.in_limbo = "pre_start"
 	if pseudorandom("mul_limbo", 1, 1000) < 8 then
 		Multiverse.secret_limbo = true
@@ -66,22 +67,17 @@ function Multiverse.limbo_set_effect()
 	end
 	Multiverse.add_limbo_keys()
 	ease_background_colour_blind(G.STATES.BLIND_SELECT)
-	attention_text({
-		scale = 0.7,
-		text = localize({ type = "variable", key = "a_mul_limbo_popup", vars = { 10 } }),
-		hold = G.SETTINGS.GAMESPEED * 2.4,
-		align = "cm",
-		offset = { x = 0, y = -1 },
-		major = G.play,
-	})
-	delay(2 * G.SETTINGS.GAMESPEED)
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			Multiverse.limbo_keys_intro()
 			return true
 		end,
 	}))
-	delay(18.6 * G.SETTINGS.GAMESPEED)
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 18.6,
+		timer = "REAL"
+	}))
 end
 
 SMODS.Blind({
@@ -97,7 +93,12 @@ SMODS.Blind({
 	boss = { min = 3 },
 	mult = 2,
 	set_blind = function(self)
-		Multiverse.limbo_set_effect()
+		Multiverse.show_blind_instructions("limbo")
+	end,
+	calculate = function (self, blind, context)
+		if context.press_play and not blind.disabled and G.GAME.current_round.hands_played == 0 then
+			Multiverse.limbo_set_effect()
+		end
 	end,
 	disable = function(self)
 		Multiverse.hide_blind_instructions()
@@ -110,10 +111,10 @@ SMODS.Blind({
 function Multiverse.undying_press_play_effect(index)
 	Multiverse.undyne_spears = {}
 	Multiverse.in_undyne = true
-	ease_value(Multiverse, "dark_bg_percent", -1, nil, nil, true, 0.5 * G.SETTINGS.GAMESPEED)
+	Multiverse.dark_bg_active = true
+	ease_value(Multiverse, "dark_bg_percent", -1, nil, "REAL", true, 0.5)
 	delay(0.5 * G.SETTINGS.GAMESPEED, "other")
 	Multiverse.start_undyne_attack(nil, index)
-	Multiverse.dark_bg_active = true
 	G.E_MANAGER:add_event(Event({
 		trigger = "immediate",
 		func = function()
@@ -135,9 +136,7 @@ SMODS.Blind({
 	boss = { min = 1 },
 	mult = 2,
 	press_play = function(self)
-		if not G.GAME.blind.disabled then
-			Multiverse.undying_press_play_effect()
-		end
+		Multiverse.undying_press_play_effect()
 	end,
 	set_blind = function(self)
 		Multiverse.show_blind_instructions("undying")

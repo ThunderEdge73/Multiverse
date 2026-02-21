@@ -1733,8 +1733,8 @@ return {
 			mul_limbo_inst = {
 				name = "Instructions",
 				text = {
-					"When Blind is selected, {C:attention}8{} keys",
-					"will appear on the screen",
+					"Before first hand is played,",
+					"{C:attention}8{} keys will appear on screen",
 					" ",
 					"Pay attention to the {C:attention}key{}",
 					"that is flashing {C:green}green{}",
@@ -1742,9 +1742,9 @@ return {
 					"In a moment, the keys will",
 					"start to {C:attention}shuffle{} around",
 					" ",
-					"When the keys stop shuffling,",
-					"{C:attention}click{} the key that was flashing",
-					"{C:green}green{} at the start of the blind",
+					"When the keys stop moving,",
+					"{C:attention}click{} the key that was",
+					"originally flashing {C:green}green{}",
 				},
 			},
 			mul_undying_inst = {
@@ -1988,7 +1988,6 @@ return {
 			a_mul_TP = "+#1#% TP",
 			a_mul_x_blind_size = "X#1# Blind Size",
 			a_mul_plus_blind_size = "+#1# Blind Size",
-			a_mul_limbo_popup = "F O C U S (X#1# Blind size on failure)",
 		},
 	},
 }

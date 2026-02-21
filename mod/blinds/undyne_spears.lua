@@ -320,7 +320,8 @@ Multiverse.start_undyne_attack = function(i, p)
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
-			delay = pattern[index][4] * G.SETTINGS.GAMESPEED,
+			delay = pattern[index][4],
+			timer = "REAL",
 			func = function()
 				local spear = {
 					r = 850,
@@ -352,14 +353,15 @@ Multiverse.start_undyne_attack = function(i, p)
 										"dark_bg_percent",
 										1,
 										nil,
-										nil,
+										"REAL",
 										true,
-										0.5 * G.SETTINGS.GAMESPEED
+										0.5
 									)
 									G.E_MANAGER:add_event(
 										Event({
 											trigger = "after",
-											delay = 0.51 * G.SETTINGS.GAMESPEED,
+											delay = 0.51,
+											timer = "REAL",
 											func = function()
 												Multiverse.dark_bg_active = false
 												Multiverse.in_undyne = false
@@ -475,7 +477,8 @@ function Multiverse.update_spears()
 				G.E_MANAGER:add_event(
 					Event({
 						trigger = "ease",
-						delay = math.min(0.2, 0.3 - spear.velocity / 10000) * G.SETTINGS.GAMESPEED,
+						delay = math.min(0.2, 0.3 - spear.velocity / 10000),
+						timer = "REAL",
 						ease_to = spear.theta + math.pi,
 						ref_table = spear,
 						ref_value = "theta",

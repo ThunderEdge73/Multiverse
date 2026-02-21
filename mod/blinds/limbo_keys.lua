@@ -60,7 +60,8 @@ function Multiverse.limbo_keys_intro()
 	Multiverse.limbo_anim_prog = 0
 	G.E_MANAGER:add_event(
 		Event({
-			delay = 4.75 * G.SETTINGS.GAMESPEED,
+			delay = 4.75,
+			timer = "REAL",
 			trigger = "ease",
 			ease_to = 1,
 			ref_table = Multiverse,
@@ -101,7 +102,8 @@ function Multiverse.limbo_keys_swap(count)
 	Multiverse.assign_limbo_key_ids()
 	G.E_MANAGER:add_event(
 		Event({
-			delay = 0.278 * G.SETTINGS.GAMESPEED,
+			delay = 0.278,
+			timer = "REAL",
 			trigger = "ease",
 			ease_to = 1,
 			ease = "quad",
@@ -149,7 +151,8 @@ function Multiverse.limbo_keys_end()
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
-			delay = 4 * G.SETTINGS.GAMESPEED,
+			delay = 4,
+			timer = "REAL",
 			func = function()
 				if not Multiverse.has_guessed then
 					Multiverse.change_blind_size(function(chips)
@@ -159,6 +162,21 @@ function Multiverse.limbo_keys_end()
 					Multiverse.start_animation("explosion")
 					play_sound("mul_deltarune_explosion", 1, 0.8)
 				end
+				ease_value(Multiverse, "dark_bg_percent", 1, nil, "REAL", true, 0.5)
+				G.E_MANAGER:add_event(
+					Event({
+						trigger = "after",
+						blocking = false,
+						blockable = false,
+						delay = 0.51,
+						timer = "REAL",
+						func = function()
+							Multiverse.dark_bg_active = false
+							return true
+						end,
+					}),
+					"other"
+				)
 				Multiverse.in_limbo = nil
 				Multiverse.limbo_keys = {}
 				Multiverse.has_guessed = false
