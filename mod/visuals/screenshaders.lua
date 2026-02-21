@@ -80,3 +80,19 @@ function Multiverse.start_slashes(card)
 		end,
 	}))
 end
+
+Multiverse.dark_bg_percent = 1
+Multiverse.dark_bg_active = false
+SMODS.ScreenShader({
+	key = "dark_bg",
+	path = "dark_bg.fs",
+	send_vars = function(self)
+		return {
+			radius = math.sqrt(love.graphics.getWidth() ^ 2 + love.graphics.getHeight() ^ 2) * Multiverse.dark_bg_percent,
+			center = {love.graphics.getWidth() / 2, love.graphics.getHeight() / 2},
+		}
+	end,
+	should_apply = function(self)
+		return Multiverse.dark_bg_active
+	end,
+})

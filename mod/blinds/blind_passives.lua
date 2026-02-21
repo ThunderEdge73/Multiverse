@@ -34,13 +34,15 @@ blindexpander.Passive({
 		end
 	end,
 	remove = function(self, blind, passive, from_disable)
-		for i = 1, #G.hand.cards do
-			if G.hand.cards[i].facing == "back" then
-				G.hand.cards[i]:flip()
+		if G.GAME.failed_limbo then
+			for i = 1, #G.hand.cards do
+				if G.hand.cards[i].facing == "back" then
+					G.hand.cards[i]:flip()
+				end
 			end
-		end
-		for _, playing_card in pairs(G.playing_cards) do
-			playing_card.ability.wheel_flipped = nil
+			for _, playing_card in pairs(G.playing_cards) do
+				playing_card.ability.wheel_flipped = nil
+			end
 		end
 	end,
 	apply = function(self, blind, passive, from_disable)
