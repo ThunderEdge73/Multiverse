@@ -144,6 +144,20 @@ return {
 			},
 		},
 		Passive = {
+			psv_mul_summon = {
+				name = "Summon",
+				text = {
+					"After this {C:attention}Boss Blind{} is defeated,",
+					"immediately face {C:attention}#1#{}",
+				},
+			},
+			psv_mul_otherworldly = {
+				name = "Otherworldly",
+				text = {
+					"This {C:attention}Boss Blind{} cannot appear, except",
+					"when being summoned by another Blind",
+				},
+			},
 			psv_mul_memorization = {
 				name = "Memorization",
 				text = {

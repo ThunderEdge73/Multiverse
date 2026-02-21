@@ -1,4 +1,20 @@
 blindexpander.Passive({
+	key = "summon",
+	loc_vars = function(self, blind, passive)
+		local name = localize({ type = "name_text", key = (passive.blind_data or {}).summon, set = "Blind" })
+		return {
+			vars = { name },
+		}
+	end,
+	fixed = true
+})
+
+blindexpander.Passive({
+	key = "otherworldly",
+	fixed = true
+})
+
+blindexpander.Passive({
 	key = "memorization",
 	config = { mult = 3 },
 	loc_vars = function(self, blind, passive)
@@ -257,16 +273,18 @@ blindexpander.Passive({
 blindexpander.Passive({
 	key = "bulky",
 	config = { mult = 2 },
-	apply = function(self, passive, from_disable)
-		Multiverse.change_blind_size(function(chips)
-			return chips * passive.config.mult
-		end)
+	apply = function(self, blind, passive, from_disable)
+		if from_disable then
+			Multiverse.change_blind_size(function(chips)
+				return chips * passive.config.mult
+			end)
+		end
 	end,
-	remove = function(self, passive, from_disable)
+	remove = function (self, blind, passive, from_disable)
 		Multiverse.change_blind_size(function(chips)
 			return chips / passive.config.mult
 		end)
-	end,
+	end
 })
 
 blindexpander.Passive({

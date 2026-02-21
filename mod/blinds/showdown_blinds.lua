@@ -13,14 +13,14 @@ SMODS.Blind({
 	passives = {
 		"psv_mul_artifact",
 		"psv_mul_bulky",
+		"psv_mul_summon",
 	},
 	modifies_draw = true,
 	atlas = "blind_placeholder",
 	pos = { x = 0, y = 0 },
 	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
 	boss = { showdown = true },
-	mult = 2,
-	no_collection = not Multiverse.config.debug,
+	mult = 4,
 	summon = "bl_mul_spire_spear",
 	precedes_original = true,
 	phase_refresh = true,
@@ -33,6 +33,10 @@ SMODS.Blind({
 	passives = {
 		"psv_mul_artifact",
 		"psv_mul_surrounding",
+		"psv_mul_summon",
+	},
+	extra_collection_passives = {
+		"psv_mul_otherworldly",
 	},
 	modifies_draw = true,
 	atlas = "blind_placeholder",
@@ -40,7 +44,6 @@ SMODS.Blind({
 	boss_colour = mix_colours(G.C.BLUE, G.C.BLACK, 0.7),
 	boss = { showdown = true },
 	mult = 2,
-	no_collection = true,
 	in_pool = function(self)
 		return false
 	end,
@@ -58,6 +61,9 @@ SMODS.Blind({
 		"psv_mul_invincible",
 		"psv_mul_beat_of_death",
 		"psv_mul_debilitate",
+	},
+	extra_collection_passives = {
+		"psv_mul_otherworldly",
 	},
 	debuff = {
 		mul_immutable = true,
