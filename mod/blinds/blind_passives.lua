@@ -6,10 +6,55 @@ blindexpander.Passive({
 			vars = { passive.config.mult },
 		}
 	end,
+	remove = function(self, blind, passive, from_disable)
+		if G.GAME.failed_limbo then
+			Multiverse.change_blind_size(function(chips)
+				return chips / 5
+			end)
+		end
+	end,
+	apply = function(self, blind, passive, from_disable)
+		if G.GAME.failed_limbo then
+			Multiverse.change_blind_size(function(chips)
+				return chips * 5
+			end)
+		end
+	end,
 })
 
 blindexpander.Passive({
 	key = "unsightreadable",
+	calculate = function(self, blind, passive, context)
+		if G.GAME.failed_limbo then
+			if context.stay_flipped and context.to_area == G.hand then
+				return {
+					stay_flipped = true,
+				}
+			end
+		end
+	end,
+	remove = function(self, blind, passive, from_disable)
+		for i = 1, #G.hand.cards do
+			if G.hand.cards[i].facing == "back" then
+				G.hand.cards[i]:flip()
+			end
+		end
+		for _, playing_card in pairs(G.playing_cards) do
+			playing_card.ability.wheel_flipped = nil
+		end
+	end,
+	apply = function(self, blind, passive, from_disable)
+		if G.GAME.failed_limbo then
+			for i = 1, #G.hand.cards do
+				if G.hand.cards[i].facing == "front" then
+					G.hand.cards[i]:flip()
+				end
+			end
+			for _, playing_card in pairs(G.playing_cards) do
+				playing_card.ability.wheel_flipped = true
+			end
+		end
+	end,
 })
 
 blindexpander.Passive({
