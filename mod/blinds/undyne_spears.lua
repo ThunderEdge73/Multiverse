@@ -339,7 +339,14 @@ Multiverse.start_undyne_attack = function(i, p)
 					G.E_MANAGER:add_event(
 						Event({
 							func = function()
-								if not spear.active then
+								local should_end = true
+								for _, s in ipairs(Multiverse.undyne_spears) do
+									if s.active then
+										should_end = false
+										break
+									end
+								end
+								if should_end then
 									G.E_MANAGER:add_event(
 										Event({
 											trigger = "after",
