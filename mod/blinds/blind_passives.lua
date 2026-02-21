@@ -17,7 +17,7 @@ blindexpander.Passive({
 	config = { percent = 10 },
 	loc_vars = function(self, blind, passive)
 		return {
-			vars = { passive.config.percent * G.GAME.mul_undyne_damage_mult },
+			vars = { passive.config.percent * (G.GAME.mul_undyne_damage_mult or 1) },
 		}
 	end,
 })
