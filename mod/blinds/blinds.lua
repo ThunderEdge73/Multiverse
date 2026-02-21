@@ -136,22 +136,6 @@ function Multiverse.undying_press_play_effect(index)
 	G.E_MANAGER:add_event(Event({
 		trigger = "immediate",
 		func = function()
-			if
-				Multiverse.undyne_spears[num_attacks]
-				and not Multiverse.undyne_spears[num_attacks].active
-				and Multiverse.in_undyne
-			then
-				G.E_MANAGER:add_event(Event({
-					trigger = "after",
-					blockable = false,
-					blocking = false,
-					delay = 0.5 * G.SETTINGS.GAMESPEED,
-					func = function()
-						Multiverse.in_undyne = false
-						return true
-					end,
-				}))
-			end
 			return not Multiverse.in_undyne
 		end,
 	}))

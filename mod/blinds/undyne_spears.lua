@@ -235,8 +235,8 @@ Multiverse.undyne_attacks = {
 		{ 1075, "up", true, 0 },
 		{ 1070, "up", true, 0 },
 		{ 1065, "up", true, 0 },
-		{ 1400, "right", true, 0.25},
-		{ 1300, "left", true, 0.3 }
+		{ 1400, "right", true, 0.25 },
+		{ 1300, "left", true, 0.3 },
 	},
 	{ -- 11
 		{ 150, "up", false, 0 },
@@ -249,7 +249,7 @@ Multiverse.undyne_attacks = {
 		{ 150, "right", false, 0.208 },
 		{ 150, "down", false, 0.336 },
 		{ 300, "up", false, 3 },
-		{ 1200, "up", true, 2.25 }
+		{ 1200, "up", true, 2.25 },
 	},
 	{ -- 12
 		{ 125, "up", true, 0 },
@@ -306,7 +306,7 @@ Multiverse.undyne_attacks = {
 		{ 850, "right", true, 0.1 },
 		{ 1100, "right", false, 0.275 },
 		{ 1300, "left", false, 0.375 },
-	}
+	},
 }
 
 ---@param i integer?
@@ -322,7 +322,7 @@ Multiverse.start_undyne_attack = function(i, p)
 			trigger = "after",
 			delay = pattern[index][4] * G.SETTINGS.GAMESPEED,
 			func = function()
-				table.insert(Multiverse.undyne_spears, {
+				local spear = {
 					r = 850,
 					theta = Multiverse.spear_rotations[pattern[index][2]],
 					velocity = pattern[index][1],
@@ -331,9 +331,33 @@ Multiverse.start_undyne_attack = function(i, p)
 					is_reversing = false,
 					dir = pattern[index][2],
 					opacity = 1,
-				})
+				}
+				table.insert(Multiverse.undyne_spears, spear)
 				if pattern[index + 1] then
 					Multiverse.start_undyne_attack(index + 1, pattern)
+				else
+					G.E_MANAGER:add_event(
+						Event({
+							func = function()
+								if not spear.active then
+									G.E_MANAGER:add_event(
+										Event({
+											trigger = "after",
+											delay = 0.5 * G.SETTINGS.GAMESPEED,
+											func = function()
+												Multiverse.in_undyne = false
+												return true
+											end,
+										}),
+										"other"
+									)
+									return true
+								end
+								return false
+							end,
+						}),
+						"other"
+					)
 				end
 				return true
 			end,
