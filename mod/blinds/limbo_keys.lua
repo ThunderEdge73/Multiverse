@@ -55,7 +55,7 @@ function Multiverse.limbo_keys_intro()
 	Multiverse.has_guessed = false
 	Multiverse.in_limbo = "start"
 	if Multiverse.config.music["Isolation"] then
-		play_sound("mul_isolation_limbo", 1, 0.65)
+		play_sound("mul_isolation_limbo", 1, 0.7)
 	end
 	Multiverse.limbo_anim_prog = 0
 	G.E_MANAGER:add_event(
@@ -179,6 +179,7 @@ function Multiverse.limbo_keys_end()
 				)
 				Multiverse.in_limbo = nil
 				Multiverse.limbo_keys = {}
+				Multiverse.limbo_finished = true
 				Multiverse.has_guessed = false
 				return true
 			end,

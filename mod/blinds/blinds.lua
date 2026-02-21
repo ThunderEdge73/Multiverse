@@ -56,6 +56,7 @@ end
 
 function Multiverse.limbo_set_effect()
 	Multiverse.dark_bg_active = true
+	Multiverse.limbo_finished = false
 	ease_value(Multiverse, "dark_bg_percent", -1, nil, "REAL", true, 0.5)
 	Multiverse.in_limbo = "pre_start"
 	if pseudorandom("mul_limbo", 1, 1000) < 8 then
@@ -66,17 +67,12 @@ function Multiverse.limbo_set_effect()
 		Multiverse.HIDDEN_KEY_COLOR = { 224 / 255, 85 / 255, 32 / 255, 1 }
 	end
 	Multiverse.add_limbo_keys()
-	ease_background_colour_blind(G.STATES.BLIND_SELECT)
+	Multiverse.limbo_keys_intro()
 	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
 		func = function()
-			Multiverse.limbo_keys_intro()
-			return true
+			return Multiverse.limbo_finished
 		end,
-	}))
-	G.E_MANAGER:add_event(Event({
-		trigger = "after",
-		delay = 18.6,
-		timer = "REAL"
 	}))
 end
 
@@ -95,7 +91,7 @@ SMODS.Blind({
 	set_blind = function(self)
 		Multiverse.show_blind_instructions("limbo")
 	end,
-	calculate = function (self, blind, context)
+	calculate = function(self, blind, context)
 		if context.press_play and not blind.disabled and G.GAME.current_round.hands_played == 0 then
 			Multiverse.limbo_set_effect()
 		end
@@ -113,7 +109,6 @@ function Multiverse.undying_press_play_effect(index)
 	Multiverse.in_undyne = true
 	Multiverse.dark_bg_active = true
 	ease_value(Multiverse, "dark_bg_percent", -1, nil, "REAL", true, 0.5)
-	delay(0.5 * G.SETTINGS.GAMESPEED, "other")
 	Multiverse.start_undyne_attack(nil, index)
 	G.E_MANAGER:add_event(Event({
 		trigger = "immediate",
