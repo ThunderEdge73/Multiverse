@@ -524,29 +524,6 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
-	key = "overflow",
-	max_level = math.huge,
-	config = {
-		xmult = 0.1,
-	},
-	enchantment_type = "positive",
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.xmult, 1 + card.level * card.ability.xmult } }
-	end,
-	in_pool = function(self, args)
-		return false
-	end,
-	base_weight = 0,
-	calculate = function(self, enchantment, context)
-		if context.joker_main then
-			return {
-				xmult = 1 + enchantment.level * enchantment.ability.xmult,
-			}
-		end
-	end,
-})
-
-Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },
 	max_level = 1,
@@ -650,6 +627,29 @@ Multiverse.DeckEnchantment({
 		if context.debuff_card then
 			return {
 				prevent_debuff = true,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "overflow",
+	max_level = math.huge,
+	config = {
+		xmult = 0.1,
+	},
+	enchantment_type = "positive",
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.xmult, 1 + card.level * card.ability.xmult } }
+	end,
+	in_pool = function(self, args)
+		return false
+	end,
+	base_weight = 0,
+	calculate = function(self, enchantment, context)
+		if context.joker_main then
+			return {
+				xmult = 1 + enchantment.level * enchantment.ability.xmult,
 			}
 		end
 	end,
