@@ -26,6 +26,7 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 	calculate = function(self, enchantment, context) end,
 	add_to_deck = function(self) end,
 	remove_from_deck = function(self) end,
+	loc_vars = function(self, info_queue, card) end,
 	in_pool = function(self)
 		return true
 	end,
