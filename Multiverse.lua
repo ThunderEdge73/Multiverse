@@ -5,7 +5,7 @@ Multiverse.C.PRIMARY1 = HEX("89C41B")
 Multiverse.C.PRIMARY2 = HEX("C5CC41")
 Multiverse.C.SECONDARY = HEX("204D7F")
 Multiverse.C.TRANSMUTED_GRADIENT = SMODS.Gradient({
-	key = "transmuted_gradient",
+	key = "transmuted",
 	colours = {
 		HEX("89C41B"),
 		HEX("C5CC41"),
@@ -13,7 +13,7 @@ Multiverse.C.TRANSMUTED_GRADIENT = SMODS.Gradient({
 	cycle = 1.5,
 })
 Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
-	key = "transmuted_gradient_slow",
+	key = "transmuted_slow",
 	colours = {
 		HEX("89C41B"),
 		HEX("C5CC41"),
