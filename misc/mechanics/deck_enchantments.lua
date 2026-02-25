@@ -264,8 +264,9 @@ function Multiverse.count_deck_enchantment_levels()
 end
 
 function Multiverse.parse_vars(str, vars)
+	local safe_vars = vars or {}
 	return string.gsub(str, "(#%d+#)", function(matched)
-		return tostring(vars[tonumber(string.gsub(matched, "[#%s]", ""), 10)])
+		return tostring(safe_vars[tonumber(string.gsub(matched, "[#%s]", ""), 10)])
 	end)
 end
 
@@ -391,7 +392,7 @@ function Multiverse.update_deck_enchantments()
 		G.mul_deck_enchantment_tooltip:remove()
 		G.mul_deck_enchantment_tooltip = nil
 	end
-	if not G.P_CENTERS["c_mul_enchanted_book"].alerted then
+	if G.P_CENTERS["c_mul_enchanted_book"] and not G.P_CENTERS["c_mul_enchanted_book"].alerted then
 		G.P_CENTERS["c_mul_enchanted_book"].alerted = true
 	end
 end

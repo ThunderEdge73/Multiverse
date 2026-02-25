@@ -1,15 +1,15 @@
 ---@type Multiverse.limbo_key[]
 Multiverse.limbo_keys = {}
 
-local key_file = assert(NFS.newFileData(Multiverse.path .. "assets/misc/limbo_key.png"))
+local key_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/limbo_key.png"))
 local key_data = assert(love.image.newImageData(key_file))
 Multiverse.LIMBO_KEY_SPRITE = assert(love.graphics.newImage(key_data))
 
-local blunder_file = assert(NFS.newFileData(Multiverse.path .. "assets/misc/blunder.png"))
+local blunder_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/blunder.png"))
 local blunder_data = assert(love.image.newImageData(blunder_file))
 Multiverse.BLUNDER_SPRITE = assert(love.graphics.newImage(blunder_data))
 
--- local limbo_instructions_file = assert(NFS.newFileData(Multiverse.path .. "assets/misc/limbo_instructions.png"))
+-- local limbo_instructions_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/limbo_instructions.png"))
 -- local limbo_instructions_data = assert(love.image.newImageData(limbo_instructions_file))
 -- Multiverse.LIMBO_INSTRUCTIONS_SPRITE = assert(love.graphics.newImage(limbo_instructions_data))
 
@@ -55,12 +55,13 @@ function Multiverse.limbo_keys_intro()
 	Multiverse.has_guessed = false
 	Multiverse.in_limbo = "start"
 	if Multiverse.config.music["Isolation"] then
-		play_sound("mul_isolation_limbo", 1, 0.65)
+		play_sound("mul_isolation_limbo", 1, 0.7)
 	end
 	Multiverse.limbo_anim_prog = 0
 	G.E_MANAGER:add_event(
 		Event({
-			delay = 4.75 * G.SPEEDFACTOR,
+			delay = 4.75,
+			timer = "REAL",
 			trigger = "ease",
 			ease_to = 1,
 			ref_table = Multiverse,
@@ -101,7 +102,8 @@ function Multiverse.limbo_keys_swap(count)
 	Multiverse.assign_limbo_key_ids()
 	G.E_MANAGER:add_event(
 		Event({
-			delay = 0.278 * G.SPEEDFACTOR,
+			delay = 0.278,
+			timer = "REAL",
 			trigger = "ease",
 			ease_to = 1,
 			ease = "quad",
@@ -149,7 +151,8 @@ function Multiverse.limbo_keys_end()
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
-			delay = 4 * G.SPEEDFACTOR,
+			delay = 4,
+			timer = "REAL",
 			func = function()
 				if not Multiverse.has_guessed then
 					Multiverse.change_blind_size(function(chips)
@@ -159,8 +162,24 @@ function Multiverse.limbo_keys_end()
 					Multiverse.start_animation("explosion")
 					play_sound("mul_deltarune_explosion", 1, 0.8)
 				end
+				ease_value(Multiverse, "dark_bg_percent", 1, nil, "REAL", true, 0.5)
+				G.E_MANAGER:add_event(
+					Event({
+						trigger = "after",
+						blocking = false,
+						blockable = false,
+						delay = 0.51,
+						timer = "REAL",
+						func = function()
+							Multiverse.dark_bg_active = false
+							return true
+						end,
+					}),
+					"other"
+				)
 				Multiverse.in_limbo = nil
 				Multiverse.limbo_keys = {}
+				Multiverse.limbo_finished = true
 				Multiverse.has_guessed = false
 				return true
 			end,

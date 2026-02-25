@@ -71,6 +71,9 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 	path = "transmutable.png",
+	atlas_table = "ANIMATION_ATLAS",
+	frames = 18,
+	fps = 18,
 })
 SMODS.Atlas({
 	key = "3d_banana",
@@ -121,10 +124,10 @@ SMODS.Atlas({
 	path = "skill_placeholder.png"
 })
 SMODS.Atlas({
-	key = "thunderedge",
+	key = "contributors",
 	px = 71,
 	py = 95,
-	path = "thunderedge.png"
+	path = "contributors.png"
 })
 SMODS.Atlas({
 	key = "enchantment_tag",

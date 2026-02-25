@@ -1,17 +1,18 @@
-# Everything that deals with VS Code stuff
+# VS Code config
 .vscode
 .config
 
-# Vim stuff i guess
+# Vim config
 *.vim
+
+# Lua LSP config
 .luarc.json
 .emmyrc.json
 
-# Zed editor stuff i guess
+# Zed config
 .zed
 
-# Definitions for Balatro functions
-.balatro-lsp
+# For when the mod is disabled
 .lovelyignore
 
 # Debug

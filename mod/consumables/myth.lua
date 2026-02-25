@@ -29,7 +29,7 @@ SMODS.Consumable({
 	set = "mul_Myth",
 	atlas = "p_stone",
 	pos = { x = 0, y = 0 },
-	config = { extra = { energy_per_joker = 15 } },
+	config = { extra = { energy_per_joker = 10 } },
 	discovered = true,
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
@@ -56,6 +56,9 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		local joker_to_transmute = G.jokers.highlighted[1]
+		---@type Card
+		Multiverse.transmuting_card = joker_to_transmute
+		Multiverse.transmute_card_stage = 0
 		local count = 0
 		for _, j in ipairs(G.jokers.cards) do
 			if j:is_rarity("mul_transmuted") then
@@ -83,6 +86,8 @@ SMODS.Consumable({
 				trigger = "after",
 				delay = 0.7,
 				func = function()
+					ease_value(Multiverse, "transmute_card_stage", 1, nil, nil, true, 2.5)
+					play_sound("mul_transmute" .. i, 0.9 + i / 10, 0.7)
 					joker_to_transmute:juice_up(0.3, 0.5)
 					if joker_to_transmute.children.particles then
 						joker_to_transmute.children.particles:remove()
@@ -127,11 +132,14 @@ SMODS.Consumable({
 					return true
 				end,
 			}))
+			delay(1)
 		end
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.7,
 			func = function()
+				ease_value(Multiverse, "transmute_card_stage", 1, nil, nil, true, 7)
+				play_sound("mul_transmute_final", 1.2, 0.8)
 				if joker_to_transmute.children.particles then
 					joker_to_transmute.children.particles:remove()
 					joker_to_transmute.children.particles = nil
@@ -141,27 +149,29 @@ SMODS.Consumable({
 					card.children.particles = nil
 				end
 				card:mul_safe_dissolve(nil, true, 1.6, true)
-				joker_to_transmute:mul_safe_dissolve(nil, false, 1.6, true, { no_particles = true })
 				return true
 			end,
 		}))
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
-			delay = 1.2,
+			delay = 3.5,
 			func = function()
-				if card.children.particles then
-					card.children.particles:remove()
-					card.children.particles = nil
-				end
 				Multiverse.remove_all_stickers(joker_to_transmute)
 				joker_to_transmute:set_ability(transmute_key)
 				joker_to_transmute:set_cost()
-				play_sound("tarot2", 0.85, 0.6)
-				joker_to_transmute:mul_no_juice_materialize(nil, false, 1.6)
 				return true
 			end,
 		}))
-		delay(0.5)
+		delay(2.5)
+		G.E_MANAGER:add_event(Event({
+			blocking = false,
+			trigger = "after",
+			delay = 2.5,
+			func = function()
+				Multiverse.transmuting_card = nil
+				return true
+			end,
+		}))
 	end,
 })
 
@@ -174,6 +184,7 @@ SMODS.Consumable({
 	discovered = true,
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
 		return { vars = { card.ability.extra.num_consumables } }
 	end,
 	can_use = function(self, card)
@@ -300,10 +311,17 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "theory",
+	key = "mithridate",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
+	loc_vars = function (self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
+	end,
 	discovered = true,
 	cost = 6,
 	can_use = function(self, card)
@@ -330,6 +348,11 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return {
 			vars = {
 				card.ability.extra.progress_percent,
@@ -345,7 +368,6 @@ SMODS.Consumable({
 			play_sound("timpani")
 			Multiverse.increment_transmute_progress(target, nil, card.ability.extra.progress_percent)
 			target:juice_up(0.3, 0.5)
-			Multiverse.transmute_check(target)
 		end)
 	end,
 })
@@ -392,6 +414,11 @@ SMODS.Consumable({
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
+		table.insert(info_queue, {
+			set = "Other",
 			key = "mul_traitorous",
 		})
 	end,
@@ -422,7 +449,7 @@ SMODS.Consumable({
 		local total = G.GAME.mul_thaumaturgy_energy or 0
 		return {
 			vars = {
-				total / 2,
+				math.floor(total / 2),
 			},
 		}
 	end,
@@ -444,14 +471,19 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "gnosis",
+	key = "sacrifice",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
 	cost = 6,
-	config = { extra = { thaum_energy = 35 } },
+	config = { extra = { thaum_energy = 50 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return { vars = { card.ability.extra.thaum_energy } }
 	end,
 	can_use = function(self, card)
@@ -475,7 +507,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 12, money_penalty = 2 } },
 	loc_vars = function(self, info_queue, card)
@@ -512,6 +543,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -523,6 +560,11 @@ SMODS.Consumable({
 	cost = 6,
 	config = { extra = { min_energy = 40, progress_percent = 50 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return { vars = { card.ability.extra.progress_percent, card.ability.extra.min_energy } }
 	end,
 	can_use = function(self, card)
@@ -538,7 +580,6 @@ SMODS.Consumable({
 			local target = G.jokers.highlighted[1]
 			Multiverse.increment_transmute_progress(target, nil, card.ability.extra.progress_percent)
 			target:juice_up(0.3, 0.5)
-			Multiverse.transmute_check(target)
 		end)
 	end,
 })
@@ -549,7 +590,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 6, shop_penalty = 1 } },
 	loc_vars = function(self, info_queue, card)
@@ -586,6 +626,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -594,7 +640,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 12 } },
 	loc_vars = function(self, info_queue, card)
@@ -651,6 +696,12 @@ SMODS.Consumable({
 			end)
 		end
 	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 function Multiverse.set_stand_arrow_suit()
@@ -663,7 +714,8 @@ function Multiverse.set_stand_arrow_suit()
 		return item.key ~= G.GAME.current_round.mul_stand_arrow_suit
 	end)
 	if next(valid) then
-		G.GAME.current_round.mul_stand_arrow_suit = pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante)
+		G.GAME.current_round.mul_stand_arrow_suit =
+			pseudorandom_element(valid, "mul_arrow" .. G.GAME.round_resets.ante).key
 	end
 end
 
@@ -706,7 +758,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 16 } },
 	loc_vars = function(self, info_queue, card)
@@ -756,6 +807,12 @@ SMODS.Consumable({
 		if card.ability.extra.is_active and context.stay_flipped and context.to_area == G.hand then
 			return { stay_flipped = true }
 		end
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
 	end,
 })
 
@@ -821,7 +878,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_boost = 8 } },
 	loc_vars = function(self, info_queue, card)
@@ -871,6 +927,12 @@ SMODS.Consumable({
 			end)
 		end
 	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 ---@param card Card
@@ -887,6 +949,11 @@ SMODS.Consumable({
 	cost = 6,
 	config = { extra = { progress_percent = 50 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		return { vars = { card.ability.extra.progress_percent } }
 	end,
 	can_use = function(self, card)
@@ -918,7 +985,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_penalty = 8, hands = 2, discards = 2 } },
 	loc_vars = function(self, info_queue, card)
@@ -972,6 +1038,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -980,7 +1052,6 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, temp_recharge_penalty = 12, joker_slots = 1 } },
 	loc_vars = function(self, info_queue, card)
@@ -1023,6 +1094,12 @@ SMODS.Consumable({
 			end
 		end)
 	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
+	end,
 })
 
 SMODS.Consumable({
@@ -1031,10 +1108,14 @@ SMODS.Consumable({
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
 	discovered = true,
-	eternal_compat = true,
 	cost = 6,
 	config = { extra = { is_active = false, progress_boost = 1 } },
 	loc_vars = function(self, info_queue, card)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_transmutable",
+			vars = { G.GAME.mul_thaumaturgy_energy_per_joker or 10 },
+		})
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_active_consumable",
@@ -1059,6 +1140,12 @@ SMODS.Consumable({
 				card:remove_sticker("eternal")
 			end
 		end)
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.is_active then
+			card:remove_sticker("eternal")
+		end
+		card.ability.extra.is_active = false
 	end,
 	calculate = function(self, card, context)
 		if

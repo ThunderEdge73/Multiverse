@@ -57,15 +57,20 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 		end
 		local res = {}
 		local discount = 0
+		local cost_mult = 1
 		SMODS.calculate_context({ mul_change_skill_cost = true, other_card = card, mul_base_cost = self.tp_cost }, res)
 		for _, eff in pairs(res) do
 			for _, tab in pairs(eff) do
-				if tab.mul_tp_discount and type(tab.mul_tp_discount) == "number" then
-					discount = discount + tab.mul_tp_discount
+				if tab.skill_tp_discount and type(tab.skill_tp_discount) == "number" then
+					discount = discount - math.floor(tab.skill_tp_discount) -- flat modifications
+				end
+				if tab.skill_tp_cost_mult and type(tab.skill_tp_cost_mult) == "number" then
+					cost_mult = cost_mult * tab.skill_tp_cost_mult -- multiplicative modifications
 				end
 			end
 		end
-		local amt = math.max(self.tp_cost - (card.ability.mul_tp_discount or 0) - discount, 0)
+		local amt =
+			math.max(math.floor((self.tp_cost - (card.ability.mul_skill_tp_discount or 0) - discount) * cost_mult), 0)
 		return ui_format and format_ui_value(amt) or amt
 	end,
 	generate_cost_ui = function(self, card)
@@ -112,6 +117,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 								}),
 								func = "mul_update_tp_cost",
 								ref_table = card,
+								align = "cm",
 							},
 						},
 					},
@@ -174,6 +180,7 @@ G.FUNCS.mul_update_tp_cost = function(e)
 	e.config.object.config.string[1].string = center:get_final_tp_cost(card, true)
 	if old_str ~= center:get_final_tp_cost(card, true) then
 		e.config.object:update_text(true)
+		card.children.mul_skill_cost_ui:recalculate()
 	end
 end
 
@@ -214,7 +221,7 @@ G.FUNCS.mul_use_skill = function(e)
 	if center.tp_cost == "X" then
 		x = paid + G.GAME.mul_x_boost
 	end
-	Multiverse.ease_TP(-paid)
+	Multiverse.ease_TP(-paid, { from_skill = true })
 	draw_card(G.hand, G.play, 1, "up", true, card)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"
@@ -248,7 +255,9 @@ G.FUNCS.mul_use_skill = function(e)
 				trigger = "after",
 				delay = 0.1,
 				func = function()
-					save_run()
+					if not center.no_save_on_use then
+						save_run()
+					end
 					return true
 				end,
 			}))
@@ -314,7 +323,12 @@ function Multiverse.start_interaction(args)
 		func = function()
 			G.E_MANAGER:add_event(Event({
 				func = function()
-					Multiverse.show_interaction_ui(args.display_text, args.area)
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							Multiverse.show_interaction_ui(args.display_text, args.area)
+							return true
+						end,
+					}))
 					return true
 				end,
 			}))
@@ -342,6 +356,7 @@ end
 function Multiverse.on_end_interaction() end
 
 function G.FUNCS.mul_end_interaction(e)
+	Multiverse.can_end_interaction = nil
 	Multiverse.on_end_interaction()
 	G.E_MANAGER:add_event(Event({
 		func = function()
@@ -378,9 +393,9 @@ function Multiverse.confirm_end_interaction_UI_def()
 	}
 end
 
-G.STATES.MULTIVERSE_INTERACTION_HAND = -1
-G.STATES.MULTIVERSE_INTERACTION_JOKERS = -2
-G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES = -3
+G.STATES.MULTIVERSE_INTERACTION_HAND = -10
+G.STATES.MULTIVERSE_INTERACTION_JOKERS = -11
+G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES = -12
 Multiverse.interaction_old_data = {}
 
 ---@alias visibleInteractionArea
@@ -467,10 +482,13 @@ function Multiverse.remove_interaction_ui()
 	if Multiverse.in_interaction() then
 		if Multiverse.interaction_old_data.affected == "hand" then
 			G.hand.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+			G.hand:unhighlight_all()
 		elseif Multiverse.interaction_old_data.affected == "jokers" then
 			G.jokers.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+			G.jokers:unhighlight_all()
 		else
 			G.consumeables.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
+			G.consumeables:unhighlight_all()
 		end
 		G.mul_interact_menu:get_UIE_by_ID("interaction_text").config.object:pop_out(3)
 		G.STATE = G.STATES.SELECTING_HAND
@@ -527,6 +545,9 @@ end
 function Multiverse.init_skills()
 	---@type integer
 	G.GAME.mul_x_boost = G.GAME.mul_x_boost or 0
+
+	---@type table
+	G.GAME.mul_temp_bonuses = G.GAME.mul_temp_bonuses or {}
 end
 
 function Multiverse.get_final_X_value(center, card, ui_format, with_paren)
@@ -550,4 +571,28 @@ function Multiverse.get_final_X_value(center, card, ui_format, with_paren)
 		return str
 	end
 	return center:get_final_tp_cost(card, false) + (G.GAME.mul_x_boost or 0)
+end
+
+local has_no_suit_hook = SMODS.has_no_suit
+function SMODS.has_no_suit(card)
+	if card.ability.set == "mul_Skill" then
+		return true
+	end
+	return has_no_suit_hook(card)
+end
+
+local has_no_rank_hook = SMODS.has_no_rank
+function SMODS.has_no_rank(card)
+	if card.ability.set == "mul_Skill" then
+		return true
+	end
+	return has_no_rank_hook(card)
+end
+
+local never_scores_hook = SMODS.never_scores
+function SMODS.never_scores(card)
+	if card.ability.set == "mul_Skill" then
+		return true
+	end
+	return never_scores_hook(card)
 end

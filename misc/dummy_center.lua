@@ -92,3 +92,18 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "retain",
 })
+
+Multiverse.DummyCenter({
+	key = "impervious",
+})
+
+Multiverse.DummyCenter({
+	key = "impulse",
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				50
+			},
+		}
+	end,
+})

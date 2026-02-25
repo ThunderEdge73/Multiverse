@@ -5,7 +5,7 @@ Multiverse.C.PRIMARY1 = HEX("89C41B")
 Multiverse.C.PRIMARY2 = HEX("C5CC41")
 Multiverse.C.SECONDARY = HEX("204D7F")
 Multiverse.C.TRANSMUTED_GRADIENT = SMODS.Gradient({
-	key = "transmuted_gradient",
+	key = "transmuted",
 	colours = {
 		HEX("89C41B"),
 		HEX("C5CC41"),
@@ -13,7 +13,7 @@ Multiverse.C.TRANSMUTED_GRADIENT = SMODS.Gradient({
 	cycle = 1.5,
 })
 Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
-	key = "transmuted_gradient_slow",
+	key = "transmuted_slow",
 	colours = {
 		HEX("89C41B"),
 		HEX("C5CC41"),
@@ -21,12 +21,20 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 	cycle = 5,
 })
 
+Multiverse.transmute_card_stage = 0
+
+Multiverse.NFS = SMODS.NFS or NFS
+
 Multiverse.selected_music_page = 1
-Multiverse.transmutable_sticker_anim_state = 0
-Multiverse.transmutable_target_anim_state = 0
-Multiverse.debug = false
 
 G.E_MANAGER.queues.mul_menu = {}
+
+SMODS.current_mod.ui_config = {
+	colour = Multiverse.C.SECONDARY,
+	back_colour = Multiverse.C.PRIMARY1,
+	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
+	tab_button_colour = Multiverse.C.PRIMARY1,
+}
 
 ---Talisman compatibility?
 to_big = to_big or function(x)
@@ -48,49 +56,56 @@ SMODS.ObjectType({
 
 ---@param card Card
 function Multiverse.handle_debuffs(card)
+	local ret = {}
 	if Multiverse.is_kryptonite_debuffed(card) then
-		return {
-			debuff = true,
-		}
+		ret["debuff"] = true
 	end
 	if Multiverse.is_stand_arrow_debuffed(card) then
-		return {
-			debuff = true,
-		}
+		ret["debuff"] = true
 	end
+	if G.GAME.mul_objection_active and card.playing_card then
+		ret["prevent_debuff"] = true
+	end
+	if card.config.center.mul_impervious then
+		ret["prevent_debuff"] = true
+	end
+	return ret
 end
 
 SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
-	if context.setting_blind and next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				if G.GAME.blind.disabled then
-					local rows = localize("k_mul_eggman_speech")
-					for _, row in ipairs(rows) do
-						local len = string.len(row)
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								attention_text({
-									scale = 0.7,
-									text = row,
-									hold = (len * 0.05 + 0.3) * G.SPEEDFACTOR,
-									align = "cm",
-									offset = { x = 0, y = -1.7 },
-									major = G.play,
-								})
-								return true
-							end,
-						}))
-						delay((len * 0.05 + 0.5) * G.SPEEDFACTOR)
+	if context.setting_blind then
+		if next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					if G.GAME.blind.disabled then
+						local rows = localize("k_mul_eggman_speech")
+						for _, row in ipairs(rows) do
+							local len = string.len(row)
+							G.E_MANAGER:add_event(Event({
+								func = function()
+									attention_text({
+										scale = 0.7,
+										text = row,
+										hold = (len * 0.05 + 0.3) * G.SETTINGS.GAMESPEED,
+										align = "cm",
+										offset = { x = 0, y = -1.7 },
+										major = G.play,
+									})
+									return true
+								end,
+							}))
+							delay((len * 0.05 + 0.5) * G.SETTINGS.GAMESPEED)
+						end
+						G.GAME.mul_eggman_secret = true
 					end
-					G.GAME.mul_eggman_secret = true
-				end
-				return true
-			end,
-		}))
+					return true
+				end,
+			}))
+		end
 	end
 	if context.end_of_round and not context.game_over and context.main_eval then
+		G.GAME.mul_objection_active = false
 		Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_rate, { from_charge = true })
 		if context.beat_boss then
 			G.GAME.num_bosses_defeated = (G.GAME.num_bosses_defeated or 0) + 1
@@ -141,6 +156,17 @@ SMODS.current_mod.calculate = function(self, context)
 		}))
 		delay(0.7)
 	end
+	if context.mul_change_skill_cost then
+		if
+			context.other_card.config.center.mul_impulse
+			and G.GAME.current_round.hands_played == 0
+			and G.GAME.current_round.discards_used == 0
+		then
+			ret[#ret+1] = {
+				skill_tp_cost_mult = 0.5
+			}
+		end
+	end
 	if context.after then
 		if SMODS.last_hand_oneshot then
 			if next(SMODS.find_card("j_mul_ren_amamiya")) then
@@ -148,15 +174,27 @@ SMODS.current_mod.calculate = function(self, context)
 				-- Multiverse.start_animation("ren_cut_in")
 			end
 		else
-			Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
+					return true
+				end
+			}))
 		end
+		G.GAME.mul_temp_bonuses = {}
 	end
-	if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) and context.other_card.ability.set == "mul_Skill" then
-		return {
-			no_destroy = { override_compat = true },
-		}
+	if
+		context.check_eternal
+		and context.trigger
+		and (context.trigger.mul_fusion or context.trigger.mul_split)
+		and context.other_card.ability.set == "mul_Skill"
+	then
+		ret[#ret + 1] = { no_destroy = { override_compat = true } }
 	end
 	Multiverse.calculate_deck_enchantments(context, ret)
+	if context.final_scoring_step then
+		ret[#ret + 1] = G.GAME.mul_temp_bonuses
+	end
 	if #ret == 0 then
 		return nil
 	elseif #ret == 1 then
@@ -179,7 +217,7 @@ end
 
 ---@param path string
 function Multiverse.recursive_load(path)
-	local files = NFS.getDirectoryItems(Multiverse.path .. path)
+	local files = Multiverse.NFS.getDirectoryItems(Multiverse.path .. path)
 	for _, item in ipairs(files) do
 		if string.sub(item, -4) == ".lua" then
 			print("Multiverse: Loading " .. item:gsub("%d+_", ""))
@@ -195,31 +233,6 @@ SMODS.optional_features.quantum_enhancements = true
 Multiverse.recursive_load("misc")
 Multiverse.recursive_load("mod")
 
-SMODS.current_mod.custom_collection_tabs = function()
-	return {
-		UIBox_button({
-			button = "your_collection_mul_deckenchantments",
-			id = "your_collection_mul_deckenchantments",
-			label = { localize("b_mul_deckenchantment_cards") },
-			minw = 5,
-			count = {
-				tally = #SMODS.collection_pool(Multiverse.DeckEnchantments),
-				of = #SMODS.collection_pool(Multiverse.DeckEnchantments)
-			},
-		}),
-		UIBox_button({
-			button = "your_collection_mul_skillcards",
-			id = "your_collection_mul_skillcards",
-			label = { localize("b_mul_skill_cards") },
-			minw = 5,
-			count = {
-				tally = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill),
-				of = #SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill)
-			}
-		}),
-	}
-end
-
 SMODS.current_mod.custom_card_areas = function(game)
 	game.mul_exhaust = CardArea(
 		game.discard.T.x,
@@ -230,8 +243,6 @@ SMODS.current_mod.custom_card_areas = function(game)
 	)
 end
 
-G.I.MUL_INTERACT_UIBOX = {}
-
 local debug, err = SMODS.load_file("debug.lua")
 if debug then
 	mulDbg = {}
@@ -240,4 +251,4 @@ if debug then
 	end
 end
 
-Multiverse.debug_info = { ["Debug Mode"] = (Multiverse.debug and "Enabled" or "Disabled") }
+Multiverse.debug_info = { ["Debug Mode"] = (Multiverse.config.debug and "Enabled" or "Disabled") }

@@ -15,13 +15,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = {
-		["music1"] = true,
-		["music2"] = true,
-		["music3"] = true,
-		["music4"] = true,
-		["music5"] = true,
-	},
 	volume = 0.5,
 	pitch = 1,
 })
@@ -36,7 +29,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.6,
 	pitch = 1,
 })
@@ -51,7 +43,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.6,
 	pitch = 1,
 })
@@ -66,7 +57,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.9,
 	pitch = 1,
 })
@@ -86,7 +76,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
@@ -109,7 +98,6 @@ SMODS.Sound({
 			return 69420
 		end
 	end,
-	sync = false,
 	volume = 0,
 })
 
@@ -136,7 +124,6 @@ SMODS.Sound({
 			return 4
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
@@ -151,7 +138,6 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
 })
@@ -166,7 +152,52 @@ SMODS.Sound({
 			end
 		end
 	end,
-	sync = false,
 	volume = 0.7,
 	pitch = 1,
+})
+
+SMODS.Sound({
+	key = "transmute1",
+	path = "transmute1.ogg",
+})
+
+SMODS.Sound({
+	key = "transmute2",
+	path = "transmute2.ogg",
+})
+
+SMODS.Sound({
+	key = "transmute3",
+	path = "transmute3.ogg",
+})
+
+SMODS.Sound({
+	key = "transmute_final",
+	path = "transmute_final.ogg",
+})
+
+SMODS.Sound({
+	key = "dimension_pack_music",
+	path = "dimensional_pack.ogg",
+	select_music_track = function(self)
+		if
+			G.booster_pack
+			and not G.booster_pack.REMOVED
+			and SMODS.OPENED_BOOSTER
+			and (
+				SMODS.OPENED_BOOSTER.config.center.kind == "mul_dimension"
+				or SMODS.OPENED_BOOSTER.config.center.kind == "mul_skill"
+			)
+		then
+			return 1
+		end
+	end,
+	pitch = 1,
+	sync = {
+		music1 = true,
+		music2 = true,
+		music3 = true,
+		music4 = true,
+		music5 = true,
+	},
 })

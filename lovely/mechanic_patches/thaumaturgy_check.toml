@@ -6,8 +6,8 @@ dump_lua = true
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
-pattern = '''            SMODS.calculate_context({end_of_round = true, game_over = game_over, beat_boss = G.GAME.blind.boss })'''
-position = "after"
+pattern = '''if SMODS.saved then game_over = false end'''
+position = "before"
 payload = '''
 SMODS.calculate_context({mul_philosophers_stone_check = true, game_over = game_over, beat_boss = G.GAME.blind.boss })
 '''

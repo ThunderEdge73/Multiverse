@@ -19,6 +19,7 @@ function Multiverse.ease_thaumaturgy_energy(amt, args)
 		--True if the change in Thaumaturgy Energy came from the natural end of round bonus.
 		mul_from_charge = args.from_charge,
 	})
+	G.GAME.mul_thaumaturgy_energy_buffer = (G.GAME.mul_thaumaturgy_energy_buffer or 0) + amt
 	local function change_thaumaturgy_energy(num)
 		num = num or 0
 		if num == 0 then
@@ -32,6 +33,7 @@ function Multiverse.ease_thaumaturgy_energy(amt, args)
 			col = G.C.RED
 		end
 		G.GAME.mul_thaumaturgy_energy = G.GAME.mul_thaumaturgy_energy + num
+		G.GAME.mul_thaumaturgy_energy_buffer = nil
 		thaum_UI.config.object:update()
 		G.HUD:recalculate()
 		attention_text({
@@ -77,8 +79,8 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 				config = {
 					align = "cm",
 					padding = 0.05,
-					minw = 1.45,
-					minh = 0.55,
+					minw = 1.8 * 2 + 0.13,
+					minh = 0.7,
 					colour = temp_col,
 					emboss = 0.05,
 					r = 0.1,
@@ -87,25 +89,58 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 				nodes = {
 					{
 						n = G.UIT.R,
-						config = { align = "cm", padding = 0.05 },
+						config = { align = "cm" },
 						nodes = {
 							{
-								n = G.UIT.T,
+								n = G.UIT.C,
 								config = {
-									text = localize("k_mul_thaumaturgy_energy") .. ":",
-									minh = 0.33,
-									scale = 0.85 * scale,
-									colour = G.C.UI.TEXT_LIGHT,
-									shadow = true,
+									align = "cm",
+								},
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = {
+											{
+												n = G.UIT.T,
+												config = {
+													text = "Thaumaturgy",
+													colour = G.C.UI.TEXT_LIGHT,
+													scale = 0.3,
+												},
+											},
+										},
+									},
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = {
+											{
+												n = G.UIT.T,
+												config = {
+													text = "Energy",
+													colour = G.C.UI.TEXT_LIGHT,
+													scale = 0.3,
+												},
+											},
+										},
+									},
 								},
 							},
-							{ n = G.UIT.C, config = { minw = 0.05 } },
+							{
+								n = G.UIT.C,
+								config = {},
+								nodes = {
+									{ n = G.UIT.B, config = { h = 0.15, w = 0.15 } },
+								},
+							},
 							{
 								n = G.UIT.C,
 								config = {
 									align = "cm",
 									r = 0.1,
-									minw = 1.5,
+									minw = 0.83 * 2 + 0.13,
+									minh = 0.55,
 									colour = temp_col2,
 									id = "col_thaumaturgy_text",
 								},
@@ -129,7 +164,9 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 										n = G.UIT.O,
 										config = {
 											object = DynaText({
-												string = { { ref_table = G.GAME, ref_value = "mul_thaumaturgy_energy" } },
+												string = {
+													{ ref_table = G.GAME, ref_value = "mul_thaumaturgy_energy" },
+												},
 												colours = { Multiverse.C.TRANSMUTED_GRADIENT },
 												shadow = true,
 												scale = 1.4 * scale,

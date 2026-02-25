@@ -291,7 +291,11 @@ function Multiverse.config_tab_definition()
 			},
 		},
 	}
-	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_config_menu_title", { text_scale = 1.5 })
+	local mul_nodes = Multiverse.create_localized_rows(
+		nil,
+		"mul_config_menu_title",
+		{ text_scale = 2, bg_colour = G.C.CLEAR, no_padding = true }
+	)
 	mul_nodes[#mul_nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm" },
@@ -330,7 +334,14 @@ SMODS.current_mod.custom_ui = function(nodes)
 		"c_mul_enchanted_book",
 		"c_mul_lightsaber",
 		"c_mul_polymerization",
-		"sk_mul_ubw",
+		"sk_mul_jud_slash",
+	}
+	local funcs = {
+		Joker = "your_collection_jokers",
+		mul_Myth = "your_collection_mul_myths",
+		Tarot = "your_collection_tarots",
+		mul_EnchantedBook = "your_collection_mul_deckenchantments",
+		mul_Skill = "your_collection_mul_skillcards",
 	}
 	G.mul_mod_menu_display = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
@@ -346,16 +357,27 @@ SMODS.current_mod.custom_ui = function(nodes)
 			G.CARD_W,
 			G.CARD_H,
 			G.P_CARDS.empty,
-			G.P_CENTERS[key]
+			G.P_CENTERS[key],
+			{
+				bypass_discovery_center = true,
+				bypass_lock = true,
+				bypass_discovery_ui = true,
+			}
 		)
+		function card:click()
+			Moveable.click(self)
+			G.FUNCS[funcs[G.P_CENTERS[key].set]]()
+		end
+		card.no_ui = true
 		card.dissolve = 1
 		G.mul_mod_menu_display:emplace(card)
-		card:flip()
+		card.facing = "back"
+		card.sprite_facing = "back"
 		G.E_MANAGER:add_event(
 			Event({
 				trigger = "after",
 				blocking = false,
-				delay = 0.25 * i,
+				delay = 0.05 + 0.25 * (i - 1),
 				func = function()
 					card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
 					return true
@@ -367,7 +389,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 			Event({
 				trigger = "after",
 				blocking = false,
-				delay = 0.25 * (i + 3),
+				delay = 0.05 + 0.25 * (i + 2),
 				func = function()
 					card:flip()
 					return true
@@ -392,7 +414,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 		},
 	}
 	local title_text = DynaText({
-		string = "Multiverse",
+		string = localize("mul_multiverse"),
 		colours = { G.C.UI.TEXT_LIGHT },
 		shadow = true,
 		float = true,
@@ -401,7 +423,6 @@ SMODS.current_mod.custom_ui = function(nodes)
 		scale = 1.5,
 		rotate = true,
 		pop_in = 0,
-		font = SMODS.Fonts["mul_reflect"],
 		text_effect = "mul_ui_multiverse_highlight",
 	})
 	title_text.states.visible = false
@@ -466,42 +487,32 @@ SMODS.current_mod.custom_ui = function(nodes)
 	}
 	nodes[#nodes + 1] = {
 		n = G.UIT.R,
-		config = { align = "cm", padding = 0.05 },
+		config = { align = "cm", padding = 0.2 },
 		nodes = {
-			{
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = {
-					UIBox_button({
-						button = "mul_discord_invite",
-						label = { localize("b_mul_discord_server") },
-						minw = 4.75,
-						colour = Multiverse.C.PRIMARY1,
-					}),
-				},
-			},
-			{
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = {
-					UIBox_button({
-						button = "mul_landing_page",
-						label = { localize("b_mul_landing_page") },
-						minw = 4.75,
-						colour = Multiverse.C.PRIMARY1,
-					}),
-				},
-			},
+			UIBox_button({
+				button = "mul_discord_invite",
+				label = { localize("b_mul_discord_server") },
+				minw = 5,
+				colour = Multiverse.C.PRIMARY1,
+				col = true,
+			}),
+			UIBox_button({
+				button = "mul_landing_page",
+				label = { localize("b_mul_landing_page") },
+				minw = 5,
+				colour = Multiverse.C.PRIMARY1,
+				col = true,
+			}),
 		},
 	}
 end
 
--- SMODS.current_mod.ui_config = {
--- 	colour = Multiverse.C.SECONDARY,
--- 	back_colour = Multiverse.C.PRIMARY1,
--- 	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
--- 	tab_button_colour = Multiverse.C.PRIMARY1,
--- }
+SMODS.current_mod.ui_config = {
+	colour = Multiverse.C.SECONDARY,
+	back_colour = Multiverse.C.PRIMARY1,
+	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
+	tab_button_colour = Multiverse.C.PRIMARY1,
+}
 
 function G.FUNCS.mul_discord_invite(e)
 	love.system.openURL("https://discord.gg/TTEU5K3XC5")
@@ -556,6 +567,7 @@ function Multiverse.music_tab_definition(page)
 						options = pages,
 						current_option = page,
 						opt_callback = "mul_select_music_page",
+						colour = Multiverse.ui_config.tab_button_colour,
 					}),
 				},
 			},
@@ -782,22 +794,125 @@ Multiverse.credits_table = {
 			{ -- entry
 				card_key = "j_mul_thunderedge",
 				desc_key = "k_mul_thunderedge_credits",
+				link = "https://github.com/ThunderEdge73/Multiverse",
+			},
+			{ -- entry
+				card_key = "j_mul_proto",
+				desc_key = "k_mul_proto_credits",
+				link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
 			},
 		},
 	},
+	"MISC_CREDITS",
 }
 
 function Multiverse.credits_tab_definition(page)
 	rows = {}
-	for _, row in ipairs(Multiverse.credits_table[page]) do
-		local row_items = {}
-		for _, item in ipairs(row) do
-			table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
+	if type(Multiverse.credits_table[page]) == "table" then
+		local contributor_text = DynaText({
+			string = localize("mul_contributors"),
+			colours = { G.C.UI.TEXT_LIGHT },
+			shadow = true,
+			float = true,
+			silent = true,
+			spacing = 5,
+			scale = 1,
+			rotate = true,
+			pop_in = 0,
+			text_effect = "mul_ui_multiverse_highlight",
+		})
+		table.insert(rows, {
+			n = G.UIT.R,
+			config = { align = "cm", padding = 0.1 },
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						object = contributor_text
+					}
+				}
+			},
+		})
+		for _, row in ipairs(Multiverse.credits_table[page]) do
+			local row_items = {}
+			for _, item in ipairs(row) do
+				table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
+			end
+			table.insert(rows, {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = row_items,
+			})
 		end
+	else
+		local insp_text = DynaText({
+			string = localize("mul_inspirations"),
+			colours = { G.C.UI.TEXT_LIGHT },
+			shadow = true,
+			float = true,
+			silent = true,
+			spacing = 5,
+			scale = 1,
+			rotate = true,
+			pop_in = 0,
+			text_effect = "mul_ui_multiverse_highlight",
+		})
+		insp_text.states.visible = false
 		table.insert(rows, {
 			n = G.UIT.R,
 			config = { align = "cm" },
-			nodes = row_items,
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm", padding = 0.1 },
+							nodes = {
+								{
+									n = G.UIT.O,
+									config = {
+										object = insp_text,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.B,
+									config = {
+										h = 0.3,
+										w = 0.5,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.232, loc_vars = {
+								colours = {
+									darken(HEX("8dffa8"), 0.2),
+									HEX("F4A6C7"),
+									HEX("800080"),
+									HEX("FE0001"),
+									HEX("4d1575"),
+									HEX("7E7AFF"),
+									HEX("ff8c8c"),
+									HEX("fd9712"),
+									HEX("f51bbc"),
+									HEX("7a2eb6"),
+									HEX("8b61ad"),
+								}
+							} }),
+						},
+					},
+				},
+			},
 		})
 	end
 	local pages = {}
@@ -816,6 +931,7 @@ function Multiverse.credits_tab_definition(page)
 						options = pages,
 						current_option = page,
 						opt_callback = "mul_select_credits_page",
+						colour = Multiverse.ui_config.tab_button_colour,
 					}),
 				},
 			},
@@ -859,25 +975,36 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
 		G.CARD_W,
-		G.CARD_H * 0.9,
+		G.CARD_H,
 		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
 	)
 	local card = Card(
 		G.mul_credits[#G.mul_credits].T.x + G.mul_credits[#G.mul_credits].T.w / 2,
 		G.mul_credits[#G.mul_credits].T.y,
-		G.CARD_W * 0.9,
-		G.CARD_H * 0.9,
+		G.CARD_W,
+		G.CARD_H,
 		G.P_CARDS.empty,
-		G.P_CENTERS[entry.card_key]
+		G.P_CENTERS[entry.card_key],
+		{
+			bypass_discovery_center = true,
+			bypass_lock = true,
+			bypass_discovery_ui = true,
+		}
 	)
+	card.no_ui = true
+	function card:click()
+		Moveable.click(self)
+		love.system.openURL(entry.link)
+	end
 	card.dissolve = 1
 	G.mul_credits[#G.mul_credits]:emplace(card)
-	card:flip()
+	card.facing = "back"
+	card.sprite_facing = "back"
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
 			blocking = false,
-			delay = 0.25,
+			delay = 0.05,
 			func = function()
 				card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
 				return true
@@ -889,7 +1016,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		Event({
 			trigger = "after",
 			blocking = false,
-			delay = 1,
+			delay = 0.8,
 			func = function()
 				card:flip()
 				return true
@@ -917,7 +1044,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
-				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.05 }),
+				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
 			},
 		},
 	}
@@ -1031,346 +1158,4 @@ function Multiverse.create_localized_rows(set, key, args)
 		})
 	end
 	return rows
-end
-
-G.FUNCS.your_collection_mul_deckenchantments = function()
-	G.SETTINGS.paused = true
-	G.FUNCS.overlay_menu({
-		definition = Multiverse.create_UIBox_your_collection_deckenchantments(),
-	})
-end
-
-function Multiverse.create_UIBox_your_collection_deckenchantments()
-	G.E_MANAGER:add_event(Event({
-		func = function()
-			G.FUNCS.mul_deckenchantment_collection_page({ cycle_config = {} })
-			return true
-		end,
-	}))
-	return {
-		n = G.UIT.O,
-		config = {
-			object = UIBox({
-				definition = Multiverse.create_UIBox_your_collection_deckenchantments_content(),
-				config = { offset = { x = 0, y = 0 }, align = "cm" },
-			}),
-			id = "your_collection_deckenchantment_contents",
-			align = "cm",
-		},
-	}
-end
-
-function Multiverse.create_UIBox_your_collection_deckenchantments_content(page)
-	page = page or 1
-	args = {}
-	args.w_mod = 1
-	args.h_mod = 0.95
-	args.card_scale = 1
-	local pool = SMODS.collection_pool(Multiverse.DeckEnchantments)
-	G.your_collection = {}
-	local rows = 3
-	local cols = 5
-	local table_nodes = {}
-
-	for i = 1, rows do
-		G.your_collection[i] = CardArea(
-			G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
-			G.ROOM.T.h,
-			(args.w_mod * cols + 0.25) * G.CARD_W,
-			args.h_mod * G.CARD_H,
-			{ card_limit = cols, type = "title", highlight_limit = 0, collection = true }
-		)
-		table.insert(table_nodes, {
-			n = G.UIT.R,
-			config = { align = "cm", padding = 0.07, no_fill = true },
-			nodes = {
-				{ n = G.UIT.O, config = { object = G.your_collection[i] } },
-			},
-		})
-	end
-
-	local options = {}
-	for i = 1, math.ceil(#pool / (rows * cols)) do
-		table.insert(
-			options,
-			localize("k_page") .. " " .. tostring(i) .. "/" .. tostring(math.ceil(#pool / (rows * cols)))
-		)
-	end
-
-	local t = create_UIBox_generic_options({
-		colour = G.ACTIVE_MOD_UI
-			and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_colour or (G.ACTIVE_MOD_UI.ui_config or {}).colour),
-		bg_colour = G.ACTIVE_MOD_UI
-			and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_bg_colour or (G.ACTIVE_MOD_UI.ui_config or {}).bg_colour),
-		back_colour = G.ACTIVE_MOD_UI and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_back_colour or (
-			G.ACTIVE_MOD_UI.ui_config or {}
-		).back_colour),
-		outline_colour = G.ACTIVE_MOD_UI and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_outline_colour or (
-			G.ACTIVE_MOD_UI.ui_config or {}
-		).outline_colour),
-		back_func = G.ACTIVE_MOD_UI and "openModUI_" .. G.ACTIVE_MOD_UI.id or "your_collection",
-		snap_back = args.snap_back,
-		infotip = args.infotip,
-		contents = {
-			{
-				n = G.UIT.R,
-				config = { align = "cm", r = 0.1, colour = G.C.BLACK, emboss = 0.05 },
-				nodes = {
-					{
-						n = G.UIT.C,
-						config = { align = "cm" },
-						nodes = table_nodes,
-					},
-				},
-			},
-			((rows * cols) < #pool) and {
-				n = G.UIT.R,
-				config = { align = "cm" },
-				nodes = {
-					create_option_cycle({
-						options = options,
-						w = 4.5,
-						cycle_shoulders = true,
-						opt_callback = "mul_deckenchantment_collection_page",
-						current_option = page,
-						colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour
-							or G.C.RED,
-						no_pips = true,
-						focus_args = { snap_to = true, nav = "wide" },
-					}),
-				},
-			} or nil,
-		},
-	})
-	return t
-end
-
-function G.FUNCS.mul_deckenchantment_collection_page(args)
-	local rows, cols = 3, 5
-	local page = args and args.cycle_config.current_option or 1
-	local t = Multiverse.create_UIBox_your_collection_deckenchantments_content(page)
-	if G.your_collection then
-		for i = #G.your_collection, 1, -1 do
-			for j = #G.your_collection[i].cards, 1, -1 do
-				local c = G.your_collection[j]:remove_card(G.your_collection[i].cards[j])
-				c:remove()
-				c = nil
-			end
-		end
-		local pool = SMODS.collection_pool(Multiverse.DeckEnchantments)
-		local row, col = 1, 1
-		for index, obj in ipairs(pool) do
-			if index <= (page - 1) * rows * cols then
-			elseif index > page * rows * cols then
-				break
-			else
-				local card = Card(
-					G.your_collection[row].T.x + G.your_collection[row].T.w / 2,
-					G.your_collection[row].T.y,
-					G.CARD_W,
-					G.CARD_H,
-					G.P_CARDS.empty,
-					G.P_CENTERS["c_mul_enchanted_book"]
-				)
-				card.ability.extra.collection_enchant = pool[index].key
-				card:start_materialize({ HEX("A61A1F"), HEX("CAA540") }, row > 1 or col > 1)
-				G.your_collection[row]:emplace(card)
-				col = col + 1
-				if col > cols then
-					row = row + 1
-					col = 1
-				end
-			end
-		end
-		INIT_COLLECTION_CARD_ALERTS()
-	end
-	local e = G.OVERLAY_MENU:get_UIE_by_ID("your_collection_deckenchantment_contents")
-	if e and e.config.object then
-		e.config.object:remove()
-	end
-	e.config.object = UIBox({
-		definition = t,
-		config = { offset = { x = 0, y = 0 }, align = "cm", parent = e },
-	})
-end
-
-G.FUNCS.your_collection_mul_skillcards = function()
-	G.SETTINGS.paused = true
-	G.FUNCS.overlay_menu({
-		definition = Multiverse.create_UIBox_your_collection_skillcards(),
-	})
-end
-
-function Multiverse.create_UIBox_your_collection_skillcards()
-	G.E_MANAGER:add_event(Event({
-		func = function()
-			G.FUNCS.mul_skillcard_collection_page({ cycle_config = {} })
-			return true
-		end,
-	}))
-	return {
-		n = G.UIT.O,
-		config = {
-			object = UIBox({
-				definition = Multiverse.create_UIBox_your_collection_skillcards_content(),
-				config = { offset = { x = 0, y = 0 }, align = "cm" },
-			}),
-			id = "your_collection_skillcard_contents",
-			align = "cm",
-		},
-	}
-end
-
-function Multiverse.create_UIBox_your_collection_skillcards_content(page)
-	page = page or 1
-	args = {}
-	args.w_mod = 1
-	args.h_mod = 1.03
-	args.card_scale = 1
-	local pool = SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill)
-	G.your_collection = {}
-	local rows = 2
-	local cols = 5
-	local table_nodes = {}
-
-	for i = 1, rows do
-		G.your_collection[i] = CardArea(
-			G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
-			G.ROOM.T.h,
-			(args.w_mod * cols + 0.25) * G.CARD_W,
-			args.h_mod * G.CARD_H,
-			{ card_limit = cols, type = "title", highlight_limit = 0, collection = true }
-		)
-		table.insert(table_nodes, {
-			n = G.UIT.R,
-			config = { align = "cm", padding = 0.07, no_fill = true },
-			nodes = {
-				{ n = G.UIT.O, config = { object = G.your_collection[i] } },
-			},
-		})
-	end
-
-	local options = {}
-	for i = 1, math.ceil(#pool / (rows * cols)) do
-		table.insert(
-			options,
-			localize("k_page") .. " " .. tostring(i) .. "/" .. tostring(math.ceil(#pool / (rows * cols)))
-		)
-	end
-
-	local t = create_UIBox_generic_options({
-		colour = G.ACTIVE_MOD_UI
-			and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_colour or (G.ACTIVE_MOD_UI.ui_config or {}).colour),
-		bg_colour = G.ACTIVE_MOD_UI
-			and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_bg_colour or (G.ACTIVE_MOD_UI.ui_config or {}).bg_colour),
-		back_colour = G.ACTIVE_MOD_UI and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_back_colour or (
-			G.ACTIVE_MOD_UI.ui_config or {}
-		).back_colour),
-		outline_colour = G.ACTIVE_MOD_UI and ((G.ACTIVE_MOD_UI.ui_config or {}).collection_outline_colour or (
-			G.ACTIVE_MOD_UI.ui_config or {}
-		).outline_colour),
-		back_func = G.ACTIVE_MOD_UI and "openModUI_" .. G.ACTIVE_MOD_UI.id or "your_collection",
-		snap_back = args.snap_back,
-		contents = {
-			{
-				n = G.UIT.R,
-				config = { align = "cm", r = 0.1, colour = G.C.BLACK, emboss = 0.05 },
-				nodes = {
-					{
-						n = G.UIT.C,
-						config = { align = "cm" },
-						nodes = table_nodes,
-					},
-				},
-			},
-			((rows * cols) < #pool) and {
-				n = G.UIT.R,
-				config = { align = "cm" },
-				nodes = {
-					create_option_cycle({
-						options = options,
-						w = 4.5,
-						cycle_shoulders = true,
-						opt_callback = "mul_skillcard_collection_page",
-						current_option = page,
-						colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour
-							or G.C.RED,
-						no_pips = true,
-						focus_args = { snap_to = true, nav = "wide" },
-					}),
-				},
-			} or nil,
-		},
-	})
-	G.E_MANAGER:add_event(Event({
-		blocking = false,
-		blockable = false,
-		timer = "REAL",
-		func = function()
-			if G.OVERLAY_MENU then
-				local _infotip_object = G.OVERLAY_MENU.definition.config.object:get_UIE_by_ID("overlay_menu_infotip")
-				if _infotip_object then
-					_infotip_object.config.object:remove()
-					_infotip_object.config.object = UIBox({
-						definition = overlay_infotip(localize("ml_skill_card_explanation")),
-						config = { offset = { x = 0, y = 0 }, align = "bm", parent = _infotip_object },
-					})
-				end
-			end
-			return true
-		end,
-	}))
-	return t
-end
-
-function G.FUNCS.mul_skillcard_collection_page(args)
-	local rows, cols = 2, 5
-	local page = args and args.cycle_config.current_option or 1
-	local t = Multiverse.create_UIBox_your_collection_skillcards_content(page)
-	if G.your_collection then
-		for i = #G.your_collection, 1, -1 do
-			for j = #G.your_collection[i].cards, 1, -1 do
-				local c = G.your_collection[j]:remove_card(G.your_collection[i].cards[j])
-				c:remove()
-				c = nil
-			end
-		end
-		local pool = SMODS.collection_pool(G.P_CENTER_POOLS.mul_Skill)
-		local row, col = 1, 1
-		for index, obj in ipairs(pool) do
-			if index <= (page - 1) * rows * cols then
-			elseif index > page * rows * cols then
-				break
-			else
-				local center = pool[(page - 1) * rows * cols + (row - 1) * cols + col]
-				if not center then
-					break
-				end
-				local card = Card(
-					G.your_collection[row].T.x + G.your_collection[row].T.w / 2,
-					G.your_collection[row].T.y,
-					G.CARD_W,
-					G.CARD_H,
-					G.P_CARDS.empty,
-					center
-				)
-				card:start_materialize({ G.C.FILTER, G.C.RED, G.C.BLUE }, row > 1 or col > 1)
-				G.your_collection[row]:emplace(card)
-				col = col + 1
-				if col > cols then
-					row = row + 1
-					col = 1
-				end
-			end
-		end
-		INIT_COLLECTION_CARD_ALERTS()
-	end
-	local e = G.OVERLAY_MENU:get_UIE_by_ID("your_collection_skillcard_contents")
-	if e and e.config.object then
-		e.config.object:remove()
-	end
-	e.config.object = UIBox({
-		definition = t,
-		config = { offset = { x = 0, y = 0 }, align = "cm", parent = e },
-	})
 end

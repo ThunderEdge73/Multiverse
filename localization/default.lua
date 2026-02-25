@@ -45,28 +45,23 @@ return {
 				},
 			},
 			du_mul_visible_enchant = {
-				name = "NONE",
 				text = {
 					"{C:mul_enchantedbook}#1#",
 					"{C:inactive}(lvl. #2# -> lvl. #3#){}",
 				},
 			},
 			du_mul_hidden_enchant = {
-				name = "NONE",
 				text = { "{C:inactive}?????" },
 			},
 			du_mul_skill_cost_num = {
-				name = "NONE",
 				text = {
-					"Costs {C:attention}#1#{} TP",
+					"Costs {C:attention}#1#%{} TP",
 				},
 			},
 			du_mul_skill_cost_x = {
-				name = "NONE",
 				text = {
-					"Costs {C:attention}#1#{} TP",
-					"{C:inactive}(#1# is your{}",
-					"{C:inactive}current TP){}",
+					"Costs {C:attention}#1#%{} TP",
+					"{C:inactive}(#1# is your current TP){}",
 				},
 			},
 			du_mul_exhaust = {
@@ -93,6 +88,22 @@ return {
 					"after being used",
 				},
 			},
+			du_mul_impervious = {
+				name = "Impervious",
+				text = {
+					"Cannot be",
+					"{C:red}debuffed",
+				},
+			},
+			du_mul_impulse = {
+				name = "Impulse",
+				text = {
+					"If no hands or",
+					"discards were",
+					"used this round,",
+					"{C:attention}-#1#%{} TP cost",
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -107,12 +118,50 @@ return {
 					"Survive",
 				},
 			},
+			bl_mul_time_eater = {
+				name = "The Time Eater",
+				text = {
+					"Ah... company.",
+				},
+			},
+			bl_mul_spire_spear = {
+				name = "Spire Spear",
+				text = {
+					"Cleanse the Spire",
+				},
+			},
+			bl_mul_spire_shield = {
+				name = "Spire Shield",
+				text = {
+					"Cleanse the Spire",
+				},
+			},
+			bl_mul_corrupt_heart = {
+				name = "Corrupt Heart",
+				text = {
+					"Cleanse the Spire",
+				},
+			},
 		},
 		Passive = {
+			psv_mul_summon = {
+				name = "Summon",
+				text = {
+					"After this {C:attention}Boss Blind{} is defeated,",
+					"immediately face {C:attention}#1#{}",
+				},
+			},
+			psv_mul_otherworldly = {
+				name = "Otherworldly",
+				text = {
+					"This {C:attention}Boss Blind{} cannot appear, except",
+					"when being summoned by another Blind",
+				},
+			},
 			psv_mul_memorization = {
 				name = "Memorization",
 				text = {
-					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X3{} Blind size",
+					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X#1#{} Blind size",
 				},
 			},
 			psv_mul_unsightreadable = {
@@ -125,15 +174,107 @@ return {
 			psv_mul_determination = {
 				name = "Determination",
 				text = {
-					"If you get hit, lose score equal to {C:attention}10%{} of",
+					"If you get hit, lose score equal to {C:attention}#1#%{} of",
 					"current Blind size",
 				},
 			},
 			psv_mul_justice = {
 				name = "Justice",
 				text = {
-					"If you get hit, destroy {C:attention}1{} random card",
+					"If you get hit, destroy {C:attention}#1#{} random card",
 					"currently held in hand",
+				},
+			},
+			psv_mul_time_warp = {
+				name = "Time Warp",
+				text = {
+					"{C:blue}-1{} hands this round for every {C:attention}12{} {C:inactive}(#1#){}",
+					"playing cards selected this round",
+					"Playing card selection count {C:attention}resets{} if",
+					"played hand contains {C:attention}5{} scoring cards",
+					"If you have {C:blue}0{} or less hands because of",
+					"this effect, {C:red}lose the run",
+				},
+			},
+			psv_mul_draw_reduction = {
+				name = "Draw Reduction",
+				text = {
+					"If you would draw {C:attention}#1#{} or more cards,",
+					"draw {C:attention}#2#{} cards instead",
+				},
+			},
+			psv_mul_artifact = {
+				name = "Artifact",
+				text = {
+					"Prevent the next {C:attention}#1#{} time(s) this {C:attention}Boss Blind{}",
+					"would be {C:attention}disabled{} this round",
+				},
+			},
+			psv_mul_bulky = {
+				name = "Bulky",
+				text = {
+					"The required score to defeat this",
+					"{C:attention}Boss Blind{} is {C:attention}doubled",
+				},
+			},
+			psv_mul_surrounding = {
+				name = "Surrounding",
+				text = {
+					"{C:attention}Remove{} leftmost and rightmost scored",
+					"cards from scoring",
+				},
+			},
+			psv_mul_invincible = {
+				name = "Invincible",
+				text = {
+					"The required score to defeat this",
+					"{C:attention}Boss Blind{} cannot be reduced",
+				},
+			},
+			psv_mul_beat_of_death = {
+				name = "Beat of Death",
+				text = {
+					"Scored cards give {C:blue}#1#{} Chips",
+				},
+			},
+			psv_mul_debilitate = {
+				name = "Debilitate",
+				text = {
+					"After drawing cards, {C:red}debuff{} {C:attention}#1#{} random",
+					"undebuffed card in hand and {C:attention}flip #1#{} other",
+					"random face up card in hand",
+				},
+			},
+			psv_mul_vulnerable = {
+				name = "Vulnerable",
+				text = {
+					"During final score calculation, {X:mult,C:white}X#1#{} Mult",
+					"{C:attention}Removed{} after playing a hand",
+				},
+			},
+			psv_mul_vulnerable_infoqueue = {
+				name = "Vulnerable",
+				text = {
+					"During final score",
+					"calculation, {X:mult,C:white}X#1#{} Mult",
+					"{C:attention}Removed{} after",
+					"playing a hand",
+				},
+			},
+			psv_mul_burning = {
+				name = "Burning",
+				text = {
+					"Level up discarded poker hand once",
+					"{C:attention}Removed{} after discarding {C:attention}2{} {C:inactive}(#1#){} times",
+				},
+			},
+			psv_mul_burning_infoqueue = {
+				name = "Burning",
+				text = {
+					"Level up discarded",
+					"poker hand once",
+					"{C:attention}Removed{} after",
+					"discarding {C:attention}2{} {C:inactive}(#1#){} times"
 				},
 			},
 		},
@@ -271,26 +412,111 @@ return {
 				name = "Strike",
 				text = {
 					"{X:purple,C:white}X#1#{} Blind size",
-					"when used",
 				},
 			},
 			sk_mul_snowgrave = {
 				name = "Snowgrave",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, gives all",
+					"After use, gives",
+					"{C:attention}any{} number of",
 					"selected cards",
 					"{C:attention}Frozen Seals",
 				},
 			},
-			sk_mul_ubw = {
-				name = "Unlimited Blade Works",
+			sk_mul_jud_slash = {
+				name = "Judgement Slash",
 				text = {
 					"{C:attention}Ultimate{}",
-					"After use, split {C:attention}1{} selected",
+					"After use, splits {C:attention}1{} selected",
 					"card into {C:attention}#1#/#2#{} Half Cards",
 					"with {C:attention}random{} sides",
 					"{C:inactive}(Rounds up){}",
+				},
+			},
+			sk_mul_sinful_shell = {
+				name = "Sinful Shell",
+				text = {
+					"{C:attention}Exhaust{}",
+					"After use, destroy up",
+					"to {C:attention}#1#/#2#{} selected cards",
+					"{C:inactive}(Rounds up){}",
+				},
+			},
+			sk_mul_objection = {
+				name = "Objection",
+				text = {
+					"{C:attention}Impervious{}",
+					"Playing cards cannot",
+					"be {C:red}debuffed{} this round",
+				},
+			},
+			sk_mul_teio_step = {
+				name = "Sky High Teio Step",
+				text = {
+					"{C:attention}Exhaust{}",
+					"After use, up to {C:attention}#1#{} selected",
+					"cards permanently gain",
+					"{C:attention}+#2#{} retriggers",
+				},
+			},
+			sk_mul_embrittlement = {
+				name = "Embrittlement",
+				text = {
+					"{X:purple,C:white}X#1#{} Blind size",
+					"Applies {C:attention}Vulnerable{}",
+					"to current Blind",
+				},
+			},
+			sk_mul_rum_seventh = {
+				name = { "Rank-Up-Magic", "The Seventh One" },
+				text = {
+					"{C:attention}Ultimate, Impulse{}",
+					"After use, destroy {C:attention}#1#{} selected",
+					"Jokers with the {C:attention}same{} rarity,",
+					"then create a random Joker",
+					"that can become {C:mul_transmuted}Transmutable{}",
+					"and {C:attention}increase{} that Joker's",
+					"progress towards becoming",
+					"{C:mul_transmuted}Transmutable{} by {C:attention}#2#%{}",
+				},
+			},
+			sk_mul_fireball = {
+				name = "Fireball",
+				text = {
+					"Applies {C:attention}Burning{}",
+					"to current Blind",
+				},
+			},
+			sk_mul_ultra_instinct = {
+				name = "Ultra Instinct",
+				text = {
+					"{C:attention}Exhaust{}",
+					"After use, discard",
+					"{C:attention}any{} number of",
+					"selected cards",
+					"Gain {C:attention}#1#%{} TP per",
+					"discarded card",
+				},
+			},
+			sk_mul_aurafarming = {
+				name = "Aurafarming",
+				text = {
+					"{C:attention}Exhaust{}",
+					"Set Thaumaturgy",
+					"Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
+					"Gain {C:attention}1%{} TP for",
+					"every{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}1{} lost",
+					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)"
+				},
+			},
+			sk_mul_dupe_glitch = {
+				name = "Duplication Glitch",
+				text = {
+					"{C:attention}Retain{}",
+					"Create a {C:dark_edition}Negative",
+					"copy of {C:attention}1{} selected",
+					"consumable",
 				},
 			},
 		},
@@ -379,7 +605,7 @@ return {
 				name = "Hyperdimensional",
 				text = {
 					"{C:attention}+#1#{} Joker slot",
-					"Gain {C:attention}#2#%{} TP and{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#3#{} Thaumaturgy",
+					"Gain {C:attention}#2#%{} TP and{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#3#{} Thaumaturgy",
 					"Energy at end of round",
 				},
 			},
@@ -388,20 +614,23 @@ return {
 			c_mul_philosophers_stone = {
 				name = "Philosopher's Stone",
 				text = {
-					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per {C:mul_transmuted}Transmuted{}",
+					"Gain{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per {C:mul_transmuted}Transmuted{}",
 					"Joker owned, then {C:mul_transmuted,E:1}transmutes{}",
 					"selected Joker that is",
 					"currently {C:mul_transmuted}Transmutable{}",
-					"{C:inactive}(Removes all other Stickers){}",
-					"{C:inactive}(Currently{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
+					"{C:inactive}(Removes all Stickers{}",
+					"{C:inactive}on selected Joker){}",
+					"{C:inactive}(Currently{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
 				},
 			},
 			c_mul_holy_grail = {
 				name = "Holy Grail",
 				text = {
-					"Creates {C:attention}#1#{} {C:dark_edition}Negative{} consumables that",
-					"are relevant to the {C:mul_transmuted}transmutation{}",
-					"of selected Joker",
+					"Creates {C:attention}#1#{} {C:dark_edition}Negative{}",
+					"consumables that are",
+					"relevant to the",
+					"{C:mul_transmuted}transmutation{} of",
+					"{C:attention}1{} selected Joker",
 				},
 			},
 			c_mul_perpetual_motion = {
@@ -409,29 +638,30 @@ return {
 				text = {
 					"Doubles current",
 					"Thaumaturgy Energy",
-					"{C:inactive}(Max of{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{C:inactive})",
+					"{C:inactive}(Max of{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{C:inactive})",
 				},
 			},
 			c_mul_tree_of_eden = {
 				name = "Tree of Eden",
 				text = {
-					"Creates a random Joker that is",
-					"relevant to the {C:mul_transmuted}transmutation{}",
-					"of selected Joker",
+					"Creates a random Joker",
+					"that is relevant to",
+					"the {C:mul_transmuted}transmutation{} of",
+					"{C:attention}1{} selected Joker",
 				},
 			},
 			c_mul_sphere = {
 				name = "Sphere of Annhilation",
 				text = {
 					"{C:attention}Destroys{} all cards in hand",
-					"Lose{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per card destroyed",
-					"{C:inactive}(Currently{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
+					"Lose{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per card destroyed",
+					"{C:inactive}(Currently{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
 				},
 			},
 			c_mul_chaos_emeralds = {
 				name = "Chaos Emeralds",
 				text = {
-					"{C:attention}Increases{} selected Joker's",
+					"Increase {C:attention}1{} selected Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#1#%{}",
 				},
@@ -441,59 +671,62 @@ return {
 				text = {
 					"{C:attention}Halve{} your Thaumaturgy Energy",
 					"Gain TP equal to the amount",
-					"of Thaumaturgy Energy {C:attention}lost",
+					"of Thaumaturgy Energy lost",
 					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}",
 				},
 			},
-			c_mul_theory = {
-				name = "Theory of Everything",
+			c_mul_mithridate = {
+				name = "Mithridate",
 				text = {
-					"Creates a random Joker",
-					"that can become {C:mul_transmuted}Transmutable{}",
+					"Creates a random",
+					"Joker that can",
+					"become {C:mul_transmuted}Transmutable{}",
 				},
 			},
 			c_mul_rosetta_stone = {
 				name = "Rosetta Stone",
 				text = {
 					"{C:attention}Flips{} all Jokers",
-					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per",
+					"Gain{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per",
 					"Joker flipped",
-					"{C:inactive}(Currently{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
+					"{C:inactive}(Currently{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
 				},
 			},
 			c_mul_shadow_crystal = {
 				name = "Shadow Crystal",
 				text = {
-					"{C:attention}Sets{} selected Joker's progress",
-					"towards becoming {C:mul_transmuted}Transmutable{}",
-					"to its requirement minus {C:attention}1{}",
-					"Gives the selected Joker",
-					"{C:attention}Traitorous{}",
+					"Set {C:attention}1{} selected Joker's",
+					"progress towards becoming",
+					"{C:mul_transmuted}Transmutable{} to its",
+					"requirement minus {C:attention}1{}",
+					"Gives the selected",
+					"Joker {C:attention}Traitorous{}",
 				},
 			},
 			c_mul_necronomicon = {
 				name = "Necronomicon",
 				text = {
 					"Sets Thaumaturgy",
-					"Energy to{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
+					"Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
 					"Creates a random",
 					"{C:red}Rare{} Joker",
 				},
 			},
-			c_mul_gnosis = {
-				name = "Archon's Gnosis",
+			c_mul_sacrifice = {
+				name = "Sacrificial Ritual",
 				text = {
-					"{C:attention}Destroys{} selected Joker that",
-					"can become {C:mul_transmuted}Transmutable{}",
-					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
+					"Destroy {C:attention}1{} selected",
+					"Joker that can",
+					"become {C:mul_transmuted}Transmutable{}",
+					"Gain{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 				},
 			},
 			c_mul_puzzle = {
 				name = "Millenium Puzzle",
 				text = {
-					"While active, increases",
+					"While active, increase",
 					"{C:attention}base{} Thaumaturgy Energy",
-					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
+					"recharge rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 					"but {C:attention}halves{} money earned",
 					"from all sources",
 					"{C:inactive}(Currently #2#){}",
@@ -502,20 +735,20 @@ return {
 			c_mul_three_goddesses = {
 				name = "Three Goddesses Statue",
 				text = {
-					"Sets Thaumaturgy Energy to{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
-					"{C:attention}Increases{} selected Joker's",
+					"Sets Thaumaturgy Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
+					"Increase {C:attention}1{} selected Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#1#%{}",
 					"{C:inactive}(Cannot be used while Thaumaturgy{}",
-					"{C:inactive}Energy is below{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
+					"{C:inactive}Energy is below{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
 				},
 			},
 			c_mul_ufo = {
 				name = "UFO",
 				text = {
-					"While active, increases",
+					"While active, increase",
 					"{C:attention}base{} Thaumaturgy Energy",
-					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but {C:attention}-#2#{}",
+					"recharge rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but {C:attention}-#2#{}",
 					"card slots available in shop",
 					"{C:inactive}(Currently #3#){}",
 				},
@@ -523,9 +756,9 @@ return {
 			c_mul_stand_arrow = {
 				name = "Stand Arrow",
 				text = {
-					"While active, increases",
+					"While active, increase",
 					"{C:attention}base{} Thaumaturgy Energy",
-					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but",
+					"recharge rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but",
 					"{C:red}debuffs{} all {V:1}#2#{} cards",
 					"{C:inactive}(Suit changes at end of round){}",
 					"{C:inactive}(Currently #3#){}",
@@ -534,17 +767,17 @@ return {
 			c_mul_moon_berry = {
 				name = "Moon Berry",
 				text = {
-					"Adds {C:dark_edition}Polychrome{} to",
-					"selected Joker",
-					"Lose{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
+					"Give {C:dark_edition}Polychrome{} to",
+					"{C:attention}1{} selected Joker",
+					"Lose{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 				},
 			},
 			c_mul_elder_scroll = {
 				name = "Elder Scroll",
 				text = {
-					"While active, increases {C:attention}base{}",
+					"While active, increase {C:attention}base{}",
 					"Thaumaturgy Energy recharge",
-					"rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but all playing",
+					"rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but all playing",
 					"cards are {C:attention}facedown{}",
 					"{C:inactive}(Currently #2#){}",
 				},
@@ -552,18 +785,18 @@ return {
 			c_mul_master_sword = {
 				name = "Master Sword",
 				text = {
-					"{C:attention}Destroys{} selected Joker",
+					"Destroy {C:attention}1{} selected Joker",
 					"with at least {C:attention}1{} sticker",
-					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per sticker",
+					"Gain{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per sticker",
 					"on selected Joker",
 					"{C:inactive}(Can bypass Eternal){}",
-					"{C:inactive}(Currently{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
+					"{C:inactive}(Currently{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
 				},
 			},
 			c_mul_unicorn_horn = {
 				name = "Unicorn's Horn",
 				text = {
-					"{C:red}Nullifies{} the next decrease",
+					"{C:red}Nullify{} the next decrease",
 					"in Thaumaturgy Energy",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} nullifications){}",
 				},
@@ -571,9 +804,9 @@ return {
 			c_mul_kryptonite = {
 				name = "Kryptonite",
 				text = {
-					"While active, increases {C:attention}base{}",
+					"While active, increase {C:attention}base{}",
 					"Thaumaturgy Energy recharge",
-					"rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but {C:red}debuffs{}",
+					"rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} but {C:red}debuffs{}",
 					"all {C:red}Rare{} Jokers",
 					"{C:inactive}(Currently #2#){}",
 				},
@@ -581,7 +814,7 @@ return {
 			c_mul_infinity_gauntlet = {
 				name = "Infinity Gauntlet",
 				text = {
-					"{C:attention}Increases{} selected Joker's",
+					"Increase {C:attention}1{} selected Joker's",
 					"progress towards becoming",
 					"{C:mul_transmuted}Transmutable{} by {C:attention}#1#%{}",
 					"Randomly destroys {C:attention}half{}",
@@ -592,9 +825,9 @@ return {
 				name = "Super Star",
 				text = {
 					"While active, {C:blue}+#1#{} hands and",
-					"{C:red}+#2#{} discards but decreases",
+					"{C:red}+#2#{} discards but decrease",
 					"{C:attention}base{} Thaumaturgy Energy",
-					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#3#{}",
+					"recharge rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#3#{}",
 					"{C:inactive}(Currently #4#){}",
 				},
 			},
@@ -602,9 +835,9 @@ return {
 				name = "Matrix",
 				text = {
 					"While active, {C:attention}+#1#{} Joker",
-					"slots but decreases",
+					"slots but decrease",
 					"{C:attention}base{} Thaumaturgy Energy",
-					"recharge rate by{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
+					"recharge rate by{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
 					"{C:inactive}(Currently #3#){}",
 				},
 			},
@@ -623,9 +856,11 @@ return {
 			c_mul_palace_treasure = {
 				name = "Palace Treasure",
 				text = {
-					"Sets Thaumaturgy Energy to{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
-					"Earn {C:money}$1{} for every{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} lost",
-					"{C:inactive}(Currently {C:money}#2#{C:inactive}){}",
+					"Set Thaumaturgy",
+					"Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
+					"Earn {C:money}$1{} for",
+					"every{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} lost",
+					"{C:inactive}(Currently {C:money}$#2#{C:inactive}){}",
 				},
 			},
 			c_mul_journal = {
@@ -649,16 +884,16 @@ return {
 				name = "Enchantment Tag",
 				text = {
 					"Gives a free",
-					"{C:mul_enchantedbook}Enchantment Table"
-				}
+					"{C:mul_enchantedbook}Enchantment Table",
+				},
 			},
 			tag_mul_dimensional = {
 				name = "Dimensional Tag",
 				text = {
 					"Gives a free",
-					"{C:attention} Mega Dimension Pack"
-				}
-			}
+					"{C:attention} Mega Dimension Pack",
+				},
+			},
 		},
 		Joker = {
 			j_mul_thunderedge = {
@@ -669,8 +904,19 @@ return {
 						"Thaumaturgy Energy",
 						"or TP, {C:attention}refund{} half",
 						"the lost amount",
-					}
-				}
+					},
+				},
+			},
+			j_mul_proto = {
+				name = "Proto",
+				text = {
+					{
+						"Gains {X:mult,C:white}X#1#{} Mult per",
+						"{C:attention}unique{} rank in",
+						"played hand",
+						"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
+					},
+				},
 			},
 			j_mul_bloodbath = {
 				name = "Bloodbath",
@@ -806,9 +1052,9 @@ return {
 				text = {
 					{
 						"{C:green}#1# in #2#{} chance",
-						"to give {X:mult,C:white}X#3#{} Mult",
-						"If this probability fails, instead",
-						"give {C:mult}+#4#{} Mult",
+						"for {X:mult,C:white}X#3#{} Mult",
+						"If this probability",
+						"fails, {C:mult}+#4#{} Mult",
 					},
 					{
 						"{C:inactive,s:0.8}The 50/50 feels like a",
@@ -984,12 +1230,11 @@ return {
 				text = {
 					{
 						"{C:blue}+#1#{} hands",
-						"Evenly distribute {C:attention}#2#{}",
+						"Evenly distribute {C:attention}#3#{}",
 						"retriggers across",
 						"all scored cards",
-						"Increases retriggers",
-						"by {C:attention}#3#{} per hand remaining",
-						"{C:inactive}(Currently {C:attention}#4#{C:inactive} retriggers){}",
+						"Increases by {C:attention}#2#{}",
+						"per hand remaining",
 					},
 					{
 						"{C:inactive,s:0.8}It costs 400,000 dollars to",
@@ -1010,25 +1255,37 @@ return {
 					},
 				},
 			},
+			j_mul_frozone = {
+				name = "Frozone",
+				text = {
+					{
+						"{C:attention}Frozen Seals{} instead gain",
+						"{X:mult,C:white}X#1#{} Mult when scored",
+						"{C:attention}Frozen Seals{} also trigger",
+						"while held in hand",
+					},
+					{
+						"{C:inactive,s:0.8}Where's my super suit?",
+					},
+				},
+			},
 		},
 		Spectral = {
 			c_mul_eternity = {
 				name = "Eternity",
 				text = {
-					"Select {C:attention}#1#{} card in hand",
-					"Destroys all unselected",
-					"cards in hand and gives",
-					"all Jokers {C:attention}Eternal{}",
+					"Gives all Jokers {C:attention}Eternal{}",
+					"Destroy {C:attention}#1#{} random card in",
+					"hand per {C:attention}Eternal{} Joker",
 				},
 			},
 			c_mul_eternity_alt = {
 				name = "Eternity",
 				text = {
-					"Select {C:attention}#1#{} card in hand",
-					"Destroys all unselected",
-					"cards in hand and gives",
-					"all Jokers {C:attention}Eternal{}",
-					"{C:inactive}(Destroys all Jokers that",
+					"Gives all Jokers {C:attention}Eternal{}",
+					"Destroy {C:attention}#1#{} random card in",
+					"hand per {C:attention}Eternal{} Joker",
+					"{C:inactive}(Destroy all Jokers that",
 					"{C:inactive}cannot become Eternal)",
 				},
 			},
@@ -1257,7 +1514,7 @@ return {
 					"Can use {C:attention}Philosopher's Stone{}",
 					"on this card to create",
 					"{C:mul_transmuted,E:1}Transmuted{} Jokers",
-					"Gain{s:0.58} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} at end of round",
+					"Gain{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} at end of round",
 				},
 			},
 			mul_traitorous = {
@@ -1309,7 +1566,7 @@ return {
 			mul_steve_ability = {
 				name = "Ability: Crafting",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: Destroy any number",
 					"of selected cards, then",
 					"create an equal number",
@@ -1320,7 +1577,7 @@ return {
 			mul_heavy_ability = {
 				name = "Ability: Sandvich",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: Gain {C:blue}+#2#{} hands",
 					"this round",
 				},
@@ -1328,7 +1585,7 @@ return {
 			mul_impostor_ability = {
 				name = "Ability: Murder",
 				text = {
-					"Cost: {C:attention}#1#{} TP",
+					"Cost: {C:attention}#1#%{} TP",
 					"Effect: {X:purple,C:white}X#2#{} Blind size",
 					"{X:purple,C:white}^#3#{} Blind size instead if",
 					"{C:attention}Ante{} is greater than {C:attention}#4#{}",
@@ -1337,9 +1594,17 @@ return {
 			mul_thunderedge_ability = {
 				name = "Ability: Omniscience",
 				text = {
-					"Cost: {C:attention}#1#{} TP,{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
+					"Cost: {C:attention}#1#%{} TP,{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{}",
 					"Effect: Creates a",
 					"{C:attention}Dimensional Tag",
+				},
+			},
+			mul_frozone_ability = {
+				name = "Ability: Freeze",
+				text = {
+					"Cost: {C:attention}#1#%{} TP",
+					"Effect: Apply a {C:attention}Frozen",
+					"{C:attention}Seal{} to {C:attention}#2#{} selected card",
 				},
 			},
 			--#endregion
@@ -1392,15 +1657,25 @@ return {
 					"{C:inactive}(#1#/#2#){}",
 				},
 			},
+			mul_jack_frost_hint = {
+				name = "Hint",
+				text = {
+					"Destroy {C:attention}#2#{}",
+					"playing cards",
+					"{C:inactive}(#1#/#2#){}",
+				},
+			},
 			--#endregion
 			--#region Mechanic descriptions
 			mul_thaumaturgy_desc = {
 				name = "Thaumaturgy Energy",
 				text = {
-					"#1#{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{} at end of round",
-					"If Thaumaturgy Energy exceeds{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{} at",
-					"end of round, set Thaumaturgy Energy",
-					"to{s:0.57} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{} and create a {C:attention}Philosopher's Stone",
+					"#1#{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{} at end of round",
+					"If Thaumaturgy Energy",
+					"exceeds{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{} at end of",
+					"round, set Thaumaturgy",
+					"Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{} and create",
+					"a {C:attention}Philosopher's Stone",
 					"{C:inactive}(Must have room){}",
 				},
 			},
@@ -1415,7 +1690,7 @@ return {
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}"
+					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_blind_keybind_info = {
@@ -1423,8 +1698,8 @@ return {
 				text = {
 					"Hold {C:attention}I{} to make the current",
 					"Blind's instructions visible",
-					"on top of any held {C:attention}Tags{}"
-				}
+					"on top of any held {C:attention}Tags{}",
+				},
 			},
 			mul_TP_desc_joke1 = {
 				name = "TP (Toilet Paper)",
@@ -1437,7 +1712,7 @@ return {
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}"
+					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_TP_desc_joke2 = {
@@ -1451,7 +1726,7 @@ return {
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
 					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}"
+					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_active_consumable = {
@@ -1472,8 +1747,8 @@ return {
 			mul_limbo_inst = {
 				name = "Instructions",
 				text = {
-					"When Blind is selected, {C:attention}8{} keys",
-					"will appear on the screen",
+					"Before first hand is played,",
+					"{C:attention}8{} keys will appear on screen",
 					" ",
 					"Pay attention to the {C:attention}key{}",
 					"that is flashing {C:green}green{}",
@@ -1481,9 +1756,9 @@ return {
 					"In a moment, the keys will",
 					"start to {C:attention}shuffle{} around",
 					" ",
-					"When the keys stop shuffling,",
-					"{C:attention}click{} the key that was flashing",
-					"{C:green}green{} at the start of the blind",
+					"When the keys stop moving,",
+					"{C:attention}click{} the key that was",
+					"originally flashing {C:green}green{}",
 				},
 			},
 			mul_undying_inst = {
@@ -1538,7 +1813,12 @@ return {
 			k_mul_thunderedge_credits = {
 				"Creator of {C:mul_transmuted}Multiverse{}",
 				"Implemented all of",
-				"{C:mul_transmuted}Multiverse{}'s mechanics"
+				"{C:mul_transmuted}Multiverse{}'s mechanics",
+			},
+			k_mul_proto_credits = {
+				"Added some {C:attention}challenges{}",
+				"Added attack patterns",
+				"for {C:attention}The Undying{}",
 			},
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
@@ -1563,6 +1843,7 @@ return {
 			k_mul_eliminated = "Eliminated!",
 			k_mul_boom = "Boom!",
 			k_mul_murdered = "Murdered!",
+			k_mul_frozen = "Frozen!",
 			k_mul_thaumaturgy_energy = "Thaumaturgy Energy",
 			k_mul_make_room = "Must have at least 1 available consumable slot",
 			k_mul_make_room2 = "in order to create a Philosopher's Stone...",
@@ -1575,6 +1856,7 @@ return {
 			k_mul_skill = "Skill Card",
 			k_mul_activate = "Activate",
 			k_mul_ability = "Ability",
+			k_mul_none = "none",
 			b_mul_myth_cards = "Myth Cards",
 			b_mul_deckenchantment_cards = "Deck Enchantments",
 			b_mul_enchantedbook_cards = "Enchanted Books",
@@ -1582,7 +1864,12 @@ return {
 			b_mul_discord_server = "My Discord Server",
 			b_mul_landing_page = "About Me",
 			k_mul_ubw = "Select 1 card to split into #1# Half Cards",
-			k_mul_snowgrave = "Select any number of cards to give Frozen Seals to",
+			k_mul_snowgrave = "Apply Frozen Seals to any number of selected cards",
+			k_mul_sinful_shell = "Select up to #1# cards to destroy",
+			k_mul_teio_step = "Give +#2# retriggers permanently to up to #1# selected cards",
+			k_mul_rum_seventh = "Select #1# Jokers to destroy",
+			k_mul_ultra_instinct = "Discard any number of selected cards",
+			k_mul_dupe_glitch = "Create a Negative copy of 1 selected consumable",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",
@@ -1633,11 +1920,27 @@ return {
 				"exit this menu, such as enabling debug utilities or joke content.",
 			},
 			mul_config_menu_title = {
-				"Change {C:mul_transmuted}Multiverse{}'s settings here",
+				"{C:white}Change {C:mul_transmuted}Multiverse{C:white}'s settings here",
 			},
 			mul_music_menu_text = {
 				"{C:attention}Enable{} or {C:attention}disable{} certain songs that this mod uses",
 				"{C:attention}Hover{} over the song details to see when the song plays",
+			},
+			mul_multiverse = "Multiverse",
+			mul_contributors = "Contributors",
+			mul_inspirations = "Inspirations",
+			mul_misc_credits = {
+				"{V:1}Aikoyori {C:inactive}(Aikoyori's Shenanigans)",
+				"{V:2}nh6574 {C:inactive}(JoyousSpring)",
+				"{V:3}Mysthaps {C:inactive}(Lobotomy Corporation)",
+				"{V:4}Ruby {C:inactive}(Entropy, DATA EXPUNGED)",
+				"{V:5}GhostSalt {C:inactive}(Phanta, Catan, etc.)",
+				"{V:6}Revo {C:inactive}(Revo's Vault, Judgement)",
+				"{V:7}Lily Felli {C:inactive}(Valkarri, Aquillari)",
+				"{V:8}TheOneGoofAli {C:inactive}(TOGA's Stuff)",
+				"{V:9}Astra {C:inactive}(Maximus, Hot Potato, etc.)",
+				"{V:10}Yahiamice {C:inactive}(Yahimod)",
+				"{V:11}PaperMoon {C:inactive}(Paperback)",
 			},
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",
@@ -1680,7 +1983,7 @@ return {
 			},
 			ml_skill_card_explanation = {
 				"Skill Cards are sent to the discard pile when used, except if specified otherwise",
-				"Discard effects do not trigger if a Skill Card is used and sent to the discard pile",
+				"Skill Cards have no rank or suit, and will not score regardless of played poker hand",
 			},
 		},
 		labels = {
@@ -1696,10 +1999,9 @@ return {
 		},
 		v_dictionary = {
 			a_mul_thaumaturgy_energy = "+#1# Energy",
-			a_mul_TP = "+#1# TP",
+			a_mul_TP = "+#1#% TP",
 			a_mul_x_blind_size = "X#1# Blind Size",
 			a_mul_plus_blind_size = "+#1# Blind Size",
-			a_mul_limbo_popup = "F O C U S (X#1# Blind size on failure)",
 		},
 	},
 }

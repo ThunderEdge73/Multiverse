@@ -83,16 +83,17 @@ function Card:mul_safe_dissolve(dissolve_colours, silent, dissolve_time_fac, no_
 	if not no_juice then
 		self:juice_up()
 	end
-	local childParts = (not no_particles) and Particles(0, 0, 0, 0, {
-		timer_type = "TOTAL",
-		timer = 0.01 * dissolve_time,
-		scale = 0.1,
-		speed = 2,
-		lifespan = 0.7 * dissolve_time,
-		attach = self,
-		colours = self.dissolve_colours,
-		fill = true,
-	})
+	local childParts = not no_particles
+		and Particles(0, 0, 0, 0, {
+			timer_type = "TOTAL",
+			timer = 0.01 * dissolve_time,
+			scale = 0.1,
+			speed = 2,
+			lifespan = 0.7 * dissolve_time,
+			attach = self,
+			colours = self.dissolve_colours,
+			fill = true,
+		})
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		blockable = false,
@@ -395,7 +396,6 @@ end
 ---@param operation number | fun(chips: number): number
 function Multiverse.change_blind_size(operation)
 	if G.GAME.facing_blind then
-		local returns = {}
 		local amt = type(operation) == "function" and operation(G.GAME.blind.chips) or (G.GAME.blind.chips + operation)
 		G.GAME.blind.chips = math.floor(amt + 0.5)
 		G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
@@ -497,7 +497,8 @@ end
 ---@param num? integer
 ---@param is_random? boolean
 ---@param forced_half? string
-function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
+---@param silent? boolean
+function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half, silent)
 	local cards
 	if not cards_to_split[1] then -- If cards_to_split is a single card
 		cards = { cards_to_split }
@@ -547,7 +548,9 @@ function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half)
 			end
 			SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
 			SMODS.destroy_cards(cards, nil, true)
-			play_sound("slice1", 0.96 + math.random() * 0.08)
+			if not silent then
+				play_sound("slice1", 0.96 + math.random() * 0.08)
+			end
 			return true
 		end,
 	}))
@@ -591,4 +594,56 @@ end
 
 function Multiverse.cannot_interrupt()
 	return Multiverse.in_limbo or Multiverse.in_undyne or Multiverse.very_important_thing
+end
+
+function Multiverse.lose()
+	G.STATE = G.STATES.GAME_OVER
+	G:save_settings()
+	G.FILE_HANDLER.force = true
+	G.STATE_COMPLETE = false
+end
+
+---@param moveable Moveable
+function Multiverse.get_true_coords(moveable)
+	local transform = moveable.VT or moveable.T
+	local scale = G.TILESIZE * G.TILESCALE
+	return {
+		(G.ROOM.T.x + transform.x + transform.w * 0.5) * scale,
+		(G.ROOM.T.y + transform.y + transform.h * 0.5) * scale,
+	}
+end
+
+function Multiverse.modify_current_score(num, silent, no_juice)
+	if G.GAME.chips then
+		if not no_juice then
+			SMODS.juice_up_blind()
+		end
+		G.GAME.chips = G.GAME.chips + num
+		if not silent then
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.06 * G.SETTINGS.GAMESPEED,
+				blockable = false,
+				blocking = false,
+				func = function()
+					play_sound("tarot2", 0.76, 0.4)
+					return true
+				end,
+			}))
+			play_sound("tarot2", 1, 0.4)
+		end
+		if G.GAME.chips >= G.GAME.blind.chips then
+			G.E_MANAGER:add_event(Event({
+				blocking = false,
+				func = function()
+					if G.STATE == G.STATES.SELECTING_HAND then
+						G.STATE = G.STATES.HAND_PLAYED
+						G.STATE_COMPLETE = true
+						end_round()
+						return true
+					end
+				end,
+			}))
+		end
+	end
 end

@@ -58,7 +58,7 @@ end
 ---Changes the current amount of TP, and also triggers the relevant context.
 ---This function will automatically adjust the amount of TP earned/lost if doing the modification would cause TP to be negative or more than 100.
 ---@param amt integer
----@param args {from_hand: boolean?, immediate: boolean?}
+---@param args {from_hand: boolean?, immediate: boolean?, from_skill: boolean?}
 function Multiverse.ease_TP(amt, args)
 	local actual_change = Multiverse.clamp(amt, -G.GAME.mul_TP, 100 - G.GAME.mul_TP)
 	args = args or {}
@@ -68,6 +68,7 @@ function Multiverse.ease_TP(amt, args)
 		amount = actual_change,
 		--True if the change in TP came from a played hand.
 		mul_from_hand = args.from_scored_hand,
+		mul_from_skill = args.from_skill
 	})
 	if args.immediate then
 		G.GAME.mul_TP = G.GAME.mul_TP + actual_change

@@ -189,7 +189,6 @@ SMODS.Joker({
 		if context.individual and context.cardarea == G.play then
 			if not context.blueprint then
 				Multiverse.increment_transmute_progress(card, 1)
-				Multiverse.transmute_check(card)
 			end
 			if pseudorandom("hammer_bro", 1, 2) == 1 then
 				return { xmult = card.ability.extra.xmult }
@@ -218,7 +217,6 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		if not context.blueprint and context.money_altered and context.from_shop and context.amount < 0 then
 			Multiverse.increment_transmute_progress(card, -context.amount)
-			Multiverse.transmute_check(card)
 		end
 		if context.before and #G.hand.cards > 0 then
 			SMODS.destroy_cards(pseudorandom_element(G.hand.cards, "mul_arms_dealer"))

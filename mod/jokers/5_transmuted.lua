@@ -9,9 +9,8 @@ SMODS.Rarity({
 
 SMODS.Joker({
 	key = "ren_amamiya",
-	atlas = "ren_amamiya",
-	pos = { x = 0, y = 0 },
-	soul_pos = { x = 1, y = 0 },
+	atlas = "placeholder",
+	pos = { x = 4, y = 0 },
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
@@ -298,7 +297,6 @@ Multiverse.UsableJoker({
 		return {
 			vars = {
 				card.ability.extra.hands,
-				card.ability.extra.retriggers,
 				card.ability.extra.retriggers_per_hand,
 				card.ability.extra.retriggers + card.ability.extra.retriggers_per_hand * hands,
 			},
@@ -462,5 +460,46 @@ Multiverse.UsableJoker({
 				sound = "slice1",
 			}, card)
 		end)
+	end,
+})
+
+Multiverse.UsableJoker({
+	key = "frozone",
+	atlas = "placeholder",
+	pos = { x = 4, y = 0 },
+	rarity = "mul_transmuted",
+	blueprint_compat = false,
+	cost = 40,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
+		info_queue[#info_queue + 1] = G.P_CENTERS["m_glass"]
+		table.insert(info_queue, {
+			set = "Other",
+			key = "mul_frozone_ability",
+			vars = {
+				card.ability.extra.tp_cost,
+				card.ability.extra.max_selected
+			},
+		})
+		return {
+			vars = {
+				card.ability.extra.xmult_inc,
+			},
+		}
+	end,
+	config = { extra = { xmult_inc = 0.05, tp_cost = 10, max_selected = 1, seal = "mul_frozen" } },
+	use_ability = function(self, card)
+		local target = G.hand.highlighted[1]
+		Multiverse.effect_animation(card, function()
+			Multiverse.ease_TP(-card.ability.extra.tp_cost)
+			target:set_seal(card.ability.extra.seal, nil, true)
+			target:juice_up(0.3, 0.5)
+			SMODS.calculate_effect({
+				message = localize("k_mul_frozen"),
+			}, card)
+		end)
+	end,
+	can_use_ability = function(self, card)
+		return G.GAME.mul_TP >= card.ability.extra.tp_cost and #G.hand.highlighted == 1
 	end,
 })

@@ -57,9 +57,8 @@ SMODS.Joker:take_ownership("joker", {
 		if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == "Tarot" then
 			if not card.ability.extra.transmute_progress[context.consumeable.config.center.key] then
 				card.ability.extra.transmute_progress[context.consumeable.config.center.key] = true
-				card.ability.extra.transmute_progress.n = card.ability.extra.transmute_progress.n + 1
+				Multiverse.increment_transmute_progress(card, 1)
 			end
-			Multiverse.transmute_check(card)
 		end
 	end,
 	transmutes_into = "j_mul_ren_amamiya",
@@ -77,9 +76,8 @@ SMODS.Joker:take_ownership("pareidolia", {
 		if context.before and not context.blueprint then
 			if not card.ability.extra.transmute_progress[context.scoring_name] then
 				card.ability.extra.transmute_progress[context.scoring_name] = true
-				card.ability.extra.transmute_progress.n = card.ability.extra.transmute_progress.n + 1
+				Multiverse.increment_transmute_progress(card, 1)
 			end
-			Multiverse.transmute_check(card)
 		end
 	end,
 	transmutes_into = "j_mul_impostor",
@@ -171,9 +169,8 @@ SMODS.Joker:take_ownership("invisible", {
 		if not context.blueprint and context.card_added and context.card.ability.set == "Joker" then
 			if not card.ability.extra.transmute_progress[context.card.config.center.key] then
 				card.ability.extra.transmute_progress[context.card.config.center.key] = true
-				card.ability.extra.transmute_progress.n = card.ability.extra.transmute_progress.n + 1
+				Multiverse.increment_transmute_progress(card, 1)
 			end
-			Multiverse.transmute_check(card)
 		end
 	end,
 	transmutes_into = "j_mul_waldo",
@@ -190,7 +187,7 @@ SMODS.Joker:take_ownership("chicot", {
 		G.E_MANAGER:add_event(Event({
 			blockable = false,
 			trigger = "after",
-			delay = 12.7 * G.SPEEDFACTOR,
+			delay = 12.7 * G.SETTINGS.GAMESPEED,
 			func = function()
 				Multiverse.very_important_thing = false
 				Multiverse.stop_video("chicot_summoning")

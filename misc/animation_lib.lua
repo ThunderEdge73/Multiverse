@@ -7,7 +7,7 @@ Multiverse.all_animations = {}
 ---@return Multiverse.AnimationData
 function Multiverse.Animation(t)
 	local file_data =
-		assert(NFS.newFileData(Multiverse.path .. "assets/animations/" .. t.path), "Failed to get file data")
+		assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/animations/" .. t.path), "Failed to get file data")
 	local image_data = assert(love.image.newImageData(file_data), "Failed to convert to image data")
 	local love_image = assert(love.graphics.newImage(image_data), "Failed to create an image")
 	---@type Multiverse.AnimationData
@@ -107,8 +107,8 @@ Multiverse.all_videos = {}
 ---@return Multiverse.VideoData
 function Multiverse.Video(t)
 	local path = Multiverse.path .. "assets/videos/" .. t.path
-	local f = NFS.read(path)
-	love.filesystem.write("mul_" .. t.key .. ".ogv", f)
+	local f = Multiverse.NFS.read(path)
+		love.filesystem.write("mul_" .. t.key .. ".ogv", f)
 	local love_video = love.graphics.newVideo("mul_" .. t.key .. ".ogv")
 	if love_video:getSource() then
 		love_video:getSource():setVolume(G.SETTINGS.SOUND.volume * G.SETTINGS.SOUND.game_sounds_volume / 1000)

@@ -82,7 +82,9 @@ function Game:update(dt)
 	local ret = update_hook(self, dt)
 	Multiverse.update_animations()
 	Multiverse.update_spears()
-	Multiverse.update_transmutable_sticker_anim_state()
+	if G.shared_stickers then
+		G.shared_stickers["mul_transmutable"]:animate()
+	end
 	Multiverse.update_deck_enchantments()
 	Multiverse.update_main_menu()
 	return ret
@@ -127,9 +129,9 @@ local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
 	local c = center
 	if
-		Multiverse.contains_value(G.playing_cards or {}, self)
+		center == "m_mul_waldo"
+		and Multiverse.contains_value(G.playing_cards or {}, self)
 		and not Multiverse._CREATING_WALDO
-		and center == "m_mul_waldo"
 	then
 		c = "c_base"
 		G.E_MANAGER:add_event(Event({
@@ -238,7 +240,39 @@ function Game:start_run(args)
 			return true
 		end,
 	}))
+	local blind_ref = G.GAME.blind
+	G.GAME.blind = setmetatable({}, {
+		__newindex = function(_, k, v)
+			if not (k == "chips" and (blind_ref.config.blind.debuff or {}).mul_immutable and blind_ref[k] > v) then
+				blind_ref[k] = v
+			end
+		end,
+		__index = function(_, k)
+			return blind_ref[k]
+		end,
+	})
 	return ret
+end
+
+local disable_blind_hook = Blind.disable
+function Blind:disable()
+	local res = {}
+	SMODS.calculate_context({mul_prevent_disable = true, blind = self}, res)
+	local prevent_disable = false
+	for _, eff in pairs(res) do
+		for _, tab in pairs(eff) do
+			local is_already_prevented = prevent_disable
+			if tab.prevent_disable then
+				prevent_disable = true
+				if type(tab.prevent_disable) == "function" then
+					tab.prevent_disable(is_already_prevented)
+				end
+			end
+		end
+	end
+	if not prevent_disable then
+		return disable_blind_hook(self)
+	end
 end
 
 local ease_dollars_hook = ease_dollars
@@ -270,6 +304,9 @@ end
 
 local highlight_hook = Card.highlight
 function Card:highlight(is_highlighted)
+	if self.playing_card and is_highlighted then
+		SMODS.calculate_context({ mul_highlighted = true, other_card = self })
+	end
 	local ret = highlight_hook(self, is_highlighted)
 	local obj = self.config.center
 	if self.children.mul_joker_use_button then

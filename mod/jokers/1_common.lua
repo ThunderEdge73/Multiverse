@@ -162,10 +162,14 @@ SMODS.Joker({
 	key = "jack_frost",
 	atlas = "placeholder",
 	pos = { x = 0, y = 0 },
-	config = { extra = { rank = "Jack" } },
+	config = { extra = { rank = "Jack", transmute_progress = 0 } },
+	transmute_req = Multiverse.set_transmute_requirements(10),
 	rarity = 1,
 	cost = 5,
 	blueprint_compat = false,
+	loc_vars = function (self, info_queue, card)
+		Multiverse.transmute_info_queue(card, info_queue)
+	end,
 	calculate = function(self, card, context)
 		if context.before and context.scoring_hand[1] then
 			assert(SMODS.change_base(context.scoring_hand[1], nil, "Jack"))
@@ -174,5 +178,12 @@ SMODS.Joker({
 				message = localize("k_mul_converted")
 			}
 		end
+		if context.remove_playing_cards then
+			Multiverse.increment_transmute_progress(card, #context.removed)
+		end
 	end,
+	pools = { ["mul_can_transmute"] = true },
+	transmutes_into = "j_mul_frozone",
+	mul_grail = { "c_justice", "c_hanged_man", "c_immolate", "c_mul_lightsaber" },
+	mul_tree_of_eden = { "j_trading" }, -- UPDATE LATER
 })
