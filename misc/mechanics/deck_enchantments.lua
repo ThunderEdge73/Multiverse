@@ -159,7 +159,7 @@ function Multiverse.init_deck_enchantments()
 	---@type integer
 	G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck or 0
 	---@type integer
-	G.GAME.mul_visible_enchants = 1
+	G.GAME.mul_visible_enchants = G.GAME.mul_visible_enchants or 1
 end
 
 ---Checks if an enchantment is compatible with current selected deck.
