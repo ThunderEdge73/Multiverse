@@ -512,6 +512,9 @@ Multiverse.DeckEnchantment({
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						SMODS.destroy_cards(targets)
+						SMODS.calculate_effect({
+							message = localize("k_mul_destroyed"),
+						}, G.deck.cards[1] or G.deck)
 						return true
 					end,
 				}))
@@ -538,6 +541,115 @@ Multiverse.DeckEnchantment({
 		if context.joker_main then
 			return {
 				xmult = 1 + enchantment.level * enchantment.ability.xmult,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "trib_blessing",
+	config = { retriggers = 2 },
+	max_level = 1,
+	enchantment_type = "positive",
+	legendary = true,
+	calculate = function(self, enchantment, context)
+		if
+			context.repetition
+			and context.cardarea == G.play
+			and (context.other_card:get_id() == 12 or context.other_card:get_id() == 13)
+		then
+			return {
+				repetitions = enchantment.ability.retriggers,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "perkeo_blessing",
+	config = { xmult = 3 },
+	max_level = 1,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.xmult,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	legendary = true,
+	calculate = function(self, enchantment, context)
+		if context.other_consumeable then
+			return {
+				x_mult = enchantment.ability.xmult,
+				message_card = context.other_consumeable,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "canio_blessing",
+	config = { xmult_inc = 1, xmult = 1 },
+	max_level = 1,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.xmult_inc,
+				card.ability.xmult,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	legendary = true,
+	calculate = function(self, enchantment, context)
+		if context.destroy_card and context.cardarea == G.play then
+			if #context.cardarea.cards == 1 and context.destroy_card:is_face() then
+				enchantment.ability.xmult = enchantment.ability.xmult + enchantment.ability.xmult_inc
+				return {
+					remove = true,
+					message = localize("k_upgrade_ex"),
+					message_card = G.deck.cards[1] or G.deck
+				}
+			end
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "yorick_blessing",
+	config = { xmult = 0.25 },
+	max_level = 1,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.xmult,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	legendary = true,
+	calculate = function(self, enchantment, context)
+		if context.discard then
+			context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult
+				+ enchantment.ability.xmult
+			return {
+				message = localize("k_upgrade_ex"),
+				message_card = context.other_card,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "chicot_blessing",
+	max_level = 1,
+	enchantment_type = "positive",
+	legendary = true,
+	calculate = function(self, enchantment, context)
+		if context.debuff_card then
+			return {
+				prevent_debuff = true,
 			}
 		end
 	end,

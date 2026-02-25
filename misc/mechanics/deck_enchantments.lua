@@ -432,7 +432,6 @@ end
 ---@param args {key_append: string?, no_legendary: boolean?, source: string?, guaranteed_curse: boolean?, forced_amt: integer?}
 function Multiverse.poll_deck_enchantments(args)
 	local temp = args or {}
-	local singular = temp.singular
 	local key_append = temp.key_append or "default"
 	local no_legendary = temp.no_legendary
 	local source = temp.source

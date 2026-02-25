@@ -388,6 +388,45 @@ return {
 					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
 				},
 			},
+			de_mul_trib_blessing = {
+				name = "Triboulet's Blessing",
+				text = {
+					"Retrigger scored {C:attention}Kings{}",
+					"and {C:attention}Queens{} twice",
+				},
+			},
+			de_mul_perkeo_blessing = {
+				name = "Perkeo's Blessing",
+				text = {
+					"All held consumables",
+					"give {X:mult,C:white}X#1#{} Mult",
+				},
+			},
+			de_mul_canio_blessing = {
+				name = "Canio's Blessing",
+				text = {
+					"If played hand is",
+					"a single {C:attention}face{} card,",
+					"destroy it and",
+					"this Enchantment",
+					"gains {X:mult,C:white}X#1#{} Mult",
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}"
+				},
+			},
+			de_mul_yorick_blessing = {
+				name = "Yorick's Blessing",
+				text = {
+					"Discarded cards gain",
+					"{X:mult,C:white}X#1#{} Mult permanently",
+				},
+			},
+			de_mul_chicot_blessing = {
+				name = "Chicot's Blessing",
+				text = {
+					"Jokers and playing cards",
+					"cannot be {C:red}debuffed",
+				},
+			},
 		},
 		mul_EnchantedBook = {
 			c_mul_enchanted_book = {
@@ -1844,6 +1883,7 @@ return {
 			k_mul_boom = "Boom!",
 			k_mul_murdered = "Murdered!",
 			k_mul_frozen = "Frozen!",
+			k_mul_destroyed = "Destroyed!",
 			k_mul_thaumaturgy_energy = "Thaumaturgy Energy",
 			k_mul_make_room = "Must have at least 1 available consumable slot",
 			k_mul_make_room2 = "in order to create a Philosopher's Stone...",
