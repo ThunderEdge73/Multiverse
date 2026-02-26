@@ -524,6 +524,31 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "fortune",
+	max_level = 3,
+	config = { luck_bonus = 15 },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ench_luck_info"]
+		local colours = {}
+		local ret = {
+			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, Multiverse.C.DECK_ENCHANTMENT)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * card.ability.luck_bonus
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	on_change_level = function(self, delta, final_level)
+		G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck + delta * self.config.luck_bonus
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },
 	max_level = 1,
@@ -586,7 +611,7 @@ Multiverse.DeckEnchantment({
 				return {
 					remove = true,
 					message = localize("k_upgrade_ex"),
-					message_card = G.deck.cards[1] or G.deck
+					message_card = G.deck.cards[1] or G.deck,
 				}
 			end
 		end

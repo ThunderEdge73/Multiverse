@@ -7,6 +7,8 @@ SMODS.Shader({
 Multiverse.DeckEnchantments = {}
 ---@type boolean
 
+Multiverse.C.DECK_ENCHANTMENT = HEX("CAA540")
+
 ---@type Multiverse.DeckEnchantment
 Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 	set = "mul_DeckEnchantment",
@@ -577,7 +579,7 @@ SMODS.Consumable({
 			local temp = Multiverse.DeckEnchantments[ench_key]:create_fake_card()
 			temp.level = 0
 			temp.ability = copy_table(Multiverse.DeckEnchantments[ench_key].config)
-			local vars = Multiverse.DeckEnchantments[ench_key]:loc_vars(info_queue, temp)
+			local vars = Multiverse.DeckEnchantments[ench_key]:loc_vars(info_queue, temp) or {}
 			vars.set = vars.set or "mul_DeckEnchantment"
 			vars.key = vars.key or ench_key
 			return vars

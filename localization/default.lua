@@ -104,6 +104,19 @@ return {
 					"{C:attention}-#1#%{} TP cost",
 				},
 			},
+			du_mul_ench_luck_info = {
+				name = "Enchantment Luck",
+				text = {
+					"Enchantment Luck increases",
+					"the chance that more {C:mul_enchantedbook}Deck",
+					"{C:mul_enchantedbook}Enchantments{} with higher",
+					"levels appear when {C:mul_enchantedbook}Enchanted",
+					"{C:mul_enchantedbook}Books{} are created",
+					"{C:inactive}(Currently {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
+					"{C:inactive}(Maximum boost occurs at{}",
+					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}"
+				}
+			}
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -379,6 +392,13 @@ return {
 					"Destroys up to {V:1}#2#{C:inactive}/{V:2}#3#{}",
 					"random {C:attention}face cards{} in",
 					"deck at end of round",
+				},
+			},
+			de_mul_fortune = {
+				name = "Fortune#1#",
+				text = {
+					"{V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{}",
+					"Enchantment Luck"
 				},
 			},
 			de_mul_overflow = {
