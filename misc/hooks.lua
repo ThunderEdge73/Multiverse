@@ -148,7 +148,7 @@ end
 local copy_card_hook = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)
 	local ret = copy_card_hook(other, new_card, card_scale, playing_card, strip_edition)
-	if ret.config.center.key == "m_mul_waldo" then
+	if ret.config.center_key == "m_mul_waldo" then
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				if Multiverse.contains_value(G.playing_cards or {}, ret) then
@@ -287,7 +287,7 @@ end
 
 local hover_hook = Card.hover
 function Card:hover()
-	if self.config.center.key == "c_mul_polymerization" then
+	if self.config.center_key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = true
 	end
 	return hover_hook(self)
@@ -296,7 +296,7 @@ end
 local stop_hover_hook = Card.stop_hover
 function Card:stop_hover()
 	local ret = stop_hover_hook(self)
-	if self.config.center.key == "c_mul_polymerization" then
+	if self.config.center_key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = false
 	end
 	return ret

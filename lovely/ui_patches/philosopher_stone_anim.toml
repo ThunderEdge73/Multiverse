@@ -11,7 +11,7 @@ e.config.ref_table:use_consumeable(area)
 '''
 position = "after"
 payload = '''
-if card.config.center.key == "c_mul_philosophers_stone" then
+if card.config.center_key == "c_mul_philosophers_stone" then
     dont_dissolve = true
 end
 '''
@@ -25,7 +25,7 @@ if not dont_dissolve then card:start_dissolve() end
 '''
 position = "after"
 payload = '''
-if card.config.center.key == "c_mul_philosophers_stone" then
+if card.config.center_key == "c_mul_philosophers_stone" then
     G.E_MANAGER:add_event(Event({
         trigger = 'after',
         blockable = false,

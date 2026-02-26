@@ -12,7 +12,7 @@ elseif not self.greyed then
 '''
 position = "before"
 payload = '''
-elseif Multiverse.is_valid_half(self) or (self.config.center.key == "m_mul_frankenstein" and Multiverse.is_valid_frankenstein(self)) then
+elseif Multiverse.is_valid_half(self) or (self.config.center_key == "m_mul_frankenstein" and Multiverse.is_valid_frankenstein(self)) then
     -- dont render base here as well
 '''
 match_indent = true

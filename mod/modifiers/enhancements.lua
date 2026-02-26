@@ -168,8 +168,8 @@ SMODS.Enhancement({
 			Multiverse.is_valid_frankenstein(card)
 			or (Multiverse.FUSION_HOVER and Multiverse.can_frankenstein_fuse_selected())
 		then
-			local e1 = G.hand.highlighted[1] and G.hand.highlighted[1].config.center.key
-			local e2 = G.hand.highlighted[2] and G.hand.highlighted[2].config.center.key
+			local e1 = G.hand.highlighted[1] and G.hand.highlighted[1].config.center_key
+			local e2 = G.hand.highlighted[2] and G.hand.highlighted[2].config.center_key
 
 			if not Multiverse.FUSION_HOVER then
 				info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.enhancement1 or e1]

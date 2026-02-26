@@ -178,7 +178,7 @@ function Card:set_ability(center, initial, delay_sprites)
 	if
 		self.playing_card
 		and (center.key == "m_stone" or center.key == "m_steel" or center.key == "m_gold")
-		and self.config.center.key ~= center.key
+		and self.config.center_key ~= center.key
 	then
 		SMODS.calculate_context({ mul_dragon_transmute_check = true })
 	end

@@ -55,8 +55,8 @@ SMODS.Joker:take_ownership("joker", {
 			return { mult = card.ability.extra.mult }
 		end
 		if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == "Tarot" then
-			if not card.ability.extra.transmute_progress[context.consumeable.config.center.key] then
-				card.ability.extra.transmute_progress[context.consumeable.config.center.key] = true
+			if not card.ability.extra.transmute_progress[context.consumeable.config.center_key] then
+				card.ability.extra.transmute_progress[context.consumeable.config.center_key] = true
 				Multiverse.increment_transmute_progress(card, 1)
 			end
 		end
@@ -167,8 +167,8 @@ SMODS.Joker:take_ownership("invisible", {
 			}
 		end
 		if not context.blueprint and context.card_added and context.card.ability.set == "Joker" then
-			if not card.ability.extra.transmute_progress[context.card.config.center.key] then
-				card.ability.extra.transmute_progress[context.card.config.center.key] = true
+			if not card.ability.extra.transmute_progress[context.card.config.center_key] then
+				card.ability.extra.transmute_progress[context.card.config.center_key] = true
 				Multiverse.increment_transmute_progress(card, 1)
 			end
 		end

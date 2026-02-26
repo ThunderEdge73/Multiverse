@@ -19,8 +19,8 @@ SMODS.Joker({
 		local tarots_held = { n = 0 }
 		if G.consumeables then
 			for _, c in ipairs(G.consumeables.cards) do
-				if not tarots_held[c.config.center.key] and c.ability.set == "Tarot" then
-					tarots_held[c.config.center.key] = 1
+				if not tarots_held[c.config.center_key] and c.ability.set == "Tarot" then
+					tarots_held[c.config.center_key] = 1
 					tarots_held.n = tarots_held.n + 1
 				end
 			end
@@ -51,13 +51,13 @@ SMODS.Joker({
 		if context.initial_scoring_step then
 			local has_call_card = false
 			for _, c in ipairs(G.hand.cards) do
-				if c.config.center.key == "m_mul_calling_card" and c.facing == "front" then
+				if c.config.center_key == "m_mul_calling_card" and c.facing == "front" then
 					has_call_card = true
 					break
 				end
 			end
 			for _, c in ipairs(context.full_hand) do
-				if (c.config.center.key == "m_mul_calling_card" and c.facing == "front") or has_call_card then
+				if (c.config.center_key == "m_mul_calling_card" and c.facing == "front") or has_call_card then
 					has_call_card = true
 					break
 				end
@@ -81,8 +81,8 @@ SMODS.Joker({
 			local tarots_held = { n = 0 }
 			if G.consumeables then
 				for _, c in ipairs(G.consumeables.cards) do
-					if not tarots_held[c.config.center.key] and c.ability.set == "Tarot" then
-						tarots_held[c.config.center.key] = true
+					if not tarots_held[c.config.center_key] and c.ability.set == "Tarot" then
+						tarots_held[c.config.center_key] = true
 						tarots_held.n = tarots_held.n + 1
 					end
 				end
@@ -94,13 +94,13 @@ SMODS.Joker({
 		if context.after then
 			local has_call_card = false
 			for _, c in ipairs(G.hand.cards) do
-				if c.config.center.key == "m_mul_calling_card" and c.facing == "front" then
+				if c.config.center_key == "m_mul_calling_card" and c.facing == "front" then
 					has_call_card = true
 					break
 				end
 			end
 			for _, c in ipairs(context.full_hand) do
-				if (c.config.center.key == "m_mul_calling_card" and c.facing == "front") or has_call_card then
+				if (c.config.center_key == "m_mul_calling_card" and c.facing == "front") or has_call_card then
 					has_call_card = true
 					break
 				end
