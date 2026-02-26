@@ -107,7 +107,7 @@ return {
 			du_mul_ench_luck_info = {
 				name = "Enchantment Luck",
 				text = {
-					"Enchantment Luck increases",
+					"{C:mul_enchantedbook}Enchantment Luck{} increases",
 					"the chance that more {C:mul_enchantedbook}Deck",
 					"{C:mul_enchantedbook}Enchantments{} with higher",
 					"levels appear when {C:mul_enchantedbook}Enchanted",
