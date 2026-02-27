@@ -595,6 +595,35 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "looting",
+	max_level = 4,
+	config = { odds = 0.5 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.GREEN)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = 1 + i * enchantment.ability.odds
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function (self, enchantment, context)
+		if context.mod_probability then
+			return {
+				numerator = context.numerator * (1 + enchantment.level * enchantment.ability.odds),
+				denominator = context.denominator * (1 + enchantment.level * enchantment.ability.odds)
+			}
+		end
+	end
+})
+
+Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },
 	max_level = 1,

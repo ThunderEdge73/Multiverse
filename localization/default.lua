@@ -415,6 +415,14 @@ return {
 					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
 				},
 			},
+			de_mul_looting = {
+				name = "Looting#1#",
+				text = {
+					"Multiply all {C:attention}listed{}",
+					"{C:green}probabilities{} by",
+					"{B:1,C:white}X#2#{C:inactive}/{B:2,C:white}X#3#{C:inactive}/{B:3,C:white}X#4#{C:inactive}/{B:4,C:white}X#5#{}",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {
