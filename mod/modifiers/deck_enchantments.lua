@@ -574,7 +574,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "density",
 	max_level = 5,
-	config = { chips = 30 },
+	config = { chips = 75 },
 	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {

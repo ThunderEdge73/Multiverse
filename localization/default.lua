@@ -408,6 +408,14 @@ return {
 					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
 				},
 			},
+			de_mul_density = {
+				name = "Density#1#",
+				text = {
+					"Before scoring,",
+					"{C:chips}+#2#{} Chips per level",
+					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {
