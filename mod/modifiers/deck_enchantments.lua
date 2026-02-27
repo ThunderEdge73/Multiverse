@@ -1,13 +1,13 @@
 Multiverse.DeckEnchantment({
 	key = "dark_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.BLUE)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.BLUE)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
 		end
@@ -33,13 +33,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "flame_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.RED)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.BLUE)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.BLUE)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i * 2
 		end
@@ -69,13 +69,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "aqua_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.BLUE)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.RED)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.BLUE)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i * 2
 		end
@@ -105,13 +105,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "cosmic_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.RED)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
 		end
@@ -144,13 +144,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "druidic_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.MONEY)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.MONEY)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
 		end
@@ -181,13 +181,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "artistic_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.RED)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i * 3
 		end
@@ -215,13 +215,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "light_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.MONEY)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.RED)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i * 6
 		end
@@ -251,13 +251,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "arcane_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.MONEY)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
 		end
@@ -311,16 +311,16 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "supernatural_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.WHITE)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
 		Multiverse.handle_deck_enchantment_loc_colours(
 			self,
-			card,
+			enchantment,
 			colours,
 			G.C.PURPLE,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
@@ -387,13 +387,13 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "illusory_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.MONEY)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
 		end
@@ -429,16 +429,16 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "plasma_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.WHITE)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
 		Multiverse.handle_deck_enchantment_loc_colours(
 			self,
-			card,
+			enchantment,
 			colours,
 			G.C.PURPLE,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
@@ -481,12 +481,12 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "decayed_affinity",
 	max_level = 2,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
 		end
@@ -527,15 +527,15 @@ Multiverse.DeckEnchantment({
 	key = "fortune",
 	max_level = 3,
 	config = { luck_bonus = 15 },
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ench_luck_info"]
 		local colours = {}
 		local ret = {
-			(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, card, colours, Multiverse.C.DECK_ENCHANTMENT)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, Multiverse.C.DECK_ENCHANTMENT)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * card.ability.luck_bonus
+			ret[#ret + 1] = i * enchantment.ability.luck_bonus
 		end
 		ret.colours = colours
 		return {
@@ -552,12 +552,12 @@ Multiverse.DeckEnchantment({
 	key = "sharpness",
 	max_level = 5,
 	config = { xmult = 0.2 },
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
-				(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
-				card.ability.xmult,
-				1 + card.ability.xmult * card.level
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.xmult,
+				1 + enchantment.ability.xmult * enchantment.level
 			}
 		}
 	end,
@@ -566,6 +566,29 @@ Multiverse.DeckEnchantment({
 		if context.individual and context.cardarea == G.play then
 			return {
 				xmult = 1 + enchantment.ability.xmult * enchantment.level
+			}
+		end
+	end
+})
+
+Multiverse.DeckEnchantment({
+	key = "density",
+	max_level = 5,
+	config = { chips = 30 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.chips,
+				enchantment.ability.chips * enchantment.level
+			}
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function (self, enchantment, context)
+		if context.initial_scoring_step then
+			return {
+				chips = enchantment.ability.chips * enchantment.level
 			}
 		end
 	end
@@ -594,10 +617,10 @@ Multiverse.DeckEnchantment({
 	key = "perkeo_blessing",
 	config = { xmult = 3 },
 	max_level = 1,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
-				card.ability.xmult,
+				enchantment.ability.xmult,
 			},
 		}
 	end,
@@ -617,11 +640,11 @@ Multiverse.DeckEnchantment({
 	key = "canio_blessing",
 	config = { xmult_inc = 1, xmult = 1 },
 	max_level = 1,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
-				card.ability.xmult_inc,
-				card.ability.xmult,
+				enchantment.ability.xmult_inc,
+				enchantment.ability.xmult,
 			},
 		}
 	end,
@@ -645,10 +668,10 @@ Multiverse.DeckEnchantment({
 	key = "yorick_blessing",
 	config = { xmult = 0.25 },
 	max_level = 1,
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
-				card.ability.xmult,
+				enchantment.ability.xmult,
 			},
 		}
 	end,
@@ -687,8 +710,8 @@ Multiverse.DeckEnchantment({
 		xmult = 0.1,
 	},
 	enchantment_type = "positive",
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.xmult, 1 + card.level * card.ability.xmult } }
+	loc_vars = function(self, info_queue, enchantment)
+		return { vars = { enchantment.ability.xmult, 1 + enchantment.level * enchantment.ability.xmult } }
 	end,
 	in_pool = function(self, args)
 		return false
