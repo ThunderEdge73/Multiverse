@@ -5,7 +5,7 @@ function Multiverse.show_TP_meter()
 	end
 	G.mul_TP_meter = UIBox({
 		definition = Multiverse.create_TP_ui(),
-		config = { align = "tri", offset = { x = 4.3, y = -0.55 }, major = G.ROOM_ATTACH, instance_type = "NODE" },
+		config = { align = "tri", offset = { x = 4.3, y = -0.55 }, major = G.ROOM_ATTACH, instance_type = "CARD" },
 	})
 	G.E_MANAGER:add_event(Event({
 		trigger = "ease",

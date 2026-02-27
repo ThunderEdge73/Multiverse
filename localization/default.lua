@@ -1762,16 +1762,6 @@ return {
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
-					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}",
-				},
-			},
-			mul_blind_keybind_info = {
-				name = "Keybind Info",
-				text = {
-					"Hold {C:attention}I{} to make the current",
-					"Blind's instructions visible",
-					"on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_TP_desc_joke1 = {
@@ -1784,8 +1774,6 @@ return {
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
-					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_TP_desc_joke2 = {
@@ -1798,8 +1786,6 @@ return {
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
-					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_active_consumable = {
