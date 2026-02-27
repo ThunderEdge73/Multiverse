@@ -549,6 +549,29 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "sharpness",
+	max_level = 5,
+	config = { xmult = 0.2 },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				(card.level > 0 and " " or "") .. Multiverse.number_to_roman(card.level),
+				card.ability.xmult,
+				1 + card.ability.xmult * card.level
+			}
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function (self, enchantment, context)
+		if context.individual and context.cardarea == G.play then
+			return {
+				xmult = 1 + enchantment.ability.xmult * enchantment.level
+			}
+		end
+	end
+})
+
+Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },
 	max_level = 1,

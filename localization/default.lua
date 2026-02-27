@@ -400,6 +400,14 @@ return {
 					"Enchantment Luck"
 				},
 			},
+			de_mul_sharpness = {
+				name = "Sharpness#1#",
+				text = {
+					"Scored cards give",
+					"{X:mult,C:white}X#2#{} Mult per level",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {
