@@ -419,7 +419,7 @@ return {
 				name = "Looting#1#",
 				text = {
 					"Multiply all {C:attention}listed{}",
-					"{C:green}probabilities{} by",
+					"{C:green,E:1}probabilities{} by",
 					"{B:1,C:white}X#2#{C:inactive}/{B:2,C:white}X#3#{C:inactive}/{B:3,C:white}X#4#{C:inactive}/{B:4,C:white}X#5#{}",
 				},
 			},
