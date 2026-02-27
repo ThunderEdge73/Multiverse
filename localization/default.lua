@@ -4,9 +4,8 @@ return {
 			du_mul_all_enchants = {
 				name = "Deck Enchantments",
 				text = {
-					"Your deck is {C:mul_enchantedbook}enchanted{}",
-					"{C:mul_enchantedbook}Enchantments{} apply passive",
-					"effects to the run...",
+					"{C:mul_enchantedbook}Deck Enchantments{} apply",
+					"passive effects to the run",
 				},
 			},
 			du_mul_half = {
