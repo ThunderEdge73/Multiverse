@@ -569,6 +569,10 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	enchant_incompat = {
+		"de_mul_smite",
+		"de_mul_power",
+	},
 })
 
 Multiverse.DeckEnchantment({
@@ -654,8 +658,9 @@ Multiverse.DeckEnchantment({
 		end
 	end,
 	enchant_incompat = {
-		"de_mul_sharpness"
-	}
+		"de_mul_sharpness",
+		"de_mul_smite",
+	},
 })
 
 Multiverse.DeckEnchantment({
@@ -723,6 +728,10 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	enchant_incompat = {
+		"de_mul_sharpness",
+		"de_mul_power",
+	},
 })
 
 Multiverse.DeckEnchantment({
