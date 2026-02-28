@@ -724,7 +724,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "smite",
 	max_level = 5,
-	config = { mult = 0.5 },
+	config = { xmult = 0.5 },
 	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
