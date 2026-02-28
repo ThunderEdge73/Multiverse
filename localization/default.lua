@@ -438,6 +438,16 @@ return {
 					"{B:1,V:5}X#2#{C:inactive}/{B:2,V:6}X#3#{C:inactive}/{B:3,V:7}X#4#{C:inactive}/{B:4,V:8}X#5#{} Blind size",
 				},
 			},
+			de_mul_smite = {
+				name = "Smite#1#",
+				text = {
+					"Scored cards give",
+					"{X:mult,C:white}X#2#{} Mult per level",
+					"while facing a",
+					"{C:attention}Boss Blind{}",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {

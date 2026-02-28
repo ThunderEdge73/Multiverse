@@ -653,6 +653,9 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	enchant_incompat = {
+		"de_mul_sharpness"
+	}
 })
 
 Multiverse.DeckEnchantment({
@@ -694,6 +697,29 @@ Multiverse.DeckEnchantment({
 						return chips * (1 - enchantment.level * enchantment.ability.mult)
 					end)
 				end,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "smite",
+	max_level = 5,
+	config = { mult = 0.5 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.xmult,
+				1 + enchantment.ability.xmult * enchantment.level,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if G.GAME.blind.boss and context.individual and context.cardarea == G.play then
+			return {
+				xmult = 1 + enchantment.ability.xmult * enchantment.level,
 			}
 		end
 	end,
