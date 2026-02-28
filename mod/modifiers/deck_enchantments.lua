@@ -557,18 +557,18 @@ Multiverse.DeckEnchantment({
 			vars = {
 				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 				enchantment.ability.xmult,
-				1 + enchantment.ability.xmult * enchantment.level
-			}
+				1 + enchantment.ability.xmult * enchantment.level,
+			},
 		}
 	end,
 	enchantment_type = "positive",
-	calculate = function (self, enchantment, context)
+	calculate = function(self, enchantment, context)
 		if context.individual and context.cardarea == G.play then
 			return {
-				xmult = 1 + enchantment.ability.xmult * enchantment.level
+				xmult = 1 + enchantment.ability.xmult * enchantment.level,
 			}
 		end
-	end
+	end,
 })
 
 Multiverse.DeckEnchantment({
@@ -580,18 +580,18 @@ Multiverse.DeckEnchantment({
 			vars = {
 				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 				enchantment.ability.chips,
-				enchantment.ability.chips * enchantment.level
-			}
+				enchantment.ability.chips * enchantment.level,
+			},
 		}
 	end,
 	enchantment_type = "positive",
-	calculate = function (self, enchantment, context)
+	calculate = function(self, enchantment, context)
 		if context.initial_scoring_step then
 			return {
-				chips = enchantment.ability.chips * enchantment.level
+				chips = enchantment.ability.chips * enchantment.level,
 			}
 		end
-	end
+	end,
 })
 
 Multiverse.DeckEnchantment({
@@ -613,14 +613,37 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	enchantment_type = "positive",
-	calculate = function (self, enchantment, context)
+	calculate = function(self, enchantment, context)
 		if context.mod_probability then
 			return {
 				numerator = context.numerator * (1 + enchantment.level * enchantment.ability.odds),
-				denominator = context.denominator * (1 + enchantment.level * enchantment.ability.odds)
+				denominator = context.denominator * (1 + enchantment.level * enchantment.ability.odds),
 			}
 		end
-	end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "power",
+	max_level = 4,
+	config = { retriggers = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = enchantment.level * enchantment.ability.retriggers,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.repetition
+			and context.cardarea == G.hand
+			and context.other_card == context.scoring_hand[#context.scoring_hand]
+		then
+			return {
+				repetitions = enchantment.level * enchantment.ability.retriggers,
+			}
+		end
+	end,
 })
 
 Multiverse.DeckEnchantment({
