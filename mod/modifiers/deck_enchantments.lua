@@ -603,7 +603,14 @@ Multiverse.DeckEnchantment({
 		local ret = {
 			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.GREEN)
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.GREEN,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
 		for i = 1, self.max_level do
 			ret[#ret + 1] = 1 + i * enchantment.ability.odds
 		end
@@ -617,7 +624,6 @@ Multiverse.DeckEnchantment({
 		if context.mod_probability then
 			return {
 				numerator = context.numerator * (1 + enchantment.level * enchantment.ability.odds),
-				denominator = context.denominator * (1 + enchantment.level * enchantment.ability.odds),
 			}
 		end
 	end,
@@ -625,11 +631,14 @@ Multiverse.DeckEnchantment({
 
 Multiverse.DeckEnchantment({
 	key = "power",
-	max_level = 4,
+	max_level = 5,
 	config = { retriggers = 1 },
 	loc_vars = function(self, info_queue, enchantment)
 		return {
-			vars = enchantment.level * enchantment.ability.retriggers,
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.level * enchantment.ability.retriggers,
+			},
 		}
 	end,
 	enchantment_type = "positive",
@@ -641,6 +650,50 @@ Multiverse.DeckEnchantment({
 		then
 			return {
 				repetitions = enchantment.level * enchantment.ability.retriggers,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "breach",
+	max_level = 4,
+	config = { mult = 0.1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.PURPLE,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = 1 - i * enchantment.ability.mult
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.setting_blind then
+			return {
+				message = localize({
+					type = "variable",
+					key = "a_mul_x_blind_size",
+					vars = { 1 - enchantment.level * enchantment.ability.mult },
+				}),
+				func = function()
+					Multiverse.change_blind_size(function(chips)
+						return chips * (1 - enchantment.level * enchantment.ability.mult)
+					end)
+				end,
 			}
 		end
 	end,

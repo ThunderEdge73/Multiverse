@@ -420,15 +420,22 @@ return {
 				text = {
 					"Multiply all {C:attention}listed{}",
 					"{C:green,E:1}probabilities{} by",
-					"{B:1,C:white}X#2#{C:inactive}/{B:2,C:white}X#3#{C:inactive}/{B:3,C:white}X#4#{C:inactive}/{B:4,C:white}X#5#{}",
+					"{B:1,V:5}X#2#{C:inactive}/{B:2,V:6}X#3#{C:inactive}/{B:3,V:7}X#4#{C:inactive}/{B:4,V:8}X#5#{}",
 				},
 			},
 			de_mul_power = {
 				name = "Power#1#",
 				text = {
-					"Retrigger last scored",
+					"Retrigger {C:attention}last{} scored",
 					"card once per level",
 					"{C:inactive}(Currently {C:attention}#2#{C:inactive} retriggers){}",
+				},
+			},
+			de_mul_breach = {
+				name = "Breach#1#",
+				text = {
+					"When {C:attention}Blind{} is selected,",
+					"{B:1,V:5}X#2#{C:inactive}/{B:2,V:6}X#3#{C:inactive}/{B:3,V:7}X#4#{C:inactive}/{B:4,V:8}X#5#{} Blind size",
 				},
 			},
 			de_mul_overflow = {
