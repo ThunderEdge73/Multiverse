@@ -1,6 +1,7 @@
 Multiverse.DeckEnchantment({
 	key = "dark_affinity",
 	max_level = 2,
+	config = { slots = 1 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -9,17 +10,17 @@ Multiverse.DeckEnchantment({
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.BLUE)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i
+			ret[#ret + 1] = i * enchantment.ability.slots
 		end
 		ret.colours = colours
 		return {
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
-		G.jokers:change_size(delta)
-		ease_hands_played(-delta)
-		G.GAME.round_resets.hands = G.GAME.round_resets.hands - delta
+	on_change_level = function(self, delta, enchantment)
+		G.jokers:change_size(delta * enchantment.ability.slots)
+		ease_hands_played(-delta * enchantment.ability.slots)
+		G.GAME.round_resets.hands = G.GAME.round_resets.hands - delta * enchantment.ability.slots
 	end,
 	deck_incompat = {
 		"b_black",
@@ -33,6 +34,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "flame_affinity",
 	max_level = 2,
+	config = { hands = 1, discards = 2 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -41,21 +43,21 @@ Multiverse.DeckEnchantment({
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.BLUE)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 2
+			ret[#ret + 1] = i * enchantment.ability.discards
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i
+			ret[#ret + 1] = i * enchantment.ability.hands
 		end
 		ret.colours = colours
 		return {
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
-		ease_discard(delta * 2)
-		G.GAME.round_resets.discards = G.GAME.round_resets.discards + delta * 2
-		ease_hands_played(-delta)
-		G.GAME.round_resets.hands = G.GAME.round_resets.hands - delta
+	on_change_level = function(self, delta, enchantment)
+		ease_discard(delta * enchantment.ability.discards)
+		G.GAME.round_resets.discards = G.GAME.round_resets.discards + delta * enchantment.ability.discards
+		ease_hands_played(-delta * enchantment.ability.hands)
+		G.GAME.round_resets.hands = G.GAME.round_resets.hands - delta * enchantment.ability.hands
 	end,
 	deck_incompat = {
 		"b_red",
@@ -87,7 +89,7 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		ease_hands_played(delta * 2)
 		G.GAME.round_resets.hands = G.GAME.round_resets.hands + delta * 2
 		ease_discard(-delta)
@@ -120,7 +122,7 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		G.consumeables:change_size(-delta)
 	end,
 	deck_incompat = {
@@ -162,7 +164,7 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		G.GAME.modifiers.money_per_hand = (G.GAME.modifiers.money_per_hand or 1) + delta
 		G.GAME.modifiers.money_per_discard = (G.GAME.modifiers.money_per_discard or 0) + delta
 		G.GAME.inflation = G.GAME.inflation + delta * 3
@@ -199,7 +201,7 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		G.hand:change_size(delta * 3)
 		G.jokers:change_size(-delta)
 	end,
@@ -233,7 +235,7 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		G.hand:change_size(-delta)
 	end,
 	deck_incompat = {
@@ -271,7 +273,7 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		G.GAME.round_resets.reroll_cost = G.GAME.round_resets.reroll_cost + delta * 2
 		G.GAME.current_round.reroll_cost = math.max(0, G.GAME.current_round.reroll_cost + delta * 2)
 	end,
@@ -543,12 +545,12 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	enchantment_type = "positive",
-	on_change_level = function(self, delta, final_level)
+	on_change_level = function(self, delta, enchantment)
 		G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck + delta * self.config.luck_bonus
 	end,
 	enchant_incompat = {
-		"de_mul_looting"
-	}
+		"de_mul_looting",
+	},
 })
 
 Multiverse.DeckEnchantment({
@@ -635,8 +637,8 @@ Multiverse.DeckEnchantment({
 		end
 	end,
 	enchant_incompat = {
-		"de_mul_fortune"
-	}
+		"de_mul_fortune",
+	},
 })
 
 Multiverse.DeckEnchantment({
@@ -738,6 +740,28 @@ Multiverse.DeckEnchantment({
 		"de_mul_sharpness",
 		"de_mul_power",
 	},
+})
+
+Multiverse.DeckEnchantment({
+	key = "unbreaking",
+	max_level = 3,
+	config = { preventions = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ench_luck_info"]
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, Multiverse.C.DECK_ENCHANTMENT)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.preventions
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
 })
 
 Multiverse.DeckEnchantment({

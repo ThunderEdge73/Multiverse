@@ -228,15 +228,17 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		obj:remove_from_deck()
 		removed = true
 	end
-	obj:on_change_level(delta, final_level)
-	G.GAME.mul_deck_enchantments[enchantment] =
-		{ level = final_level, key = enchantment, ability = copy_table(obj.config) }
+	local data = { level = final_level, key = enchantment, ability = copy_table(obj.config) }
+	G.GAME.mul_deck_enchantments[enchantment] = G.GAME.mul_deck_enchantments[enchantment] or data
+	G.GAME.mul_deck_enchantments[enchantment].level = final_level
+	obj:on_change_level(delta, G.GAME.mul_deck_enchantments[enchantment])
 	SMODS.calculate_context({
-		mul_modify_deck_enchantments = true,
+		mul_deck_enchantments_modified = true,
 		amount = delta,
 		mul_enchantment_removed = removed,
 		mul_enchantment_applied = added,
 		mul_enchantment_object = obj,
+		mul_enchantment_data = G.GAME.mul_deck_enchantments[enchantment]
 	})
 end
 
