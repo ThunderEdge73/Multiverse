@@ -71,6 +71,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "aqua_affinity",
 	max_level = 2,
+	config = { hands = 2, discards = 1 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -79,10 +80,10 @@ Multiverse.DeckEnchantment({
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.BLUE)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 2
+			ret[#ret + 1] = i * enchantment.ability.hands
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i
+			ret[#ret + 1] = i * enchantment.ability.discards
 		end
 		ret.colours = colours
 		return {
@@ -90,10 +91,10 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	on_change_level = function(self, delta, enchantment)
-		ease_hands_played(delta * 2)
-		G.GAME.round_resets.hands = G.GAME.round_resets.hands + delta * 2
-		ease_discard(-delta)
-		G.GAME.round_resets.discards = G.GAME.round_resets.discards - delta
+		ease_hands_played(delta + enchantment.ability.hands)
+		G.GAME.round_resets.hands = G.GAME.round_resets.hands + delta * enchantment.ability.hands
+		ease_discard(-delta * enchantment.ability.discards)
+		G.GAME.round_resets.discards = G.GAME.round_resets.discards - delta * enchantment.ability.discards
 	end,
 	deck_incompat = {
 		"b_blue",
@@ -107,6 +108,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "cosmic_affinity",
 	max_level = 2,
+	config = { slots = 1 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -115,7 +117,7 @@ Multiverse.DeckEnchantment({
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i
+			ret[#ret + 1] = i * enchantment.ability.slots
 		end
 		ret.colours = colours
 		return {
@@ -123,7 +125,7 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	on_change_level = function(self, delta, enchantment)
-		G.consumeables:change_size(-delta)
+		G.consumeables:change_size(-delta * enchantment.ability.slots)
 	end,
 	deck_incompat = {
 		"b_nebula",
@@ -146,6 +148,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "druidic_affinity",
 	max_level = 2,
+	config = { hand_discard_bonus = 1, inflation = 3 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -165,9 +168,11 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	on_change_level = function(self, delta, enchantment)
-		G.GAME.modifiers.money_per_hand = (G.GAME.modifiers.money_per_hand or 1) + delta
-		G.GAME.modifiers.money_per_discard = (G.GAME.modifiers.money_per_discard or 0) + delta
-		G.GAME.inflation = G.GAME.inflation + delta * 3
+		G.GAME.modifiers.money_per_hand = (G.GAME.modifiers.money_per_hand or 1)
+			+ delta * enchantment.ability.hand_discard_bonus
+		G.GAME.modifiers.money_per_discard = (G.GAME.modifiers.money_per_discard or 0)
+			+ delta * enchantment.ability.hand_discard_bonus
+		G.GAME.inflation = G.GAME.inflation + delta * enchantment.ability.inflation
 		for _, v in pairs(G.I.CARD) do
 			if v.set_cost then
 				v:set_cost()
@@ -183,6 +188,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "artistic_affinity",
 	max_level = 2,
+	config = { slots = 1, hand_size = 3 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -191,10 +197,10 @@ Multiverse.DeckEnchantment({
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 3
+			ret[#ret + 1] = i * enchantment.ability.hand_size
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i
+			ret[#ret + 1] = i * enchantment.ability.slots
 		end
 		ret.colours = colours
 		return {
@@ -202,8 +208,8 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	on_change_level = function(self, delta, enchantment)
-		G.hand:change_size(delta * 3)
-		G.jokers:change_size(-delta)
+		G.hand:change_size(delta * enchantment.ability.hand_size)
+		G.jokers:change_size(-delta * enchantment.ability.slots)
 	end,
 	deck_incompat = {
 		"b_painted",
