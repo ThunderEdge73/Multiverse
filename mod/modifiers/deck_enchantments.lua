@@ -546,6 +546,9 @@ Multiverse.DeckEnchantment({
 	on_change_level = function(self, delta, final_level)
 		G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck + delta * self.config.luck_bonus
 	end,
+	enchant_incompat = {
+		"de_mul_looting"
+	}
 })
 
 Multiverse.DeckEnchantment({
@@ -631,6 +634,9 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	enchant_incompat = {
+		"de_mul_fortune"
+	}
 })
 
 Multiverse.DeckEnchantment({
