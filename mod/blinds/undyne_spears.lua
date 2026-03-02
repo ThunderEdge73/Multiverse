@@ -363,6 +363,7 @@ Multiverse.start_undyne_attack = function(i, p)
 											delay = 0.51,
 											timer = "REAL",
 											func = function()
+												Multiverse.shield_dir = nil
 												Multiverse.dark_bg_active = false
 												Multiverse.in_undyne = false
 												return true

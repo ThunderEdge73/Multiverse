@@ -108,6 +108,7 @@ function Multiverse.undying_press_play_effect(index)
 	Multiverse.undyne_spears = {}
 	Multiverse.in_undyne = true
 	Multiverse.dark_bg_active = true
+	Multiverse.shield_dir = "up"
 	ease_value(Multiverse, "dark_bg_percent", -1, nil, "REAL", true, 0.5)
 	Multiverse.start_undyne_attack(nil, index)
 	G.E_MANAGER:add_event(Event({
