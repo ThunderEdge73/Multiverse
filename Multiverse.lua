@@ -134,7 +134,7 @@ SMODS.current_mod.calculate = function(self, context)
 						Multiverse.is_valid_half(c)
 						and not c.highlighted
 						and c.area == G.hand
-						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4, "mul_half_card_discard")
+						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4)
 					then
 						SMODS.change_discard_limit(1)
 						discarded = discarded + 1
