@@ -448,6 +448,15 @@ return {
 					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
 				},
 			},
+			de_mul_mending = {
+				name = "Mending",
+				text = {
+					"Whenever a Joker's",
+					"values scale additively,",
+					"{C:green}#1# in #2#{} chance to",
+					"{C:attention}double{} the scaling amount",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {

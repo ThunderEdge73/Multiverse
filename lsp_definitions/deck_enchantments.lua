@@ -34,6 +34,7 @@
 ---@field get_weight? fun(self: Multiverse.DeckEnchantment|table): number Returns the current weight of this Enchantment.
 ---@field base_weight? number The base weight of this Enchantment, which defaults to 4.
 ---@field create_fake_card? fun(self: Multiverse.DeckEnchantment|table) Creates a fake data entry for loc vars purposes.
+---@field calc_scaling? fun(self: Multiverse.DeckEnchantment, enchantment: EnchantmentData, other_card: Card, scaling_value: number, scalar_value:number, args: table): table? Works exactly like it should with Jokers
 
 ---@alias EnchantmentType
 ---| "positive"

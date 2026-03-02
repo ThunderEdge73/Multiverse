@@ -749,25 +749,33 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
-	key = "unbreaking",
-	max_level = 3,
-	config = { preventions = 1 },
+	key = "mending",
+	max_level = 1,
+	config = { odds = 4 },
 	loc_vars = function(self, info_queue, enchantment)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ench_luck_info"]
-		local colours = {}
-		local ret = {
-			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
-		}
-		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, Multiverse.C.DECK_ENCHANTMENT)
-		for i = 1, self.max_level do
-			ret[#ret + 1] = i * enchantment.ability.preventions
-		end
-		ret.colours = colours
+		local num, denom = SMODS.get_probability_vars(enchantment, 1, enchantment.ability.odds, "mul_mending")
 		return {
-			vars = ret,
+			vars = {
+				num,
+				denom,
+			},
 		}
 	end,
 	enchantment_type = "positive",
+	calc_scaling = function(self, enchantment, other_card, scaling_value, scalar_value, args)
+		if
+			args.operation == "+"
+			and SMODS.pseudorandom_probability(enchantment, "mul_mending", 1, enchantment.ability.odds)
+			and scalar_value > 0
+		then
+			print("REACHED")
+			return {
+				override_scalar_value = {
+					value = scalar_value * 2,
+				},
+			}
+		end
+	end,
 })
 
 Multiverse.DeckEnchantment({
