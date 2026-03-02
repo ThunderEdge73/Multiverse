@@ -112,9 +112,9 @@ return {
 					"offered by {C:mul_enchantedbook}Enchanted Books",
 					"{C:inactive}(Currently {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
 					"{C:inactive}(Maximum boost occurs at{}",
-					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}"
-				}
-			}
+					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -285,7 +285,7 @@ return {
 					"Level up discarded",
 					"poker hand once",
 					"{C:attention}Removed{} after",
-					"discarding {C:attention}2{} {C:inactive}(#1#){} times"
+					"discarding {C:attention}2{} {C:inactive}(#1#){} times",
 				},
 			},
 		},
@@ -396,7 +396,7 @@ return {
 				name = "Fortune#1#",
 				text = {
 					"{V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{}",
-					"Enchantment Luck"
+					"Enchantment Luck",
 				},
 			},
 			de_mul_sharpness = {
@@ -506,7 +506,7 @@ return {
 					"destroy it and",
 					"this Enchantment",
 					"gains {X:mult,C:white}X#1#{} Mult",
-					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}"
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
 				},
 			},
 			de_mul_yorick_blessing = {
@@ -642,7 +642,7 @@ return {
 					"Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
 					"Gain {C:attention}1%{} TP for",
 					"every{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}1{} lost",
-					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)"
+					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)",
 				},
 			},
 			sk_mul_dupe_glitch = {
@@ -1900,6 +1900,21 @@ return {
 				},
 			},
 			--#endregion
+			mul_misc_credits = {
+				text = {
+					"> {V:1}Aikoyori {C:inactive}({button:mul_akyrs_link,u:blue,C:blue}Aikoyori's Shenanigans{C:inactive})",
+					"> {V:2}nh6574 {C:inactive}({button:mul_joy_link,u:blue,C:blue}JoyousSpring{C:inactive})",
+					"> {V:3}Mysthaps {C:inactive}({button:mul_lobc_link,u:blue,C:blue}Lobotomy Corporation{C:inactive})",
+					"> {V:4}Ruby {C:inactive}({button:mul_entr_link,u:blue,C:blue}Entropy{C:inactive}, {button:mul_scp_link,u:blue,C:blue}DATA EXPUNGED{C:inactive})",
+					"> {V:5}GhostSalt {C:inactive}({button:mul_pha_link,u:blue,C:blue}Phanta{C:inactive}, {button:mul_catan_link,u:blue,C:blue}Catan{C:inactive}, {button:mul_ghost_link,u:blue,C:blue}etc.{C:inactive})",
+					"> {V:6}Revo {C:inactive}({button:mul_crv_link,u:blue,C:blue}Revo's Vault{C:inactive}, {button:mul_jud_link,u:blue,C:blue}Judgement{C:inactive})",
+					"> {V:9}Astra {C:inactive}({button:mul_mxms_link,u:blue,C:blue}Maximus{C:inactive}, {button:mul_sr_link,u:blue,C:blue}SuperRogue{C:inactive})",
+					"> {V:8}TheOneGoofAli {C:inactive}({button:mul_toga_link,u:blue,C:blue}TOGA's Stuff{C:inactive})",
+					"> {V:7}Lily Felli {C:inactive}({button:mul_valk_link,u:blue,C:blue}Vallkarri{C:inactive})",
+					"> {V:10}Yahiamice {C:inactive}({button:mul_yahi_link,u:blue,C:blue}Yahimod{C:inactive})",
+					"> {V:11}PaperMoon {C:inactive}({button:mul_prbk_link,u:blue,C:blue}Paperback{C:inactive})",
+				},
+			},
 		},
 	},
 	misc = {
@@ -2051,19 +2066,6 @@ return {
 			mul_multiverse = "Multiverse",
 			mul_contributors = "Contributors",
 			mul_inspirations = "Inspirations",
-			mul_misc_credits = {
-				"{V:1}Aikoyori {C:inactive}(Aikoyori's Shenanigans)",
-				"{V:2}nh6574 {C:inactive}(JoyousSpring)",
-				"{V:3}Mysthaps {C:inactive}(Lobotomy Corporation)",
-				"{V:4}Ruby {C:inactive}(Entropy, DATA EXPUNGED)",
-				"{V:5}GhostSalt {C:inactive}(Phanta, Catan, etc.)",
-				"{V:6}Revo {C:inactive}(Revo's Vault, Judgement)",
-				"{V:7}Lily Felli {C:inactive}(Valkarri, Aquillari)",
-				"{V:8}TheOneGoofAli {C:inactive}(TOGA's Stuff)",
-				"{V:9}Astra {C:inactive}(Maximus, Hot Potato, etc.)",
-				"{V:10}Yahiamice {C:inactive}(Yahimod)",
-				"{V:11}PaperMoon {C:inactive}(Paperback)",
-			},
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",
 			["mul_Prophecy"] = {

@@ -738,9 +738,9 @@ function Multiverse.credits_tab_definition(page)
 				{
 					n = G.UIT.O,
 					config = {
-						object = contributor_text
-					}
-				}
+						object = contributor_text,
+					},
+				},
 			},
 		})
 		for _, row in ipairs(Multiverse.credits_table[page]) do
@@ -767,58 +767,67 @@ function Multiverse.credits_tab_definition(page)
 			pop_in = 0,
 			text_effect = "mul_ui_multiverse_highlight",
 		})
+		local desc_nodes = {}
+		localize({
+			type = "other",
+			key = "mul_misc_credits",
+			nodes = desc_nodes,
+			vars = {
+				colours = {
+					darken(HEX("8dffa8"), 0.2),
+					HEX("F4A6C7"),
+					HEX("800080"),
+					HEX("FE0001"),
+					HEX("4d1575"),
+					HEX("7E7AFF"),
+					HEX("ff8c8c"),
+					HEX("fd9712"),
+					HEX("f51bbc"),
+					HEX("7a2eb6"),
+					HEX("8b61ad"),
+				},
+			},
+			scale = 1.075
+		})
+		credits_rows = {}
+		for _, v in ipairs(desc_nodes) do
+			credits_rows[#credits_rows + 1] = { n = G.UIT.R, config = { align = "cl" }, nodes = v }
+		end
 		insp_text.states.visible = false
 		table.insert(rows, {
 			n = G.UIT.R,
-			config = { align = "cm" },
+			config = { align = "cm", padding = 0.1 },
 			nodes = {
 				{
-					n = G.UIT.C,
-					config = { align = "cm" },
+					n = G.UIT.O,
+					config = {
+						object = insp_text,
+					},
+				},
+			},
+		})
+		table.insert(rows, {
+			n = G.UIT.R,
+			config = {},
+			nodes = {
+				{
+					n = G.UIT.B,
+					config = { w = 1, h = 0.1 }
+				}
+			},
+		})
+		table.insert(rows, {
+			n = G.UIT.R,
+			config = { padding = 0.05, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.R,
+					config = { align = "cm", colour = G.C.WHITE, r = 0.1, emboss = 0.05, padding = 0.1 },
 					nodes = {
 						{
-							n = G.UIT.R,
-							config = { align = "cm", padding = 0.1 },
-							nodes = {
-								{
-									n = G.UIT.O,
-									config = {
-										object = insp_text,
-									},
-								},
-							},
-						},
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = {
-								{
-									n = G.UIT.B,
-									config = {
-										h = 0.3,
-										w = 0.5,
-									},
-								},
-							},
-						},
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.232, loc_vars = {
-								colours = {
-									darken(HEX("8dffa8"), 0.2),
-									HEX("F4A6C7"),
-									HEX("800080"),
-									HEX("FE0001"),
-									HEX("4d1575"),
-									HEX("7E7AFF"),
-									HEX("ff8c8c"),
-									HEX("fd9712"),
-									HEX("f51bbc"),
-									HEX("7a2eb6"),
-									HEX("8b61ad"),
-								}
-							} }),
+							n = G.UIT.C,
+							config = { align = "cm", padding = 0.05 },
+							nodes = credits_rows,
 						},
 					},
 				},
@@ -1066,3 +1075,55 @@ function Multiverse.create_localized_rows(set, key, args)
 	end
 	return rows
 end
+
+--#region Other mod link redirects
+function G.FUNCS.mul_joy_link()
+	love.system.openURL("https://github.com/nh6574/JoyousSpring")
+end
+function G.FUNCS.mul_akyrs_link()
+	love.system.openURL("https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans")
+end
+function G.FUNCS.mul_lobc_link()
+	love.system.openURL("https://github.com/Mysthaps/LobotomyCorp")
+end
+function G.FUNCS.mul_entr_link()
+	love.system.openURL("https://github.com/lord-ruby/Entropy")
+end
+function G.FUNCS.mul_scp_link()
+	love.system.openURL("https://github.com/lord-ruby/DataExpunged")
+end
+function G.FUNCS.mul_pha_link()
+	love.system.openURL("https://github.com/GhostSalt/Phanta")
+end
+function G.FUNCS.mul_catan_link()
+	love.system.openURL("https://github.com/GhostSalt/Catan")
+end
+function G.FUNCS.mul_ghost_link()
+	love.system.openURL("https://github.com/GhostSalt")
+end
+function G.FUNCS.mul_crv_link()
+	love.system.openURL("https://github.com/Cdrvo/Revos-Vault")
+end
+function G.FUNCS.mul_jud_link()
+	love.system.openURL("https://github.com/Cdrvo/Judgement")
+end
+function G.FUNCS.mul_valk_link()
+	love.system.openURL("https://github.com/felli-modding-studio/VallKarri")
+end
+function G.FUNCS.mul_toga_link()
+	love.system.openURL("https://github.com/TheOneGoofAli/TOGAPackBalatro")
+end
+function G.FUNCS.mul_mxms_link()
+	love.system.openURL("https://github.com/the-Astra/Maximus")
+end
+function G.FUNCS.mul_sr_link()
+	love.system.openURL("https://github.com/the-Astra/SuperRogue")
+end
+function G.FUNCS.mul_yahi_link()
+	love.system.openURL("https://github.com/Yahiamice/yahimod-balatro")
+end
+function G.FUNCS.mul_prbk_link()
+	love.system.openURL("https://github.com/Balatro-Paperback/paperback")
+end
+
+--#endregion
