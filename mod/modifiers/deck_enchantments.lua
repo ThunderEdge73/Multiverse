@@ -765,6 +765,7 @@ Multiverse.DeckEnchantment({
 	calc_scaling = function(self, enchantment, other_card, scaling_value, scalar_value, args)
 		if
 			args.operation == "+"
+			and other_card.ability.set == "Joker"
 			and SMODS.pseudorandom_probability(enchantment, "mul_mending", 1, enchantment.ability.odds)
 			and scalar_value > 0
 		then
@@ -788,12 +789,7 @@ Multiverse.DeckEnchantment({
 			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 			denom,
 		}
-		Multiverse.handle_deck_enchantment_loc_colours(
-			self,
-			enchantment,
-			colours,
-			G.C.GREEN
-		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.GREEN)
 		for i = 1, self.max_level do
 			local num, _ = SMODS.get_probability_vars(enchantment, i, enchantment.ability.odds, "mul_unbreaking")
 			ret[#ret + 1] = num
@@ -807,7 +803,13 @@ Multiverse.DeckEnchantment({
 	calc_scaling = function(self, enchantment, other_card, scaling_value, scalar_value, args)
 		if
 			args.operation == "-"
-			and SMODS.pseudorandom_probability(enchantment, "mul_unbreaking", enchantment.level, enchantment.ability.odds)
+			and other_card.ability.set == "Joker"
+			and SMODS.pseudorandom_probability(
+				enchantment,
+				"mul_unbreaking",
+				enchantment.level,
+				enchantment.ability.odds
+			)
 			and scalar_value > 0
 		then
 			return {
@@ -815,6 +817,36 @@ Multiverse.DeckEnchantment({
 					value = 0,
 				},
 			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "impaling",
+	max_level = 5,
+	config = { xmult = 0.05, current = 0 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.xmult,
+				enchantment.ability.xmult * enchantment.level,
+				1 + enchantment.ability.current,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.before then
+			enchantment.ability.current = enchantment.ability.current + enchantment.ability.xmult * enchantment.level
+		end
+		if context.individual and context.cardarea == G.play then
+			return {
+				xmult = 1 + enchantment.ability.current
+			}
+		end
+		if context.end_of_round and context.main_eval and not context.game_over then
+			enchantment.ability.current = 0
 		end
 	end,
 })

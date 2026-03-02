@@ -452,7 +452,7 @@ return {
 				name = "Mending",
 				text = {
 					"Whenever a Joker's values",
-					"would {C:attention}increase{} additively",
+					"would {C:attention}increase{} additively,",
 					"{C:green}#1# in #2#{} chance to {C:attention}double{}",
 					"the scaling amount",
 				},
@@ -464,6 +464,17 @@ return {
 					"would {C:attention}decrease{} by subtraction,",
 					"{V:1}#3#{C:inactive}/{V:2}#4#{C:inactive}/{V:3}#5#{C:inactive}/{V:4}#6#{C:green} in #2#{} chance to",
 					"{C:red}prevent{} the decrease",
+				},
+			},
+			de_mul_impaling = {
+				name = "Impaling#1#",
+				text = {
+					"Scored cards give {X:mult,C:white}X#4#{} Mult",
+					"Increases by {X:mult,C:white}X#2#{} Mult",
+					"per level this round",
+					"when a hand is played",
+					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
+					"{C:red}resets{C:inactive} at end of round)",
 				},
 			},
 			de_mul_overflow = {
