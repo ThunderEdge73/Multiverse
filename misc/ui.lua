@@ -844,7 +844,7 @@ function Multiverse.credits_tab_definition(page)
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = {},
+				config = { align = "cm" },
 				nodes = {
 					create_option_cycle({
 						options = pages,
