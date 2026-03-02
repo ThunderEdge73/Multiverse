@@ -768,10 +768,51 @@ Multiverse.DeckEnchantment({
 			and SMODS.pseudorandom_probability(enchantment, "mul_mending", 1, enchantment.ability.odds)
 			and scalar_value > 0
 		then
-			print("REACHED")
 			return {
 				override_scalar_value = {
 					value = scalar_value * 2,
+				},
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "unbreaking",
+	max_level = 4,
+	config = { odds = 7 },
+	loc_vars = function(self, info_queue, enchantment)
+		local _, denom = SMODS.get_probability_vars(enchantment, 1, enchantment.ability.odds, "mul_unbreaking")
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+			denom,
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.GREEN
+		)
+		for i = 1, self.max_level do
+			local num, _ = SMODS.get_probability_vars(enchantment, i, enchantment.ability.odds, "mul_unbreaking")
+			ret[#ret + 1] = num
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calc_scaling = function(self, enchantment, other_card, scaling_value, scalar_value, args)
+		if
+			args.operation == "-"
+			and SMODS.pseudorandom_probability(enchantment, "mul_unbreaking", enchantment.level, enchantment.ability.odds)
+			and scalar_value > 0
+		then
+			return {
+				override_scalar_value = {
+					value = 0,
 				},
 			}
 		end

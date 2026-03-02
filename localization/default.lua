@@ -451,10 +451,19 @@ return {
 			de_mul_mending = {
 				name = "Mending",
 				text = {
-					"Whenever a Joker's",
-					"values scale additively,",
-					"{C:green}#1# in #2#{} chance to",
-					"{C:attention}double{} the scaling amount",
+					"Whenever a Joker's values",
+					"would {C:attention}increase{} additively",
+					"{C:green}#1# in #2#{} chance to {C:attention}double{}",
+					"the scaling amount",
+				},
+			},
+			de_mul_unbreaking = {
+				name = "Unbreaking#1#",
+				text = {
+					"Whenever a Joker's values",
+					"would {C:attention}decrease{} by subtraction,",
+					"{V:1}#3#{C:inactive}/{V:2}#4#{C:inactive}/{V:3}#5#{C:inactive}/{V:4}#6#{C:green} in #2#{} chance to",
+					"{C:red}prevent{} the decrease",
 				},
 			},
 			de_mul_overflow = {
