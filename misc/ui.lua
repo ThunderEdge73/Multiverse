@@ -812,6 +812,16 @@ function Multiverse.credits_tab_definition()
 					},
 				},
 			}
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.B,
+						config = { w = 1, h = 0.05 },
+					},
+				},
+			}
 		else
 			rows[#rows + 1] = Multiverse.generate_credits_desc_nodes(entry)
 		end
@@ -819,11 +829,11 @@ function Multiverse.credits_tab_definition()
 
 	return {
 		n = G.UIT.ROOT,
-		config = { align = "cm", colour = G.C.BLACK, padding = 0.05 },
+		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = { align = "cm" },
+				config = { align = "cm", colour = G.C.L_BLACK, padding = 0.1, r = 0.1, emboss = 0.05 },
 				nodes = {
 					{
 						n = G.UIT.O,
@@ -833,7 +843,7 @@ function Multiverse.credits_tab_definition()
 								content = {
 									definition = {
 										n = G.UIT.ROOT,
-										config = { colour = G.C.CLEAR },
+										config = { colour = G.C.BLACK },
 										nodes = {
 											{
 												n = G.UIT.C,
@@ -851,9 +861,7 @@ function Multiverse.credits_tab_definition()
 									},
 								},
 								sync_mode = "progress",
-								scroll_move = function(self, dt)
-									self.scroll_progress.y = Multiverse.credits_scroll_progress
-								end,
+								progress = Multiverse.credits_scroll_progress
 							}),
 						},
 					},
@@ -861,17 +869,17 @@ function Multiverse.credits_tab_definition()
 			},
 			{
 				n = G.UIT.C,
-				config = { align = "cm" },
+				config = { align = "cm", padding = 0.025, r = 0.1, emboss = 0.05, colour = G.C.L_BLACK },
 				nodes = {
 					Multiverse.vert_scrollbar({
-						ref_table = Multiverse,
-						ref_value = "credits_scroll_progress",
+						ref_table = Multiverse.credits_scroll_progress,
+						ref_value = "y",
 						h = 6,
 						w = 0.3,
 						max = 1,
 						min = 0,
 						colour = Multiverse.C.TRANSMUTED_GRADIENT_SLOW,
-						bg_colour = { 0, 0, 0, 0.1 },
+						bg_colour = G.C.BLACK,
 					}),
 				},
 			},
@@ -879,7 +887,7 @@ function Multiverse.credits_tab_definition()
 	}
 end
 
-Multiverse.credits_scroll_progress = 0
+Multiverse.credits_scroll_progress = { x = 0, y = 0 }
 
 function Multiverse.vert_scrollbar(args)
 	local startval = args.h * (args.ref_table[args.ref_value] - args.min) / (args.max - args.min)
