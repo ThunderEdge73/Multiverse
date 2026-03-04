@@ -984,20 +984,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		Moveable.click(self)
 		love.system.openURL(entry.link)
 	end
-	card.dissolve = 1
 	G.mul_credits[#G.mul_credits]:emplace(card)
-	G.E_MANAGER:add_event(
-		Event({
-			trigger = "after",
-			blocking = false,
-			delay = 0.05,
-			func = function()
-				card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
-				return true
-			end,
-		}),
-		"mul_menu"
-	)
 	return {
 		n = G.UIT.R,
 		config = { align = "cm" },
