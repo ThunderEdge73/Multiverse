@@ -1,28 +1,28 @@
-local near_spear_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/near_spear.png"))
+local near_spear_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/near_spear.png"))
 local near_spear_data = assert(love.image.newImageData(near_spear_file))
 Multiverse.NEAR_SPEAR_SPRITE = assert(love.graphics.newImage(near_spear_data))
 
-local far_spear_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/far_spear.png"))
+local far_spear_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/far_spear.png"))
 local far_spear_data = assert(love.image.newImageData(far_spear_file))
 Multiverse.FAR_SPEAR_SPRITE = assert(love.graphics.newImage(far_spear_data))
 
-local reverse_spear_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/reverse_spear.png"))
+local reverse_spear_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/reverse_spear.png"))
 local reverse_spear_data = assert(love.image.newImageData(reverse_spear_file))
 Multiverse.REVERSE_SPEAR_SPRITE = assert(love.graphics.newImage(reverse_spear_data))
 
-local green_soul_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/green_soul.png"))
+local green_soul_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/green_soul.png"))
 local green_soul_data = assert(love.image.newImageData(green_soul_file))
 Multiverse.GREEN_SOUL_SPRITE = assert(love.graphics.newImage(green_soul_data))
 
-local soul_background_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/soul_background.png"))
+local soul_background_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/soul_background.png"))
 local soul_background_data = assert(love.image.newImageData(soul_background_file))
 Multiverse.SOUL_BACKGROUND_SPRITE = assert(love.graphics.newImage(soul_background_data))
 
-local shield_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/shield.png"))
+local shield_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/shield.png"))
 local shield_data = assert(love.image.newImageData(shield_file))
 Multiverse.SHIELD_SPRITE = assert(love.graphics.newImage(shield_data))
 
--- local undying_instructions_file = assert(Multiverse.NFS.newFileData(Multiverse.path .. "assets/misc/undying_instructions.png"))
+-- local undying_instructions_file = assert(SMODS.NFS.newFileData(Multiverse.path .. "assets/misc/undying_instructions.png"))
 -- local undying_instructions_data = assert(love.image.newImageData(undying_instructions_file))
 -- Multiverse.UNDYING_INSTRUCTIONS_SPRITE = assert(love.graphics.newImage(undying_instructions_data))
 

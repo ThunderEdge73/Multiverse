@@ -49,9 +49,6 @@ return {
 					"{C:inactive}(lvl. #2# -> lvl. #3#){}",
 				},
 			},
-			du_mul_hidden_enchant = {
-				text = { "{C:inactive}?????" },
-			},
 			du_mul_skill_cost_num = {
 				text = {
 					"Costs {C:attention}#1#%{} TP",
