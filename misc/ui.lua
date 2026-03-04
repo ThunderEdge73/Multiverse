@@ -676,8 +676,6 @@ SMODS.current_mod.extra_tabs = function()
 	}
 end
 
-Multiverse.selected_credits_page = 1
-
 function SMODS.current_mod.credits_tab()
 	G.mul_credits = {}
 	return {
@@ -689,7 +687,7 @@ function SMODS.current_mod.credits_tab()
 				config = {
 					id = "mul_credits_menu",
 					object = UIBox({
-						definition = Multiverse.credits_tab_definition(Multiverse.selected_credits_page),
+						definition = Multiverse.credits_tab_definition(),
 						config = { type = "cm" },
 					}),
 				},
@@ -699,194 +697,265 @@ function SMODS.current_mod.credits_tab()
 end
 
 Multiverse.credits_table = {
-	{ -- page
-		{ -- row
-			{ -- entry
-				card_key = "j_mul_thunderedge",
-				desc_key = "k_mul_thunderedge_credits",
-				link = "https://github.com/ThunderEdge73/Multiverse",
-			},
-			{ -- entry
-				card_key = "j_mul_proto",
-				desc_key = "k_mul_proto_credits",
-				link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
-			},
-		},
+	{
+		card_key = "j_mul_thunderedge",
+		desc_key = "k_mul_thunderedge_credits",
+		link = "https://github.com/ThunderEdge73/Multiverse",
+	},
+	{
+		card_key = "j_mul_proto",
+		desc_key = "k_mul_proto_credits",
+		link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
 	},
 	"MISC_CREDITS",
 }
 
-function Multiverse.credits_tab_definition(page)
-	rows = {}
-	if type(Multiverse.credits_table[page]) == "table" then
-		local contributor_text = DynaText({
-			string = localize("mul_contributors"),
-			colours = { G.C.UI.TEXT_LIGHT },
-			shadow = true,
-			float = true,
-			silent = true,
-			spacing = 5,
-			scale = 1,
-			rotate = true,
-			pop_in = 0,
-			text_effect = "mul_ui_multiverse_highlight",
-		})
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = { align = "cm", padding = 0.1 },
-			nodes = {
-				{
-					n = G.UIT.O,
-					config = {
-						object = contributor_text,
-					},
+function Multiverse.credits_tab_definition()
+	local rows = {}
+	local contributor_text = DynaText({
+		string = localize("mul_contributors"),
+		colours = { G.C.UI.TEXT_LIGHT },
+		shadow = true,
+		float = true,
+		silent = true,
+		spacing = 5,
+		scale = 1,
+		rotate = true,
+		pop_in = 0,
+		text_effect = "mul_ui_multiverse_highlight",
+	})
+
+	rows[#rows + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					object = contributor_text,
 				},
 			},
-		})
-		for _, row in ipairs(Multiverse.credits_table[page]) do
-			local row_items = {}
-			for _, item in ipairs(row) do
-				table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
-			end
-			table.insert(rows, {
-				n = G.UIT.R,
-				config = { align = "cm" },
-				nodes = row_items,
+		},
+	}
+	for _, entry in ipairs(Multiverse.credits_table) do
+		if entry == "MISC_CREDITS" then
+			local inspiration_text = DynaText({
+				string = localize("mul_inspirations"),
+				colours = { G.C.UI.TEXT_LIGHT },
+				shadow = true,
+				float = true,
+				silent = true,
+				spacing = 5,
+				scale = 1,
+				rotate = true,
+				pop_in = 0,
+				text_effect = "mul_ui_multiverse_highlight",
 			})
-		end
-	else
-		local insp_text = DynaText({
-			string = localize("mul_inspirations"),
-			colours = { G.C.UI.TEXT_LIGHT },
-			shadow = true,
-			float = true,
-			silent = true,
-			spacing = 5,
-			scale = 1,
-			rotate = true,
-			pop_in = 0,
-			text_effect = "mul_ui_multiverse_highlight",
-		})
-		local desc_nodes = {}
-		localize({
-			type = "other",
-			key = "mul_misc_credits",
-			nodes = desc_nodes,
-			vars = {
-				colours = {
-					darken(HEX("8dffa8"), 0.2),
-					HEX("F4A6C7"),
-					HEX("800080"),
-					HEX("FE0001"),
-					HEX("4d1575"),
-					HEX("7E7AFF"),
-					HEX("ff8c8c"),
-					HEX("fd9712"),
-					HEX("f51bbc"),
-					HEX("7a2eb6"),
-					HEX("8b61ad"),
-				},
-			},
-			scale = 1.075
-		})
-		credits_rows = {}
-		for _, v in ipairs(desc_nodes) do
-			credits_rows[#credits_rows + 1] = { n = G.UIT.R, config = { align = "cl" }, nodes = v }
-		end
-		insp_text.states.visible = false
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = { align = "cm", padding = 0.1 },
-			nodes = {
-				{
-					n = G.UIT.O,
-					config = {
-						object = insp_text,
-					},
-				},
-			},
-		})
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = {},
-			nodes = {
-				{
-					n = G.UIT.B,
-					config = { w = 1, h = 0.1 }
-				}
-			},
-		})
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = { padding = 0.05, align = "cm" },
-			nodes = {
-				{
-					n = G.UIT.R,
-					config = { align = "cm", colour = G.C.WHITE, r = 0.1, emboss = 0.05, padding = 0.1 },
-					nodes = {
-						{
-							n = G.UIT.C,
-							config = { align = "cm", padding = 0.05 },
-							nodes = credits_rows,
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							object = inspiration_text,
 						},
 					},
 				},
-			},
-		})
+			}
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.B,
+						config = { w = 1, h = 0.1 },
+					},
+				},
+			}
+			local desc_nodes = {}
+			localize({
+				type = "other",
+				key = "mul_misc_credits",
+				nodes = desc_nodes,
+				vars = {
+					colours = {
+						darken(HEX("8dffa8"), 0.2),
+						HEX("F4A6C7"),
+						HEX("800080"),
+						HEX("FE0001"),
+						HEX("4d1575"),
+						HEX("7E7AFF"),
+						HEX("ff8c8c"),
+						HEX("fd9712"),
+						HEX("f51bbc"),
+						HEX("7a2eb6"),
+						HEX("8b61ad"),
+					},
+				},
+				scale = 1.075,
+			})
+			credits_rows = {}
+			for _, v in ipairs(desc_nodes) do
+				credits_rows[#credits_rows + 1] = { n = G.UIT.R, config = { align = "cl" }, nodes = v }
+			end
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm", r = 0.1, colour = G.C.WHITE, padding = 0.1 },
+						nodes = {
+							{ n = G.UIT.C, config = { align = "cm", padding = 0.05 }, nodes = credits_rows },
+						},
+					},
+				},
+			}
+		else
+			rows[#rows + 1] = Multiverse.generate_credits_desc_nodes(entry)
+		end
 	end
-	local pages = {}
-	for i, _ in ipairs(Multiverse.credits_table) do
-		table.insert(pages, localize("k_page") .. string.format(" %s/%s", i, #Multiverse.credits_table))
-	end
-	table.insert(rows, {
-		n = G.UIT.R,
-		config = { align = "cm" },
+
+	return {
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.BLACK, padding = 0.05 },
 		nodes = {
 			{
 				n = G.UIT.C,
 				config = { align = "cm" },
 				nodes = {
-					create_option_cycle({
-						options = pages,
-						current_option = page,
-						opt_callback = "mul_select_credits_page",
-						colour = Multiverse.ui_config.tab_button_colour,
-					}),
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = SMODS.UIScrollBox({
+								content = {
+									definition = {
+										n = G.UIT.ROOT,
+										config = { colour = G.C.CLEAR },
+										nodes = {
+											{
+												n = G.UIT.C,
+												config = { align = "cm", padding = 0.1 },
+												nodes = rows,
+											},
+										},
+									},
+									config = { align = "cm" },
+								},
+								overflow = {
+									node_config = {
+										maxh = 6,
+										r = 0.1,
+									},
+								},
+								sync_mode = "progress",
+								scroll_move = function(self, dt)
+									self.scroll_progress.y = Multiverse.credits_scroll_progress
+								end,
+							}),
+						},
+					},
 				},
 			},
-		},
-	})
-	return {
-		n = G.UIT.ROOT,
-		config = { align = "cm", colour = G.C.BLACK },
-		nodes = {
 			{
 				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = rows,
+				config = { align = "cm" },
+				nodes = {
+					Multiverse.vert_scrollbar({
+						ref_table = Multiverse,
+						ref_value = "credits_scroll_progress",
+						h = 6,
+						w = 0.3,
+						max = 1,
+						min = 0,
+						colour = Multiverse.C.TRANSMUTED_GRADIENT_SLOW,
+						bg_colour = G.C.WHITE,
+						r = 0,
+						emboss = 0,
+					}),
+				},
 			},
 		},
 	}
 end
 
-function G.FUNCS.mul_select_credits_page(args)
-	if not G.OVERLAY_MENU then
-		return
+Multiverse.credits_scroll_progress = 0
+
+function Multiverse.vert_scrollbar(args)
+	local startval = args.h * (args.ref_table[args.ref_value] - args.min) / (args.max - args.min)
+	local t = {
+		n = G.UIT.C,
+		config = {
+			align = "cm",
+			minw = args.w,
+			minh = args.h,
+			padding = 0.1,
+			r = args.r or 0.1,
+			colour = G.C.CLEAR,
+			focus_args = { type = "slider" },
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					align = "tm",
+					minw = args.w,
+					r = args.r or 0.1,
+					minh = args.h,
+					collideable = true,
+					hover = true,
+					colour = args.bg_colour or G.C.BLACK,
+					emboss = args.emboss or 0.05,
+					func = "mul_vert_slider",
+					refresh_movement = true,
+				},
+				nodes = {
+					{
+						n = G.UIT.B,
+						config = {
+							w = args.w,
+							h = startval,
+							r = args.r or 0.1,
+							colour = startval == 0 and G.C.CLEAR or args.colour,
+							orig_colour = args.colour,
+							ref_table = args,
+							refresh_movement = true,
+						},
+					},
+				},
+			},
+		},
+	}
+	return t
+end
+
+function G.FUNCS.mul_vert_slider(e)
+	local c = e.children[1]
+	e.states.drag.can = true
+	c.states.drag.can = true
+	if
+		G.CONTROLLER
+		and G.CONTROLLER.dragging.target
+		and (G.CONTROLLER.dragging.target == e or G.CONTROLLER.dragging.target == c)
+	then
+		local rt = c.config.ref_table
+		rt.ref_table[rt.ref_value] = math.min(
+			rt.max,
+			math.max(rt.min, rt.min + (rt.max - rt.min) * (G.CURSOR.T.y - e.parent.T.y - G.ROOM.T.y) / e.T.h)
+		)
+		c.T.h = (rt.ref_table[rt.ref_value] - rt.min) / (rt.max - rt.min) * rt.h
+		c.config.h = c.T.h
+		if c.T.h == 0 then
+			c.config.colour = G.C.CLEAR
+		else
+			c.config.colour = c.config.orig_colour
+		end
+		if rt.callback then
+			G.FUNCS[rt.callback](rt)
+		end
 	end
-	Multiverse.selected_credits_page = args.to_key
-	-- local def = Multiverse.credits_tab_definition(Multiverse.selected_credits_page)
-	-- local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_credits_menu")
-	-- if container then
-	-- 	container.config.object:remove()
-	-- 	container.config.object = UIBox({
-	-- 		definition = def,
-	-- 		config = { type = "cm", parent = container },
-	-- 	})
-	-- 	container.config.object:recalculate()
-	-- 	container.UIBox:recalculate()
-	-- end
-	local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Credits")
-	G.FUNCS.change_tab(element)
 end
 
 function Multiverse.generate_credits_desc_nodes(entry)
@@ -917,8 +986,6 @@ function Multiverse.generate_credits_desc_nodes(entry)
 	end
 	card.dissolve = 1
 	G.mul_credits[#G.mul_credits]:emplace(card)
-	card.facing = "back"
-	card.sprite_facing = "back"
 	G.E_MANAGER:add_event(
 		Event({
 			trigger = "after",
@@ -931,25 +998,13 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		}),
 		"mul_menu"
 	)
-	G.E_MANAGER:add_event(
-		Event({
-			trigger = "after",
-			blocking = false,
-			delay = 0.8,
-			func = function()
-				card:flip()
-				return true
-			end,
-		}),
-		"mul_menu"
-	)
 	return {
-		n = G.UIT.C,
-		config = { align = "ct", padding = 0.05 },
+		n = G.UIT.R,
+		config = { align = "cm" },
 		nodes = {
 			{
-				n = G.UIT.R,
-				config = { align = "cm", padding = 0.1 },
+				n = G.UIT.C,
+				config = { align = "cm" },
 				nodes = {
 					{
 						n = G.UIT.O,
@@ -961,7 +1016,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 				},
 			},
 			{
-				n = G.UIT.R,
+				n = G.UIT.C,
 				config = { align = "cm" },
 				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
 			},

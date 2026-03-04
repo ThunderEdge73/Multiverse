@@ -1947,11 +1947,13 @@ return {
 		dictionary = {
 			k_multiverse_desc = "A content mod by ThunderEdge",
 			k_mul_thunderedge_credits = {
+				"{C:mul_transmuted}ThunderEdge{}",
 				"Creator of {C:mul_transmuted}Multiverse{}",
 				"Implemented all of",
 				"{C:mul_transmuted}Multiverse{}'s mechanics",
 			},
 			k_mul_proto_credits = {
+				"{C:attention}Proto{}",
 				"Added some {C:attention}challenges{}",
 				"Added attack patterns",
 				"for {C:attention}The Undying{}",
