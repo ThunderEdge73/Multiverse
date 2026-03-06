@@ -6,12 +6,12 @@ blindexpander.Passive({
 			vars = { name },
 		}
 	end,
-	fixed = true
+	fixed = true,
 })
 
 blindexpander.Passive({
 	key = "otherworldly",
-	fixed = true
+	fixed = true,
 })
 
 blindexpander.Passive({
@@ -280,11 +280,11 @@ blindexpander.Passive({
 			end)
 		end
 	end,
-	remove = function (self, blind, passive, from_disable)
+	remove = function(self, blind, passive, from_disable)
 		Multiverse.change_blind_size(function(chips)
 			return chips / passive.config.mult
 		end)
-	end
+	end,
 })
 
 blindexpander.Passive({
