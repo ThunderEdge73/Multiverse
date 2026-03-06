@@ -1034,12 +1034,12 @@ Multiverse.scroll_vel = { x = 0, y = 0 }
 
 function Multiverse.update_scroll()
 	if math.abs(Multiverse.scroll_vel.x) > 0.01 then
-		Multiverse.scroll_vel.x = Multiverse.scroll_vel.x - Multiverse.scroll_vel.x * math.min(G.real_dt * 15, 1)
+		Multiverse.scroll_vel.x = Multiverse.scroll_vel.x - Multiverse.scroll_vel.x * math.min(G.real_dt * 20, 1)
 	else
 		Multiverse.scroll_vel.x = 0
 	end
 	if math.abs(Multiverse.scroll_vel.y) > 0.01 then
-		Multiverse.scroll_vel.y = Multiverse.scroll_vel.y - Multiverse.scroll_vel.y * math.min(G.real_dt * 15, 1)
+		Multiverse.scroll_vel.y = Multiverse.scroll_vel.y - Multiverse.scroll_vel.y * math.min(G.real_dt * 20, 1)
 	else
 		Multiverse.scroll_vel.y = 0
 	end
@@ -1078,8 +1078,8 @@ function G.FUNCS.mul_scrollbar(e)
 	elseif e.config.scroll_collision_obj and e.config.scroll_collision_obj:collides_with_point(G.CURSOR.T) then
 		local percent = (ref_table[e.config.ref_value] - e.config.min) / (e.config.max - e.config.min)
 		percent = percent
-			- (e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x) / 9
-				/ (e.config.scroll_dir == "v" and (scrollbar_track.T.h - e.T.h) or (scrollbar_track.T.w - e.T.w))
+			- (e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x)
+				/ (e.config.scroll_dir == "v" and ((scrollbar_track.T.h - e.T.h) * e.config.scroll_collision_obj.content.T.h) or ((scrollbar_track.T.w - e.T.w) * e.config.scroll_collision_obj.content.T.w))
 		percent = math.max(0, math.min(1, percent))
 		ref_table[e.config.ref_value] = percent * (e.config.max - e.config.min) + e.config.min
 		scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
