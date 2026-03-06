@@ -9,9 +9,10 @@
 ---@field mul_thaumaturgy_energy_altered? boolean True if Thaumaturgy Energy has changed.
 ---@field mul_from_philosophers_stone? boolean True if Thaumaturgy Energy has changed because a Philosopher's Stone was created.
 ---@field mul_from_charge? boolean True if Thaumaturgy Energy has changed because of end of round energy generation.
----@field mul_modify_deck_enchantments? boolean True if the deck's enchantments have changed.
+---@field mul_deck_enchantments_modified? boolean True if the deck's enchantments have changed.
 ---@field mul_enchantment_removed? boolean True if an enchantment was removed from deck.
 ---@field mul_enchantment_applied? boolean True if an enchantment was applied to deck.
 ---@field mul_enchantment_object? Multiverse.DeckEnchantment The enchantment object of the enchantment whose level was modified.
 ---@field mul_change_skill_cost? boolean True if a Skill Card's cost is being calculated.
 ---@field mul_base_cost? integer The base cost of the Skill Card whose cost is being calculated.
+---@field mul_enchantment_data? EnchantmentData The data that stores the affected enchantment's state.

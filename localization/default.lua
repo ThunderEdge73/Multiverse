@@ -4,9 +4,8 @@ return {
 			du_mul_all_enchants = {
 				name = "Deck Enchantments",
 				text = {
-					"Your deck is {C:mul_enchantedbook}enchanted{}",
-					"{C:mul_enchantedbook}Enchantments{} apply passive",
-					"effects to the run...",
+					"{C:mul_enchantedbook}Deck Enchantments{} apply",
+					"passive effects to the run",
 				},
 			},
 			du_mul_half = {
@@ -49,9 +48,6 @@ return {
 					"{C:mul_enchantedbook}#1#",
 					"{C:inactive}(lvl. #2# -> lvl. #3#){}",
 				},
-			},
-			du_mul_hidden_enchant = {
-				text = { "{C:inactive}?????" },
 			},
 			du_mul_skill_cost_num = {
 				text = {
@@ -102,6 +98,18 @@ return {
 					"discards were",
 					"used this round,",
 					"{C:attention}-#1#%{} TP cost",
+				},
+			},
+			du_mul_ench_luck_info = {
+				name = "Enchantment Luck",
+				text = {
+					"{C:mul_enchantedbook}Enchantment Luck{} improves",
+					"the average quantity and",
+					"quality of {C:mul_enchantedbook}Deck Enchantments{}",
+					"offered by {C:mul_enchantedbook}Enchanted Books",
+					"{C:inactive}(Currently {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
+					"{C:inactive}(Maximum boost occurs at{}",
+					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
 				},
 			},
 		},
@@ -274,7 +282,7 @@ return {
 					"Level up discarded",
 					"poker hand once",
 					"{C:attention}Removed{} after",
-					"discarding {C:attention}2{} {C:inactive}(#1#){} times"
+					"discarding {C:attention}2{} {C:inactive}(#1#){} times",
 				},
 			},
 		},
@@ -381,11 +389,138 @@ return {
 					"deck at end of round",
 				},
 			},
+			de_mul_fortune = {
+				name = "Fortune#1#",
+				text = {
+					"{V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{}",
+					"Enchantment Luck",
+				},
+			},
+			de_mul_sharpness = {
+				name = "Sharpness#1#",
+				text = {
+					"Scored cards give",
+					"{X:mult,C:white}X#2#{} Mult per level",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
+				},
+			},
+			de_mul_density = {
+				name = "Density#1#",
+				text = {
+					"Before scoring,",
+					"{C:chips}+#2#{} Chips per level",
+					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
+				},
+			},
+			de_mul_looting = {
+				name = "Looting#1#",
+				text = {
+					"Multiply all {C:attention}listed{}",
+					"{C:green,E:1}probabilities{} by",
+					"{B:1,V:5}X#2#{C:inactive}/{B:2,V:6}X#3#{C:inactive}/{B:3,V:7}X#4#{C:inactive}/{B:4,V:8}X#5#{}",
+				},
+			},
+			de_mul_power = {
+				name = "Power#1#",
+				text = {
+					"Retrigger {C:attention}last{} scored",
+					"card once per level",
+					"{C:inactive}(Currently {C:attention}#2#{C:inactive} retriggers){}",
+				},
+			},
+			de_mul_breach = {
+				name = "Breach#1#",
+				text = {
+					"When {C:attention}Blind{} is selected,",
+					"{B:1,V:5}X#2#{C:inactive}/{B:2,V:6}X#3#{C:inactive}/{B:3,V:7}X#4#{C:inactive}/{B:4,V:8}X#5#{} Blind size",
+				},
+			},
+			de_mul_smite = {
+				name = "Smite#1#",
+				text = {
+					"Scored cards give",
+					"{X:mult,C:white}X#2#{} Mult per level",
+					"while facing a",
+					"{C:attention}Boss Blind{}",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
+				},
+			},
+			de_mul_mending = {
+				name = "Mending",
+				text = {
+					"Whenever a Joker's",
+					"values would {C:attention}increase{}",
+					"additively, {C:green}#1# in #2#{}",
+					"chance to {C:attention}double{}",
+					"the scaling amount",
+				},
+			},
+			de_mul_unbreaking = {
+				name = "Unbreaking#1#",
+				text = {
+					"Whenever a Joker's",
+					"values would {C:attention}decrease{}",
+					"by subtraction,",
+					"{V:1}#3#{C:inactive}/{V:2}#4#{C:inactive}/{V:3}#5#{C:inactive}/{V:4}#6#{C:green} in #2#{} chance",
+					"to {C:red}prevent{}",
+					"the decrease",
+				},
+			},
+			de_mul_impaling = {
+				name = "Impaling#1#",
+				text = {
+					"Scored cards give {X:mult,C:white}X#4#{} Mult",
+					"Increases by {X:mult,C:white}X#2#{} Mult",
+					"per level this round",
+					"when a hand is played",
+					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
+					"{C:red}resets{C:inactive} at end of round)",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {
 					"Gives {X:mult,C:white}X#1#{} Mult per level",
 					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
+				},
+			},
+			de_mul_trib_blessing = {
+				name = "Triboulet's Blessing",
+				text = {
+					"Retrigger scored {C:attention}Kings{}",
+					"and {C:attention}Queens{} twice",
+				},
+			},
+			de_mul_perkeo_blessing = {
+				name = "Perkeo's Blessing",
+				text = {
+					"All held consumables",
+					"give {X:mult,C:white}X#1#{} Mult",
+				},
+			},
+			de_mul_canio_blessing = {
+				name = "Canio's Blessing",
+				text = {
+					"If played hand is",
+					"a single {C:attention}face{} card,",
+					"destroy it and",
+					"this Enchantment",
+					"gains {X:mult,C:white}X#1#{} Mult",
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
+				},
+			},
+			de_mul_yorick_blessing = {
+				name = "Yorick's Blessing",
+				text = {
+					"Discarded cards gain",
+					"{X:mult,C:white}X#1#{} Mult permanently",
+				},
+			},
+			de_mul_chicot_blessing = {
+				name = "Chicot's Blessing",
+				text = {
+					"Jokers and playing cards",
+					"cannot be {C:red}debuffed",
 				},
 			},
 		},
@@ -507,7 +642,7 @@ return {
 					"Energy to{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{}",
 					"Gain {C:attention}1%{} TP for",
 					"every{s:0.56} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}1{} lost",
-					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)"
+					"{C:inactive}(Will gain {C:attention}#1#%{C:inactive} TP)",
 				},
 			},
 			sk_mul_dupe_glitch = {
@@ -1689,16 +1824,6 @@ return {
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
-					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}",
-				},
-			},
-			mul_blind_keybind_info = {
-				name = "Keybind Info",
-				text = {
-					"Hold {C:attention}I{} to make the current",
-					"Blind's instructions visible",
-					"on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_TP_desc_joke1 = {
@@ -1711,8 +1836,6 @@ return {
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
-					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_TP_desc_joke2 = {
@@ -1725,8 +1848,6 @@ return {
 					"hand does not exceed current",
 					"blind size, gain {C:attention}#1#-#2#%{} TP",
 					"{C:inactive}(TP is capped at {C:attention}100%{C:inactive}){}",
-					"Hold {C:attention}P{} to make the TP meter",
-					"visible on top of any held {C:attention}Tags{}",
 				},
 			},
 			mul_active_consumable = {
@@ -1779,6 +1900,21 @@ return {
 				},
 			},
 			--#endregion
+			mul_misc_credits = {
+				text = {
+					"> {V:1}Aikoyori {C:inactive}({button:mul_akyrs_link,u:blue,C:blue}Aikoyori's Shenanigans{C:inactive})",
+					"> {V:2}nh6574 {C:inactive}({button:mul_joy_link,u:blue,C:blue}JoyousSpring{C:inactive})",
+					"> {V:3}Mysthaps {C:inactive}({button:mul_lobc_link,u:blue,C:blue}Lobotomy Corporation{C:inactive})",
+					"> {V:4}Ruby {C:inactive}({button:mul_entr_link,u:blue,C:blue}Entropy{C:inactive}, {button:mul_scp_link,u:blue,C:blue}DATA EXPUNGED{C:inactive})",
+					"> {V:5}GhostSalt {C:inactive}({button:mul_pha_link,u:blue,C:blue}Phanta{C:inactive}, {button:mul_catan_link,u:blue,C:blue}Catan{C:inactive}, {button:mul_ghost_link,u:blue,C:blue}etc{C:inactive}.)",
+					"> {V:6}Revo {C:inactive}({button:mul_crv_link,u:blue,C:blue}Revo's Vault{C:inactive}, {button:mul_jud_link,u:blue,C:blue}Judgement{C:inactive})",
+					"> {V:9}Astra {C:inactive}({button:mul_mxms_link,u:blue,C:blue}Maximus{C:inactive}, {button:mul_sr_link,u:blue,C:blue}SuperRogue{C:inactive})",
+					"> {V:8}TheOneGoofAli {C:inactive}({button:mul_toga_link,u:blue,C:blue}TOGA's Stuff{C:inactive})",
+					"> {V:7}Lily Felli {C:inactive}({button:mul_valk_link,u:blue,C:blue}Vallkarri{C:inactive})",
+					"> {V:10}Yahiamice {C:inactive}({button:mul_yahi_link,u:blue,C:blue}Yahimod{C:inactive})",
+					"> {V:11}PaperMoon {C:inactive}({button:mul_prbk_link,u:blue,C:blue}Paperback{C:inactive})",
+				},
+			},
 		},
 	},
 	misc = {
@@ -1811,11 +1947,13 @@ return {
 		dictionary = {
 			k_multiverse_desc = "A content mod by ThunderEdge",
 			k_mul_thunderedge_credits = {
+				"{C:mul_transmuted}ThunderEdge{}",
 				"Creator of {C:mul_transmuted}Multiverse{}",
 				"Implemented all of",
 				"{C:mul_transmuted}Multiverse{}'s mechanics",
 			},
 			k_mul_proto_credits = {
+				"{C:attention}Proto{}",
 				"Added some {C:attention}challenges{}",
 				"Added attack patterns",
 				"for {C:attention}The Undying{}",
@@ -1844,6 +1982,7 @@ return {
 			k_mul_boom = "Boom!",
 			k_mul_murdered = "Murdered!",
 			k_mul_frozen = "Frozen!",
+			k_mul_destroyed = "Destroyed!",
 			k_mul_thaumaturgy_energy = "Thaumaturgy Energy",
 			k_mul_make_room = "Must have at least 1 available consumable slot",
 			k_mul_make_room2 = "in order to create a Philosopher's Stone...",
@@ -1927,21 +2066,24 @@ return {
 				"{C:attention}Hover{} over the song details to see when the song plays",
 			},
 			mul_multiverse = "Multiverse",
+			mul_mod_items = {
+				"{C:attention}Jokers{}",
+				"{C:tarot}Tarots{}",
+				"{C:spectral}Spectrals{}",
+				"{C:mul_transmuted}Transmutations{}",
+				"{C:attention}Enhancements{}",
+				"{C:attention}Seals{}",
+				"{C:mul_transmuted}Myths{}",
+				"{C:dark_edition}Editions{}",
+				"{C:attention}Booster Packs{}",
+				"{C:mul_transmuted}Thaumaturgy Energy{}",
+				"{C:attention}Tension Points{}",
+				"{C:mul_enchantedbook}Deck Enchantments{}",
+				"{C:attention}Skill Cards{}",
+				"{C:attention}Blinds{}",
+			},
 			mul_contributors = "Contributors",
 			mul_inspirations = "Inspirations",
-			mul_misc_credits = {
-				"{V:1}Aikoyori {C:inactive}(Aikoyori's Shenanigans)",
-				"{V:2}nh6574 {C:inactive}(JoyousSpring)",
-				"{V:3}Mysthaps {C:inactive}(Lobotomy Corporation)",
-				"{V:4}Ruby {C:inactive}(Entropy, DATA EXPUNGED)",
-				"{V:5}GhostSalt {C:inactive}(Phanta, Catan, etc.)",
-				"{V:6}Revo {C:inactive}(Revo's Vault, Judgement)",
-				"{V:7}Lily Felli {C:inactive}(Valkarri, Aquillari)",
-				"{V:8}TheOneGoofAli {C:inactive}(TOGA's Stuff)",
-				"{V:9}Astra {C:inactive}(Maximus, Hot Potato, etc.)",
-				"{V:10}Yahiamice {C:inactive}(Yahimod)",
-				"{V:11}PaperMoon {C:inactive}(Paperback)",
-			},
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",
 			["mul_Prophecy"] = {

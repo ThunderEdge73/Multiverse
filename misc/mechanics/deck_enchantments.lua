@@ -7,6 +7,8 @@ SMODS.Shader({
 Multiverse.DeckEnchantments = {}
 ---@type boolean
 
+Multiverse.C.DECK_ENCHANTMENT = HEX("CAA540")
+
 ---@type Multiverse.DeckEnchantment
 Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 	set = "mul_DeckEnchantment",
@@ -26,6 +28,7 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 	calculate = function(self, enchantment, context) end,
 	add_to_deck = function(self) end,
 	remove_from_deck = function(self) end,
+	loc_vars = function(self, info_queue, card) end,
 	in_pool = function(self)
 		return true
 	end,
@@ -158,7 +161,7 @@ function Multiverse.init_deck_enchantments()
 	---@type integer
 	G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck or 0
 	---@type integer
-	G.GAME.mul_visible_enchants = 1
+	G.GAME.mul_visible_enchants = G.GAME.mul_visible_enchants or 1
 end
 
 ---Checks if an enchantment is compatible with current selected deck.
@@ -225,15 +228,17 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		obj:remove_from_deck()
 		removed = true
 	end
-	obj:on_change_level(delta, final_level)
-	G.GAME.mul_deck_enchantments[enchantment] =
-		{ level = final_level, key = enchantment, ability = copy_table(obj.config) }
+	local data = { level = final_level, key = enchantment, ability = copy_table(obj.config) }
+	G.GAME.mul_deck_enchantments[enchantment] = G.GAME.mul_deck_enchantments[enchantment] or data
+	G.GAME.mul_deck_enchantments[enchantment].level = final_level
+	obj:on_change_level(delta, G.GAME.mul_deck_enchantments[enchantment])
 	SMODS.calculate_context({
-		mul_modify_deck_enchantments = true,
+		mul_deck_enchantments_modified = true,
 		amount = delta,
 		mul_enchantment_removed = removed,
 		mul_enchantment_applied = added,
 		mul_enchantment_object = obj,
+		mul_enchantment_data = G.GAME.mul_deck_enchantments[enchantment],
 	})
 end
 
@@ -432,7 +437,6 @@ end
 ---@param args {key_append: string?, no_legendary: boolean?, source: string?, guaranteed_curse: boolean?, forced_amt: integer?}
 function Multiverse.poll_deck_enchantments(args)
 	local temp = args or {}
-	local singular = temp.singular
 	local key_append = temp.key_append or "default"
 	local no_legendary = temp.no_legendary
 	local source = temp.source
@@ -577,13 +581,73 @@ SMODS.Consumable({
 			local temp = Multiverse.DeckEnchantments[ench_key]:create_fake_card()
 			temp.level = 0
 			temp.ability = copy_table(Multiverse.DeckEnchantments[ench_key].config)
-			local vars = Multiverse.DeckEnchantments[ench_key]:loc_vars(info_queue, temp)
+			local vars = Multiverse.DeckEnchantments[ench_key]:loc_vars(info_queue, temp) or {}
 			vars.set = vars.set or "mul_DeckEnchantment"
 			vars.key = vars.key or ench_key
 			return vars
 		elseif card.ability.extra.enchant_list then
+			local final_str = ""
+			local str_pool = "qwertyuiopasdfghjklzxcvbnm"
+			for _ = 1, 7 do
+				local index = math.random(1, string.len(str_pool))
+				final_str = final_str .. str_pool:sub(index, index + 1)
+			end
+			local main_end = nil
+			local dyntxt_obj = DynaText({
+				string = { final_str },
+				colours = { G.C.UI.TEXT_INACTIVE },
+				pop_in_rate = 9999999,
+				silent = true,
+				random_element = true,
+				pop_delay = 0.3,
+				scale = 0.32,
+				min_cycle_time = 0,
+				font = SMODS.Fonts["mul_minecraft_enchantment_font"],
+			})
+			for index, _ in ipairs(card.ability.extra.enchant_list) do
+				if index > G.GAME.mul_visible_enchants then
+					main_end = main_end or {}
+					main_end[#main_end + 1] = {
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.R,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = dyntxt_obj,
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.R,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = DynaText({
+												string = { "(lvl. ? -> ?)" },
+												colours = { G.C.UI.TEXT_INACTIVE },
+												pop_in_rate = 9999999,
+												silent = true,
+												scale = 0.32,
+											}),
+										},
+									},
+								},
+							},
+						},
+					}
+				end
+			end
 			return {
 				key = "c_mul_enchanted_book_list_enchants",
+				main_end = main_end,
 			}
 		end
 	end,
@@ -632,27 +696,26 @@ SMODS.Consumable({
 		if res.main_start then
 			desc_nodes[#desc_nodes + 1] = res.main_start
 		end
-
 		localize(target)
 		if card.ability.extra.enchant_list then
 			for index, value in ipairs(card.ability.extra.enchant_list) do
 				if index <= G.GAME.mul_visible_enchants then
 					info_queue[#info_queue + 1] = Multiverse.DeckEnchantments[value.key]
+					local name = Multiverse.parse_vars(
+						localize({ type = "name_text", set = "mul_DeckEnchantment", key = value.key }, ""),
+						{ "" }
+					)
+					local init_level = Multiverse.DeckEnchantments[value.key]:get_level()
+					Multiverse.info_queue_levels[value.key] = init_level + value.level_amt
+					localize({
+						type = "descriptions",
+						set = "mul_Dummy",
+						key = "du_mul_visible_enchant",
+						vars = { name, init_level, init_level + value.level_amt },
+						nodes = desc_nodes,
+						AUT = full_UI_table,
+					})
 				end
-				local name = Multiverse.parse_vars(
-					localize({ type = "name_text", set = "mul_DeckEnchantment", key = value.key }, ""),
-					{ "" }
-				)
-				local init_level = Multiverse.DeckEnchantments[value.key]:get_level()
-				Multiverse.info_queue_levels[value.key] = init_level + value.level_amt
-				localize({
-					type = "descriptions",
-					set = "mul_Dummy",
-					key = index <= G.GAME.mul_visible_enchants and "du_mul_visible_enchant" or "du_mul_hidden_enchant",
-					vars = { name, init_level, init_level + value.level_amt },
-					nodes = desc_nodes,
-					AUT = full_UI_table,
-				})
 			end
 		end
 

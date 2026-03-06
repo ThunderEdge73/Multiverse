@@ -23,8 +23,6 @@ Multiverse.C.TRANSMUTED_GRADIENT_SLOW = SMODS.Gradient({
 
 Multiverse.transmute_card_stage = 0
 
-Multiverse.NFS = SMODS.NFS or NFS
-
 Multiverse.selected_music_page = 1
 
 G.E_MANAGER.queues.mul_menu = {}
@@ -134,7 +132,7 @@ SMODS.current_mod.calculate = function(self, context)
 						Multiverse.is_valid_half(c)
 						and not c.highlighted
 						and c.area == G.hand
-						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4, "mul_half_card_discard")
+						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4)
 					then
 						SMODS.change_discard_limit(1)
 						discarded = discarded + 1
@@ -217,7 +215,7 @@ end
 
 ---@param path string
 function Multiverse.recursive_load(path)
-	local files = Multiverse.NFS.getDirectoryItems(Multiverse.path .. path)
+	local files = SMODS.NFS.getDirectoryItems(Multiverse.path .. path)
 	for _, item in ipairs(files) do
 		if string.sub(item, -4) == ".lua" then
 			print("Multiverse: Loading " .. item:gsub("%d+_", ""))
@@ -228,10 +226,10 @@ function Multiverse.recursive_load(path)
 	end
 end
 
-SMODS.optional_features.quantum_enhancements = true
-
 Multiverse.recursive_load("misc")
 Multiverse.recursive_load("mod")
+
+SMODS.optional_features.quantum_enhancements = true
 
 SMODS.current_mod.custom_card_areas = function(game)
 	game.mul_exhaust = CardArea(

@@ -107,3 +107,16 @@ Multiverse.DummyCenter({
 		}
 	end,
 })
+
+
+Multiverse.DummyCenter({
+	key = "ench_luck_info",
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				100,
+				G.GAME.mul_enchantment_luck or 0
+			},
+		}
+	end,
+})

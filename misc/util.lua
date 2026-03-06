@@ -399,6 +399,7 @@ function Multiverse.change_blind_size(operation)
 		local amt = type(operation) == "function" and operation(G.GAME.blind.chips) or (G.GAME.blind.chips + operation)
 		G.GAME.blind.chips = math.floor(amt + 0.5)
 		G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+		SMODS.juice_up_blind()
 	end
 end
 

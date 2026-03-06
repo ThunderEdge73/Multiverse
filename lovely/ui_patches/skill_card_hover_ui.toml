@@ -7,11 +7,11 @@ dump_lua = true
 [patches.pattern]
 target = "functions/UI_definitions.lua"
 pattern = '''
-if AUT.card_type == 'Enhanced' then card_type = localize{type = 'name_text', key = card.config.center.key, set = 'Enhanced'} end
+if AUT.card_type == 'Enhanced' then card_type = localize{type = 'name_text', key = card.config.center_key, set = 'Enhanced'} end
 '''
 position = "after"
 payload = '''
-if AUT.card_type == 'mul_Skill' then card_type = localize{type = 'name_text', key = card.config.center.key, set = 'mul_Skill'} end
+if AUT.card_type == 'mul_Skill' then card_type = localize{type = 'name_text', key = card.config.center_key, set = 'mul_Skill'} end
 '''
 match_indent = true
 

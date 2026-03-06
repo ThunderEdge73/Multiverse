@@ -485,6 +485,80 @@ SMODS.current_mod.custom_ui = function(nodes)
 			},
 		},
 	}
+	local items = {}
+	local entries = localize("mul_mod_items")
+	for i = 1, 2 do
+		local col = {}
+		for j, entry in ipairs(entries) do
+			table.insert(col, {
+				n = G.UIT.C,
+				config = { align = "cm", id = i == 1 and "first_item" or nil },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = SMODS.localize_box(loc_parse_string(entry), { scale = 1.2 }),
+					},
+				},
+			})
+			table.insert(col, {
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = SMODS.localize_box(loc_parse_string("{C:white} ~ {}"), { scale = 1.2 }),
+					},
+				},
+			})
+		end
+		items[#items + 1] = {
+			n = G.UIT.C,
+			config = { id = i == 1 and "first_item" or nil },
+			nodes = col,
+		}
+	end
+	nodes[#nodes + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.05 },
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					object = SMODS.UIScrollBox({
+						content = {
+							definition = {
+								n = G.UIT.ROOT,
+								config = { colour = G.C.CLEAR, padding = 0.1 },
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = items,
+									},
+								},
+							},
+							config = { align = "cm" },
+						},
+						overflow = {
+							node_config = {
+								maxw = 10.1,
+							},
+						},
+						sync_mode = "offset",
+						scroll_move = function(self, dt)
+							if not self.text_size then
+								local element = self:get_UIE_by_ID("first_item")
+								self.text_size = element.T.w
+							end
+							self.scroll_offset.x = math.fmod((self.scroll_offset.x or 0) + dt * 1.1, self.text_size)
+						end,
+					}),
+				},
+			},
+		},
+	}
 	nodes[#nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm", padding = 0.2 },
@@ -766,8 +840,6 @@ SMODS.current_mod.extra_tabs = function()
 	}
 end
 
-Multiverse.selected_credits_page = 1
-
 function SMODS.current_mod.credits_tab()
 	G.mul_credits = {}
 	return {
@@ -779,7 +851,7 @@ function SMODS.current_mod.credits_tab()
 				config = {
 					id = "mul_credits_menu",
 					object = UIBox({
-						definition = Multiverse.credits_tab_definition(Multiverse.selected_credits_page),
+						definition = Multiverse.credits_tab_definition(),
 						config = { type = "cm" },
 					}),
 				},
@@ -789,185 +861,320 @@ function SMODS.current_mod.credits_tab()
 end
 
 Multiverse.credits_table = {
-	{ -- page
-		{ -- row
-			{ -- entry
-				card_key = "j_mul_thunderedge",
-				desc_key = "k_mul_thunderedge_credits",
-				link = "https://github.com/ThunderEdge73/Multiverse",
-			},
-			{ -- entry
-				card_key = "j_mul_proto",
-				desc_key = "k_mul_proto_credits",
-				link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
-			},
-		},
+	{
+		card_key = "j_mul_thunderedge",
+		desc_key = "k_mul_thunderedge_credits",
+		link = "https://github.com/ThunderEdge73/Multiverse",
+	},
+	{
+		card_key = "j_mul_proto",
+		desc_key = "k_mul_proto_credits",
+		link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
 	},
 	"MISC_CREDITS",
 }
 
-function Multiverse.credits_tab_definition(page)
-	rows = {}
-	if type(Multiverse.credits_table[page]) == "table" then
-		local contributor_text = DynaText({
-			string = localize("mul_contributors"),
-			colours = { G.C.UI.TEXT_LIGHT },
-			shadow = true,
-			float = true,
-			silent = true,
-			spacing = 5,
-			scale = 1,
-			rotate = true,
-			pop_in = 0,
-			text_effect = "mul_ui_multiverse_highlight",
-		})
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = { align = "cm", padding = 0.1 },
-			nodes = {
-				{
-					n = G.UIT.O,
-					config = {
-						object = contributor_text
-					}
-				}
+function Multiverse.credits_tab_definition()
+	local rows = {}
+	local contributor_text = DynaText({
+		string = localize("mul_contributors"),
+		colours = { G.C.UI.TEXT_LIGHT },
+		shadow = true,
+		float = true,
+		silent = true,
+		spacing = 5,
+		scale = 1,
+		rotate = true,
+		pop_in = 0,
+		text_effect = "mul_ui_multiverse_highlight",
+	})
+
+	rows[#rows + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					object = contributor_text,
+				},
 			},
-		})
-		for _, row in ipairs(Multiverse.credits_table[page]) do
-			local row_items = {}
-			for _, item in ipairs(row) do
-				table.insert(row_items, Multiverse.generate_credits_desc_nodes(item))
-			end
-			table.insert(rows, {
+		},
+	}
+	for _, entry in ipairs(Multiverse.credits_table) do
+		if entry == "MISC_CREDITS" then
+			local inspiration_text = DynaText({
+				string = localize("mul_inspirations"),
+				colours = { G.C.UI.TEXT_LIGHT },
+				shadow = true,
+				float = true,
+				silent = true,
+				spacing = 5,
+				scale = 1,
+				rotate = true,
+				pop_in = 0,
+				text_effect = "mul_ui_multiverse_highlight",
+			})
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							object = inspiration_text,
+						},
+					},
+				},
+			}
+			rows[#rows + 1] = {
 				n = G.UIT.R,
 				config = { align = "cm" },
-				nodes = row_items,
+				nodes = {
+					{
+						n = G.UIT.B,
+						config = { w = 1, h = 0.1 },
+					},
+				},
+			}
+			local desc_nodes = {}
+			localize({
+				type = "other",
+				key = "mul_misc_credits",
+				nodes = desc_nodes,
+				vars = {
+					colours = {
+						darken(HEX("8dffa8"), 0.2),
+						HEX("F4A6C7"),
+						HEX("800080"),
+						HEX("FE0001"),
+						HEX("4d1575"),
+						HEX("7E7AFF"),
+						HEX("ff8c8c"),
+						HEX("fd9712"),
+						HEX("f51bbc"),
+						HEX("7a2eb6"),
+						HEX("8b61ad"),
+					},
+				},
+				scale = 1.075,
 			})
+			credits_rows = {}
+			for _, v in ipairs(desc_nodes) do
+				credits_rows[#credits_rows + 1] = { n = G.UIT.R, config = { align = "cl" }, nodes = v }
+			end
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm", r = 0.1, colour = G.C.WHITE, padding = 0.1 },
+						nodes = {
+							{ n = G.UIT.C, config = { align = "cm", padding = 0.05 }, nodes = credits_rows },
+						},
+					},
+				},
+			}
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.B,
+						config = { w = 1, h = 0.05 },
+					},
+				},
+			}
+		else
+			rows[#rows + 1] = Multiverse.generate_credits_desc_nodes(entry)
 		end
-	else
-		local insp_text = DynaText({
-			string = localize("mul_inspirations"),
-			colours = { G.C.UI.TEXT_LIGHT },
-			shadow = true,
-			float = true,
-			silent = true,
-			spacing = 5,
-			scale = 1,
-			rotate = true,
-			pop_in = 0,
-			text_effect = "mul_ui_multiverse_highlight",
-		})
-		insp_text.states.visible = false
-		table.insert(rows, {
-			n = G.UIT.R,
+	end
+	local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.BLACK },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", padding = 0.1 },
+						nodes = rows,
+					},
+				},
+			},
 			config = { align = "cm" },
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = { align = "cm" },
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { align = "cm", padding = 0.1 },
-							nodes = {
-								{
-									n = G.UIT.O,
-									config = {
-										object = insp_text,
-									},
-								},
-							},
-						},
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = {
-								{
-									n = G.UIT.B,
-									config = {
-										h = 0.3,
-										w = 0.5,
-									},
-								},
-							},
-						},
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = Multiverse.create_localized_rows(nil, "mul_misc_credits", { text_scale = 1.232, loc_vars = {
-								colours = {
-									darken(HEX("8dffa8"), 0.2),
-									HEX("F4A6C7"),
-									HEX("800080"),
-									HEX("FE0001"),
-									HEX("4d1575"),
-									HEX("7E7AFF"),
-									HEX("ff8c8c"),
-									HEX("fd9712"),
-									HEX("f51bbc"),
-									HEX("7a2eb6"),
-									HEX("8b61ad"),
-								}
-							} }),
+		},
+		overflow = {
+			node_config = {
+				maxh = 6,
+				r = 0.1,
+			},
+		},
+		sync_mode = "progress",
+		progress = Multiverse.credits_scroll_progress,
+	})
+	Multiverse.target_box = scrollbox
+	return {
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm", colour = G.C.L_BLACK, padding = 0.1, r = 0.1, emboss = 0.05 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							align = "cm",
+							object = scrollbox,
 						},
 					},
 				},
 			},
-		})
-	end
-	local pages = {}
-	for i, _ in ipairs(Multiverse.credits_table) do
-		table.insert(pages, localize("k_page") .. string.format(" %s/%s", i, #Multiverse.credits_table))
-	end
-	table.insert(rows, {
-		n = G.UIT.R,
-		config = { align = "cm" },
-		nodes = {
 			{
 				n = G.UIT.C,
-				config = {},
+				config = { align = "cm" },
 				nodes = {
-					create_option_cycle({
-						options = pages,
-						current_option = page,
-						opt_callback = "mul_select_credits_page",
-						colour = Multiverse.ui_config.tab_button_colour,
+					Multiverse.scrollbar({
+						ref_table = Multiverse.credits_scroll_progress,
+						ref_value = "y",
+						h = 6,
+						w = 0.3,
+						max = 1,
+						min = 0,
+						colour = Multiverse.C.TRANSMUTED_GRADIENT_SLOW,
+						bg_colour = { 0, 0, 0, 0.15 },
+						vertical = true,
+						scroll_collision_obj = scrollbox,
 					}),
 				},
-			},
-		},
-	})
-	return {
-		n = G.UIT.ROOT,
-		config = { align = "cm", colour = G.C.BLACK },
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = rows,
 			},
 		},
 	}
 end
 
-function G.FUNCS.mul_select_credits_page(args)
-	if not G.OVERLAY_MENU then
-		return
+Multiverse.credits_scroll_progress = { x = 0, y = 0 }
+
+function Multiverse.scrollbar(args)
+	local percent = (args.ref_table[args.ref_value] - args.min) / (args.max - args.min)
+	local track = UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = {
+				r = 0.25,
+				minh = args.vertical and args.h or nil,
+				minw = not args.vertical and args.w or nil,
+				colour = args.bg_colour,
+				focus_args = { type = "slider" },
+				collideable = true,
+				refresh_movement = true,
+				hover = true,
+			},
+			nodes = {
+				{
+					n = args.vertical and G.UIT.R or G.UIT.C,
+					config = {
+						minh = args.vertical and percent * (args.h - args.w) or nil,
+						minw = not args.vertical and percent * (args.w - args.h) or nil,
+						colour = args.colour,
+					},
+				},
+				{
+					n = args.vertical and G.UIT.R or G.UIT.C,
+					config = {
+						collideable = true,
+						func = "mul_scrollbar",
+						scroll_dir = args.vertical and "v" or "h",
+						id = "track_item",
+						minh = args.vertical and args.w or args.h,
+						minw = args.vertical and args.w or args.h,
+						colour = args.knob_colour or G.C.WHITE,
+						r = 0,
+						ref_table = args.ref_table,
+						ref_value = args.ref_value,
+						min = args.min,
+						max = args.max,
+						offset = {
+							x = args.vertical and 0 or nil,
+							y = not args.vertical and 0 or nil,
+						},
+						scroll_collision_obj = args.scroll_collision_obj,
+					},
+				},
+			},
+		},
+		config = {},
+	})
+	return {
+		n = args.ui_type or (args.vertical and G.UIT.C or G.UIT.R),
+		config = {},
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					object = track,
+				},
+			},
+		},
+	}
+end
+
+Multiverse.scroll_vel = { x = 0, y = 0 }
+
+function Multiverse.update_scroll()
+	if math.abs(Multiverse.scroll_vel.x) > 0.01 then
+		Multiverse.scroll_vel.x = Multiverse.scroll_vel.x - Multiverse.scroll_vel.x * math.min(G.real_dt * 15, 1)
+	else
+		Multiverse.scroll_vel.x = 0
 	end
-	Multiverse.selected_credits_page = args.to_key
-	-- local def = Multiverse.credits_tab_definition(Multiverse.selected_credits_page)
-	-- local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_credits_menu")
-	-- if container then
-	-- 	container.config.object:remove()
-	-- 	container.config.object = UIBox({
-	-- 		definition = def,
-	-- 		config = { type = "cm", parent = container },
-	-- 	})
-	-- 	container.config.object:recalculate()
-	-- 	container.UIBox:recalculate()
-	-- end
-	local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Credits")
-	G.FUNCS.change_tab(element)
+	if math.abs(Multiverse.scroll_vel.y) > 0.01 then
+		Multiverse.scroll_vel.y = Multiverse.scroll_vel.y - Multiverse.scroll_vel.y * math.min(G.real_dt * 15, 1)
+	else
+		Multiverse.scroll_vel.y = 0
+	end
+end
+
+local scroll_hook = love.wheelmoved
+function love.wheelmoved(x, y)
+	scroll_hook(x, y)
+	Multiverse.scroll_vel.x = Multiverse.scroll_vel.x + x
+	Multiverse.scroll_vel.y = Multiverse.scroll_vel.y + y
+end
+
+function G.FUNCS.mul_scrollbar(e)
+	e.states.drag.can = true
+	local scrollbar_track = e.UIBox
+	scrollbar_track.states.drag.can = true
+	local ref_table = e.config.ref_table
+	if
+		G.CONTROLLER
+		and G.CONTROLLER.dragging.target
+		and (G.CONTROLLER.dragging.target == e or G.CONTROLLER.dragging.target == scrollbar_track)
+	then
+		if not e.config.scroll_dir or e.config.scroll_dir == "h" then
+			local percent = (G.CURSOR.T.x - e.parent.T.x - G.ROOM.T.x - e.T.w / 2) / (scrollbar_track.T.w - e.T.w)
+			percent = math.max(0, math.min(1, percent))
+			ref_table[e.config.ref_value] = percent * (e.config.max - e.config.min) + e.config.min
+			scrollbar_track.UIRoot.children[1].config.minw = percent * (scrollbar_track.T.w - e.T.w)
+			scrollbar_track:recalculate()
+		elseif e.config.scroll_dir == "v" then
+			local percent = (G.CURSOR.T.y - e.parent.T.y - G.ROOM.T.y - e.T.h / 2) / (scrollbar_track.T.h - e.T.h)
+			percent = math.max(0, math.min(1, percent))
+			ref_table[e.config.ref_value] = percent * (e.config.max - e.config.min) + e.config.min
+			scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
+			scrollbar_track:recalculate()
+		end
+	elseif e.config.scroll_collision_obj and e.config.scroll_collision_obj:collides_with_point(G.CURSOR.T) then
+		local percent = (ref_table[e.config.ref_value] - e.config.min) / (e.config.max - e.config.min)
+		percent = percent
+			- (e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x) / 9
+				/ (e.config.scroll_dir == "v" and (scrollbar_track.T.h - e.T.h) or (scrollbar_track.T.w - e.T.w))
+		percent = math.max(0, math.min(1, percent))
+		ref_table[e.config.ref_value] = percent * (e.config.max - e.config.min) + e.config.min
+		scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
+		scrollbar_track:recalculate()
+	end
 end
 
 function Multiverse.generate_credits_desc_nodes(entry)
@@ -996,41 +1203,14 @@ function Multiverse.generate_credits_desc_nodes(entry)
 		Moveable.click(self)
 		love.system.openURL(entry.link)
 	end
-	card.dissolve = 1
 	G.mul_credits[#G.mul_credits]:emplace(card)
-	card.facing = "back"
-	card.sprite_facing = "back"
-	G.E_MANAGER:add_event(
-		Event({
-			trigger = "after",
-			blocking = false,
-			delay = 0.05,
-			func = function()
-				card:mul_no_juice_materialize(nil, true, nil, { blocking = false })
-				return true
-			end,
-		}),
-		"mul_menu"
-	)
-	G.E_MANAGER:add_event(
-		Event({
-			trigger = "after",
-			blocking = false,
-			delay = 0.8,
-			func = function()
-				card:flip()
-				return true
-			end,
-		}),
-		"mul_menu"
-	)
 	return {
-		n = G.UIT.C,
-		config = { align = "ct", padding = 0.05 },
+		n = G.UIT.R,
+		config = { align = "cm" },
 		nodes = {
 			{
-				n = G.UIT.R,
-				config = { align = "cm", padding = 0.1 },
+				n = G.UIT.C,
+				config = { align = "cm" },
 				nodes = {
 					{
 						n = G.UIT.O,
@@ -1042,7 +1222,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 				},
 			},
 			{
-				n = G.UIT.R,
+				n = G.UIT.C,
 				config = { align = "cm" },
 				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
 			},
@@ -1058,9 +1238,6 @@ function Multiverse.blind_instructions_HUD_def(key)
 			colour = lighten(G.C.JOKER_GREY, 0.5),
 			align = "cm",
 			r = 0.1,
-			detailed_tooltip = { set = "Other", key = "mul_blind_keybind_info" },
-			detailed_tooltip_align = "cl",
-			detailed_tooltip_offset = { x = -0.1, y = 0 },
 		},
 		nodes = {
 			{
@@ -1159,3 +1336,55 @@ function Multiverse.create_localized_rows(set, key, args)
 	end
 	return rows
 end
+
+--#region Other mod link redirects
+function G.FUNCS.mul_joy_link()
+	love.system.openURL("https://github.com/nh6574/JoyousSpring")
+end
+function G.FUNCS.mul_akyrs_link()
+	love.system.openURL("https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans")
+end
+function G.FUNCS.mul_lobc_link()
+	love.system.openURL("https://github.com/Mysthaps/LobotomyCorp")
+end
+function G.FUNCS.mul_entr_link()
+	love.system.openURL("https://github.com/lord-ruby/Entropy")
+end
+function G.FUNCS.mul_scp_link()
+	love.system.openURL("https://github.com/lord-ruby/DataExpunged")
+end
+function G.FUNCS.mul_pha_link()
+	love.system.openURL("https://github.com/GhostSalt/Phanta")
+end
+function G.FUNCS.mul_catan_link()
+	love.system.openURL("https://github.com/GhostSalt/Catan")
+end
+function G.FUNCS.mul_ghost_link()
+	love.system.openURL("https://github.com/GhostSalt")
+end
+function G.FUNCS.mul_crv_link()
+	love.system.openURL("https://github.com/Cdrvo/Revos-Vault")
+end
+function G.FUNCS.mul_jud_link()
+	love.system.openURL("https://github.com/Cdrvo/Judgement")
+end
+function G.FUNCS.mul_valk_link()
+	love.system.openURL("https://github.com/felli-modding-studio/VallKarri")
+end
+function G.FUNCS.mul_toga_link()
+	love.system.openURL("https://github.com/TheOneGoofAli/TOGAPackBalatro")
+end
+function G.FUNCS.mul_mxms_link()
+	love.system.openURL("https://github.com/the-Astra/Maximus")
+end
+function G.FUNCS.mul_sr_link()
+	love.system.openURL("https://github.com/the-Astra/SuperRogue")
+end
+function G.FUNCS.mul_yahi_link()
+	love.system.openURL("https://github.com/Yahiamice/yahimod-balatro")
+end
+function G.FUNCS.mul_prbk_link()
+	love.system.openURL("https://github.com/Balatro-Paperback/paperback")
+end
+
+--#endregion

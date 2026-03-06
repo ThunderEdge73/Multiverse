@@ -192,8 +192,8 @@ SMODS.Consumable({
 function Multiverse.frankenstein_fuse()
 	local c1 = G.hand.highlighted[1]
 	local c2 = G.hand.highlighted[2]
-	local left_enh_key = c1.ability.mul_half_card == "left" and c1.config.center.key or c2.config.center.key
-	local right_enh_key = c1.ability.mul_half_card == "left" and c2.config.center.key or c1.config.center.key
+	local left_enh_key = c1.ability.mul_half_card == "left" and c1.config.center_key or c2.config.center_key
+	local right_enh_key = c1.ability.mul_half_card == "left" and c2.config.center_key or c1.config.center_key
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		delay = 0.2,
@@ -225,9 +225,9 @@ function Multiverse.can_frankenstein_fuse_selected()
 		and #G.hand.highlighted == 2
 		and not SMODS.is_eternal(G.hand.highlighted[1], { mul_fusion = true })
 		and not SMODS.is_eternal(G.hand.highlighted[2], { mul_fusion = true })
-		and G.hand.highlighted[1].config.center.key ~= "c_base"
-		and G.hand.highlighted[2].config.center.key ~= "c_base"
-		and G.hand.highlighted[1].config.center.key ~= G.hand.highlighted[2].config.center.key
+		and G.hand.highlighted[1].config.center_key ~= "c_base"
+		and G.hand.highlighted[2].config.center_key ~= "c_base"
+		and G.hand.highlighted[1].config.center_key ~= G.hand.highlighted[2].config.center_key
 		and Multiverse.is_valid_half(G.hand.highlighted[1])
 		and Multiverse.is_valid_half(G.hand.highlighted[2])
 		and G.hand.highlighted[1].ability.mul_half_card ~= G.hand.highlighted[2].ability.mul_half_card

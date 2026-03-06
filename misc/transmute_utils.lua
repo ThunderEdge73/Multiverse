@@ -11,7 +11,7 @@ function Multiverse.transmute_info_queue(card, info_queue)
 		transmute_vars[#transmute_vars + 1] = card.config.center.transmute_req
 		info_queue[#info_queue + 1] = {
 			set = "Other",
-			key = string.sub(card.config.center.key, 3) .. "_hint",
+			key = string.sub(card.config.center_key, 3) .. "_hint",
 			vars = transmute_vars,
 		}
 	end

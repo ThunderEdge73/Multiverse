@@ -21,7 +21,7 @@ SMODS.DrawStep({
 		-- We do a simple check for whether or not a certain consumable is highlighted here
 		local philosophers_stone_highlighted = false
 		for _, v in ipairs(G.consumeables.highlighted) do
-			if v.config.center.key == "c_mul_philosophers_stone" then
+			if v.config.center_key == "c_mul_philosophers_stone" then
 				philosophers_stone_highlighted = true
 				break
 			end
@@ -171,7 +171,7 @@ SMODS.DrawStep({
 	key = "frankenstein_render",
 	order = -8,
 	func = function(card, layer)
-		if card.config.center.key == "m_mul_frankenstein" then
+		if card.config.center_key == "m_mul_frankenstein" then
 			local key1 = card.ability.extra.enhancement1
 			local key2 = card.ability.extra.enhancement2
 			if not Multiverse.is_valid_frankenstein(card) then
@@ -213,7 +213,7 @@ SMODS.DrawStep({
 	key = "enchanted_book_shader",
 	order = 11,
 	func = function(card, layer)
-		if card.config.center.key == "c_mul_enchanted_book" then
+		if card.config.center_key == "c_mul_enchanted_book" then
 			card.children.center:draw_shader("negative_shine", nil, card.ARGS.send_to_shader)
 			card.children.center:draw_shader("mul_enchantment", nil, card.ARGS.send_to_shader)
 		end
