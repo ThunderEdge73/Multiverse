@@ -513,10 +513,10 @@ SMODS.current_mod.custom_ui = function(nodes)
 				},
 			})
 		end
-		items[#items+1] = {
+		items[#items + 1] = {
 			n = G.UIT.C,
 			config = { id = i == 1 and "first_item" or nil },
-			nodes = col
+			nodes = col,
 		}
 	end
 	nodes[#nodes + 1] = {
@@ -900,7 +900,31 @@ function Multiverse.credits_tab_definition()
 			rows[#rows + 1] = Multiverse.generate_credits_desc_nodes(entry)
 		end
 	end
-
+	local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.BLACK },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", padding = 0.1 },
+						nodes = rows,
+					},
+				},
+			},
+			config = { align = "cm" },
+		},
+		overflow = {
+			node_config = {
+				maxh = 6,
+				r = 0.1,
+			},
+		},
+		sync_mode = "progress",
+		progress = Multiverse.credits_scroll_progress,
+	})
+	Multiverse.target_box = scrollbox
 	return {
 		n = G.UIT.ROOT,
 		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
@@ -913,30 +937,7 @@ function Multiverse.credits_tab_definition()
 						n = G.UIT.O,
 						config = {
 							align = "cm",
-							object = SMODS.UIScrollBox({
-								content = {
-									definition = {
-										n = G.UIT.ROOT,
-										config = { colour = G.C.BLACK },
-										nodes = {
-											{
-												n = G.UIT.C,
-												config = { align = "cm", padding = 0.1 },
-												nodes = rows,
-											},
-										},
-									},
-									config = { align = "cm" },
-								},
-								overflow = {
-									node_config = {
-										maxh = 6,
-										r = 0.1,
-									},
-								},
-								sync_mode = "progress",
-								progress = Multiverse.credits_scroll_progress,
-							}),
+							object = scrollbox,
 						},
 					},
 				},
@@ -953,8 +954,9 @@ function Multiverse.credits_tab_definition()
 						max = 1,
 						min = 0,
 						colour = Multiverse.C.TRANSMUTED_GRADIENT_SLOW,
-						bg_colour = { 0, 0, 0, 0.1 },
+						bg_colour = { 0, 0, 0, 0.15 },
 						vertical = true,
+						scroll_collision_obj = scrollbox,
 					}),
 				},
 			},
@@ -974,6 +976,10 @@ function Multiverse.scrollbar(args)
 				minh = args.vertical and args.h or nil,
 				minw = not args.vertical and args.w or nil,
 				colour = args.bg_colour,
+				focus_args = { type = "slider" },
+				collideable = true,
+				refresh_movement = true,
+				hover = true,
 			},
 			nodes = {
 				{
@@ -1003,6 +1009,7 @@ function Multiverse.scrollbar(args)
 							x = args.vertical and 0 or nil,
 							y = not args.vertical and 0 or nil,
 						},
+						scroll_collision_obj = args.scroll_collision_obj,
 					},
 				},
 			},
@@ -1023,11 +1030,38 @@ function Multiverse.scrollbar(args)
 	}
 end
 
+Multiverse.scroll_vel = { x = 0, y = 0 }
+
+function Multiverse.update_scroll()
+	if math.abs(Multiverse.scroll_vel.x) > 0.01 then
+		Multiverse.scroll_vel.x = Multiverse.scroll_vel.x - Multiverse.scroll_vel.x * math.min(G.real_dt * 15, 1)
+	else
+		Multiverse.scroll_vel.x = 0
+	end
+	if math.abs(Multiverse.scroll_vel.y) > 0.01 then
+		Multiverse.scroll_vel.y = Multiverse.scroll_vel.y - Multiverse.scroll_vel.y * math.min(G.real_dt * 15, 1)
+	else
+		Multiverse.scroll_vel.y = 0
+	end
+end
+
+local scroll_hook = love.wheelmoved
+function love.wheelmoved(x, y)
+	scroll_hook(x, y)
+	Multiverse.scroll_vel.x = Multiverse.scroll_vel.x + x
+	Multiverse.scroll_vel.y = Multiverse.scroll_vel.y + y
+end
+
 function G.FUNCS.mul_scrollbar(e)
 	e.states.drag.can = true
 	local scrollbar_track = e.UIBox
+	scrollbar_track.states.drag.can = true
 	local ref_table = e.config.ref_table
-	if G.CONTROLLER and G.CONTROLLER.dragging.target and (G.CONTROLLER.dragging.target == e) then
+	if
+		G.CONTROLLER
+		and G.CONTROLLER.dragging.target
+		and (G.CONTROLLER.dragging.target == e or G.CONTROLLER.dragging.target == scrollbar_track)
+	then
 		if not e.config.scroll_dir or e.config.scroll_dir == "h" then
 			local percent = (G.CURSOR.T.x - e.parent.T.x - G.ROOM.T.x - e.T.w / 2) / (scrollbar_track.T.w - e.T.w)
 			percent = math.max(0, math.min(1, percent))
@@ -1041,6 +1075,15 @@ function G.FUNCS.mul_scrollbar(e)
 			scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
 			scrollbar_track:recalculate()
 		end
+	elseif e.config.scroll_collision_obj and e.config.scroll_collision_obj:collides_with_point(G.CURSOR.T) then
+		local percent = (ref_table[e.config.ref_value] - e.config.min) / (e.config.max - e.config.min)
+		percent = percent
+			- (e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x) / 9
+				/ (e.config.scroll_dir == "v" and (scrollbar_track.T.h - e.T.h) or (scrollbar_track.T.w - e.T.w))
+		percent = math.max(0, math.min(1, percent))
+		ref_table[e.config.ref_value] = percent * (e.config.max - e.config.min) + e.config.min
+		scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
+		scrollbar_track:recalculate()
 	end
 end
 
