@@ -151,7 +151,6 @@ SMODS.Blind({
 		"psv_mul_time_warp",
 		"psv_mul_draw_reduction",
 	},
-	modifies_draw = true,
 	atlas = "blind_placeholder",
 	pos = { x = 0, y = 0 },
 	boss_colour = lighten(G.C.PURPLE, 0.1),

@@ -1,7 +1,7 @@
 blindexpander.Passive({
 	key = "summon",
 	loc_vars = function(self, blind, passive)
-		local name = localize({ type = "name_text", key = (passive.blind_data or {}).summon, set = "Blind" })
+		local name = localize({ type = "name_text", key = passive.blind_obj.summon, set = "Blind" })
 		return {
 			vars = { name },
 		}
@@ -144,6 +144,7 @@ blindexpander.Passive({
 blindexpander.Passive({
 	key = "draw_reduction",
 	config = { max_draw = 4 },
+	modifies_draw = true,
 	loc_vars = function(self, blind, passive)
 		return {
 			vars = { passive.config.max_draw + 1, passive.config.max_draw },
