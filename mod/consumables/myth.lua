@@ -1206,8 +1206,8 @@ SMODS.Consumable({
 		local journal_card = G.GAME.mul_last_myth_used and G.P_CENTERS[G.GAME.mul_last_myth_used] or nil
 		local last_myth = journal_card and localize({ type = "name_text", key = journal_card.key, set = "mul_Myth" })
 			or localize("k_none")
-		local colour = (not journal_card or journal_card.name == "Journal") and G.C.RED or G.C.GREEN
-		if not (not journal_card or journal_card.name == "Journal") then
+		local colour = (not journal_card or journal_card.key == "c_mul_journal") and G.C.RED or G.C.GREEN
+		if journal_card and journal_card.key ~= "c_mul_journal" then
 			info_queue[#info_queue + 1] = journal_card
 		end
 		local main_end = {
@@ -1233,7 +1233,7 @@ SMODS.Consumable({
 				},
 			},
 		}
-		return { vars = { last_myth }, main_end = main_end }
+		return { main_end = main_end }
 	end,
 	can_use = function(self, card)
 		return (G.consumeables.config.card_limit > (#G.consumeables.cards - (card.area == G.consumeables and 1 or 0)))

@@ -160,10 +160,18 @@ SMODS.current_mod.calculate = function(self, context)
 			and G.GAME.current_round.hands_played == 0
 			and G.GAME.current_round.discards_used == 0
 		then
-			ret[#ret+1] = {
-				skill_tp_cost_mult = 0.5
+			ret[#ret + 1] = {
+				skill_tp_cost_mult = 0.5,
 			}
 		end
+	end
+	if context.using_consumeable and context.consumeable.ability.set == "mul_Myth" then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.GAME.mul_last_myth_used = context.consumeable.config.center_key
+				return true
+			end,
+		}))
 	end
 	if context.after then
 		if SMODS.last_hand_oneshot then
@@ -176,7 +184,7 @@ SMODS.current_mod.calculate = function(self, context)
 				func = function()
 					Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
 					return true
-				end
+				end,
 			}))
 		end
 		G.GAME.mul_temp_bonuses = {}
