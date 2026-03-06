@@ -1075,7 +1075,7 @@ function G.FUNCS.mul_scrollbar(e)
 			scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
 			scrollbar_track:recalculate()
 		end
-	elseif e.config.scroll_collision_obj and e.config.scroll_collision_obj:collides_with_point(G.CURSOR.T) then
+	elseif e.config.scroll_collision_obj and e.config.scroll_collision_obj:collides_with_point(G.CURSOR.T) or scrollbar_track:collides_with_point(G.CURSOR.T) then
 		local percent = (ref_table[e.config.ref_value] - e.config.min) / (e.config.max - e.config.min)
 		percent = percent
 			- (e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x)
