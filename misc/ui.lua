@@ -966,6 +966,9 @@ end
 
 Multiverse.credits_scroll_progress = { x = 0, y = 0 }
 
+---Makes a scrollbar
+---@param args {ref_table: table, ref_value: string, min: number, max: number, bg_colour: table, colour: table, vertical: boolean?, knob_colour: table?, scroll_collision_obj: SMODS.UIScrollBox?}
+---@return table
 function Multiverse.scrollbar(args)
 	local percent = (args.ref_table[args.ref_value] - args.min) / (args.max - args.min)
 	local track = UIBox({
@@ -1077,9 +1080,13 @@ function G.FUNCS.mul_scrollbar(e)
 		end
 	elseif e.config.scroll_collision_obj and e.config.scroll_collision_obj:collides_with_point(G.CURSOR.T) or scrollbar_track:collides_with_point(G.CURSOR.T) then
 		local percent = (ref_table[e.config.ref_value] - e.config.min) / (e.config.max - e.config.min)
-		percent = percent
-			- (e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x)
-				/ (e.config.scroll_dir == "v" and ((scrollbar_track.T.h - e.T.h) * e.config.scroll_collision_obj.content.T.h) or ((scrollbar_track.T.w - e.T.w) * e.config.scroll_collision_obj.content.T.w))
+		local scroll_velocity = -(e.config.scroll_dir == "v" and Multiverse.scroll_vel.y or Multiverse.scroll_vel.x)
+		if e.config.scroll_collision_obj then
+			-- some cursed ass shit
+			local dir = e.config.scroll_dir == "v" and "h" or "w"
+			scroll_velocity = scroll_velocity / ((scrollbar_track.T[dir] - e.T[dir]) * e.config.scroll_collision_obj.content.T[dir])
+		end
+		percent = percent + scroll_velocity
 		percent = math.max(0, math.min(1, percent))
 		ref_table[e.config.ref_value] = percent * (e.config.max - e.config.min) + e.config.min
 		scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
