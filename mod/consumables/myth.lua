@@ -311,7 +311,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "mithridate",
+	key = "panacea",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
@@ -330,7 +330,7 @@ SMODS.Consumable({
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			SMODS.add_card({ set = "mul_can_transmute", key_append = "mul_theory" })
+			SMODS.add_card({ set = "mul_can_transmute", key_append = "mul_panacea" })
 		end)
 	end,
 })
