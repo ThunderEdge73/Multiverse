@@ -842,7 +842,7 @@ Multiverse.DeckEnchantment({
 		end
 		if context.individual and context.cardarea == G.play then
 			return {
-				xmult = enchantment.ability.current
+				xmult = enchantment.ability.current,
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over then
@@ -858,7 +858,7 @@ Multiverse.DeckEnchantment({
 	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
-				enchantment.ability.xmult
+				enchantment.ability.xmult,
 			},
 		}
 	end,
@@ -870,16 +870,47 @@ Multiverse.DeckEnchantment({
 			end
 			if context.cardarea == G.hand then
 				return {
-					xmult = enchantment.ability.current
+					xmult = enchantment.ability.current,
 				}
 			end
-
 		end
 		if context.after then
 			enchantment.ability.current = 1
 		end
 	end,
 })
+
+Multiverse.DeckEnchantment({
+	key = "silk_touch",
+	max_level = 1,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.check_eternal and G.GAME.facing_blind and context.other_card.playing_card then
+			return {
+				no_destroy = { bypass_compat = true },
+			}
+		end
+	end,
+})
+
+Multiverse.silk_touch_blacklist = {
+	c_immolate = true,
+	c_hanged_man = true,
+	c_mul_sphere = true,
+	c_mul_eternity = true,
+}
+local can_use_hook = Card.can_use_consumeable
+function Card:can_use_consumeable(any_state, skip_check)
+	local ret = can_use_hook(self, any_state, skip_check)
+	if
+		G.GAME.facing_blind
+		and G.GAME.mul_deck_enchantments["de_mul_silk_touch"]
+		and Multiverse.silk_touch_blacklist[self.config.center_key]
+	then
+		return false
+	end
+	return ret
+end
 
 Multiverse.DeckEnchantment({
 	key = "trib_blessing",

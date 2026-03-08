@@ -486,6 +486,14 @@ return {
 					"played card scores",
 				},
 			},
+			de_mul_silk_touch = {
+				name = "Silk Touch",
+				text = {
+					"Playing cards {C:attention}cannot{}",
+					"be destroyed while",
+					"inside a Blind",
+				},
+			},
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {
