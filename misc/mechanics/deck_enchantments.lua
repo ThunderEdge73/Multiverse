@@ -182,10 +182,13 @@ end
 ---@param other string[]
 ---@return boolean
 function Multiverse.is_enchant_compat(enchantment, other)
+	if Multiverse.contains_value(other, enchantment) then -- incompat with self
+		return false
+	end
 	for _, key in ipairs(Multiverse.DeckEnchantments[enchantment].enchant_incompat) do
 		if
-			(G.GAME.mul_deck_enchantments[key] and G.GAME.mul_deck_enchantments[key].level > 0)
-			or Multiverse.contains_value(other, enchantment)
+			(Multiverse.DeckEnchantments[key]:get_level() > 0) -- if incompat with thing already on deck
+			or Multiverse.contains_value(other, key) -- if other incompat has been polled
 		then
 			return false
 		end
@@ -246,7 +249,7 @@ function Multiverse.count_deck_enchantments()
 	local count = 0
 	if G.GAME.mul_deck_enchantments then
 		for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
-			local level = G.GAME.mul_deck_enchantments[key] and G.GAME.mul_deck_enchantments[key].level or 0
+			local level = Multiverse.DeckEnchantments[key]:get_level()
 			if level > 0 then
 				count = count + 1
 			end
@@ -259,7 +262,7 @@ function Multiverse.count_deck_enchantment_levels()
 	local count = 0
 	if G.GAME.mul_deck_enchantments then
 		for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
-			local level = G.GAME.mul_deck_enchantments[key] and G.GAME.mul_deck_enchantments[key].level or 0
+			local level = Multiverse.DeckEnchantments[key]:get_level()
 			if level > 0 then
 				count = count + level
 			end

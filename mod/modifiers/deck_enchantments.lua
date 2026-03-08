@@ -899,12 +899,13 @@ Multiverse.silk_touch_blacklist = {
 	c_mul_sphere = true,
 	c_mul_eternity = true,
 }
+
 local can_use_hook = Card.can_use_consumeable
 function Card:can_use_consumeable(any_state, skip_check)
 	local ret = can_use_hook(self, any_state, skip_check)
 	if
 		G.GAME.facing_blind
-		and G.GAME.mul_deck_enchantments["de_mul_silk_touch"]
+		and Multiverse.DeckEnchantments["de_mul_silk_touch"]:get_level() > 0
 		and Multiverse.silk_touch_blacklist[self.config.center_key]
 	then
 		return false

@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+-- context.remove_playing_cards calculations
+'''
+position = "before"
+payload = '''
+if Multiverse.DeckEnchantments["de_mul_silk_touch"]:get_level() > 0 then
+    cards_destroyed = {}
+end
+'''
+match_indent = true
