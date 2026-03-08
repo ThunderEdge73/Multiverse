@@ -438,10 +438,10 @@ return {
 			de_mul_smite = {
 				name = "Smite#1#",
 				text = {
-					"Scored cards give",
+					"On {C:attention}last{} played",
+					"hand of round,",
+					"scored cards give",
 					"{X:mult,C:white}X#2#{} Mult per level",
-					"while facing a",
-					"{C:attention}Boss Blind{}",
 					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
 				},
 			},
@@ -475,6 +475,15 @@ return {
 					"when a hand is played",
 					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
 					"{C:red}resets{C:inactive} at end of round)",
+				},
+			},
+			de_mul_channeling = {
+				name = "Channeling",
+				text = {
+					"Cards held in hand",
+					"give {X:mult,C:white}X#1#{} Mult per",
+					"time that the {C:attention}first{}",
+					"played card scores",
 				},
 			},
 			de_mul_overflow = {
