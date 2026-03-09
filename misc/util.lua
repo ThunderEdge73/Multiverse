@@ -43,6 +43,9 @@ function Multiverse.clamp(n, min, max)
 end
 
 ---Returns all cards in `t` such that `func(t)` is truthy in an indexed array.
+---@param t table
+---@param func fun(item): boolean
+---@return table
 function Multiverse.filter(t, func)
 	local ret = {}
 	for _, v in pairs(t) do

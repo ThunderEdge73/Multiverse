@@ -500,10 +500,13 @@ end
 function Multiverse.process_undyne_hit(percent)
 	play_sound("mul_take_damage", 1, 2.0)
 	Multiverse.modify_current_score(-G.GAME.blind.chips / (percent * G.GAME.mul_undyne_damage_mult), true)
-	local target = pseudorandom_element(G.hand.cards, "undying_target")
+	local pool = Multiverse.filter(G.hand.cards, function(item)
+		return not item.debuff
+	end)
+	local target = pseudorandom_element(pool, "undying_target")
 	SMODS.juice_up_blind()
 	if target then
-		SMODS.destroy_cards(target, nil, true)
+		SMODS.debuff_card(target, true, "mul_undying")
 	end
 	if
 		(G.GAME.challenge == "c_mul_monsoon" and G.GAME.chips < -G.GAME.blind.chips / 2)

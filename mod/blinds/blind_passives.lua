@@ -87,10 +87,10 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "justice",
-	config = { destroyed = 1 },
+	config = { debuffed = 1 },
 	loc_vars = function(self, blind, passive)
 		return {
-			vars = { passive.config.destroyed },
+			vars = { passive.config.debuffed },
 		}
 	end,
 })
@@ -226,12 +226,9 @@ blindexpander.Passive({
 						SMODS.debuff_card(target, true, "mul_corrupt_heart")
 						target:juice_up()
 					end
-					local pool2 = {}
-					for _, c in ipairs(G.hand.cards) do
-						if c ~= target and c.facing == "front" then
-							pool2[#pool2 + 1] = c
-						end
-					end
+					local pool2 = Multiverse.filter(G.hand.cards, function(c)
+						return c.facing == "front"
+					end)
 					local target2 = pseudorandom_element(pool2, "mul_corrupt_heart")
 					if target2 then
 						target2:flip()

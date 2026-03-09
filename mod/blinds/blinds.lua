@@ -137,10 +137,18 @@ SMODS.Blind({
 	set_blind = function(self)
 		Multiverse.show_blind_instructions("undying")
 	end,
+	defeat = function (self)
+		Multiverse.apply_to_playing_cards(function (playing_card)
+			SMODS.debuff_card(playing_card, false, "mul_undying")
+		end)
+	end,
 	disable = function(self)
 		if G.GAME.chips < to_big(0) then
 			G.GAME.chips = to_big(0)
 		end
+		Multiverse.apply_to_playing_cards(function (playing_card)
+			SMODS.debuff_card(playing_card, false, "mul_undying")
+		end)
 		Multiverse.hide_blind_instructions()
 	end,
 })
