@@ -60,10 +60,10 @@ end
 ---@param amt integer
 ---@param args {from_hand: boolean?, immediate: boolean?, from_skill: boolean?}
 function Multiverse.ease_TP(amt, args)
-	local actual_change = Multiverse.clamp(amt, -G.GAME.mul_TP, 100 - G.GAME.mul_TP)
-	if next(SMODS.find_card("j_mul_thunderedge")) and actual_change < 0 then
-		actual_change = math.floor(actual_change / 2)
+	if next(SMODS.find_card("j_mul_thunderedge")) and amt < 0 then
+		amt = math.floor(amt / 2)
 	end
+	local actual_change = Multiverse.clamp(amt, -G.GAME.mul_TP, 100 - G.GAME.mul_TP)
 	args = args or {}
 	SMODS.calculate_context({
 		--True if the amount of TP was changed.
@@ -71,7 +71,7 @@ function Multiverse.ease_TP(amt, args)
 		amount = actual_change,
 		--True if the change in TP came from a played hand.
 		mul_from_hand = args.from_scored_hand,
-		mul_from_skill = args.from_skill
+		mul_from_skill = args.from_skill,
 	})
 	if args.immediate then
 		G.GAME.mul_TP = G.GAME.mul_TP + actual_change
