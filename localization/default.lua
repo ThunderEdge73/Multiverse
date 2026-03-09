@@ -490,8 +490,8 @@ return {
 				name = "Silk Touch",
 				text = {
 					"Jokers {C:red}cannot{} be",
-					"destroyed while",
-					"inside a {C:attention}Blind{}",
+					"sold or destroyed",
+					"while inside a {C:attention}Blind{}",
 				},
 			},
 			de_mul_overflow = {
