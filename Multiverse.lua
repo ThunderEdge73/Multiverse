@@ -74,32 +74,7 @@ SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
 	if context.setting_blind then
 		if next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					if G.GAME.blind.disabled then
-						local rows = localize("k_mul_eggman_speech")
-						for _, row in ipairs(rows) do
-							local len = string.len(row)
-							G.E_MANAGER:add_event(Event({
-								func = function()
-									attention_text({
-										scale = 0.7,
-										text = row,
-										hold = (len * 0.05 + 0.3) * G.SETTINGS.GAMESPEED,
-										align = "cm",
-										offset = { x = 0, y = -1.7 },
-										major = G.play,
-									})
-									return true
-								end,
-							}))
-							delay((len * 0.05 + 0.5) * G.SETTINGS.GAMESPEED)
-						end
-						G.GAME.mul_eggman_secret = true
-					end
-					return true
-				end,
-			}))
+			Multiverse.eggman_secret()
 		end
 	end
 	if context.end_of_round and not context.game_over and context.main_eval then
@@ -124,35 +99,7 @@ SMODS.current_mod.calculate = function(self, context)
 		ret[#ret + 1] = Multiverse.handle_debuffs(context.debuff_card)
 	end
 	if context.press_play then
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				local discarded = 0
-				for _, c in ipairs(G.hand.cards) do
-					if
-						Multiverse.is_valid_half(c)
-						and not c.highlighted
-						and c.area == G.hand
-						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4)
-					then
-						SMODS.change_discard_limit(1)
-						discarded = discarded + 1
-						G.hand:add_to_highlighted(c, true)
-						play_sound("card1", 1)
-					end
-				end
-				if discarded > 0 then
-					G.FUNCS.discard_cards_from_highlighted(nil, true)
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							SMODS.change_discard_limit(-discarded)
-							return true
-						end,
-					}))
-				end
-				return true
-			end,
-		}))
-		delay(0.7)
+		Multiverse.handle_half_cards()
 	end
 	if context.mul_change_skill_cost then
 		if
@@ -160,10 +107,18 @@ SMODS.current_mod.calculate = function(self, context)
 			and G.GAME.current_round.hands_played == 0
 			and G.GAME.current_round.discards_used == 0
 		then
-			ret[#ret+1] = {
-				skill_tp_cost_mult = 0.5
+			ret[#ret + 1] = {
+				skill_tp_cost_mult = 0.5,
 			}
 		end
+	end
+	if context.using_consumeable and context.consumeable.ability.set == "mul_Myth" then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.GAME.mul_last_myth_used = context.consumeable.config.center_key
+				return true
+			end,
+		}))
 	end
 	if context.after then
 		if SMODS.last_hand_oneshot then
@@ -176,7 +131,7 @@ SMODS.current_mod.calculate = function(self, context)
 				func = function()
 					Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
 					return true
-				end
+				end,
 			}))
 		end
 		G.GAME.mul_temp_bonuses = {}

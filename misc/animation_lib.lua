@@ -108,8 +108,9 @@ Multiverse.all_videos = {}
 function Multiverse.Video(t)
 	local path = Multiverse.path .. "assets/videos/" .. t.path
 	local f = SMODS.NFS.read(path)
-		love.filesystem.write("mul_" .. t.key .. ".ogv", f)
-	local love_video = love.graphics.newVideo("mul_" .. t.key .. ".ogv")
+	local cached_path = "video_cache/mul_" .. t.key .. ".ogv"
+	love.filesystem.write(cached_path, f)
+	local love_video = love.graphics.newVideo(cached_path)
 	if love_video:getSource() then
 		love_video:getSource():setVolume(G.SETTINGS.SOUND.volume * G.SETTINGS.SOUND.game_sounds_volume / 1000)
 	end

@@ -182,10 +182,13 @@ end
 ---@param other string[]
 ---@return boolean
 function Multiverse.is_enchant_compat(enchantment, other)
+	if Multiverse.contains_value(other, enchantment) then -- incompat with self
+		return false
+	end
 	for _, key in ipairs(Multiverse.DeckEnchantments[enchantment].enchant_incompat) do
 		if
-			(G.GAME.mul_deck_enchantments[key] and G.GAME.mul_deck_enchantments[key].level > 0)
-			or Multiverse.contains_value(other, enchantment)
+			(Multiverse.DeckEnchantments[key]:get_level() > 0) -- if incompat with thing already on deck
+			or Multiverse.contains_value(other, key) -- if other incompat has been polled
 		then
 			return false
 		end
@@ -216,21 +219,19 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 	local init_level = obj:get_level()
 	local final_level = Multiverse.clamp(init_level + amt, 0, obj.max_level)
 	local delta = final_level - init_level
-	if delta == 0 then
+	if delta == 0 or not Multiverse.is_deck_compat(enchantment) or not Multiverse.is_enchant_compat(enchantment, {}) then
 		return
-	end
-	local removed = false
-	local added = false
-	if init_level == 0 then
-		obj:add_to_deck()
-		added = true
-	elseif final_level == 0 then
-		obj:remove_from_deck()
-		removed = true
 	end
 	local data = { level = final_level, key = enchantment, ability = copy_table(obj.config) }
 	G.GAME.mul_deck_enchantments[enchantment] = G.GAME.mul_deck_enchantments[enchantment] or data
 	G.GAME.mul_deck_enchantments[enchantment].level = final_level
+	local removed = false
+	local added = false
+	if init_level == 0 then
+		added = true
+	elseif final_level == 0 then
+		removed = true
+	end
 	obj:on_change_level(delta, G.GAME.mul_deck_enchantments[enchantment])
 	SMODS.calculate_context({
 		mul_deck_enchantments_modified = true,
@@ -246,7 +247,7 @@ function Multiverse.count_deck_enchantments()
 	local count = 0
 	if G.GAME.mul_deck_enchantments then
 		for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
-			local level = G.GAME.mul_deck_enchantments[key] and G.GAME.mul_deck_enchantments[key].level or 0
+			local level = Multiverse.DeckEnchantments[key]:get_level()
 			if level > 0 then
 				count = count + 1
 			end
@@ -259,7 +260,7 @@ function Multiverse.count_deck_enchantment_levels()
 	local count = 0
 	if G.GAME.mul_deck_enchantments then
 		for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
-			local level = G.GAME.mul_deck_enchantments[key] and G.GAME.mul_deck_enchantments[key].level or 0
+			local level = Multiverse.DeckEnchantments[key]:get_level()
 			if level > 0 then
 				count = count + level
 			end
@@ -586,63 +587,97 @@ SMODS.Consumable({
 			vars.key = vars.key or ench_key
 			return vars
 		elseif card.ability.extra.enchant_list then
-			local final_str = ""
-			local str_pool = "qwertyuiopasdfghjklzxcvbnm"
-			for _ = 1, 7 do
-				local index = math.random(1, string.len(str_pool))
-				final_str = final_str .. str_pool:sub(index, index + 1)
-			end
-			local main_end = nil
-			local dyntxt_obj = DynaText({
-				string = { final_str },
-				colours = { G.C.UI.TEXT_INACTIVE },
-				pop_in_rate = 9999999,
-				silent = true,
-				random_element = true,
-				pop_delay = 0.3,
-				scale = 0.32,
-				min_cycle_time = 0,
-				font = SMODS.Fonts["mul_minecraft_enchantment_font"],
-			})
+			local main_end = {}
 			for index, _ in ipairs(card.ability.extra.enchant_list) do
 				if index > G.GAME.mul_visible_enchants then
-					main_end = main_end or {}
+					print("A")
+					local final_str = ""
+					local str_pool = "qwertyuiopasdfghjklzxcvbnm"
+					for _ = 1, 7 do
+						local i = math.random(1, string.len(str_pool))
+						final_str = final_str .. str_pool:sub(i, i + 1)
+					end
+					local dyntxt_obj = DynaText({
+						string = { final_str },
+						colours = { G.C.UI.TEXT_INACTIVE },
+						pop_in_rate = 9999999,
+						silent = true,
+						random_element = true,
+						pop_delay = 0.3,
+						scale = 0.32,
+						min_cycle_time = 0,
+						font = SMODS.Fonts["mul_minecraft_enchantment_font"],
+					})
 					main_end[#main_end + 1] = {
-						n = G.UIT.C,
+						n = G.UIT.R,
 						config = { align = "cm" },
 						nodes = {
 							{
-								n = G.UIT.R,
-								config = { align = "cm" },
-								nodes = {
-									{
-										n = G.UIT.O,
-										config = {
-											object = dyntxt_obj,
-										},
-									},
-								},
-							},
-							{
-								n = G.UIT.R,
-								config = { align = "cm" },
-								nodes = {
-									{
-										n = G.UIT.O,
-										config = {
-											object = DynaText({
-												string = { "(lvl. ? -> ?)" },
-												colours = { G.C.UI.TEXT_INACTIVE },
-												pop_in_rate = 9999999,
-												silent = true,
-												scale = 0.32,
-											}),
-										},
-									},
+								n = G.UIT.O,
+								config = {
+									object = dyntxt_obj,
 								},
 							},
 						},
 					}
+					main_end[#main_end + 1] = {
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = {
+									object = DynaText({
+										string = { "(lvl. ? -> ?)" },
+										colours = { G.C.UI.TEXT_INACTIVE },
+										pop_in_rate = 9999999,
+										silent = true,
+										scale = 0.32,
+									}),
+								},
+							},
+						},
+					}
+					-- main_end[#main_end + 1] = {
+					-- 	n = G.UIT.R,
+					-- 	config = { align = "cm" },
+					-- 	nodes = {
+					-- 		n = G.UIT.C,
+					-- 		config = { align = "cm" },
+					-- 		nodes = {
+					-- 			{
+					-- 				n = G.UIT.R,
+					-- 				config = { align = "cm" },
+					-- 				nodes = {
+					-- 					{
+					-- 						n = G.UIT.O,
+					-- 						config = {
+					-- 							object = dyntxt_obj,
+					-- 						},
+					-- 					},
+					-- 				},
+					-- 			},
+					-- 			{
+					-- 				n = G.UIT.R,
+					-- 				config = { align = "cm" },
+					-- 				nodes = {
+					-- 					{
+					-- 						n = G.UIT.O,
+					-- 						config = {
+					-- 							object = DynaText({
+					-- 								string = { "(lvl. ? -> ?)" },
+					-- 								colours = { G.C.UI.TEXT_INACTIVE },
+					-- 								pop_in_rate = 9999999,
+					-- 								silent = true,
+					-- 								scale = 0.32,
+					-- 							}),
+					-- 						},
+					-- 					},
+					-- 				},
+					-- 			},
+					-- 		},
+					-- 	},
+					-- }
 				end
 			end
 			return {

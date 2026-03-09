@@ -43,6 +43,9 @@ function Multiverse.clamp(n, min, max)
 end
 
 ---Returns all cards in `t` such that `func(t)` is truthy in an indexed array.
+---@param t table
+---@param func fun(item): boolean
+---@return table
 function Multiverse.filter(t, func)
 	local ret = {}
 	for _, v in pairs(t) do
@@ -647,4 +650,65 @@ function Multiverse.modify_current_score(num, silent, no_juice)
 			}))
 		end
 	end
+end
+
+function Multiverse.eggman_secret()
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			if G.GAME.blind.disabled then
+				local rows = localize("k_mul_eggman_speech")
+				for _, row in ipairs(rows) do
+					local len = string.len(row)
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							attention_text({
+								scale = 0.7,
+								text = row,
+								hold = (len * 0.05 + 0.3) * G.SETTINGS.GAMESPEED,
+								align = "cm",
+								offset = { x = 0, y = -1.7 },
+								major = G.play,
+							})
+							return true
+						end,
+					}))
+					delay((len * 0.05 + 0.5) * G.SETTINGS.GAMESPEED)
+				end
+				G.GAME.mul_eggman_secret = true
+			end
+			return true
+		end,
+	}))
+end
+
+function Multiverse.handle_half_cards()
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			local discarded = 0
+			for _, c in ipairs(G.hand.cards) do
+				if
+					Multiverse.is_valid_half(c)
+					and not c.highlighted
+					and c.area == G.hand
+					and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4)
+				then
+					SMODS.change_discard_limit(1)
+					discarded = discarded + 1
+					G.hand:add_to_highlighted(c, true)
+					play_sound("card1", 1)
+				end
+			end
+			if discarded > 0 then
+				G.FUNCS.discard_cards_from_highlighted(nil, true)
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						SMODS.change_discard_limit(-discarded)
+						return true
+					end,
+				}))
+			end
+			return true
+		end,
+	}))
+	delay(0.7)
 end

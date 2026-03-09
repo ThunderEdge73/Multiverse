@@ -562,7 +562,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "sharpness",
 	max_level = 5,
-	config = { xmult = 0.2 },
+	config = { xmult = 0.25 },
 	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
@@ -663,7 +663,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if
 			context.repetition
-			and context.cardarea == G.hand
+			and context.cardarea == G.play
 			and context.other_card == context.scoring_hand[#context.scoring_hand]
 		then
 			return {
@@ -736,7 +736,7 @@ Multiverse.DeckEnchantment({
 	end,
 	enchantment_type = "positive",
 	calculate = function(self, enchantment, context)
-		if G.GAME.blind.boss and context.individual and context.cardarea == G.play then
+		if G.GAME.current_round.hands_left == 0 and context.individual and context.cardarea == G.play then
 			return {
 				xmult = 1 + enchantment.ability.xmult * enchantment.level,
 			}
@@ -824,14 +824,14 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "impaling",
 	max_level = 5,
-	config = { xmult = 0.05, current = 0 },
+	config = { xmult = 0.05, current = 1 },
 	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
 				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
 				enchantment.ability.xmult,
 				enchantment.ability.xmult * enchantment.level,
-				1 + enchantment.ability.current,
+				enchantment.ability.current,
 			},
 		}
 	end,
@@ -842,11 +842,54 @@ Multiverse.DeckEnchantment({
 		end
 		if context.individual and context.cardarea == G.play then
 			return {
-				xmult = 1 + enchantment.ability.current
+				xmult = enchantment.ability.current,
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over then
-			enchantment.ability.current = 0
+			enchantment.ability.current = 1
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "channeling",
+	max_level = 1,
+	config = { xmult = 0.1, current = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				enchantment.ability.xmult,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.individual then
+			if context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
+				enchantment.ability.current = enchantment.ability.current + enchantment.ability.xmult
+			end
+			if context.cardarea == G.hand then
+				return {
+					xmult = enchantment.ability.current,
+				}
+			end
+		end
+		if context.after then
+			enchantment.ability.current = 1
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "silk_touch",
+	max_level = 1,
+	config = { in_shop = false },
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.check_eternal and context.other_card.ability.set == "Joker" and G.GAME.blind.in_blind then
+			return {
+				no_destroy = { bypass_compat = true },
+			}
 		end
 	end,
 })

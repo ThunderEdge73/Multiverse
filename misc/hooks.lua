@@ -87,7 +87,6 @@ function Game:update(dt)
 	end
 	Multiverse.update_deck_enchantments()
 	Multiverse.update_main_menu()
-	Multiverse.update_scroll()
 	return ret
 end
 

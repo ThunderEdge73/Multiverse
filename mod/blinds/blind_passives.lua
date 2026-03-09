@@ -1,17 +1,17 @@
 blindexpander.Passive({
 	key = "summon",
 	loc_vars = function(self, blind, passive)
-		local name = localize({ type = "name_text", key = (passive.blind_data or {}).summon, set = "Blind" })
+		local name = localize({ type = "name_text", key = passive.blind_obj.summon, set = "Blind" })
 		return {
 			vars = { name },
 		}
 	end,
-	fixed = true
+	fixed = true,
 })
 
 blindexpander.Passive({
 	key = "otherworldly",
-	fixed = true
+	fixed = true,
 })
 
 blindexpander.Passive({
@@ -87,10 +87,10 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "justice",
-	config = { destroyed = 1 },
+	config = { debuffed = 1 },
 	loc_vars = function(self, blind, passive)
 		return {
-			vars = { passive.config.destroyed },
+			vars = { passive.config.debuffed },
 		}
 	end,
 })
@@ -144,6 +144,7 @@ blindexpander.Passive({
 blindexpander.Passive({
 	key = "draw_reduction",
 	config = { max_draw = 4 },
+	modifies_draw = true,
 	loc_vars = function(self, blind, passive)
 		return {
 			vars = { passive.config.max_draw + 1, passive.config.max_draw },
@@ -188,7 +189,7 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "beat_of_death",
-	config = { chips = -20 },
+	config = { chips = -10 },
 	loc_vars = function(self, blind, passive)
 		return {
 			vars = { passive.config.chips },
@@ -197,7 +198,7 @@ blindexpander.Passive({
 	calculate = function(self, blind, passive, context)
 		if context.individual and context.cardarea == G.play then
 			return {
-				chips = -20,
+				chips = passive.config.chips,
 			}
 		end
 	end,
@@ -225,12 +226,9 @@ blindexpander.Passive({
 						SMODS.debuff_card(target, true, "mul_corrupt_heart")
 						target:juice_up()
 					end
-					local pool2 = {}
-					for _, c in ipairs(G.hand.cards) do
-						if c ~= target and c.facing == "front" then
-							pool2[#pool2 + 1] = c
-						end
-					end
+					local pool2 = Multiverse.filter(G.hand.cards, function(c)
+						return c.facing == "front"
+					end)
 					local target2 = pseudorandom_element(pool2, "mul_corrupt_heart")
 					if target2 then
 						target2:flip()
@@ -280,11 +278,11 @@ blindexpander.Passive({
 			end)
 		end
 	end,
-	remove = function (self, blind, passive, from_disable)
+	remove = function(self, blind, passive, from_disable)
 		Multiverse.change_blind_size(function(chips)
 			return chips / passive.config.mult
 		end)
-	end
+	end,
 })
 
 blindexpander.Passive({

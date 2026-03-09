@@ -17,8 +17,6 @@
 ---@field take_ownership? fun(self: Multiverse.DeckEnchantment|table, key: string, obj: Multiverse.DeckEnchantment|table, silent?: boolean): nil|table|Multiverse.DeckEnchantment Takes control of vanilla objects. Child class must have get_obj for this to function
 ---@field get_obj? fun(self: Multiverse.DeckEnchantment|table, key: string): Multiverse.DeckEnchantment|table? Returns an object if one matches the `key`.
 ---@field calculate? fun(self: Multiverse.DeckEnchantment|table, enchantment: EnchantmentData, context: CalcContext): table? Calculates this object if it is applied to the deck.
----@field add_to_deck? fun(self: Multiverse.DeckEnchantment|table) Called when the enchantment is applied.
----@field remove_from_deck? fun(self: Multiverse.DeckEnchantment|table) Called when the enchantment is removed.
 ---@field max_level? integer The maximum level this enchantment can be.
 ---@field deck_incompat? string[] A list of keys of decks this enchantment cannot be applied to.
 ---@field in_pool? fun(self: Multiverse.DeckEnchantment|table, args: EnchantmentPoolArgs|table): any? Determines whether or not this enchantment can appear.

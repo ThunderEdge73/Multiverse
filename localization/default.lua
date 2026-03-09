@@ -249,7 +249,7 @@ return {
 				name = "Debilitate",
 				text = {
 					"After drawing cards, {C:red}debuff{} {C:attention}#1#{} random",
-					"undebuffed card in hand and {C:attention}flip #1#{} other",
+					"undebuffed card in hand and flip {C:attention}#1#{}",
 					"random face up card in hand",
 				},
 			},
@@ -438,10 +438,10 @@ return {
 			de_mul_smite = {
 				name = "Smite#1#",
 				text = {
-					"Scored cards give",
+					"On {C:attention}last{} played",
+					"hand of round,",
+					"scored cards give",
 					"{X:mult,C:white}X#2#{} Mult per level",
-					"while facing a",
-					"{C:attention}Boss Blind{}",
 					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
 				},
 			},
@@ -475,6 +475,23 @@ return {
 					"when a hand is played",
 					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
 					"{C:red}resets{C:inactive} at end of round)",
+				},
+			},
+			de_mul_channeling = {
+				name = "Channeling",
+				text = {
+					"Cards held in hand",
+					"give {X:mult,C:white}X#1#{} Mult per",
+					"time that the {C:attention}first{}",
+					"played card scores",
+				},
+			},
+			de_mul_silk_touch = {
+				name = "Silk Touch",
+				text = {
+					"Jokers {C:red}cannot{} be",
+					"sold or destroyed",
+					"while inside a {C:attention}Blind{}",
 				},
 			},
 			de_mul_overflow = {
@@ -810,8 +827,8 @@ return {
 					"{C:inactive}(Currently {C:attention}+#1#%{C:inactive} TP){}",
 				},
 			},
-			c_mul_mithridate = {
-				name = "Mithridate",
+			c_mul_panacea = {
+				name = "Panacea",
 				text = {
 					"Creates a random",
 					"Joker that can",
@@ -1037,8 +1054,8 @@ return {
 					{
 						"Whenever you lose",
 						"Thaumaturgy Energy",
-						"or TP, {C:attention}refund{} half",
-						"the lost amount",
+						"or TP, instead lose",
+						"{C:attention}half{} that amount",
 					},
 				},
 			},
