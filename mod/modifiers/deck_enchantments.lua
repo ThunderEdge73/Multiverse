@@ -663,7 +663,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if
 			context.repetition
-			and context.cardarea == G.hand
+			and context.cardarea == G.play
 			and context.other_card == context.scoring_hand[#context.scoring_hand]
 		then
 			return {
