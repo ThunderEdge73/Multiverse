@@ -249,7 +249,7 @@ return {
 				name = "Debilitate",
 				text = {
 					"After drawing cards, {C:red}debuff{} {C:attention}#1#{} random",
-					"undebuffed card in hand and {C:attention}flip #1#{} other",
+					"undebuffed card in hand and flip {C:attention}#1#{}",
 					"random face up card in hand",
 				},
 			},
