@@ -489,9 +489,9 @@ return {
 			de_mul_silk_touch = {
 				name = "Silk Touch",
 				text = {
-					"Playing cards {C:attention}cannot{}",
-					"be destroyed while",
-					"inside a Blind",
+					"Jokers {C:red}cannot{} be",
+					"destroyed while",
+					"inside a {C:attention}Blind{}",
 				},
 			},
 			de_mul_overflow = {

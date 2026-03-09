@@ -883,35 +883,16 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "silk_touch",
 	max_level = 1,
+	config = { in_shop = false },
 	enchantment_type = "positive",
 	calculate = function(self, enchantment, context)
-		if context.check_eternal and G.GAME.facing_blind and context.other_card.playing_card then
+		if context.check_eternal and context.other_card.ability.set == "Joker" and G.GAME.blind.in_blind then
 			return {
 				no_destroy = { bypass_compat = true },
 			}
 		end
 	end,
 })
-
-Multiverse.silk_touch_blacklist = {
-	c_immolate = true,
-	c_hanged_man = true,
-	c_mul_sphere = true,
-	c_mul_eternity = true,
-}
-
-local can_use_hook = Card.can_use_consumeable
-function Card:can_use_consumeable(any_state, skip_check)
-	local ret = can_use_hook(self, any_state, skip_check)
-	if
-		G.GAME.facing_blind
-		and Multiverse.DeckEnchantments["de_mul_silk_touch"]:get_level() > 0
-		and Multiverse.silk_touch_blacklist[self.config.center_key]
-	then
-		return false
-	end
-	return ret
-end
 
 Multiverse.DeckEnchantment({
 	key = "trib_blessing",
