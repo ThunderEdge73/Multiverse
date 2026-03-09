@@ -189,7 +189,7 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "beat_of_death",
-	config = { chips = -20 },
+	config = { chips = -10 },
 	loc_vars = function(self, blind, passive)
 		return {
 			vars = { passive.config.chips },
@@ -198,7 +198,7 @@ blindexpander.Passive({
 	calculate = function(self, blind, passive, context)
 		if context.individual and context.cardarea == G.play then
 			return {
-				chips = -20,
+				chips = passive.config.chips,
 			}
 		end
 	end,

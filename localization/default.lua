@@ -1054,8 +1054,8 @@ return {
 					{
 						"Whenever you lose",
 						"Thaumaturgy Energy",
-						"or TP, {C:attention}refund{} half",
-						"the lost amount",
+						"or TP, instead lose",
+						"{C:attention}half{} that amount",
 					},
 				},
 			},

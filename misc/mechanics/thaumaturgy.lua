@@ -3,6 +3,9 @@
 ---@param args? {immediate: boolean?, silent: boolean?, from_philosophers_stone: boolean?, from_charge: boolean?}
 function Multiverse.ease_thaumaturgy_energy(amt, args)
 	args = args or {}
+	if amt < 0 and next(SMODS.find_card("j_mul_thunderedge")) then
+		amt = math.floor(amt / 2)
+	end
 	if G.GAME.mul_time_machine_active and amt >= 0 then
 		return
 	end

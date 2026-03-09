@@ -61,6 +61,9 @@ end
 ---@param args {from_hand: boolean?, immediate: boolean?, from_skill: boolean?}
 function Multiverse.ease_TP(amt, args)
 	local actual_change = Multiverse.clamp(amt, -G.GAME.mul_TP, 100 - G.GAME.mul_TP)
+	if next(SMODS.find_card("j_mul_thunderedge")) and actual_change < 0 then
+		actual_change = math.floor(actual_change / 2)
+	end
 	args = args or {}
 	SMODS.calculate_context({
 		--True if the amount of TP was changed.
