@@ -109,7 +109,7 @@ blindexpander.Passive({
 				passive.config.selected = 0
 			end
 		end
-		if context.mul_highlighted then
+		if context.mul_highlighted and context.other_card.area == G.hand then
 			passive.config.selected = passive.config.selected + 1
 			if passive.config.selected == 12 then
 				passive.config.selected = 0
