@@ -302,11 +302,16 @@ function Card:stop_hover()
 	return ret
 end
 
-local highlight_hook = Card.highlight
-function Card:highlight(is_highlighted)
-	if self.playing_card and is_highlighted then
+local card_click_hook = Card.click
+function Card:click()
+	card_click_hook(self)
+	if self.playing_card and self.highlighted then
 		SMODS.calculate_context({ mul_highlighted = true, other_card = self })
 	end
+end
+
+local highlight_hook = Card.highlight
+function Card:highlight(is_highlighted)
 	local ret = highlight_hook(self, is_highlighted)
 	local obj = self.config.center
 	if self.children.mul_joker_use_button then
