@@ -1421,6 +1421,14 @@ return {
 					},
 				},
 			},
+			j_mul_sleepy = {
+				name = "SleepyG11",
+				text = {
+					"Balance base",
+					"and final {C:chips}Chips",
+					"and {C:red}Mult",
+				},
+			},
 		},
 		Spectral = {
 			c_mul_eternity = {
@@ -1940,8 +1948,8 @@ return {
 		},
 		poker_hand_descriptions = {
 			mul_storm = {
-				"5 cards that each have different ranks",
-				"and have 4 distinct suits among them",
+				"5 cards that each have different ranks and",
+				"have at least 4 different suits among them",
 			},
 		},
 		challenge_names = {

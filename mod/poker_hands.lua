@@ -8,21 +8,20 @@ SMODS.PokerHandPart({
 		local suits = {}
 		local wilds = 0
 		for _, card in ipairs(hand) do
-			if not SMODS.has_no_rank(card) and not Multiverse.contains_value(ranks, card.base.id) then
-				ranks[#ranks + 1] = card.base.id
+			if not SMODS.has_no_rank(card) and not Multiverse.contains_value(ranks, card:get_id()) then
+				ranks[#ranks + 1] = card:get_id()
 			end
-			if not SMODS.has_no_suit(card) then
-				if SMODS.has_any_suit(card) then
-					wilds = wilds + 1
-				elseif not Multiverse.contains_value(suits, card.base.suit) then
-					suits[#suits + 1] = card.base.suit
+			if SMODS.has_any_suit(card) then
+				wilds = wilds + 1
+			elseif not SMODS.has_no_suit(card) then
+				for key, _ in pairs(SMODS.Suits) do
+					if card:is_suit(key, false, true) and not suits[key] then
+						suits[key] = true
+					end
 				end
 			end
 		end
-		if #ranks < 5 then
-			return {}
-		end
-		if #suits < 4 - wilds then
+		if #ranks < 5 or Multiverse.len(suits) < 4 then
 			return {}
 		end
 		return { hand }

@@ -67,14 +67,32 @@ SMODS.Joker({
 					end
 				end
 				local amt = Multiverse.len(seen)
-				SMODS.scale_card(card, {
-					ref_table = card.ability.extra,
-					ref_value = "xmult",
-					scalar_value = "xmult_inc",
-				})
+				for _ = 1, amt do
+					SMODS.scale_card(card, {
+						ref_table = card.ability.extra,
+						ref_value = "xmult",
+						scalar_value = "xmult_inc",
+					})
+				end
 			end
 			return {
 				xmult = card.ability.extra.xmult
+			}
+		end
+	end,
+})
+
+SMODS.Joker({
+	key = "sleepy",
+	atlas = "contributors",
+	pos = { x = 4, y = 0 },
+	soul_pos = { x = 5, y = 0 },
+	rarity = 4,
+	cost = 20,
+	calculate = function(self, card, context)
+		if context.initial_scoring_step or context.final_scoring_step then
+			return {
+				balance = true
 			}
 		end
 	end,
