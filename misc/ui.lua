@@ -1,3 +1,127 @@
+SMODS.GUI.scrollbar = SMODS.GUI.scrollbar or function(args)
+	if not args.scroll_collision_obj and (not args.ref_table or not args.ref_value) then
+        error("args must have a ref_table and a ref_value if args.scroll_collision_obj is nil")
+    end
+    if not args.max then
+        args.max = 1
+    end
+    if not args.min then
+        args.min = 0
+    end
+    if args.horizontal then
+        if not args.knob_h and not args.h then
+            error("Height of scrollbar or height of knob must be specified if scrollbar is horizontal")
+        end
+    else
+        if not args.knob_w and not args.w then
+            error("Width of scrollbar or width of knob must be specified if scrollbar is vertical")
+        end
+    end
+    if not args.ref_table or not args.ref_value then
+        args.ref_table = args.scroll_collision_obj.scroll_offset
+        args.ref_value = args.horizontal and "x" or "y"
+        args.max = args.scroll_collision_obj.content.T.h - args.scroll_collision_obj.T.h
+        args.scroll_collision_obj.scroll_args.sync_mode = "offset"
+        args.scroll_collision_obj.scroll_sync_mode = "offset"
+    end
+    if args.scroll_collision_obj and (not args.scroll_collision_obj.is or not args.scroll_collision_obj:is(SMODS.UIScrollBox)) then
+        error("args.scroll_collision_obj is not an UIScrollBox")
+    end
+	local track = UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = {
+				r = 0.25,
+				minh = not args.horizontal and args.h or nil,
+				minw = args.horizontal and args.w or nil,
+				colour = args.bg_colour or G.C.CLEAR,
+				focus_args = { type = "slider" },
+				collideable = true,
+				hover = true,
+			},
+			nodes = {
+				{
+					n = args.horizontal and G.UIT.C or G.UIT.R,
+					config = {
+						colour = args.colour or G.C.CLEAR,
+					},
+				},
+				{
+					n = args.horizontal and G.UIT.C or G.UIT.R,
+					config = {
+						collideable = true,
+						func = "scrollbar",
+						scroll_dir = args.horizontal and "h" or "v",
+						id = "track_item",
+						minh = args.knob_h or (args.horizontal and args.h or args.w),
+						minw = args.knob_w or (args.horizontal and args.h or args.w),
+						colour = args.knob_colour or G.C.WHITE,
+						r = 0,
+						ref_table = args.ref_table,
+						ref_value = args.ref_value,
+						min = args.min,
+						max = args.max,
+                        scroll_mult = args.scroll_mult,
+						offset = {
+							x = not args.horizontal and 0 or nil,
+							y = args.horizontal and 0 or nil,
+						},
+						scroll_collision_obj = args.scroll_collision_obj,
+					},
+				},
+			},
+		},
+		config = {
+        },
+	})
+	return {
+		n = args.ui_type or (args.horizontal and G.UIT.R or G.UIT.C),
+		config = {},
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					object = track,
+				},
+			},
+		},
+	}
+end
+
+G.FUNCS.scrollbar = G.FUNCS.scrollbar or function(e)
+	e.states.drag.can = true
+	local scrollbar_track = e.UIBox
+	scrollbar_track.states.drag.can = true
+	local ref_table = e.config.ref_table
+    local ref_value = e.config.ref_value
+    local scrollbox = e.config.scroll_collision_obj
+    local percent = (ref_table[ref_value] - e.config.min) / (e.config.max - e.config.min)
+	if
+		G.CONTROLLER
+		and G.CONTROLLER.dragging.target
+		and (G.CONTROLLER.dragging.target == e or G.CONTROLLER.dragging.target == scrollbar_track)
+	then
+		if e.config.scroll_dir == "h" then
+			percent = (G.CURSOR.T.x - e.parent.T.x - G.ROOM.T.x - e.T.w / 2) / (scrollbar_track.T.w - e.T.w)
+		else
+			percent = (G.CURSOR.T.y - e.parent.T.y - G.ROOM.T.y - e.T.h / 2) / (scrollbar_track.T.h - e.T.h)
+		end
+        percent = math.max(0, math.min(1, percent))
+        ref_table[ref_value] = percent * (e.config.max - e.config.min) + e.config.min
+	elseif scrollbox and scrollbox:collides_with_point(G.CURSOR.T) or scrollbar_track:collides_with_point(G.CURSOR.T) then
+		local scroll_velocity = SMODS.wheel_velocity.y * (e.config.scroll_mult or 1) / G.TILESIZE
+        percent = (ref_table[ref_value] - e.config.min - scroll_velocity) / (e.config.max - e.config.min)
+		percent = math.max(0, math.min(1, percent))
+		ref_table[ref_value] = percent * (e.config.max - e.config.min) + e.config.min
+	end
+    if e.config.scroll_dir == "h" then
+        scrollbar_track.UIRoot.children[1].config.minw = percent * (scrollbar_track.T.w - e.T.w)
+    else
+        scrollbar_track.UIRoot.children[1].config.minh = percent * (scrollbar_track.T.h - e.T.h)
+    end
+    scrollbar_track:recalculate()
+end
+
 function Multiverse.create_custom_toggle(args)
 	args = args or {}
 	args.active_colour = args.active_colour or G.C.RED
