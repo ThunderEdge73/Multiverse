@@ -1,3 +1,4 @@
+-- remember to delete when my pr gets merged
 if not SMODS.GUI.scrollbar then
 	SMODS.GUI.scrollbar = function(args)
 		if not args.scroll_collision_obj and (not args.ref_table or not args.ref_value) then
