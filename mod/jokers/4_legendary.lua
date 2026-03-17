@@ -53,30 +53,30 @@ SMODS.Joker({
 		return {
 			vars = {
 				card.ability.extra.xmult_inc,
-				card.ability.extra.xmult
-			}
+				card.ability.extra.xmult,
+			},
 		}
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main then
-			if not context.blueprint then
-				local seen = {}
-				for _, c in ipairs(context.full_hand) do
-					if not seen[c:get_id()] then
-						seen[c:get_id()] = true
-					end
-				end
-				local amt = Multiverse.len(seen)
-				for _ = 1, amt do
-					SMODS.scale_card(card, {
-						ref_table = card.ability.extra,
-						ref_value = "xmult",
-						scalar_value = "xmult_inc",
-					})
+		if context.before and not context.blueprint then
+			local seen = {}
+			for _, c in ipairs(context.scoring_hand) do
+				if not seen[c:get_id()] then
+					seen[c:get_id()] = true
 				end
 			end
+			local amt = Multiverse.len(seen)
+			for _ = 1, amt do
+				SMODS.scale_card(card, {
+					ref_table = card.ability.extra,
+					ref_value = "xmult",
+					scalar_value = "xmult_inc",
+				})
+			end
+		end
+		if context.joker_main then
 			return {
-				xmult = card.ability.extra.xmult
+				xmult = card.ability.extra.xmult,
 			}
 		end
 	end,
@@ -92,7 +92,7 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		if context.initial_scoring_step or context.final_scoring_step then
 			return {
-				balance = true
+				balance = true,
 			}
 		end
 	end,
