@@ -16,3 +16,5 @@
 ---@field mul_change_skill_cost? boolean True if a Skill Card's cost is being calculated.
 ---@field mul_base_cost? integer The base cost of the Skill Card whose cost is being calculated.
 ---@field mul_enchantment_data? EnchantmentData The data that stores the affected enchantment's state.
+---@field exhausted? Card[] A list of all cards that were exhausted.
+---@field mul_exhaust_playing_cards? boolean Whether or not playing cards were exhausted.

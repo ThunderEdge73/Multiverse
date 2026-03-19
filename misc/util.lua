@@ -588,10 +588,18 @@ function Multiverse.exhaust_cards(cards)
 	if not cards[1] then
 		cards = { cards }
 	end
+	for i, card in cards do
+		if not card.playing_card then
+			error("Exhausted card is not a playing card")
+		end
+	end
 	SMODS.calculate_context({ mul_exhaust_playing_cards = true, exhausted = cards })
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			for i, card in cards do
+				if not card.playing_card then
+					error("Exhausted card is not a playing card")
+				end
 				draw_card(
 					card.area,
 					G.mul_exhaust,
