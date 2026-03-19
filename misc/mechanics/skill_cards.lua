@@ -234,7 +234,12 @@ G.FUNCS.mul_use_skill = function(e)
 	elseif res == "destroy" then
 		SMODS.destroy_cards(card, true)
 	else
-		Multiverse.exhaust_cards(card)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				Multiverse.exhaust_cards(card)
+				return true
+			end
+		}))
 	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",

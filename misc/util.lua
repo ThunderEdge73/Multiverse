@@ -717,54 +717,60 @@ function Multiverse.eggman_secret()
 end
 
 function Multiverse.handle_half_cards()
-	G.E_MANAGER:add_event(Event({
-		func = function()
-			local discarded = 0
-			for _, c in ipairs(G.hand.cards) do
-				if
-					Multiverse.is_valid_half(c)
-					and not c.highlighted
-					and c.area == G.hand
-					and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4)
-				then
-					SMODS.change_discard_limit(1)
-					discarded = discarded + 1
-					G.hand:add_to_highlighted(c, true)
-					play_sound("card1", 1)
+	local should_handle = false
+	for _, c in ipairs(G.hand.cards) do
+		if Multiverse.is_valid_half(c) and not c.highlighted and c.area == G.hand then
+			should_handle = true
+		end
+	end
+	if should_handle then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				local discarded = 0
+				for _, c in ipairs(G.hand.cards) do
+					if
+						Multiverse.is_valid_half(c)
+						and not c.highlighted
+						and c.area == G.hand
+						and SMODS.pseudorandom_probability(c, "mul_half_card_discard", 1, 4)
+					then
+						SMODS.change_discard_limit(1)
+						discarded = discarded + 1
+						G.hand:add_to_highlighted(c, true)
+						play_sound("card1", 1)
+					end
 				end
-			end
-			if discarded > 0 then
-				G.FUNCS.discard_cards_from_highlighted(nil, true)
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						SMODS.change_discard_limit(-discarded)
-						return true
-					end,
-				}))
-			end
-			return true
-		end,
-	}))
-	delay(0.7)
+				if discarded > 0 then
+					G.FUNCS.discard_cards_from_highlighted(nil, true)
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							SMODS.change_discard_limit(-discarded)
+							return true
+						end,
+					}))
+				end
+				return true
+			end,
+		}))
+		delay(0.7)
+	end
 end
 
 function Multiverse.handle_ethereal()
-	G.E_MANAGER:add_event(Event({
-		func = function()
-			local cards = {}
-			for _, c in ipairs(G.hand.cards) do
-				if
-					c.ability.set == "mul_Skill"
-					and c.area == G.hand
-					and c.config.center.ethereal
-				then
-					cards[#cards+1] = c
-				end
-			end
-			Multiverse.exhaust_cards(cards)
-			play_sound("card1", 1)
-			return true
-		end,
-	}))
-	delay(0.7)
+	local cards = {}
+	for _, c in ipairs(G.hand.cards) do
+		if c.ability.set == "mul_Skill" and c.area == G.hand and c.config.center.ethereal then
+			cards[#cards + 1] = c
+		end
+	end
+	if next(cards) then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				Multiverse.exhaust_cards(cards)
+				play_sound("card1", 1)
+				return true
+			end,
+		}))
+		delay(0.7)
+	end
 end
