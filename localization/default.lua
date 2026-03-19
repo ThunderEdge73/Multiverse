@@ -133,12 +133,8 @@ return {
 			du_mul_ench_luck_info_brief = {
 				name = "Enchantment Luck",
 				text = {
-
-					"Currently {C:mul_enchantedbook}#2#{}",
+					"Currently {C:mul_enchantedbook}#2#/#1#{}",
 					"Enchantment Luck",
-					"{C:inactive}(Maximum boost",
-					"{C:inactive}occurs at {C:mul_enchantedbook}#1#",
-					"{C:inactive}Enchantment Luck){}",
 				},
 			},
 		},
@@ -2117,15 +2113,6 @@ return {
 				"NOW GET REROLLED",
 				"BEFORE I DISABLE YOU TOO",
 			},
-			mul_config_menu_text = {
-				"Debug Mode affects several elements of the mod for easier debugging.",
-				"Debug Mode {C:attention}cannot{} be enabled, except if a certain file is loaded.",
-				"{C:inactive}(If you want to contribute to this mod, DM me and I will send{}",
-				"{C:inactive}you a copy of the file that allows you to enable Debug Mode){}",
-				"If you change a setting here, the game will {C:attention}automatically{} restart",
-				"and apply any changes associated with the setting as soon as you",
-				"exit this menu, such as enabling debug utilities or joke content.",
-			},
 			mul_config_menu_title = {
 				"{C:white}Change {C:mul_transmuted}Multiverse{C:white}'s settings here",
 			},
@@ -2154,6 +2141,15 @@ return {
 			mul_inspirations = "Inspirations",
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",
+			mul_brief_ench_luck = "Shorten Enchantment Luck Tooltip",
+			mul_dbg_effects = {
+				"{C:attention}Cannot{} be activated",
+				"without a certain file",
+				"Will trigger a",
+				"{C:red}restart{} when toggled",
+			},
+			mul_restart = { "Will trigger a", "{C:red}restart{} when toggled" },
+			mul_no_restart = { "Doesn't trigger a", "{C:red}restart{} when toggled" },
 			["mul_Prophecy"] = {
 				"Plays when you have",
 				"a Joker that has the",

@@ -156,8 +156,6 @@ function Multiverse.create_custom_toggle(args)
 	args = args or {}
 	args.active_colour = args.active_colour or G.C.RED
 	args.inactive_colour = args.inactive_colour or G.C.BLACK
-	args.w = args.w or 3
-	args.h = args.h or 0.5
 	args.scale = args.scale or 1
 	args.label = args.label or "NONE"
 	args.label_scale = args.label_scale or 0.4
@@ -184,22 +182,36 @@ function Multiverse.create_custom_toggle(args)
 	end
 	local t = {
 		n = args.col and G.UIT.C or G.UIT.R,
-		config = { align = "cm", padding = 0.1, r = 0.1, colour = G.C.CLEAR, focus_args = { funnel_from = true } },
+		config = {
+			align = args.align or "cm",
+			r = 0.1,
+			colour = G.C.CLEAR,
+			focus_args = { funnel_from = true },
+			padding = 0.1,
+		},
 		nodes = {
 			args.label ~= "" and {
 				n = G.UIT.C,
-				config = { align = "cr", minw = args.w },
+				config = {
+					align = args.text_align or "cr",
+					minw = args.w,
+					tooltip = args.tooltip
+						and { text = localize(args.tooltip), text_scale = 1, colour = args.tooltip_colour or G.C.FILTER },
+				},
 				nodes = {
 					{
 						n = G.UIT.T,
 						config = { text = args.label, scale = args.label_scale, colour = G.C.UI.TEXT_LIGHT },
 					},
-					(args.spacer and { n = G.UIT.B, config = { w = 0.1, h = 0.1 } }) or nil,
 				},
 			} or nil,
 			{
 				n = G.UIT.C,
-				config = { align = "cl", minw = 0.3 * args.w },
+				config = { minw = args.w_space, minh = args.h_space or 0 },
+			},
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
 				nodes = {
 					{
 						n = G.UIT.C,
@@ -235,12 +247,19 @@ function Multiverse.create_custom_toggle(args)
 			},
 		},
 	}
+	if args.reverse and args.label ~= "" then
+		t.nodes[1], t.nodes[3] = t.nodes[3], t.nodes[1]
+	end
 	if args.info then
 		t = {
 			n = args.col and G.UIT.C or G.UIT.R,
-			config = { align = "cm" },
+			config = { align = args.align or "cm" },
 			nodes = {
 				t,
+				{
+					n = G.UIT.R,
+					config = { minh = 0.1, minw = 0.1 },
+				},
 				info,
 			},
 		}
@@ -384,14 +403,20 @@ Multiverse.music_credits = {
 	},
 }
 
-Multiverse.settings_changed = {
-	dbg = false,
-	jke = false,
-}
+Multiverse.settings_changed = {}
+
+function Multiverse.has_changed_settings()
+	for _, v in pairs(Multiverse.settings_changed) do
+		if v then
+			return true
+		end
+	end
+	return false
+end
 
 local exit_mods_hook = G.FUNCS.exit_mods
 function G.FUNCS.exit_mods(e)
-	if G.ACTIVE_MOD_UI == Multiverse and (Multiverse.settings_changed.jke or Multiverse.settings_changed.dbg) then
+	if G.ACTIVE_MOD_UI == Multiverse and Multiverse.has_changed_settings() then
 		SMODS.save_all_config()
 		SMODS.restart_game()
 	end
@@ -400,7 +425,7 @@ end
 
 local mod_menu_hook = G.FUNCS.mods_button
 function G.FUNCS.mods_button(e)
-	if G.ACTIVE_MOD_UI == Multiverse and (Multiverse.settings_changed.jke or Multiverse.settings_changed.dbg) then
+	if G.ACTIVE_MOD_UI == Multiverse and Multiverse.has_changed_settings() then
 		SMODS.save_all_config()
 		SMODS.restart_game()
 	end
@@ -410,10 +435,10 @@ end
 function Multiverse.config_tab_definition()
 	local mul_settings = {
 		{
-			n = G.UIT.R,
-			config = { align = "cr" },
+			n = G.UIT.C,
+			config = { align = "cm", padding = 0.1 },
 			nodes = {
-				create_toggle({
+				Multiverse.create_custom_toggle({
 					label = localize("mul_debug"),
 					active_colour = Multiverse.C.PRIMARY1,
 					ref_table = Multiverse.config,
@@ -426,14 +451,13 @@ function Multiverse.config_tab_definition()
 						end
 						Multiverse.settings_changed.dbg = not Multiverse.settings_changed.dbg
 					end,
+					reverse = true,
+					align = "cl",
+					text_align = "cl",
+					tooltip = "mul_dbg_effects",
+					tooltip_colour = G.C.RED,
 				}),
-			},
-		},
-		{
-			n = G.UIT.R,
-			config = { align = "cr" },
-			nodes = {
-				create_toggle({
+				Multiverse.create_custom_toggle({
 					label = localize("mul_joke"),
 					active_colour = Multiverse.C.PRIMARY1,
 					ref_table = Multiverse.config,
@@ -441,6 +465,22 @@ function Multiverse.config_tab_definition()
 					callback = function()
 						Multiverse.settings_changed.jke = not Multiverse.settings_changed.jke
 					end,
+					reverse = true,
+					align = "cl",
+					text_align = "cl",
+					tooltip = "mul_restart",
+					tooltip_colour = G.C.RED,
+				}),
+				Multiverse.create_custom_toggle({
+					label = localize("mul_brief_ench_luck"),
+					active_colour = Multiverse.C.PRIMARY1,
+					ref_table = Multiverse.config,
+					ref_value = "ench_luck_brief",
+					reverse = true,
+					align = "cl",
+					text_align = "cl",
+					tooltip = "mul_no_restart",
+					tooltip_colour = G.C.GREEN,
 				}),
 			},
 		},
@@ -453,25 +493,15 @@ function Multiverse.config_tab_definition()
 	mul_nodes[#mul_nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm" },
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0.05 },
-				nodes = mul_settings,
-			},
-		},
+		nodes = mul_settings,
 	}
-	local rows = Multiverse.create_localized_rows(nil, "mul_config_menu_text", { text_scale = 1.25 })
-	for _, r in ipairs(rows) do
-		mul_nodes[#mul_nodes + 1] = r
-	end
 	return {
 		n = G.UIT.ROOT,
 		config = { align = "cm", colour = G.C.BLACK, padding = 0.1 },
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = { align = "cm", padding = 0.1 },
+				config = { align = "cm" },
 				nodes = mul_nodes,
 			},
 		},
@@ -1193,7 +1223,7 @@ end
 ---Creates a fancy UI that displays text from a loc table
 ---@param set string
 ---@param key string
----@param args? {bg_colour: table?, text_scale: number?, loc_vars: table?, no_padding: boolean?}
+---@param args? {bg_colour: table?, text_scale: number?, loc_vars: table?, no_padding: boolean?, text_colour: table?}
 ---@return table
 function Multiverse.create_localized_rows(set, key, args)
 	args = args or {}
@@ -1253,7 +1283,7 @@ function Multiverse.create_localized_rows(set, key, args)
 				config = { align = "cm" },
 				nodes = SMODS.localize_box(
 					loc_parse_string(line),
-					{ scale = 0.9 * args.text_scale, vars = args.loc_vars }
+					{ scale = 0.9 * args.text_scale, vars = args.loc_vars, default_col = args.text_colour }
 				),
 			})
 		end
