@@ -12,4 +12,5 @@ return {
 		["Main Theme (TF2)"] = true,
 		["Isolation"] = true,
 	},
+	["ench_luck_brief"] = false,
 }

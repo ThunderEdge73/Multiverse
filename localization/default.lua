@@ -100,6 +100,24 @@ return {
 					"{C:attention}-#1#%{} TP cost",
 				},
 			},
+			du_mul_ethereal = {
+				name = "Ethereal",
+				text = {
+					"If held in hand",
+					"when hand is played,",
+					"{C:attention}Exhaust{} this card",
+				},
+			},
+			du_mul_exhausts = {
+				name = "Exhausts",
+				text = {
+					"{C:attention}Exhausted{} cards",
+					"are removed",
+					"from deck until",
+					"{C:attention}Boss Blind{} is",
+					"defeated",
+				},
+			},
 			du_mul_ench_luck_info = {
 				name = "Enchantment Luck",
 				text = {
@@ -110,6 +128,17 @@ return {
 					"{C:inactive}(Currently {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
 					"{C:inactive}(Maximum boost occurs at{}",
 					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
+				},
+			},
+			du_mul_ench_luck_info_brief = {
+				name = "Enchantment Luck",
+				text = {
+
+					"Currently {C:mul_enchantedbook}#2#{}",
+					"Enchantment Luck",
+					"{C:inactive}(Maximum boost",
+					"{C:inactive}occurs at {C:mul_enchantedbook}#1#",
+					"{C:inactive}Enchantment Luck){}",
 				},
 			},
 		},
@@ -669,6 +698,14 @@ return {
 					"Create a {C:dark_edition}Negative",
 					"copy of {C:attention}1{} selected",
 					"consumable",
+				},
+			},
+			sk_mul_reduced_atoms = {
+				name = "Reduced to Atoms",
+				text = {
+					"{C:attention}Ethereal{}",
+					"{C:attention}Exhausts{} all other",
+					"cards in hand",
 				},
 			},
 		},

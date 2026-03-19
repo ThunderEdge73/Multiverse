@@ -561,6 +561,9 @@ function Multiverse.halve_cards(cards_to_split, num, is_random, forced_half, sil
 end
 
 G.FUNCS.mul_draw_from_exhausted_to_deck = function(e)
+	for _, c in ipairs(G.mul_exhaust.cards) do
+		c.dissolve = nil
+	end
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			local exhaust_count = #G.mul_exhaust.cards
@@ -588,34 +591,31 @@ function Multiverse.exhaust_cards(cards)
 	if not cards[1] then
 		cards = { cards }
 	end
-	for i, card in cards do
+	for _, card in ipairs(cards) do
+		if not card.playing_card then
+			error("Only Playing cards can be exhausted")
+		end
+	end
+	play_sound("mul_exhaust", 1.4, 1)
+	SMODS.calculate_context({ mul_exhaust_playing_cards = true, exhausted = cards })
+	for i, card in ipairs(cards) do
 		if not card.playing_card then
 			error("Exhausted card is not a playing card")
 		end
+		card:mul_safe_dissolve({ G.C.BLUE }, true, nil, true)
+		draw_card(
+			card.area,
+			G.mul_exhaust,
+			i * 100 / #cards,
+			"down",
+			false,
+			card,
+			0.005,
+			i % 2 == 0,
+			nil,
+			math.max((21 - i) / 20, 0.7)
+		)
 	end
-	SMODS.calculate_context({ mul_exhaust_playing_cards = true, exhausted = cards })
-	G.E_MANAGER:add_event(Event({
-		func = function()
-			for i, card in cards do
-				if not card.playing_card then
-					error("Exhausted card is not a playing card")
-				end
-				draw_card(
-					card.area,
-					G.mul_exhaust,
-					i * 100 / #cards,
-					"down",
-					false,
-					card,
-					0.005,
-					i % 2 == 0,
-					nil,
-					math.max((21 - i) / 20, 0.7)
-				)
-			end
-			return true
-		end,
-	}))
 end
 
 function Multiverse.in_interaction()
@@ -742,6 +742,27 @@ function Multiverse.handle_half_cards()
 					end,
 				}))
 			end
+			return true
+		end,
+	}))
+	delay(0.7)
+end
+
+function Multiverse.handle_ethereal()
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			local cards = {}
+			for _, c in ipairs(G.hand.cards) do
+				if
+					c.ability.set == "mul_Skill"
+					and c.area == G.hand
+					and c.config.center.ethereal
+				then
+					cards[#cards+1] = c
+				end
+			end
+			Multiverse.exhaust_cards(cards)
+			play_sound("card1", 1)
 			return true
 		end,
 	}))

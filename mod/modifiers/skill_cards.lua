@@ -405,3 +405,21 @@ Multiverse.SkillCard({
 		return #G.consumeables.cards > 0
 	end,
 })
+
+Multiverse.SkillCard({
+	key = "reduced_atoms",
+	tp_cost = 15,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ethereal"]
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhausts"]
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function ()
+			Multiverse.exhaust_cards(G.hand.cards)
+		end)
+	end,
+	can_use_skill = function(self, card)
+		return #G.hand.cards > 0
+	end,
+	ethereal = true,
+})

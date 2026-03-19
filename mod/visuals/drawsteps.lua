@@ -235,7 +235,7 @@ end
 
 local buttons_hook = SMODS.DrawSteps["tags_buttons"].func
 SMODS.DrawSteps["tags_buttons"].func = function(card, layer)
-	if card.children.mul_skill_cost_ui and card.area == G.hand then
+	if card.children.mul_skill_cost_ui and card.area == G.hand and (not card.dissolve or card.dissolve == 0) then
 		card.children.mul_skill_cost_ui:draw()
 	end
 	if Multiverse.in_interaction() then

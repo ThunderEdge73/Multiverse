@@ -86,6 +86,10 @@ Multiverse.DummyCenter({
 })
 
 Multiverse.DummyCenter({
+	key = "exhausts",
+})
+
+Multiverse.DummyCenter({
 	key = "ultimate",
 })
 
@@ -108,7 +112,6 @@ Multiverse.DummyCenter({
 	end,
 })
 
-
 Multiverse.DummyCenter({
 	key = "ench_luck_info",
 	loc_vars = function(self, info_queue, card)
@@ -117,6 +120,11 @@ Multiverse.DummyCenter({
 				100,
 				G.GAME.mul_enchantment_luck or 0
 			},
+			key = Multiverse.config.ench_luck_brief and "du_mul_ench_luck_info_brief" or nil
 		}
 	end,
+})
+
+Multiverse.DummyCenter({
+	key = "ethereal"
 })

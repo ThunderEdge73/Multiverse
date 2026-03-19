@@ -201,3 +201,8 @@ SMODS.Sound({
 		music5 = true,
 	},
 })
+
+SMODS.Sound({
+	key = "exhaust",
+	path = "exhaust.ogg",
+})

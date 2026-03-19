@@ -100,6 +100,7 @@ SMODS.current_mod.calculate = function(self, context)
 	end
 	if context.press_play then
 		Multiverse.handle_half_cards()
+		Multiverse.handle_ethereal()
 	end
 	if context.mul_change_skill_cost then
 		if
