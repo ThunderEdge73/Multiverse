@@ -583,6 +583,33 @@ G.FUNCS.mul_draw_from_exhausted_to_deck = function(e)
 	}))
 end
 
+---@param cards Card[] | Card
+function Multiverse.exhaust_cards(cards)
+	if not cards[1] then
+		cards = { cards }
+	end
+	SMODS.calculate_context({ mul_exhaust_playing_cards = true, exhausted = cards })
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			for i, card in cards do
+				draw_card(
+					card.area,
+					G.mul_exhaust,
+					i * 100 / #cards,
+					"down",
+					false,
+					card,
+					0.005,
+					i % 2 == 0,
+					nil,
+					math.max((21 - i) / 20, 0.7)
+				)
+			end
+			return true
+		end,
+	}))
+end
+
 function Multiverse.in_interaction()
 	return G.STATE == G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES
 		or G.STATE == G.STATES.MULTIVERSE_INTERACTION_HAND

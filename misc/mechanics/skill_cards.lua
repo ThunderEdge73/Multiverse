@@ -234,7 +234,7 @@ G.FUNCS.mul_use_skill = function(e)
 	elseif res == "destroy" then
 		SMODS.destroy_cards(card, true)
 	else
-		card.ability.mul_exhausted = true
+		SMODS.calculate_context({ mul_exhaust_playing_cards = true, exhausted = { card } })
 		draw_card(G.play, G.mul_exhaust, 100, "down", false, card)
 	end
 	G.E_MANAGER:add_event(Event({
@@ -255,9 +255,7 @@ G.FUNCS.mul_use_skill = function(e)
 				trigger = "after",
 				delay = 0.1,
 				func = function()
-					if not center.no_save_on_use then
-						save_run()
-					end
+					save_run()
 					return true
 				end,
 			}))
@@ -409,7 +407,6 @@ function Multiverse.show_interaction_ui(text, area)
 	if Multiverse.in_interaction() then
 		return
 	end
-	G.F_NO_SAVING = true
 	local visible = area or "hand"
 	if G.mul_interact_menu then
 		G.mul_interact_menu:remove()
@@ -527,7 +524,6 @@ function Multiverse.remove_interaction_ui()
 				G.mul_interact_menu = nil
 				G.mul_end_interact_button:remove()
 				G.mul_end_interact_button = nil
-				G.F_NO_SAVING = false
 				G.E_MANAGER:add_event(Event({
 					trigger = "after",
 					delay = 0.1,
@@ -539,6 +535,13 @@ function Multiverse.remove_interaction_ui()
 				return true
 			end,
 		}))
+	end
+end
+
+local save_hook = save_run
+function save_run()
+	if not Multiverse.in_interaction() then
+		save_hook()
 	end
 end
 
