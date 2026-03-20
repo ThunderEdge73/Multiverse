@@ -337,6 +337,19 @@ Multiverse.SkillCard({
 						delay = 0.3,
 						func = function()
 							Multiverse.ease_TP(amt)
+							G.E_MANAGER:add_event(Event({
+								func = function()
+									G.STATE = G.STATES.DRAW_TO_HAND
+									G.E_MANAGER:add_event(Event({
+										trigger = "immediate",
+										func = function()
+											G.STATE_COMPLETE = false
+											return true
+										end,
+									}))
+									return true
+								end,
+							}))
 							return true
 						end,
 					}))
@@ -414,7 +427,7 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhausts"]
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		Multiverse.effect_animation(card, function ()
+		Multiverse.effect_animation(card, function()
 			Multiverse.exhaust_cards(G.hand.cards)
 		end)
 	end,
