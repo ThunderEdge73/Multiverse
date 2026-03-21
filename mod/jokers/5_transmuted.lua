@@ -135,7 +135,7 @@ Multiverse.UsableJoker({
 				card.ability.extra.tp_cost,
 				card.ability.extra.dollar_cost,
 				5,
-				card.ability.extra.increment
+				card.ability.extra.increment,
 			},
 		})
 		return { vars = { card.ability.extra.hand_size } }
@@ -149,11 +149,26 @@ Multiverse.UsableJoker({
 	end,
 	calculate = function(self, card, context)
 		if context.before then
-			SMODS.add_card({
+			local _card = SMODS.create_card({
 				key = "m_mul_netherite",
 				key_append = "j_steve",
-				area = G.hand,
+				area = G.discard,
 			})
+			G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+			_card.playing_card = G.playing_card
+			table.insert(G.playing_cards, _card)
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					G.hand:emplace(_card)
+					_card:start_materialize()
+					G.GAME.blind:debuff_card(_card)
+					G.hand:sort()
+					card:juice_up()
+					SMODS.calculate_context({ playing_card_added = true, cards = { _card } })
+					save_run()
+					return true
+				end,
+			}))
 			return {
 				message = localize("k_mul_mined"),
 			}

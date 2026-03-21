@@ -1206,7 +1206,7 @@ return {
 					{
 						"{C:attention}+#1#{} hand size",
 						"Add a {C:attention}Netherite Card{}",
-						"to hand when hand",
+						"to hand after hand",
 						"is played",
 					},
 					{
@@ -1760,10 +1760,10 @@ return {
 				name = "Ability: Crafting",
 				text = {
 					"Cost: {C:attention}#1#%{} TP, {C:money}$#2#{}",
-					"Effect: Select {C:attention}#2#{} or more",
+					"Effect: Select {C:attention}#3#{} or more",
 					"{C:attention}Netherite Cards{}, then",
 					"destroy them and this",
-					"Joker gains {C:attention}+#3#{} hand",
+					"Joker gains {C:attention}+#4#{} hand",
 					"size permanently",
 					"Afterwards, money",
 					"cost is {C:attention}doubled{}",

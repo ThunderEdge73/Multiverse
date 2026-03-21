@@ -89,6 +89,7 @@ SMODS.Joker({
 	soul_pos = { x = 5, y = 0 },
 	rarity = 4,
 	cost = 20,
+	blueprint_compat = false,
 	calculate = function(self, card, context)
 		if context.initial_scoring_step or context.final_scoring_step then
 			return {
