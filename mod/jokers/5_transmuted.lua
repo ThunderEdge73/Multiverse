@@ -133,51 +133,49 @@ Multiverse.UsableJoker({
 			key = "mul_steve_ability",
 			vars = {
 				card.ability.extra.tp_cost,
+				card.ability.extra.dollar_cost,
+				5,
+				card.ability.extra.increment
 			},
 		})
-		return { vars = { card.ability.extra.size_inc } }
+		return { vars = { card.ability.extra.hand_size } }
 	end,
-	config = { extra = { size_inc = 5, tp_cost = 20 } },
+	config = { extra = { hand_size = 2, tp_cost = 20, dollar_cost = 10, increment = 1 } },
 	add_to_deck = function(self, card, from_debuff)
-		G.hand:change_size(card.ability.extra.size_inc)
+		G.hand:change_size(card.ability.extra.hand_size)
 	end,
 	remove_from_deck = function(self, card, from_debuff)
-		G.hand:change_size(-card.ability.extra.size_inc)
+		G.hand:change_size(-card.ability.extra.hand_size)
 	end,
 	calculate = function(self, card, context)
 		if context.before then
-			for _, c in ipairs(G.hand.cards) do
-				if next(SMODS.get_enhancements(c)) and not SMODS.has_enhancement(c, "m_mul_netherite") then
-					c:set_ability("m_mul_netherite")
-				end
-			end
+			SMODS.add_card({
+				key = "m_mul_netherite",
+				key_append = "j_steve",
+				area = G.hand,
+			})
 			return {
-				message = localize("k_mul_converted"),
+				message = localize("k_mul_mined"),
 			}
 		end
 	end,
 	use_ability = function(self, card)
-		local cards_to_create = #G.hand.highlighted
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost)
-			SMODS.destroy_cards(G.hand.highlighted)
-		end)
-		Multiverse.effect_animation(card, function()
-			local cards = {}
-			for i = 1, cards_to_create do
-				cards[#cards + 1] = SMODS.add_card({
-					set = "Enhanced",
-					key = "m_mul_netherite",
-					edition = SMODS.poll_edition({ no_negative = true, guaranteed = true, key = "mul_steve" }),
-					seal = SMODS.poll_seal({ guaranteed = true, key = "mul_steve" }),
-					area = G.hand,
-				})
-			end
-			SMODS.calculate_context({ playing_card_added = true, cards = cards })
+			card.ability.extra.hand_size = card.ability.extra.hand_size + card.ability.extra.increment
+			card.ability.extra.dollar_cost = card.ability.extra.dollar_cost * 2
+			G.hand:change_size(card.ability.extra.increment)
 		end)
 	end,
 	can_use_ability = function(self, card)
-		return G.hand and #G.hand.highlighted > 0 and G.GAME.mul_TP >= card.ability.extra.tp_cost
+		local count = 0
+		for _, c in ipairs(G.hand.highlighted) do
+			if SMODS.has_enhancement(c, "m_mul_netherite") then
+				count = count + 1
+			end
+		end
+		return count >= 5
+			and G.GAME.dollars >= card.ability.extra.dollar_cost + G.GAME.bankrupt_at
+			and G.GAME.mul_TP >= card.ability.extra.tp_cost
 	end,
 })
 
@@ -472,13 +470,12 @@ Multiverse.UsableJoker({
 	cost = 40,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
-		info_queue[#info_queue + 1] = G.P_CENTERS["m_glass"]
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_frozone_ability",
 			vars = {
 				card.ability.extra.tp_cost,
-				card.ability.extra.max_selected
+				card.ability.extra.max_selected,
 			},
 		})
 		return {
@@ -487,7 +484,7 @@ Multiverse.UsableJoker({
 			},
 		}
 	end,
-	config = { extra = { xmult_inc = 0.05, tp_cost = 10, max_selected = 1, seal = "mul_frozen" } },
+	config = { extra = { xmult_inc = 0.05, tp_cost = 5, max_selected = 1, seal = "mul_frozen" } },
 	use_ability = function(self, card)
 		local target = G.hand.highlighted[1]
 		Multiverse.effect_animation(card, function()

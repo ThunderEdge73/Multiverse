@@ -1205,9 +1205,9 @@ return {
 				text = {
 					{
 						"{C:attention}+#1#{} hand size",
-						"When hand is played, convert",
-						"all {C:attention}Enhanced{} cards in",
-						"hand into {C:attention}Netherite{} cards",
+						"Add a {C:attention}Netherite Card{}",
+						"to hand when hand",
+						"is played",
 					},
 					{
 						"{C:inactive,s:0.8}L-l-l-lava,{}",
@@ -1759,12 +1759,14 @@ return {
 			mul_steve_ability = {
 				name = "Ability: Crafting",
 				text = {
-					"Cost: {C:attention}#1#%{} TP",
-					"Effect: Destroy any number",
-					"of selected cards, then",
-					"create an equal number",
-					"of {C:attention}Netherite Cards{} with",
-					"a random {C:attention}Seal{} and {C:attention}Edition{}",
+					"Cost: {C:attention}#1#%{} TP, {C:money}$#2#{}",
+					"Effect: Select {C:attention}#2#{} or more",
+					"{C:attention}Netherite Cards{}, then",
+					"destroy them and this",
+					"Joker gains {C:attention}+#3#{} hand",
+					"size permanently",
+					"Afterwards, money",
+					"cost is {C:attention}doubled{}",
 				},
 			},
 			mul_heavy_ability = {
@@ -2039,7 +2041,7 @@ return {
 			k_mul_antimatter_grow3 = "Is this too much?",
 			k_mul_antimatter_grow4 = "What have we done?",
 			k_mul_popped = "Popped!",
-			k_mul_converted = "Converted!",
+			k_mul_mined = "Mined!",
 			k_mul_won_fifty_fifty = "Won!",
 			k_mul_lost_fifty_fifty = "Lost...",
 			k_mul_eliminated = "Eliminated!",
