@@ -12,7 +12,7 @@ if __name__ == "__main__":
             raise FileNotFoundError()
         big = "assets/2x/" + os.path.basename(small)
         if os.path.isfile(big):
-            raise FileExistsError()
+            os.remove(big)
         small_image = Image.open(small)
         new_dims = (small_image.width * 2, small_image.height * 2)
         big_image = small_image.resize(new_dims, Image.NEAREST)
@@ -20,7 +20,3 @@ if __name__ == "__main__":
         print("Success!")
     except FileNotFoundError:
         print("Something went wrong when getting the original image.")
-    except FileExistsError:
-        print("Upscaled image already exists.")
-
-    
