@@ -1967,7 +1967,7 @@ return {
 					"> {V:3}Mysthaps {C:inactive}({button:mul_lobc_link,u:blue,C:blue}Lobotomy Corporation{C:inactive})",
 					"> {V:4}Ruby {C:inactive}({button:mul_entr_link,u:blue,C:blue}Entropy{C:inactive}, {button:mul_scp_link,u:blue,C:blue}DATA EXPUNGED{C:inactive})",
 					"> {V:5}GhostSalt {C:inactive}({button:mul_pha_link,u:blue,C:blue}Phanta{C:inactive}, {button:mul_catan_link,u:blue,C:blue}Catan{C:inactive}, {button:mul_ghost_link,u:blue,C:blue}etc{C:inactive}.)",
-					"> {V:6}Revo {C:inactive}({button:mul_crv_link,u:blue,C:blue}Revo's Vault{C:inactive}, {button:mul_jud_link,u:blue,C:blue}Judgement{C:inactive})",
+					"> {V:6}Revo {C:inactive}({button:mul_crv_link,u:blue,C:blue}Revo's Vault{C:inactive})",
 					"> {V:9}Astra {C:inactive}({button:mul_mxms_link,u:blue,C:blue}Maximus{C:inactive}, {button:mul_sr_link,u:blue,C:blue}SuperRogue{C:inactive})",
 					"> {V:8}TheOneGoofAli {C:inactive}({button:mul_toga_link,u:blue,C:blue}TOGA's Stuff{C:inactive})",
 					"> {V:7}Lily Felli {C:inactive}({button:mul_valk_link,u:blue,C:blue}Vallkarri{C:inactive})",

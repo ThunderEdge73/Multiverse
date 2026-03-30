@@ -262,6 +262,7 @@ end
 
 local exit_mods_hook = G.FUNCS.exit_mods
 function G.FUNCS.exit_mods(e)
+	G.E_MANAGER:clear_queue("mul_menu")
 	if G.ACTIVE_MOD_UI == Multiverse and Multiverse.has_changed_settings() then
 		SMODS.save_all_config()
 		SMODS.restart_game()
@@ -271,6 +272,7 @@ end
 
 local mod_menu_hook = G.FUNCS.mods_button
 function G.FUNCS.mods_button(e)
+	G.E_MANAGER:clear_queue("mul_menu")
 	if G.ACTIVE_MOD_UI == Multiverse and Multiverse.has_changed_settings() then
 		SMODS.save_all_config()
 		SMODS.restart_game()
@@ -422,6 +424,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 				delay = 0.05 + 0.25 * (i + 2),
 				func = function()
 					card:flip()
+					play_sound("card1")
 					return true
 				end,
 			}),
@@ -1181,9 +1184,6 @@ function G.FUNCS.mul_ghost_link()
 end
 function G.FUNCS.mul_crv_link()
 	love.system.openURL("https://github.com/Cdrvo/Revos-Vault")
-end
-function G.FUNCS.mul_jud_link()
-	love.system.openURL("https://github.com/Cdrvo/Judgement")
 end
 function G.FUNCS.mul_valk_link()
 	love.system.openURL("https://github.com/felli-modding-studio/VallKarri")
