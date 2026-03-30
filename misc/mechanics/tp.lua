@@ -61,7 +61,7 @@ end
 ---@param args {from_hand: boolean?, immediate: boolean?, from_skill: boolean?}
 function Multiverse.ease_TP(amt, args)
 	if next(SMODS.find_card("j_mul_thunderedge")) and amt < 0 then
-		amt = math.floor(amt / 2)
+		amt = math.floor(amt / (2 ^ #SMODS.find_card("j_mul_thunderedge")))
 	end
 	local actual_change = Multiverse.clamp(amt, -G.GAME.mul_TP, 100 - G.GAME.mul_TP)
 	args = args or {}
