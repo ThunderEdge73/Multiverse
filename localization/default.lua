@@ -711,7 +711,7 @@ return {
 				text = {
 					"Gives no base {C:chips}chips{}",
 					"Always treated as an",
-					"{C:attention}Ace{} of {C:hearts}Hearts{}",
+					"{C:attention}Ace{} of {C:attention}any suit",
 					"Gives {X:mult,C:white}X#1#{} Mult",
 					"per {C:attention}Boss Blind",
 					"defeated this run",

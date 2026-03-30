@@ -9,39 +9,6 @@ function Card:is_face(from_boss)
 	return is_face_hook(self, from_boss)
 end
 
-local is_suit_hook = Card.is_suit
-function Card:is_suit(suit, bypass_debuff, flush_calc)
-	if SMODS.has_enhancement(self, "m_mul_calling_card") then
-		if flush_calc then
-			if SMODS.has_no_suit(self) then
-				return false
-			end
-			if SMODS.has_any_suit(self) and self:can_calculate() then
-				return true
-			end
-			if SMODS.smeared_check({ base = { suit = "Hearts" } }, suit) then
-				return true
-			end
-			return "Hearts" == suit
-		else
-			if self.debuff and not bypass_debuff then
-				return
-			end
-			if SMODS.has_no_suit(self) then
-				return false
-			end
-			if SMODS.has_any_suit(self) then
-				return true
-			end
-			if SMODS.smeared_check({ base = { suit = "Hearts" } }, suit) then
-				return true
-			end
-			return "Hearts" == suit
-		end
-	end
-	return is_suit_hook(self, suit, bypass_debuff, flush_calc)
-end
-
 local get_id_hook = Card.get_id
 function Card:get_id()
 	if SMODS.has_enhancement(self, "m_mul_calling_card") then

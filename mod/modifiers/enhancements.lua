@@ -5,6 +5,7 @@ SMODS.Enhancement({
 	config = { extra = { xmult = 0.75 } },
 	replace_base_card = true,
 	weight = 0,
+	any_suit = true,
 	in_pool = function(self, args)
 		return false
 	end,
