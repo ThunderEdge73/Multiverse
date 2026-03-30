@@ -1,3 +1,5 @@
+SMODS.NFS.createDirectory("video_cache")
+
 ---@type table<string, Multiverse.AnimationData>
 Multiverse.all_animations = {}
 
