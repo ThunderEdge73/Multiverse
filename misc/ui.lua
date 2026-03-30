@@ -424,7 +424,9 @@ SMODS.current_mod.custom_ui = function(nodes)
 				delay = 0.05 + 0.25 * (i + 2),
 				func = function()
 					card:flip()
-					play_sound("card1")
+					if not card.removed then
+						play_sound("card1")
+					end
 					return true
 				end,
 			}),
