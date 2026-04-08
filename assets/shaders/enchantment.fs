@@ -108,7 +108,7 @@ vec4 effect(vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords)
     // hsl.y = (hsl.y * (1. - fac) + fac);
     // hsl.z = (hsl.z * (1. - fac) + 0.5 * fac) * 6. / 5.;
     hsl.x = 0.75;
-    hsl.y = 1;
+    hsl.y = 1.0;
     hsl.z = 0.6;
     // colour is still in rgb format
     // We want to convert the modified HSL value back into RGB,
