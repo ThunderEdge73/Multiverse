@@ -482,6 +482,10 @@ end
 local can_use_consumable_hook = Card.can_use_consumeable
 function Card:can_use_consumeable(any_state, skip_check, ...)
 	local ret = can_use_consumable_hook(self, any_state, skip_check, ...)
+	if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT and not Multiverse.in_interaction() or any_state then
+		return ret
+	end
+	return false
 end
 
 function Multiverse.remove_interaction_ui()
