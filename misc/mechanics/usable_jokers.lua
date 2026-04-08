@@ -1,9 +1,9 @@
 ---@type Multiverse.UsableJoker
 Multiverse.UsableJoker = SMODS.Joker:extend({
-	can_use_ability = function(self, card)
+	can_use = function(self, card)
 		return true
 	end,
-	use_ability = function(self, card) end,
+	use = function(self, card) end,
 	ability_atlas = "mul_ability_placeholder",
 	ability_pos = { x = 0, y = 0 },
 	highlight_ui = function(self, card)
@@ -32,12 +32,7 @@ Multiverse.joker_use_UI_def = function(card)
 	end
 	function ability_sprite:click()
 		Node.click(self)
-		local in_interaction = Multiverse.in_interaction()
-		local locked = (G.play and #G.play.cards > 0)
-			or G.CONTROLLER.locked
-			or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
-				and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
-		if obj:can_use_ability(card) and not locked and not card.debuff and not in_interaction then
+		if not card.debuff and card:can_use_consumeable() then
 			local prev_state = G.STATE
 			G.TAROT_INTERRUPT = G.STATE
 			G.STATE = (G.STATE == G.STATES.TAROT_PACK and G.STATES.TAROT_PACK)
@@ -61,7 +56,7 @@ Multiverse.joker_use_UI_def = function(card)
 				G.round_eval.alignment.offset.y = G.ROOM.T.y + 29
 			end
 			G.jokers:remove_from_highlighted(card)
-			obj:use_ability(card)
+			obj:use(card)
 			G.E_MANAGER:add_event(Event({
 				trigger = "after",
 				delay = 0.2,
@@ -168,13 +163,7 @@ end
 
 function G.FUNCS.mul_can_use_joker(e)
 	local card = e.config.ref_table
-	local obj = card.config.center
-	local in_interaction = Multiverse.in_interaction()
-	local locked = (G.play and #G.play.cards > 0)
-		or G.CONTROLLER.locked
-		or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
-			and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
-	if obj:can_use_ability(card) and not locked and not card.debuff and not in_interaction then
+	if card:can_use_consumeable() and not card.debuff then
 		e.config.colour = G.C.GREEN
 	else
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE

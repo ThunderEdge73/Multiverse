@@ -1415,11 +1415,12 @@ return {
 				text = {
 					{
 						"{C:blue}+#1#{} hands",
-						"Evenly distribute {C:attention}#3#{}",
+						"Evenly distribute {C:attention}#2#{}",
 						"retriggers across",
 						"all scored cards",
-						"Increases by {C:attention}#2#{}",
+						"Increases by {C:attention}#3#{}",
 						"per hand remaining",
+						"{C:inactive}(Currently {C:attention}#4#{C:inactive} retriggers)",
 					},
 					{
 						"{C:inactive,s:0.8}It costs 400,000 dollars to",

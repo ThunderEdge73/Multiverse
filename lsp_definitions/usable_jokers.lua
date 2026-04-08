@@ -19,8 +19,8 @@
 ---@field calc_dollar_bonus? fun(self: Multiverse.UsableJoker|table, card: Card|table): nil|number Calculates reward money.
 ---@field calc_scaling? fun(self: Multiverse.UsableJoker|table, card: Card|table, other_card: Card|table, scaling_value: number, scalar_value: number, args: table): table? Called by `SMODS.scale_card`. Allows detection and modification of cards when scaling values. The return may include a `scaling_value` or `scalar_value` field to modify those values or any standard calculation return.
 ---@field new? fun(self, name, slug, config, spritePos, loc_txt, rarity, cost, unlocked, discovered,blueprint_compat, eternal_compat, effect, atlas, soul_pos): any DEPRECATED. DO NOT USE
----@field can_use_ability? fun(self: Multiverse.UsableJoker|table, card:Card|table): any
----@field use_ability? fun(self: Multiverse.UsableJoker|table, card:Card|table)
+---@field can_use? fun(self: Multiverse.UsableJoker|table, card:Card|table): any
+---@field use? fun(self: Multiverse.UsableJoker|table, card:Card|table)
 ---@field ability_atlas? string
 ---@field ability_pos? {x: integer, y: integer}
 ---@field highlight_ui? fun(self: Multiverse.UsableJoker|table, card:Card|table): UIBox Override to create a custom popup when highlighted

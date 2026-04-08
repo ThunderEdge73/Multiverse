@@ -174,14 +174,14 @@ Multiverse.UsableJoker({
 			}
 		end
 	end,
-	use_ability = function(self, card)
+	use = function(self, card)
 		Multiverse.effect_animation(card, function()
 			card.ability.extra.hand_size = card.ability.extra.hand_size + card.ability.extra.increment
 			card.ability.extra.dollar_cost = card.ability.extra.dollar_cost * 2
 			G.hand:change_size(card.ability.extra.increment)
 		end)
 	end,
-	can_use_ability = function(self, card)
+	can_use = function(self, card)
 		local count = 0
 		for _, c in ipairs(G.hand.highlighted) do
 			if SMODS.has_enhancement(c, "m_mul_netherite") then
@@ -310,6 +310,7 @@ Multiverse.UsableJoker({
 		return {
 			vars = {
 				card.ability.extra.hands,
+				card.ability.extra.retriggers,
 				card.ability.extra.retriggers_per_hand,
 				card.ability.extra.retriggers + card.ability.extra.retriggers_per_hand * hands,
 			},
@@ -334,7 +335,7 @@ Multiverse.UsableJoker({
 			}
 		end
 	end,
-	use_ability = function(self, card)
+	use = function(self, card)
 		Multiverse.effect_animation(card, function()
 			Multiverse.ease_TP(-card.ability.extra.tp_cost)
 			ease_hands_played(card.ability.extra.hand_boost)
@@ -343,7 +344,7 @@ Multiverse.UsableJoker({
 			}, card)
 		end)
 	end,
-	can_use_ability = function(self, card)
+	can_use = function(self, card)
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost
 	end,
 	add_to_deck = function(self, card, from_debuff)
@@ -455,10 +456,10 @@ Multiverse.UsableJoker({
 		local right = SMODS.blueprint_effect(card, G.jokers.cards[index + 1], context) or {}
 		return SMODS.merge_effects({ left, right })
 	end,
-	can_use_ability = function(self, card)
+	can_use = function(self, card)
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost and G.GAME.facing_blind
 	end,
-	use_ability = function(self, card)
+	use = function(self, card)
 		Multiverse.effect_animation(card, function()
 			Multiverse.ease_TP(-card.ability.extra.tp_cost)
 			Multiverse.change_blind_size(function(chips)
@@ -500,7 +501,7 @@ Multiverse.UsableJoker({
 		}
 	end,
 	config = { extra = { xmult_inc = 0.05, tp_cost = 5, max_selected = 1, seal = "mul_frozen" } },
-	use_ability = function(self, card)
+	use = function(self, card)
 		local target = G.hand.highlighted[1]
 		Multiverse.effect_animation(card, function()
 			Multiverse.ease_TP(-card.ability.extra.tp_cost)
@@ -511,7 +512,7 @@ Multiverse.UsableJoker({
 			}, card)
 		end)
 	end,
-	can_use_ability = function(self, card)
+	can_use = function(self, card)
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost and #G.hand.highlighted == 1
 	end,
 })

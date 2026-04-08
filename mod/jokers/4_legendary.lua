@@ -23,11 +23,11 @@ Multiverse.UsableJoker({
 		})
 		info_queue[#info_queue + 1] = G.P_TAGS["tag_mul_dimensional"]
 	end,
-	can_use_ability = function(self, card)
+	can_use = function(self, card)
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost
 			and G.GAME.mul_thaumaturgy_energy >= card.ability.extra.thaum_energy_cost
 	end,
-	use_ability = function(self, card)
+	use = function(self, card)
 		Multiverse.effect_animation(card, function()
 			Multiverse.ease_TP(-card.ability.extra.tp_cost)
 			Multiverse.ease_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost)
