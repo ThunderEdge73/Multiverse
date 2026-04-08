@@ -261,23 +261,23 @@ function Multiverse.has_changed_settings()
 end
 
 local exit_mods_hook = G.FUNCS.exit_mods
-function G.FUNCS.exit_mods(e)
+function G.FUNCS.exit_mods(e, ...)
 	G.E_MANAGER:clear_queue("mul_menu")
 	if G.ACTIVE_MOD_UI == Multiverse and Multiverse.has_changed_settings() then
 		SMODS.save_all_config()
 		SMODS.restart_game()
 	end
-	exit_mods_hook(e)
+	exit_mods_hook(e, ...)
 end
 
 local mod_menu_hook = G.FUNCS.mods_button
-function G.FUNCS.mods_button(e)
+function G.FUNCS.mods_button(e, ...)
 	G.E_MANAGER:clear_queue("mul_menu")
 	if G.ACTIVE_MOD_UI == Multiverse and Multiverse.has_changed_settings() then
 		SMODS.save_all_config()
 		SMODS.restart_game()
 	end
-	mod_menu_hook(e)
+	mod_menu_hook(e, ...)
 end
 
 function Multiverse.config_tab_definition()

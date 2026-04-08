@@ -1,8 +1,8 @@
 -- Do main menu stuff here
 -- Yoinked from Maximus (Thanks Astra)
 local main_menu_hook = Game.main_menu
-function Game.main_menu(change_context)
-	local ret = main_menu_hook(change_context)
+function Game:main_menu(change_context, ...)
+	local ret = main_menu_hook(self, change_context, ...)
 	G.SPLASH_MULTIVERSE_LOGO = Sprite(
 		0,
 		0,

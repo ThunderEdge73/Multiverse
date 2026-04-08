@@ -174,7 +174,7 @@ SMODS.Joker({
 })
 
 local set_ability_hook = Card.set_ability
-function Card:set_ability(center, initial, delay_sprites)
+function Card:set_ability(center, initial, delay_sprites, ...)
 	if
 		self.playing_card
 		and (center.key == "m_stone" or center.key == "m_steel" or center.key == "m_gold")
@@ -182,5 +182,5 @@ function Card:set_ability(center, initial, delay_sprites)
 	then
 		SMODS.calculate_context({ mul_dragon_transmute_check = true })
 	end
-	set_ability_hook(self, center, initial, delay_sprites)
+	set_ability_hook(self, center, initial, delay_sprites, ...)
 end

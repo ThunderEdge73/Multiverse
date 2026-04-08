@@ -269,8 +269,8 @@ G.FUNCS.mul_use_skill = function(e)
 end
 
 local inject_objects_hook = SMODS.injectObjects
-function SMODS.injectObjects(class)
-	inject_objects_hook(class)
+function SMODS.injectObjects(class, ...)
+	inject_objects_hook(class, ...)
 	if class == SMODS.GameObject then
 		Multiverse.SkillCard:inject_class()
 	end
@@ -479,6 +479,11 @@ function Multiverse.show_interaction_ui(text, area)
 	}))
 end
 
+local can_use_consumable_hook = Card.can_use_consumeable
+function Card:can_use_consumeable(any_state, skip_check, ...)
+	local ret = can_use_consumable_hook(self, any_state, skip_check, ...)
+end
+
 function Multiverse.remove_interaction_ui()
 	if Multiverse.in_interaction() then
 		if Multiverse.interaction_old_data.affected == "hand" then
@@ -543,9 +548,9 @@ function Multiverse.remove_interaction_ui()
 end
 
 local save_hook = save_run
-function save_run()
+function save_run(...)
 	if not Multiverse.in_interaction() then
-		save_hook()
+		save_hook(...)
 	end
 end
 
@@ -581,25 +586,25 @@ function Multiverse.get_final_X_value(center, card, ui_format, with_paren)
 end
 
 local has_no_suit_hook = SMODS.has_no_suit
-function SMODS.has_no_suit(card)
+function SMODS.has_no_suit(card, ...)
 	if card.ability.set == "mul_Skill" then
 		return true
 	end
-	return has_no_suit_hook(card)
+	return has_no_suit_hook(card, ...)
 end
 
 local has_no_rank_hook = SMODS.has_no_rank
-function SMODS.has_no_rank(card)
+function SMODS.has_no_rank(card, ...)
 	if card.ability.set == "mul_Skill" then
 		return true
 	end
-	return has_no_rank_hook(card)
+	return has_no_rank_hook(card, ...)
 end
 
 local never_scores_hook = SMODS.never_scores
-function SMODS.never_scores(card)
+function SMODS.never_scores(card, ...)
 	if card.ability.set == "mul_Skill" then
 		return true
 	end
-	return never_scores_hook(card)
+	return never_scores_hook(card, ...)
 end

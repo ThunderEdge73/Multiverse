@@ -88,11 +88,11 @@ SMODS.DrawStep({
 })
 
 local draw_shadow_hook = Card.should_draw_shadow
-function Card:should_draw_shadow()
+function Card:should_draw_shadow(...)
 	if Multiverse.is_valid_half(self) then
 		return self.facing == "back"
 	end
-	return draw_shadow_hook(self)
+	return draw_shadow_hook(self, ...)
 end
 
 local shadow_func = SMODS.DrawSteps["shadow"].func

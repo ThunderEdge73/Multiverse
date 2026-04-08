@@ -1,35 +1,20 @@
 local is_face_hook = Card.is_face
-function Card:is_face(from_boss)
+function Card:is_face(from_boss, ...)
 	if SMODS.has_enhancement(self, "m_mul_normal") then
 		if self.debuff and not from_boss then
-			return is_face_hook(self, from_boss)
+			return is_face_hook(self, from_boss, ...)
 		end
 		return true
 	end
-	return is_face_hook(self, from_boss)
+	return is_face_hook(self, from_boss, ...)
 end
 
 local get_id_hook = Card.get_id
-function Card:get_id()
+function Card:get_id(...)
 	if SMODS.has_enhancement(self, "m_mul_calling_card") then
 		return 14
 	end
-	return get_id_hook(self)
-end
-
-local get_nominal_hook = Card.get_nominal
-function Card:get_nominal(mod)
-	local ret = get_nominal_hook(self, mod)
-	local mult = 1
-	if self.ability.effect == "Stone Card" or (self.config.center.no_suit and self.config.center.no_rank) then
-		mult = -10000
-	elseif self.config.center.no_suit then
-		mult = 0
-	end
-	if SMODS.has_enhancement(self, "m_mul_calling_card") then
-		ret = ret - self.base.suit_nominal * mult + 0.03 * mult
-	end
-	return ret
+	return get_id_hook(self, ...)
 end
 
 local draw_hook = love.draw
@@ -45,8 +30,8 @@ function love.draw()
 end
 
 local update_hook = Game.update
-function Game:update(dt)
-	local ret = update_hook(self, dt)
+function Game:update(dt, ...)
+	local ret = update_hook(self, dt, ...)
 	Multiverse.update_animations()
 	Multiverse.update_spears()
 	if G.shared_stickers then
@@ -54,15 +39,12 @@ function Game:update(dt)
 	end
 	Multiverse.update_deck_enchantments()
 	Multiverse.update_main_menu()
-	if Multiverse.update_scroll then
-		Multiverse.update_scroll(dt)
-	end
 	return ret
 end
 
 local set_sprites_hook = Card.set_sprites
-function Card:set_sprites(_center, _front)
-	local ret = set_sprites_hook(self, _center, _front)
+function Card:set_sprites(_center, _front, ...)
+	local ret = set_sprites_hook(self, _center, _front, ...)
 	if self.playing_card and self.ability and Multiverse.is_valid_half(self) then
 		if not self.children.mul_hitbox_indicator then
 			self.children.mul_hitbox_indicator =
@@ -87,8 +69,8 @@ function Card:set_sprites(_center, _front)
 end
 
 local tooltip_hook = create_popup_UIBox_tooltip
-function create_popup_UIBox_tooltip(tooltip)
-	local ret = tooltip_hook(tooltip)
+function create_popup_UIBox_tooltip(tooltip, ...)
+	local ret = tooltip_hook(tooltip, ...)
 	if ret and tooltip.colour then
 		ret.config.colour = tooltip.colour
 	end
@@ -96,7 +78,8 @@ function create_popup_UIBox_tooltip(tooltip)
 end
 
 local set_ability_hook = Card.set_ability
-function Card:set_ability(center, initial, delay_sprites)
+function Card:set_ability(center, initial, delay_sprites, ...)
+	local misc = ...
 	local c = center
 	if
 		center == "m_mul_waldo"
@@ -106,18 +89,18 @@ function Card:set_ability(center, initial, delay_sprites)
 		c = "c_base"
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				self:set_ability("c_base", initial, delay_sprites)
+				set_ability_hook(self, "c_base", initial, delay_sprites, misc)
 				Multiverse.explode()
 				return true
 			end,
 		}))
 	end
-	return set_ability_hook(self, c, initial, delay_sprites)
+	return set_ability_hook(self, c, initial, delay_sprites, ...)
 end
 
 local copy_card_hook = copy_card
-function copy_card(other, new_card, card_scale, playing_card, strip_edition)
-	local ret = copy_card_hook(other, new_card, card_scale, playing_card, strip_edition)
+function copy_card(other, new_card, card_scale, playing_card, strip_edition, ...)
+	local ret = copy_card_hook(other, new_card, card_scale, playing_card, strip_edition, ...)
 	if ret.config.center_key == "m_mul_waldo" then
 		G.E_MANAGER:add_event(Event({
 			func = function()
@@ -172,32 +155,32 @@ function love.keypressed(key, scancode, is_repeat)
 end
 
 local options_hook = G.FUNCS.options
-function G.FUNCS.options()
+function G.FUNCS.options(...)
 	if Multiverse.cannot_interrupt() then
 		return
 	end
-	return options_hook()
+	return options_hook(...)
 end
 
 local info_hook = G.FUNCS.run_info
-function G.FUNCS.run_info()
+function G.FUNCS.run_info(...)
 	if Multiverse.cannot_interrupt() then
 		return
 	end
-	return info_hook()
+	return info_hook(...)
 end
 
 local deck_info_hook = G.FUNCS.deck_info
-function G.FUNCS.deck_info()
+function G.FUNCS.deck_info(...)
 	if Multiverse.cannot_interrupt() then
 		return
 	end
-	return deck_info_hook()
+	return deck_info_hook(...)
 end
 
 local start_run_hook = Game.start_run
-function Game:start_run(args)
-	local ret = start_run_hook(self, args)
+function Game:start_run(args, ...)
+	local ret = start_run_hook(self, args, ...)
 	Multiverse.init_TP()
 	Multiverse.init_thaumaturgy()
 	Multiverse.init_myth()
@@ -225,7 +208,7 @@ function Game:start_run(args)
 end
 
 local disable_blind_hook = Blind.disable
-function Blind:disable()
+function Blind:disable(...)
 	local res = {}
 	SMODS.calculate_context({mul_prevent_disable = true, blind = self}, res)
 	local prevent_disable = false
@@ -241,31 +224,31 @@ function Blind:disable()
 		end
 	end
 	if not prevent_disable then
-		return disable_blind_hook(self)
+		return disable_blind_hook(self, ...)
 	end
 end
 
 local ease_dollars_hook = ease_dollars
-function ease_dollars(mod, instant)
+function ease_dollars(mod, instant, ...)
 	local amt = mod
-	if to_big(mod) > to_big(0) then
+	if to_big(mod) > to_big(0) and G.GAME.mul_money_mult ~= 1 then
 		amt = amt * G.GAME.mul_money_mult
 		amt = math.floor(amt + 0.5)
 	end
-	return ease_dollars_hook(amt, instant)
+	return ease_dollars_hook(amt, instant, ...)
 end
 
 local hover_hook = Card.hover
-function Card:hover()
+function Card:hover(...)
 	if self.config.center_key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = true
 	end
-	return hover_hook(self)
+	return hover_hook(self, ...)
 end
 
 local stop_hover_hook = Card.stop_hover
-function Card:stop_hover()
-	local ret = stop_hover_hook(self)
+function Card:stop_hover(...)
+	local ret = stop_hover_hook(self, ...)
 	if self.config.center_key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = false
 	end
@@ -273,16 +256,16 @@ function Card:stop_hover()
 end
 
 local card_click_hook = Card.click
-function Card:click()
-	card_click_hook(self)
+function Card:click(...)
+	card_click_hook(self, ...)
 	if self.playing_card and self.highlighted then
 		SMODS.calculate_context({ mul_highlighted = true, other_card = self })
 	end
 end
 
 local highlight_hook = Card.highlight
-function Card:highlight(is_highlighted)
-	local ret = highlight_hook(self, is_highlighted)
+function Card:highlight(is_highlighted, ...)
+	local ret = highlight_hook(self, is_highlighted, ...)
 	local obj = self.config.center
 	if self.children.mul_joker_use_button then
 		self.children.mul_joker_use_button:remove()
@@ -315,8 +298,8 @@ function Card:highlight(is_highlighted)
 end
 
 local card_update_hook = Card.update
-function Card:update(dt)
-	local ret = card_update_hook(self, dt)
+function Card:update(dt, ...)
+	local ret = card_update_hook(self, dt, ...)
 	if self.ability.set == "mul_Skill" then
 		if not self.children.mul_skill_cost_ui then
 			self.children.mul_skill_cost_ui = self.config.center:generate_cost_ui(self)
@@ -329,8 +312,8 @@ function Card:update(dt)
 end
 
 local align_h_popup_hook = Card.align_h_popup
-function Card:align_h_popup()
-	local ret = align_h_popup_hook(self)
+function Card:align_h_popup(...)
+	local ret = align_h_popup_hook(self, ...)
 	if ret.type == "tm" and self.children.mul_skill_cost_ui then
 		ret.offset.y = ret.offset.y - 0.6
 	end
