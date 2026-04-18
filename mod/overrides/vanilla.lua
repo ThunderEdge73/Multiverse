@@ -178,28 +178,4 @@ SMODS.Joker:take_ownership("invisible", {
 	mul_tree_of_eden = { "j_riff_raff", "j_chaos", "j_diet_cola" },
 }, true)
 
--- Not really transmutation-related, more so for the funny factor
-SMODS.Joker:take_ownership("chicot", {
-	add_to_deck = function(self, card, from_debuff)
-		Multiverse.play_video("chicot_summoning")
-		Multiverse.start_animation("black_bg")
-		Multiverse.very_important_thing = true
-		G.E_MANAGER:add_event(Event({
-			blockable = false,
-			trigger = "after",
-			delay = 12.7 * G.SETTINGS.GAMESPEED,
-			func = function()
-				Multiverse.very_important_thing = false
-				Multiverse.stop_video("chicot_summoning")
-				Multiverse.end_animation("black_bg")
-				return true
-			end,
-		}))
-		if G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
-			G.GAME.blind:disable()
-			play_sound("timpani")
-			SMODS.calculate_effect({ message = localize("ph_boss_disabled") }, card)
-		end
-	end,
-}, true)
 --#endregion

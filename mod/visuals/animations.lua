@@ -86,13 +86,3 @@ Multiverse.Animation({
 	x_scale = 2.5,
 	y_scale = 2.5,
 })
-Multiverse.Video({
-	key = "chicot_summoning",
-	path = "chicot.ogv",
-	anchor = {
-		x_alignment = "c",
-		y_alignment = "c",
-	},
-	x_scale = 1.8,
-	y_scale = 1.8,
-})
