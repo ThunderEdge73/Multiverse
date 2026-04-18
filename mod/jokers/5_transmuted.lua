@@ -282,7 +282,7 @@ SMODS.Joker({
 		end
 	end,
 	calculate = function(self, card, context)
-		if context.individual and SMODS.has_enhancement(context.other_card, "m_mul_waldo") then
+		if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, "m_mul_waldo") then
 			return {
 				xmult = card.ability.extra.xmult_inc * #G.playing_cards + 1,
 			}
