@@ -194,7 +194,7 @@ return {
 			psv_mul_memorization = {
 				name = "Memorization",
 				text = {
-					"If the minigame was {C:attention}failed{}, {X:purple,C:white}X#1#{} Blind size",
+					"If the minigame was {C:attention}failed{}, {X:blind,C:white}X#1#{} Blind size",
 				},
 			},
 			psv_mul_unsightreadable = {
@@ -588,7 +588,7 @@ return {
 			sk_mul_strike = {
 				name = "Strike",
 				text = {
-					"{X:purple,C:white}X#1#{} Blind size",
+					"{X:blind,C:white}X#1#{} Blind size",
 				},
 			},
 			sk_mul_snowgrave = {
@@ -640,7 +640,7 @@ return {
 			sk_mul_embrittlement = {
 				name = "Embrittlement",
 				text = {
-					"{X:purple,C:white}X#1#{} Blind size",
+					"{X:blind,C:white}X#1#{} Blind size",
 					"Applies {C:attention}Vulnerable{}",
 					"to current Blind",
 				},
@@ -1782,7 +1782,7 @@ return {
 				name = "Ability: Murder",
 				text = {
 					"Cost: {C:attention}#1#%{} TP",
-					"Effect: {X:purple,C:white}X#2#{} Blind size",
+					"Effect: {X:blind,C:white}X#2#{} Blind size",
 				},
 			},
 			mul_thunderedge_ability = {
@@ -1994,7 +1994,7 @@ return {
 		v_text = {
 			ch_c_mul_waterfall1 = { "Every {C:attention}Boss Blind{} is replaced with {C:red}The Undying{}" },
 			ch_c_mul_waterfall2 = {
-				"If {C:chips}score{} is below {X:purple,C:white}X-0.5{} Blind size, {C:red}lose instantly{}",
+				"If {C:chips}score{} is below {X:blind,C:white}X-0.5{} Blind size, {C:red}lose instantly{}",
 			},
 			ch_c_mul_waterfall3 = {
 				"You lose {C:attention}twice{} as many chips if hit by a spear",

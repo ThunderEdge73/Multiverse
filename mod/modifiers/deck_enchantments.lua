@@ -330,7 +330,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.PURPLE,
+			G.C.DYN_UI.DARK,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		for i = 1, self.max_level do
@@ -410,7 +410,7 @@ Multiverse.DeckEnchantment({
 	enchantment_type = "neutral",
 	calculate = function(self, enchantment, context)
 		if context.end_of_round and context.main_eval and not context.game_over and context.beat_boss then
-			for i = 1, enchantment.level do
+			for _ = 1, enchantment.level do
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						Multiverse.create_random_tag()
@@ -439,7 +439,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.PURPLE,
+			G.C.DYN_UI.DARK,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		for i = 1, self.max_level do
@@ -672,7 +672,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.PURPLE,
+			G.C.DYN_UI.DARK,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
