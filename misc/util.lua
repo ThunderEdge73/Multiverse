@@ -394,18 +394,6 @@ function Multiverse.apply_to_hand(func)
 	end
 end
 
----If `operation` is a number, then it will be added to current blind size
----Otherwise, sets blind size equal to the result of the operation
----@param operation number | fun(chips: number): number
-function Multiverse.change_blind_size(operation)
-	if G.GAME.facing_blind then
-		local amt = type(operation) == "function" and operation(G.GAME.blind.chips) or (G.GAME.blind.chips + operation)
-		G.GAME.blind.chips = math.floor(amt + 0.5)
-		G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-		SMODS.juice_up_blind()
-	end
-end
-
 ---Internal code taken from vanilla remade wiki
 function Multiverse.create_random_tag()
 	local tag_pool = SMODS.get_clean_pool("Tag")

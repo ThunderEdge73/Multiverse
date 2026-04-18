@@ -282,7 +282,11 @@ SMODS.Joker({
 		end
 	end,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, "m_mul_waldo") then
+		if
+			context.individual
+			and context.cardarea == G.play
+			and SMODS.has_enhancement(context.other_card, "m_mul_waldo")
+		then
 			return {
 				xmult = card.ability.extra.xmult_inc * #G.playing_cards + 1,
 			}
@@ -364,7 +368,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
-	config = { extra = { tp_cost = 30, blind_reduce_x = 0.25, blind_reduce_e = 0.75, min_ante = 10 } },
+	config = { extra = { tp_cost = 10, blind_reduce_x = 0.1 } },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
@@ -372,8 +376,6 @@ Multiverse.UsableJoker({
 			vars = {
 				card.ability.extra.tp_cost,
 				card.ability.extra.blind_reduce_x,
-				card.ability.extra.blind_reduce_e,
-				card.ability.extra.min_ante,
 			},
 		})
 		if card.area and card.area == G.jokers then
@@ -460,20 +462,11 @@ Multiverse.UsableJoker({
 		return G.GAME.mul_TP >= card.ability.extra.tp_cost and G.GAME.facing_blind
 	end,
 	use = function(self, card)
-		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost)
-			Multiverse.change_blind_size(function(chips)
-				local ret = chips * card.ability.extra.blind_reduce_x
-				if to_big(G.GAME.round_resets.ante) >= to_big(10) then
-					ret = chips ^ card.ability.extra.blind_reduce_e
-				end
-				return ret
-			end)
-			SMODS.calculate_effect({
-				message = localize("k_mul_murdered"),
-				sound = "slice1",
-			}, card)
-		end)
+		delay(0.4)
+		SMODS.calculate_effect({
+			x_blind_size = card.ability.extra.blind_reduce_x,
+		}, card)
+		delay(0.4)
 	end,
 })
 

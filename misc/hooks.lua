@@ -128,9 +128,9 @@ function love.mousepressed(x, y, button, istouch, presses)
 			Multiverse.in_limbo = nil
 			Multiverse.limbo_safe = clicked.is_correct
 			if not clicked.is_correct then
-				Multiverse.change_blind_size(function(chips)
-					return chips * 3
-				end)
+				SMODS.calculate_effect({
+					x_blind_size = 3,
+				}, G.GAME.blind)
 				G.GAME.failed_limbo = true
 				Multiverse.start_animation("explosion")
 				play_sound("mul_deltarune_explosion", 1, 0.8)
@@ -210,7 +210,7 @@ end
 local disable_blind_hook = Blind.disable
 function Blind:disable(...)
 	local res = {}
-	SMODS.calculate_context({mul_prevent_disable = true, blind = self}, res)
+	SMODS.calculate_context({ mul_prevent_disable = true, blind = self }, res)
 	local prevent_disable = false
 	for _, eff in pairs(res) do
 		for _, tab in pairs(eff) do

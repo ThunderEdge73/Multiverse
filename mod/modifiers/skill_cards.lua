@@ -10,11 +10,11 @@ Multiverse.SkillCard({
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		Multiverse.effect_animation(card, function()
-			Multiverse.change_blind_size(function(chips)
-				return chips * card.ability.extra.blind_mult
-			end)
-		end)
+		delay(0.4)
+		SMODS.calculate_effect({
+			x_blind_size = card.ability.extra.blind_mult,
+		}, card)
+		delay(0.4)
 	end,
 })
 
@@ -222,12 +222,14 @@ Multiverse.SkillCard({
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		Multiverse.effect_animation(card, function()
-			Multiverse.change_blind_size(function(chips)
-				return chips * card.ability.extra.blind_mult
-			end)
-			G.GAME.blind:add_passive(card.ability.extra.status)
-		end)
+		delay(0.4)
+		SMODS.calculate_effect({
+			x_blind_size = card.ability.extra.blind_mult,
+			func = function()
+				G.GAME.blind:add_passive(card.ability.extra.status)
+			end
+		}, card)
+		delay(0.4)
 	end,
 	can_use_skill = function(self, card)
 		return not find_passive(card.ability.extra.status)

@@ -1783,8 +1783,6 @@ return {
 				text = {
 					"Cost: {C:attention}#1#%{} TP",
 					"Effect: {X:purple,C:white}X#2#{} Blind size",
-					"{X:purple,C:white}^#3#{} Blind size instead if",
-					"{C:attention}Ante{} is greater than {C:attention}#4#{}",
 				},
 			},
 			mul_thunderedge_ability = {

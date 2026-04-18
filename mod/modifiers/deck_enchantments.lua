@@ -352,16 +352,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				message = localize({
-					type = "variable",
-					key = "a_mul_x_blind_size",
-					vars = { 1 + enchantment.level * 0.5 },
-				}),
-				func = function()
-					Multiverse.change_blind_size(function(chips)
-						return chips * (1 + enchantment.level * 0.5)
-					end)
-				end,
+				x_blind_size = 1 + enchantment.level * 0.5
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over and context.beat_boss then
@@ -466,16 +457,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.before then
 			return {
-				message = localize({
-					type = "variable",
-					key = "a_mul_x_blind_size",
-					vars = { 1 + enchantment.level * 0.5 },
-				}),
-				func = function()
-					Multiverse.change_blind_size(function(chips)
-						return chips * (1 + enchantment.level * 0.5)
-					end)
-				end,
+				x_blind_size = 1 + enchantment.level * 0.5
 			}
 		end
 		if context.modify_hand then
@@ -706,16 +688,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				message = localize({
-					type = "variable",
-					key = "a_mul_x_blind_size",
-					vars = { 1 - enchantment.level * enchantment.ability.mult },
-				}),
-				func = function()
-					Multiverse.change_blind_size(function(chips)
-						return chips * (1 - enchantment.level * enchantment.ability.mult)
-					end)
-				end,
+				x_blind_size = (1 - enchantment.level * enchantment.ability.mult)
 			}
 		end
 	end,

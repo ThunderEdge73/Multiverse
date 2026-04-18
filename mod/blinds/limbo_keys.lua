@@ -155,9 +155,9 @@ function Multiverse.limbo_keys_end()
 			timer = "REAL",
 			func = function()
 				if not Multiverse.has_guessed then
-					Multiverse.change_blind_size(function(chips)
-						return chips * 3
-					end)
+					SMODS.calculate_effect({
+						x_blind_size = 3,
+					}, G.GAME.blind)
 					G.GAME.failed_limbo = true
 					Multiverse.start_animation("explosion")
 					play_sound("mul_deltarune_explosion", 1, 0.8)

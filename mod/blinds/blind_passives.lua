@@ -24,16 +24,16 @@ blindexpander.Passive({
 	end,
 	remove = function(self, blind, passive, from_disable)
 		if G.GAME.failed_limbo then
-			Multiverse.change_blind_size(function(chips)
-				return chips / 5
-			end)
+			SMODS.calculate_effect({
+				x_blind_size = 1 / passive.config.mult,
+			}, G.GAME.blind)
 		end
 	end,
 	apply = function(self, blind, passive, from_disable)
 		if G.GAME.failed_limbo then
-			Multiverse.change_blind_size(function(chips)
-				return chips * 5
-			end)
+			SMODS.calculate_effect({
+				x_blind_size = passive.config.mult,
+			}, G.GAME.blind)
 		end
 	end,
 })
@@ -273,15 +273,15 @@ blindexpander.Passive({
 	config = { mult = 2 },
 	apply = function(self, blind, passive, from_disable)
 		if from_disable then
-			Multiverse.change_blind_size(function(chips)
-				return chips * passive.config.mult
-			end)
+			SMODS.calculate_effect({
+				x_blind_size = passive.config.mult,
+			}, G.GAME.blind)
 		end
 	end,
 	remove = function(self, blind, passive, from_disable)
-		Multiverse.change_blind_size(function(chips)
-			return chips / passive.config.mult
-		end)
+		SMODS.calculate_effect({
+			x_blind_size = 1 / passive.config.mult,
+		}, G.GAME.blind)
 	end,
 })
 
