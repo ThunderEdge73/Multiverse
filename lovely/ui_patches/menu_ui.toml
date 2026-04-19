@@ -21,9 +21,8 @@ if self.SPLASH_MULTIVERSE_LOGO then
     self.SPLASH_MULTIVERSE_LOGO:translate_container()
     if not G.SPLASH_MULTIVERSE_LOGO.states.drag.is then
         local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL)
-        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL)
-        G.SPLASH_MULTIVERSE_LOGO:draw_shader('dissolve',0, nil, nil, G.SPLASH_MULTIVERSE_LOGO,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
-        G.SPLASH_MULTIVERSE_LOGO:draw_shader('dissolve', nil, nil, nil, G.SPLASH_MULTIVERSE_LOGO, scale_mod, rotate_mod)
+        G.SPLASH_MULTIVERSE_LOGO:draw_shader('dissolve',0, nil, nil, G.SPLASH_MULTIVERSE_LOGO,scale_mod, nil ,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+        G.SPLASH_MULTIVERSE_LOGO:draw_shader('dissolve', nil, nil, nil, G.SPLASH_MULTIVERSE_LOGO, scale_mod, nil)
     end
     self.SPLASH_MULTIVERSE_LOGO.T.r = 0.08 * math.sin(G.TIMERS.REAL * 1.152)
     self.SPLASH_MULTIVERSE_LOGO.T.scale = 1 + 0.03 * math.sin(G.TIMERS.REAL * 1.06)
