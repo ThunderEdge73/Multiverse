@@ -842,7 +842,6 @@ SMODS.Consumable({
 				#Multiverse.get_stickers(target) * card.ability.extra.energy_per_sticker,
 				{ immediate = true }
 			)
-			SMODS.destroy_cards(target, true, true)
 		end)
 	end,
 })

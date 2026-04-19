@@ -996,11 +996,10 @@ return {
 			c_mul_master_sword = {
 				name = "Master Sword",
 				text = {
-					"Destroy {C:attention}1{} selected Joker",
-					"with at least {C:attention}1{} sticker",
+					"Select {C:attention}1{} Joker with",
+					"at least {C:attention}1{} sticker",
 					"Gain{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} per sticker",
 					"on selected Joker",
-					"{C:inactive}(Can bypass Eternal){}",
 					"{C:inactive}(Currently{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{C:inactive}){}",
 				},
 			},
