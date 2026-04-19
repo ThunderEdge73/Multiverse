@@ -869,7 +869,6 @@ Multiverse.DeckEnchantment({
 	end,
 })
 
-
 Multiverse.DeckEnchantment({
 	key = "efficiency",
 	max_level = 5,
@@ -901,6 +900,31 @@ Multiverse.DeckEnchantment({
 			return {
 				x_blind_size = (1 - enchantment.level * enchantment.ability.mult)
 			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "infinity",
+	max_level = 1,
+	config = { exchanged = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				enchantment.ability.exchanged
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.after then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					ease_hands_played(enchantment.ability.exchanged)
+					ease_discard(-enchantment.ability.exchanged, nil, true)
+					return true
+				end
+			}))
 		end
 	end,
 })

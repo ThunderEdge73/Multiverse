@@ -534,6 +534,15 @@ return {
 					"{B:4,V:9}X#5#{C:inactive}/{B:5,V:10}X#6#{} Blind size",
 				},
 			},
+			de_mul_infinity = {
+				name = "Infinity",
+				text = {
+					"After playing a hand, if",
+					"you have any {C:attention}discards",
+					"remaining, {C:red}-#1#{} discards",
+					"and {C:blue}+#1#{} hands",
+				},
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {
