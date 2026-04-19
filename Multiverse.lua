@@ -1,4 +1,4 @@
-Multiverse = {}
+Multiverse = {} -- LSP shit
 Multiverse = SMODS.current_mod
 Multiverse.C = {}
 Multiverse.C.PRIMARY1 = HEX("89C41B")
@@ -33,6 +33,8 @@ SMODS.current_mod.ui_config = {
 	bg_colour = { Multiverse.C.SECONDARY[1], Multiverse.C.SECONDARY[2], Multiverse.C.SECONDARY[3], 0.6 },
 	tab_button_colour = Multiverse.C.PRIMARY1,
 }
+
+Multiverse.ENCHANTMENT_GROUPS = {}
 
 ---Talisman compatibility?
 to_big = to_big or function(x)

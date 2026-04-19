@@ -119,6 +119,10 @@ Multiverse.DeckEnchantment = SMODS.GameObject:extend({
 			sendWarnMessage(("Detected duplicate register call on object %s"):format(self.key), self.set)
 			return
 		end
+		if self.group_id then
+			Multiverse.ENCHANTMENT_GROUPS[self.group_id] = Multiverse.ENCHANTMENT_GROUPS[self.group_id] or {}
+			table.insert(Multiverse.ENCHANTMENT_GROUPS[self.group_id], self.key)
+		end
 		SMODS.GameObject.register(self)
 		self.order = #self.obj_buffer
 	end,
@@ -196,6 +200,20 @@ function Multiverse.is_enchant_compat(enchantment, other)
 	return true
 end
 
+function Multiverse.is_group_id_compat(enchantment, other)
+	local curr_id = Multiverse.DeckEnchantments[enchantment].group_id
+	if not curr_id then return true end
+	for _, key in ipairs(Multiverse.ENCHANTMENT_GROUPS[curr_id]) do
+		if
+			(Multiverse.DeckEnchantments[key]:get_level() > 0) -- if incompat with thing already on deck
+			or Multiverse.contains_value(other, key) -- if other incompat has been polled
+		then
+			return false
+		end
+	end
+	return true
+end
+
 ---Calculates all applied deck enchantments.
 ---@param context CalcContext
 ---@param results table
@@ -241,6 +259,9 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		mul_enchantment_object = obj,
 		mul_enchantment_data = G.GAME.mul_deck_enchantments[enchantment],
 	})
+	if removed then
+		G.GAME.mul_deck_enchantments[enchantment] = nil
+	end
 end
 
 function Multiverse.count_deck_enchantments()
@@ -417,6 +438,7 @@ function Multiverse.get_valid_enchantment_level_ups(key, other, source)
 	if
 		not Multiverse.is_enchant_compat(key, other)
 		or not Multiverse.is_deck_compat(key)
+		or not Multiverse.is_group_id_compat(key, other)
 		or obj:get_weight() == 0
 		or not obj:in_pool({ source = source, level_amt = 0 })
 	then

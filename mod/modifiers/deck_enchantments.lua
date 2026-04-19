@@ -29,6 +29,7 @@ Multiverse.DeckEnchantment({
 	in_pool = function(self, args)
 		return math.min(G.GAME.round_resets.hands, G.GAME.current_round.hands_left) > args.level_amt
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -66,6 +67,7 @@ Multiverse.DeckEnchantment({
 	in_pool = function(self, args)
 		return math.min(G.GAME.round_resets.hands, G.GAME.current_round.hands_left) > args.level_amt
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -103,6 +105,7 @@ Multiverse.DeckEnchantment({
 	in_pool = function(self, args)
 		return math.min(G.GAME.round_resets.discards, G.GAME.current_round.discards_left) >= args.level_amt
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -143,6 +146,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -183,6 +187,7 @@ Multiverse.DeckEnchantment({
 		"b_green",
 	},
 	enchantment_type = "neutral",
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -218,6 +223,7 @@ Multiverse.DeckEnchantment({
 	in_pool = function(self, args)
 		return G.jokers.config.card_limit >= args.level_amt
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -254,6 +260,7 @@ Multiverse.DeckEnchantment({
 	calc_dollar_bonus = function(self, enchantment)
 		return enchantment.level * 6
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -314,6 +321,7 @@ Multiverse.DeckEnchantment({
 			}))
 		end
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -381,6 +389,7 @@ Multiverse.DeckEnchantment({
 			}))
 		end
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -423,6 +432,7 @@ Multiverse.DeckEnchantment({
 	calc_dollar_bonus = function(self, enchantment)
 		return enchantment.level * -2
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -466,6 +476,7 @@ Multiverse.DeckEnchantment({
 			update_hand_text({ sound = "chips2", delay = 0 }, { chips = hand_chips, mult = mult })
 		end
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -511,6 +522,7 @@ Multiverse.DeckEnchantment({
 			end
 		end
 	end,
+	group_id = "deck",
 })
 
 Multiverse.DeckEnchantment({
@@ -536,9 +548,7 @@ Multiverse.DeckEnchantment({
 	on_change_level = function(self, delta, enchantment)
 		G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck + delta * self.config.luck_bonus
 	end,
-	enchant_incompat = {
-		"de_mul_looting",
-	},
+	group_id = "lucky",
 })
 
 Multiverse.DeckEnchantment({
@@ -562,10 +572,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
-	enchant_incompat = {
-		"de_mul_smite",
-		"de_mul_power",
-	},
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
@@ -589,6 +596,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
@@ -624,9 +632,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
-	enchant_incompat = {
-		"de_mul_fortune",
-	},
+	group_id = "lucky",
 })
 
 Multiverse.DeckEnchantment({
@@ -653,10 +659,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
-	enchant_incompat = {
-		"de_mul_sharpness",
-		"de_mul_smite",
-	},
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
@@ -692,6 +695,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
@@ -715,10 +719,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
-	enchant_incompat = {
-		"de_mul_sharpness",
-		"de_mul_power",
-	},
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
@@ -822,6 +823,7 @@ Multiverse.DeckEnchantment({
 			enchantment.ability.current = 1
 		end
 	end,
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
