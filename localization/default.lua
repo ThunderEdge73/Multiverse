@@ -543,6 +543,15 @@ return {
 					"and {C:blue}+#1#{} hands",
 				},
 			},
+			de_mul_loyalty = {
+				name = "Loyalty#1#",
+				text = {
+					"Cards in the first",
+					"{V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{} played hands of",
+					"round are {C:attention}returned",
+					"to hand instead",
+				},
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {

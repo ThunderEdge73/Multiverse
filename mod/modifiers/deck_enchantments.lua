@@ -360,7 +360,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				x_blind_size = 1 + enchantment.level * 0.5
+				x_blind_size = 1 + enchantment.level * 0.5,
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over and context.beat_boss then
@@ -467,7 +467,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.before then
 			return {
-				x_blind_size = 1 + enchantment.level * 0.5
+				x_blind_size = 1 + enchantment.level * 0.5,
 			}
 		end
 		if context.modify_hand then
@@ -691,7 +691,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				x_blind_size = (1 - enchantment.level * enchantment.ability.mult)
+				x_blind_size = (1 - enchantment.level * enchantment.ability.mult),
 			}
 		end
 	end,
@@ -898,7 +898,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.individual and context.cardarea == G.play then
 			return {
-				x_blind_size = (1 - enchantment.level * enchantment.ability.mult)
+				x_blind_size = (1 - enchantment.level * enchantment.ability.mult),
 			}
 		end
 	end,
@@ -911,7 +911,7 @@ Multiverse.DeckEnchantment({
 	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
-				enchantment.ability.exchanged
+				enchantment.ability.exchanged,
 			},
 		}
 	end,
@@ -923,8 +923,39 @@ Multiverse.DeckEnchantment({
 					ease_hands_played(enchantment.ability.exchanged)
 					ease_discard(-enchantment.ability.exchanged, nil, true)
 					return true
-				end
+				end,
 			}))
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "loyalty",
+	max_level = 3,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.stay_flipped
+			and context.from_area == G.play
+			and G.GAME.current_round.hands_played < enchantment.level
+		then
+			return {
+				modify = { to_area = G.hand },
+			}
 		end
 	end,
 })
