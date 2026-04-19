@@ -1740,9 +1740,9 @@ return {
 			mul_traitorous = {
 				name = "Traitorous",
 				text = {
-					"{C:attention}Destroys{} leftmost Joker",
+					"{C:red}Debuffs{} leftmost",
+					"{C:attention}undebuffed{} Joker",
 					"at end of round",
-					"{C:inactive}(Bypasses Eternal){}",
 				},
 			},
 			undiscovered_mul_myth = {

@@ -34,8 +34,10 @@ SMODS.Sticker({
 	sets = { Joker = true },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.main_eval and not context.blueprint then
-			if G.jokers.cards[1] then
-				SMODS.destroy_cards(G.jokers.cards[1], true)
+			for _, j in ipairs(G.jokers.cards) do
+				if not j.debuff then
+					SMODS.debuff_card(j, true, "mul_traitorous")
+				end
 			end
 		end
 	end,
