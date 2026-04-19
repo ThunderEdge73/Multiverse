@@ -869,6 +869,42 @@ Multiverse.DeckEnchantment({
 	end,
 })
 
+
+Multiverse.DeckEnchantment({
+	key = "efficiency",
+	max_level = 5,
+	config = { mult = 0.01 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.DYN_UI.DARK,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = 1 - i * enchantment.ability.mult
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.individual and context.cardarea == G.play then
+			return {
+				x_blind_size = (1 - enchantment.level * enchantment.ability.mult)
+			}
+		end
+	end,
+})
+
 Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },

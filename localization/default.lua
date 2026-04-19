@@ -526,6 +526,14 @@ return {
 					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
 				},
 			},
+			de_mul_efficiency = {
+				name = "Efficiency#1#",
+				text = {
+					"Scored cards give",
+					"{B:1,V:6}X#2#{C:inactive}/{B:2,V:7}X#3#{C:inactive}/{B:3,V:8}X#4#{C:inactive}/",
+					"{B:4,V:9}X#5#{C:inactive}/{B:5,V:10}X#6#{} Blind size",
+				},
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {
