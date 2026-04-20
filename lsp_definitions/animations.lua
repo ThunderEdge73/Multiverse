@@ -19,6 +19,7 @@
 ---@field x_scale number? The factor that the animation will be scaled horizontally
 ---@field y_scale number? The factor that the animation will be scaled vertically
 ---@field rotation number? The rotation of the animation in radians
+---@field absolute boolean? 
 
 ---@class Multiverse.AnimationData
 ---@field frames love.Quad[] The quadrants of the file that each represent a single frame
@@ -33,6 +34,7 @@
 ---@field x_scale number? The factor that the animation will be scaled horizontally
 ---@field y_scale number? The factor that the animation will be scaled vertically
 ---@field rotation number? The rotation of the animation in radians
+---@field forced_anchor Anchor?
 
 ---@class Multiverse.Video
 ---@field path string The name of the file where the video is stored

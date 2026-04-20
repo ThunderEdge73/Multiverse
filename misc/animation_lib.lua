@@ -80,10 +80,12 @@ Multiverse.base_offsets = {
 
 ---Starts the animation with the given key.
 ---@param key string The key of the animation to start
-function Multiverse.start_animation(key)
+---@param forced_anchor Anchor
+function Multiverse.start_animation(key, forced_anchor)
 	if Multiverse.all_animations[key] then
 		Multiverse.all_animations[key].progress = 0
 		Multiverse.all_animations[key].is_active = true
+		Multiverse.all_animations[key].forced_anchor = forced_anchor
 	else
 		error("No animation for " .. key .. " exists")
 	end
@@ -163,17 +165,18 @@ end
 function Multiverse.handle_other_drawing(x_factor, y_factor)
 	for key, anim in pairs(Multiverse.all_animations) do
 		if anim.is_active then
+			local curr_anchor = anim.forced_anchor or anim.anchor
 			love.graphics.setColor(1, 1, 1, 1)
 			love.graphics.draw(
 				anim.image,
 				anim.frames[Multiverse.clamp(math.floor(anim.progress) + 1, 1, #anim.frames)],
-				Multiverse.anchors.x[anim.anchor.x_alignment] + (anim.anchor.x_offset or 0) * x_factor,
-				Multiverse.anchors.y[anim.anchor.y_alignment] + (anim.anchor.y_offset or 0) * y_factor,
+				Multiverse.anchors.x[curr_anchor.x_alignment] + (curr_anchor.x_offset or 0) * x_factor,
+				Multiverse.anchors.y[curr_anchor.y_alignment] + (curr_anchor.y_offset or 0) * y_factor,
 				anim.rotation,
 				anim.x_scale * x_factor,
 				anim.y_scale * y_factor,
-				Multiverse.base_offsets.x[anim.anchor.x_alignment](anim),
-				Multiverse.base_offsets.y[anim.anchor.y_alignment](anim),
+				Multiverse.base_offsets.x[curr_anchor.x_alignment](anim),
+				Multiverse.base_offsets.y[curr_anchor.y_alignment](anim),
 				0,
 				0
 			)
