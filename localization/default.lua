@@ -383,7 +383,7 @@ return {
 					"{C:spectral}Spectral{} cards after",
 					"defeating a {C:attention}Boss Blind",
 					"{B:5,V:3}X#4#{C:inactive}/{B:6,V:4}X#5#{} Blind size when",
-					"selecting a {C:purple}Blind{}",
+					"selecting a {C:attention}Blind{}",
 				},
 			},
 			de_mul_illusory_affinity = {
