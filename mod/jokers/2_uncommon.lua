@@ -5,6 +5,7 @@ SMODS.Joker({
 	config = { extra = { mult = 19 } },
 	rarity = 2,
 	cost = 6,
+	attributes = { "mult", "hands" },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.mult } }
 	end,
@@ -27,6 +28,7 @@ SMODS.Joker({
 	rarity = 2,
 	perishable_compat = false,
 	cost = 6,
+	attributes = { "mult", "scaling", "reset" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -79,6 +81,7 @@ SMODS.Joker({
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
+	attributes = { "xmult", "destroy_card" },
 	calculate = function(self, card, context)
 		if context.buying_card and context.card == card and G.jokers and not context.blueprint then
 			local pool = {}
@@ -103,6 +106,7 @@ SMODS.Joker({
 	config = { extra = { xmult = 3, mult = 3, odds = 2 } },
 	rarity = 2,
 	cost = 6,
+	attributes = { "xmult", "chance", "mult" },
 	loc_vars = function(self, info_queue, card)
 		local num, denom = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "mul_fifty_fifty")
 		return { vars = { num, denom, card.ability.extra.xmult, card.ability.extra.mult } }
@@ -132,9 +136,10 @@ SMODS.Joker({
 	rarity = 2,
 	cost = 7,
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
 		return { vars = { card.ability.extra.req, card.ability.extra.req - card.ability.extra.current } }
 	end,
+	attributes = { "spectral", "generation" },
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if card.ability.extra.current >= card.ability.extra.req then
@@ -176,6 +181,7 @@ SMODS.Joker({
 	},
 	rarity = 2,
 	cost = 7,
+	attributes = { "xmult", "chance", "mult", "transmutable" },
 	loc_vars = function(self, info_queue, card)
 		Multiverse.transmute_info_queue(card, info_queue)
 		return {
@@ -197,7 +203,6 @@ SMODS.Joker({
 			end
 		end
 	end,
-	pools = { ["mul_can_transmute"] = true },
 	transmutes_into = "j_mul_gerson",
 	mul_grail = { "c_deja_vu", "c_mul_chair" },
 	mul_tree_of_eden = { "j_hanging_chad", "j_hack", "j_sock_and_buskin", "j_selzer" },
@@ -207,13 +212,14 @@ SMODS.Joker({
 	key = "arms_dealer",
 	atlas = "placeholder",
 	pos = { x = 1, y = 0 },
-	transmute_req = Multiverse.set_transmute_requirements(400),
+	transmute_req = Multiverse.set_transmute_requirements(250),
 	config = { extra = { transmute_progress = 0 } },
 	rarity = 2,
 	cost = 7,
 	loc_vars = function(self, info_queue, card)
 		Multiverse.transmute_info_queue(card, info_queue)
 	end,
+	attributes = { "destroy_card", "transmutable" },
 	calculate = function(self, card, context)
 		if not context.blueprint and context.money_altered and context.from_shop and context.amount < 0 then
 			Multiverse.increment_transmute_progress(card, -context.amount)
@@ -225,7 +231,7 @@ SMODS.Joker({
 			}
 		end
 	end,
-	pools = { ["mul_can_transmute"] = true },
+	transmutes_into = "j_mul_heavy",
 	mul_grail = { "c_immolate", "c_hermit", "c_temperance" },
 	mul_tree_of_eden = { "j_golden", "j_cloud_9", "j_satellite", "j_todo_list", "j_mul_red_bloon", "j_mul_slime" },
 })

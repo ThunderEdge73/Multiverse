@@ -27,6 +27,7 @@ SMODS.Joker({
 		end
 		return { vars = { tarots_held.n } }
 	end,
+	attributes = { "retrigger", "tarot", "modify_card", "scaling" },
 	calculate = function(self, card, context)
 		if context.before then
 			local changed_card = context.scoring_hand[1]
@@ -126,6 +127,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
+	attributes = { "usable", "hand_size", "modify_card", "scaling", "generation", "tp", "economy" },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, G.P_CENTERS.m_mul_netherite)
 		table.insert(info_queue, {
@@ -204,6 +206,7 @@ SMODS.Joker({
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.joker_xmult, card.ability.extra.increment } }
 	end,
+	attributes = { "boss_blind", "xmult", "scaling" },
 	config = { extra = { joker_xmult = 1, increment = 0.5 } },
 	add_to_deck = function(self, card, from_debuff)
 		if G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
@@ -218,7 +221,7 @@ SMODS.Joker({
 							Multiverse.play_animation("gerson_disable", {
 								anchor = {
 									target = G.GAME.blind,
-								}
+								},
 							})
 							return true
 						end,
@@ -242,8 +245,8 @@ SMODS.Joker({
 							Multiverse.play_animation("gerson_disable", {
 								anchor = {
 									target = G.GAME.blind,
-									x_offset = Multiverse.to_pixels(G.GAME.blind.VT.w)
-								}
+									x_offset = Multiverse.to_pixels(G.GAME.blind.VT.w),
+								},
 							})
 							return true
 						end,
@@ -269,6 +272,7 @@ SMODS.Joker({
 	rarity = "mul_transmuted",
 	cost = 40,
 	blueprint_compat = false,
+	attributes = { "xmult", "scaling", "generation" },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_waldo"]
 		local cards_in_deck = 0
@@ -310,6 +314,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
+	attributes = { "hands", "retrigger", "scaling", "usable", "tp" },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
@@ -377,6 +382,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
+	attributes = { "usable", "copying", "xblindsize", "tp" },
 	config = { extra = { tp_cost = 10, blind_reduce_x = 0.1 } },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
@@ -487,6 +493,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
+	attributes = { "modify_card", "usable", "tp" },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
 		table.insert(info_queue, {

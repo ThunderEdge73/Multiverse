@@ -18,6 +18,7 @@ SMODS.Joker({
 			},
 		}
 	end,
+	attributes = { "mult", "economy" },
 	calculate = function(self, card, context)
 		if context.joker_main then
 			G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - card.ability.extra.money_loss
@@ -47,6 +48,7 @@ SMODS.Joker({
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.money, card.ability.extra.rounds_held, card.ability.extra.total_rounds } }
 	end,
+	attributes = { "economy" },
 	calculate = function(self, card, context)
 		G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
 		if context.individual and context.cardarea == G.play then
@@ -81,6 +83,7 @@ SMODS.Joker({
 	config = { extra = { mult = 0, mult_inc = 2 } },
 	rarity = 1,
 	cost = 6,
+	attributes = { "scaling", "mult", "reset" },
 	loc_vars = function(self, info_queue, card)
 		local suit = G.GAME.current_round.mul_foddian_suit or "Hearts"
 		return {
@@ -137,6 +140,7 @@ SMODS.Joker({
 	config = { extra = { dollars = 2, min_cards = 5 } },
 	rarity = 1,
 	cost = 6,
+	attributes = { "economy" },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.min_cards, card.ability.extra.dollars } }
 	end,
@@ -167,22 +171,22 @@ SMODS.Joker({
 	rarity = 1,
 	cost = 5,
 	blueprint_compat = false,
-	loc_vars = function (self, info_queue, card)
+	attributes = { "modify_card", "hands", "transmutable" },
+	loc_vars = function(self, info_queue, card)
 		Multiverse.transmute_info_queue(card, info_queue)
 	end,
 	calculate = function(self, card, context)
-		if context.before and context.scoring_hand[1] then
+		if context.before and context.scoring_hand[1] and G.GAME.current_round.hands_played == 0 then
 			assert(SMODS.change_base(context.scoring_hand[1], nil, "Jack"))
 			context.scoring_hand[1]:juice_up()
 			return {
-				message = localize("k_mul_converted")
+				message = localize("k_mul_converted"),
 			}
 		end
 		if context.remove_playing_cards then
 			Multiverse.increment_transmute_progress(card, #context.removed)
 		end
 	end,
-	pools = { ["mul_can_transmute"] = true },
 	transmutes_into = "j_mul_frozone",
 	mul_grail = { "c_justice", "c_hanged_man", "c_immolate", "c_mul_lightsaber" },
 	mul_tree_of_eden = { "j_trading" }, -- UPDATE LATER

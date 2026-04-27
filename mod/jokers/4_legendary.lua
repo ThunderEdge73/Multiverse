@@ -12,6 +12,7 @@ Multiverse.UsableJoker({
 	rarity = 4,
 	cost = 20,
 	blueprint_compat = false,
+	attributes = { "usable", "tp", "thaumaturgy_energy", "tag" },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
@@ -49,6 +50,7 @@ SMODS.Joker({
 	},
 	rarity = 4,
 	cost = 20,
+	attributes = { "xmult", "scaling" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -90,6 +92,7 @@ SMODS.Joker({
 	rarity = 4,
 	cost = 20,
 	blueprint_compat = false,
+	attributes = { "balance" },
 	calculate = function(self, card, context)
 		if context.initial_scoring_step or context.final_scoring_step then
 			return {

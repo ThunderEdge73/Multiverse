@@ -8,6 +8,7 @@ SMODS.Joker({
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
+	attributes = { "xmult", "hands" },
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if G.GAME.current_round.hands_left == 0 then
@@ -23,13 +24,14 @@ SMODS.Joker({
 	key = "antimatter",
 	atlas = "placeholder",
 	pos = { x = 2, y = 0 },
-	config = { extra = { mult = 1, dim1 = 1, dim2 = 1, rounds_held = 0 } },
+	config = { extra = { mult = 1, dim1 = 1, dim2 = 0, dim3 = 0, rounds_held = 0 } },
 	rarity = 3,
 	perishable_compat = false,
 	cost = 7,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.mult } }
 	end,
+	attributes = { "mult", "scaling" },
 	calculate = function(self, card, context)
 		if context.joker_main then
 			return { mult = card.ability.extra.mult }
@@ -40,15 +42,17 @@ SMODS.Joker({
 			if card.ability.extra.rounds_held == 1 then
 				msg = localize("k_mul_antimatter_init")
 			elseif card.ability.extra.rounds_held <= 3 then
+				card.ability.extra.dim1 = 2
 				msg = localize("k_mul_antimatter_grow1")
 			elseif card.ability.extra.rounds_held <= 6 then
-				card.ability.extra.dim2 = 2
+				card.ability.extra.dim2 = 1
 				msg = localize("k_mul_antimatter_grow2")
 			elseif card.ability.extra.rounds_held <= 10 then
 				card.ability.extra.dim2 = card.ability.extra.dim2 + 1
 				msg = localize("k_mul_antimatter_grow3")
 			else
-				card.ability.extra.dim2 = card.ability.extra.dim2 + card.ability.extra.rounds_held - 9
+				card.ability.extra.dim3 = card.ability.extra.dim3 + 1
+				card.ability.extra.dim2 = card.ability.extra.dim2 + card.ability.extra.dim3
 				msg = localize("k_mul_antimatter_grow4")
 			end
 			card.ability.extra.dim1 = card.ability.extra.dim1 + card.ability.extra.dim2
@@ -69,6 +73,7 @@ SMODS.Joker({
 	config = { extra = { ante_change = 1, in_boss = false } },
 	rarity = 3,
 	cost = 8,
+	attributes = { "prevents_death", "boss_blind" },
 	blueprint_compat = false,
 	eternal_compat = false,
 	loc_vars = function(self, info_queue, card)
@@ -83,12 +88,7 @@ SMODS.Joker({
 		if context.setting_blind then
 			card.ability.extra.in_boss = context.blind.boss
 		end
-		if
-			context.end_of_round
-			and context.game_over
-			and context.main_eval
-			and card.ability.extra.in_boss
-		then
+		if context.end_of_round and context.game_over and context.main_eval and card.ability.extra.in_boss then
 			ease_ante(-card.ability.extra.ante_change)
 			G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
 			G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - card.ability.extra.ante_change
@@ -130,6 +130,7 @@ SMODS.Joker({
 			vars = { card.ability.extra.xmult_inc, card.ability.extra.xmult },
 		}
 	end,
+	attributes = { "discard", "xmult", "scaling", "destroy_card", "transmutable" },
 	calculate = function(self, card, context)
 		if not context.blueprint then
 			if context.mul_dragon_transmute_check or context.playing_card_added then
@@ -167,7 +168,6 @@ SMODS.Joker({
 			}
 		end
 	end,
-	pools = { ["mul_can_transmute"] = true },
 	transmutes_into = "j_mul_steve",
 	mul_grail = { "c_tower", "c_chariot", "c_devil" },
 	mul_tree_of_eden = { "j_midas_mask", "j_marble" },

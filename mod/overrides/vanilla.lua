@@ -11,8 +11,7 @@ function Multiverse.transmutable_override(key, config, calc)
 	local temp_config = SMODS.Jokers[key].config
 	temp_config.extra = temp_config.extra or {}
 	temp_config.extra.transmute_progress = config.tracker_var
-	local temp_pools = SMODS.Jokers[key].pools
-	temp_pools["mul_can_transmute"] = true
+	SMODS.add_attribute("transmutable", { key })
 	SMODS.Joker:take_ownership(no_joker_prefix_key, {
 		transmute_req = Multiverse.set_transmute_requirements(config.requirement),
 		config = temp_config,
@@ -32,7 +31,6 @@ function Multiverse.transmutable_override(key, config, calc)
 				calculate_hook(self, card, context)
 			end
 		end,
-		pools = temp_pools,
 		transmutes_into = config.transmutes_into,
 		mul_grail = config.grail_pool,
 		mul_tree_of_eden = config.eden_pool,
