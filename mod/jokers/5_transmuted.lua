@@ -474,6 +474,7 @@ Multiverse.UsableJoker({
 		delay(0.4)
 		SMODS.calculate_effect({
 			x_blind_size = card.ability.extra.blind_reduce_x,
+			colour = G.C.PURPLE,
 		}, card)
 		delay(0.4)
 	end,

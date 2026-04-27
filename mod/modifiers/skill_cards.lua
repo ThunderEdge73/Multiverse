@@ -13,6 +13,7 @@ Multiverse.SkillCard({
 		delay(0.4)
 		SMODS.calculate_effect({
 			x_blind_size = card.ability.extra.blind_mult,
+			colour = G.C.PURPLE,
 		}, card)
 		delay(0.4)
 	end,
@@ -225,6 +226,7 @@ Multiverse.SkillCard({
 		delay(0.4)
 		SMODS.calculate_effect({
 			x_blind_size = card.ability.extra.blind_mult,
+			colour = G.C.PURPLE,
 			func = function()
 				G.GAME.blind:add_passive(card.ability.extra.status)
 			end

@@ -26,6 +26,7 @@ blindexpander.Passive({
 		if G.GAME.failed_limbo then
 			SMODS.calculate_effect({
 				x_blind_size = 1 / passive.config.mult,
+				colour = G.C.PURPLE,
 			}, G.GAME.blind)
 		end
 	end,
@@ -33,6 +34,7 @@ blindexpander.Passive({
 		if G.GAME.failed_limbo then
 			SMODS.calculate_effect({
 				x_blind_size = passive.config.mult,
+				colour = G.C.PURPLE,
 			}, G.GAME.blind)
 		end
 	end,
@@ -275,12 +277,14 @@ blindexpander.Passive({
 		if from_disable then
 			SMODS.calculate_effect({
 				x_blind_size = passive.config.mult,
+				colour = G.C.PURPLE,
 			}, G.GAME.blind)
 		end
 	end,
 	remove = function(self, blind, passive, from_disable)
 		SMODS.calculate_effect({
 			x_blind_size = 1 / passive.config.mult,
+			colour = G.C.PURPLE,
 		}, G.GAME.blind)
 	end,
 })

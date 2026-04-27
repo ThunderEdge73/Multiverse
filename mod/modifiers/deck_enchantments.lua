@@ -338,7 +338,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.DYN_UI.DARK,
+			G.C.PURPLE,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		for i = 1, self.max_level do
@@ -361,6 +361,7 @@ Multiverse.DeckEnchantment({
 		if context.setting_blind then
 			return {
 				x_blind_size = 1 + enchantment.level * 0.5,
+				colour = G.C.PURPLE,
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over and context.beat_boss then
@@ -449,7 +450,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.DYN_UI.DARK,
+			G.C.PURPLE,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		for i = 1, self.max_level do
@@ -468,6 +469,7 @@ Multiverse.DeckEnchantment({
 		if context.before then
 			return {
 				x_blind_size = 1 + enchantment.level * 0.5,
+				colour = G.C.PURPLE,
 			}
 		end
 		if context.modify_hand then
@@ -675,7 +677,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.DYN_UI.DARK,
+			G.C.PURPLE,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
@@ -692,6 +694,7 @@ Multiverse.DeckEnchantment({
 		if context.setting_blind then
 			return {
 				x_blind_size = (1 - enchantment.level * enchantment.ability.mult),
+				colour = G.C.PURPLE,
 			}
 		end
 	end,
@@ -882,7 +885,7 @@ Multiverse.DeckEnchantment({
 			self,
 			enchantment,
 			colours,
-			G.C.DYN_UI.DARK,
+			G.C.PURPLE,
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
@@ -899,6 +902,7 @@ Multiverse.DeckEnchantment({
 		if context.individual and context.cardarea == G.play then
 			return {
 				x_blind_size = (1 - enchantment.level * enchantment.ability.mult),
+				colour = G.C.PURPLE,
 			}
 		end
 	end,
