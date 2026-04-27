@@ -5,9 +5,8 @@ function Multiverse.show_blind_instructions(key)
 	end
 	G.mul_blind_instructions = UIBox({
 		definition = Multiverse.blind_instructions_HUD_def(key),
-		config = { align = "cri", offset = { x = 5.3, y = 0.5 }, major = G.ROOM_ATTACH, instance_type = "CARD" },
+		config = { align = "cr", offset = { x = 0.1, y = 0 }, major = G.blind_passive, instance_type = "CARD" },
 	})
-	ease_value(G.mul_blind_instructions.config.offset, "x", -4, nil, "REAL", true, 0.125, "inquad")
 	G.mul_blind_instructions:recalculate()
 end
 
@@ -22,36 +21,27 @@ function Multiverse.init_blinds()
 	if G.GAME.challenge == "c_mul_monsoon" then
 		G.GAME.mul_undyne_damage_mult = 2
 	end
-	if
-		G.GAME.blind
-		and G.GAME.facing_blind
-		and not G.GAME.blind.disabled
-		and G.GAME.blind.config.blind.mul_minigame
-	then
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				Multiverse.show_blind_instructions(G.GAME.blind.config.blind.mul_minigame)
-				return true
-			end,
-		}))
-	end
 end
 
 function Multiverse.hide_blind_instructions()
 	if G.mul_blind_instructions then
-		ease_value(G.mul_blind_instructions.config.offset, "x", 4, nil, "REAL", true, 0.125, "outquad")
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 1,
-			blocking = false,
-			blockable = false,
-			func = function()
-				G.mul_blind_instructions:remove()
-				G.mul_blind_instructions = nil
-				return true
-			end,
-		}))
+		G.mul_blind_instructions:remove()
+		G.mul_blind_instructions = nil
 	end
+end
+
+local blind_hover_hook = Blind.hover
+function Blind:hover()
+	blind_hover_hook(self)
+	if G.blind_passive and Multiverse.HOVER_HINT_KEY then
+		Multiverse.show_blind_instructions(Multiverse.HOVER_HINT_KEY)
+	end
+end
+
+local stop_blind_hover_hook = Blind.stop_hover
+function Blind:stop_hover()
+	stop_blind_hover_hook(self)
+	Multiverse.hide_blind_instructions()
 end
 
 function Multiverse.limbo_set_effect()
@@ -89,18 +79,16 @@ SMODS.Blind({
 	boss = { min = 3 },
 	mult = 2,
 	set_blind = function(self)
-		Multiverse.show_blind_instructions("limbo")
+		Multiverse.HOVER_HINT_KEY = "limbo"
 	end,
 	calculate = function(self, blind, context)
 		if context.press_play and not blind.disabled and G.GAME.current_round.hands_played == 0 then
 			Multiverse.limbo_set_effect()
 		end
 	end,
-	disable = function(self)
-		Multiverse.hide_blind_instructions()
-	end,
 	defeat = function(self)
 		G.GAME.failed_limbo = false
+		Multiverse.HOVER_HINT_KEY = nil
 	end,
 })
 
@@ -135,18 +123,19 @@ SMODS.Blind({
 		Multiverse.undying_press_play_effect()
 	end,
 	set_blind = function(self)
-		Multiverse.show_blind_instructions("undying")
+		Multiverse.HOVER_HINT_KEY = "undying"
 	end,
-	defeat = function (self)
-		Multiverse.apply_to_playing_cards(function (playing_card)
+	defeat = function(self)
+		Multiverse.apply_to_playing_cards(function(playing_card)
 			SMODS.debuff_card(playing_card, false, "mul_undying")
 		end)
+		Multiverse.HOVER_HINT_KEY = nil
 	end,
 	disable = function(self)
 		if G.GAME.chips < to_big(0) then
 			G.GAME.chips = to_big(0)
 		end
-		Multiverse.apply_to_playing_cards(function (playing_card)
+		Multiverse.apply_to_playing_cards(function(playing_card)
 			SMODS.debuff_card(playing_card, false, "mul_undying")
 		end)
 		Multiverse.hide_blind_instructions()
