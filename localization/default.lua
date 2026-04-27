@@ -1571,7 +1571,7 @@ return {
 				},
 			},
 			c_mul_eggman = {
-				name = "Dr. Eggman",
+				name = "The Doctor",
 				text = {
 					"Enhances all {C:clubs}Clubs{}",
 					"held in hand into",
