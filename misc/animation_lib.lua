@@ -190,9 +190,14 @@ function Multiverse.handle_other_drawing()
 end
 
 function Multiverse.update_drawables()
+	local new_drawables = {}
 	for _, drawable in ipairs(Multiverse.drawables) do
 		drawable:update()
+		if not drawable._removed then
+			new_drawables[#new_drawables+1] = drawable
+		end
 	end
+	Multiverse.drawables = new_drawables
 end
 
 function Multiverse.get_screen_x_scale()

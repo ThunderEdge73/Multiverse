@@ -32,8 +32,8 @@ Multiverse.Animation({
 	duration = 1,
 	no_stretch = true,
 	anchor = {
-		x_scale = 3,
-		y_scale = 3,
+		x_scale = 5,
+		y_scale = 5,
 	}
 })
 Multiverse.Animation({

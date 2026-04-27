@@ -90,7 +90,7 @@ function Card:set_ability(center, initial, delay_sprites, ...)
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				set_ability_hook(self, "c_base", initial, delay_sprites, misc)
-				Multiverse.explode({ target = self, x_scale = 1, y_scale = 1 })
+				Multiverse.explode({ target = self, x_scale = 3, y_scale = 3 })
 				return true
 			end,
 		}))
@@ -106,7 +106,7 @@ function copy_card(other, new_card, card_scale, playing_card, strip_edition, ...
 			func = function()
 				if Multiverse.contains_value(G.playing_cards or {}, ret) then
 					ret:set_ability("c_base")
-					Multiverse.explode({ target = ret, x_scale = 1, y_scale = 1 })
+					Multiverse.explode({ target = ret, x_scale = 3, y_scale = 3 })
 				end
 				return true
 			end,
