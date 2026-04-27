@@ -12,6 +12,6 @@
     "version": "0.1.0~PLAYTEST",
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-1620a)",
-        "blindexpander (>=1.2.9)"
+        "blindexpander (>=1.2.9b)"
     ]
 }
