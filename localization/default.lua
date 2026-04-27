@@ -933,8 +933,8 @@ return {
 					"{C:red}Rare{} Joker",
 				},
 			},
-			c_mul_sacrifice = {
-				name = "Sacrificial Ritual",
+			c_mul_phylactery = {
+				name = "Phylactery",
 				text = {
 					"Destroy {C:attention}1{} selected",
 					"Joker that can",

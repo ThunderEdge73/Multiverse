@@ -256,7 +256,6 @@ SMODS.Consumable({
 			local pool = G.jokers.highlighted[1].config.center.mul_tree_of_eden
 			play_sound("timpani")
 			SMODS.add_card({
-				set = "Joker",
 				key = pseudorandom_element(pool, "mul_tree_of_eden"),
 			})
 		end)
@@ -330,7 +329,7 @@ SMODS.Consumable({
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			SMODS.add_card({ set = "mul_can_transmute", key_append = "mul_panacea" })
+			SMODS.add_card({ key_append = "mul_panacea", attributes = "transmutable" })
 		end)
 	end,
 })
@@ -471,7 +470,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "sacrifice",
+	key = "phylactery",
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },

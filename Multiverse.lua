@@ -187,7 +187,11 @@ end
 Multiverse.recursive_load("misc")
 Multiverse.recursive_load("mod")
 
-SMODS.optional_features.quantum_enhancements = true
+SMODS.current_mod.optional_features = function()
+	return {
+		quantum_enhancements = true,
+	}
+end
 
 SMODS.current_mod.custom_card_areas = function(game)
 	game.mul_exhaust = CardArea(
