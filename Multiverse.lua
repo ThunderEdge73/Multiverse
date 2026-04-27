@@ -127,7 +127,7 @@ SMODS.current_mod.calculate = function(self, context)
 		if SMODS.last_hand_oneshot then
 			if next(SMODS.find_card("j_mul_ren_amamiya")) then
 				-- Hold off on this until some dedicated artist gets this animation done
-				-- Multiverse.start_animation("ren_cut_in")
+				-- Multiverse.play_animation("ren_cut_in")
 			end
 		else
 			G.E_MANAGER:add_event(Event({

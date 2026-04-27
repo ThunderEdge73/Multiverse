@@ -213,13 +213,13 @@ SMODS.Joker({
 					G.GAME.blind:disable()
 					play_sound("mul_gerson_laugh", 1, 1)
 					delay(0.4)
-					local coords = Multiverse.get_true_coords(G.GAME.blind)
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.start_animation(
-							"gerson_disable",
-								{ x_alignment = "l", y_alignment = "t", x_offset = coords.x + 10, y_offset = coords.y }
-							)
+							Multiverse.play_animation("gerson_disable", {
+								anchor = {
+									target = G.GAME.blind,
+								}
+							})
 							return true
 						end,
 					}))
@@ -237,13 +237,14 @@ SMODS.Joker({
 					G.GAME.blind:disable()
 					play_sound("mul_gerson_laugh", 1, 1)
 					delay(0.4)
-					local coords = Multiverse.get_true_coords(G.GAME.blind)
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.start_animation(
-							"gerson_disable",
-								{ x_alignment = "l", y_alignment = "t", x_offset = coords.x + 10, y_offset = coords.y }
-							)
+							Multiverse.play_animation("gerson_disable", {
+								anchor = {
+									target = G.GAME.blind,
+									x_offset = Multiverse.to_pixels(G.GAME.blind.VT.w)
+								}
+							})
 							return true
 						end,
 					}))

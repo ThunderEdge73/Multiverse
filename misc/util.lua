@@ -607,11 +607,11 @@ function Multiverse.in_interaction()
 		or G.STATE == G.STATES.MULTIVERSE_INTERACTION_JOKERS
 end
 
-function Multiverse.explode()
-	if not Multiverse.all_animations["explosion"].is_active then
-		Multiverse.start_animation("explosion")
-		play_sound("mul_deltarune_explosion", 1, 0.8)
-	end
+function Multiverse.explode(anchor)
+	Multiverse.play_animation("explosion", {
+		anchor = anchor
+	})
+	play_sound("mul_deltarune_explosion", 1, 0.8)
 end
 
 function Multiverse.cannot_interrupt()
@@ -633,6 +633,14 @@ function Multiverse.get_true_coords(moveable)
 		(G.ROOM.T.x + transform.x + transform.w * 0.5) * scale,
 		(G.ROOM.T.y + transform.y + transform.h * 0.5) * scale,
 	}
+end
+
+function Multiverse.to_balatro_units(x)
+	return x / (G.TILESIZE * G.TILESCALE)
+end
+
+function Multiverse.to_pixels(x)
+	return x * (G.TILESIZE * G.TILESCALE)
 end
 
 function Multiverse.modify_current_score(num, silent, no_juice)

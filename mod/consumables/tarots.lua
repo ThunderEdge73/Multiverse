@@ -37,47 +37,17 @@ SMODS.Consumable({
 		return Multiverse.config["joke"]
 	end,
 	use = function(self, card, area, copier)
+		Multiverse.play_animation("black_bg")
 		Multiverse.play_video("bad_apple")
-		Multiverse.start_animation("black_bg")
 		Multiverse.very_important_thing = true
 		G.E_MANAGER:add_event(Event({
 			blockable = false,
-			trigger = "after",
-			delay = 218 * G.SETTINGS.GAMESPEED,
 			func = function()
-				Multiverse.very_important_thing = false
-				Multiverse.stop_video("bad_apple")
-				Multiverse.end_animation("black_bg")
-				return true
-			end,
-		}))
-	end,
-})
-
-SMODS.Consumable({
-	key = "burger",
-	set = "Tarot",
-	atlas = "placeholder",
-	pos = { x = 0, y = 1 },
-	in_pool = function(self, args)
-		return Multiverse.config["joke"]
-	end,
-	can_use = function(self, card)
-		return true
-	end,
-	check_dependencies = function(self)
-		return Multiverse.config["joke"]
-	end,
-	use = function(self, card, area, copier)
-		Multiverse.start_animation("eating_burger")
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 60 * G.SETTINGS.GAMESPEED,
-			blockable = false,
-			blocking = false,
-			func = function()
-				Multiverse.end_animation("eating_burger")
-				return true
+				if not Multiverse.is_video_playing("bad_apple") then
+					Multiverse.very_important_thing = false
+					Multiverse.stop_animation("black_bg")
+					return true
+				end
 			end,
 		}))
 	end,

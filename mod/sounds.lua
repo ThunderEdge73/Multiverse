@@ -89,15 +89,15 @@ SMODS.Sound({
 	key = "silent_music",
 	path = "silence.ogg",
 	select_music_track = function(self)
-		for _, vid in pairs(Multiverse.all_videos) do
-			if vid.is_visible then
-				return 42069
-			end
-		end
-		if Multiverse.in_limbo and Multiverse.config.music["Isolation"] then
+		if (Multiverse.in_limbo and Multiverse.config.music["Isolation"]) or Multiverse.very_important_thing then
 			return 69420
 		end
 	end,
+	sync = setmetatable({}, {
+		__index = function(_, _)
+			return true
+		end,
+	}),
 	volume = 0,
 })
 

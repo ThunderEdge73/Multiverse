@@ -5,40 +5,23 @@ Multiverse.Animation({
 	is_continuous = false,
 	px = 200,
 	py = 200,
-	anchor = {
-		x_alignment = "c",
-		y_alignment = "t",
-		x_offset = 90,
-	},
 	duration = 0.4,
-	x_scale = 3,
-	y_scale = 3,
+	no_stretch = true,
+	anchor = {
+		y_alignment = "t",
+		x_scale = 3,
+		y_scale = 3,
+		inner_align = true,
+	}
 })
 Multiverse.Video({
 	key = "bad_apple",
 	path = "badapple.ogv",
-	anchor = {
-		x_alignment = "c",
-		y_alignment = "c",
-	},
-	x_scale = 2.4,
-	y_scale = 2.4,
 	volume = 0.8,
-})
-Multiverse.Animation({
-	key = "eating_burger",
-	path = "astro_eating.png",
-	frames = 2,
-	px = 75,
-	py = 64,
 	anchor = {
-		x_alignment = "r",
-		y_alignment = "t",
-	},
-	duration = 0.5,
-	x_scale = 1.5,
-	y_scale = 1.5,
-	is_continuous = true,
+		x_scale = 2.4,
+		y_scale = 2.4,
+	}
 })
 Multiverse.Animation({
 	key = "explosion",
@@ -46,13 +29,12 @@ Multiverse.Animation({
 	frames = 17,
 	px = 71,
 	py = 100,
-	anchor = {
-		x_alignment = "c",
-		y_alignment = "c",
-	},
 	duration = 1,
-	x_scale = 6,
-	y_scale = 6,
+	no_stretch = true,
+	anchor = {
+		x_scale = 3,
+		y_scale = 3,
+	}
 })
 Multiverse.Animation({
 	key = "black_bg",
@@ -60,14 +42,12 @@ Multiverse.Animation({
 	frames = 1,
 	px = 16,
 	py = 9,
-	anchor = {
-		x_alignment = "c",
-		y_alignment = "c",
-	},
 	duration = 1,
-	x_scale = 96,
-	y_scale = 96,
 	is_continuous = true,
+	anchor = {
+		x_scale = 96,
+		y_scale = 96,
+	},
 })
 Multiverse.Animation({
 	key = "gerson_disable",
@@ -75,14 +55,12 @@ Multiverse.Animation({
 	frames = 7,
 	px = 52,
 	py = 112,
-	anchor = {
-		x_alignment = "l",
-		y_alignment = "t",
-		x_offset = 385,
-		y_offset = 117,
-	},
 	duration = 0.7,
-	rotation = math.pi / 2,
-	x_scale = 2.5,
-	y_scale = 2.5,
+	no_stretch = true,
+	anchor = {
+		x_scale = 2.5,
+		y_scale = 2.5,
+		rotation = math.pi / 2,
+		x_alignment = "r",
+	},
 })

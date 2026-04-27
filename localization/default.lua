@@ -552,6 +552,16 @@ return {
 					"to hand instead",
 				},
 			},
+			de_mul_wind_burst = {
+				name = "Wind Burst#1#",
+				text = {
+					"First discarded hand",
+					"is returned to hand",
+					"After first discard of",
+					"round, draw {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
+					"extra cards",
+				},
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {

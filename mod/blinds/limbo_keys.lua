@@ -159,8 +159,7 @@ function Multiverse.limbo_keys_end()
 						x_blind_size = 3,
 					}, G.GAME.blind)
 					G.GAME.failed_limbo = true
-					Multiverse.start_animation("explosion")
-					play_sound("mul_deltarune_explosion", 1, 0.8)
+					Multiverse.explode()
 				end
 				ease_value(Multiverse, "dark_bg_percent", 1, nil, "REAL", true, 0.5)
 				G.E_MANAGER:add_event(

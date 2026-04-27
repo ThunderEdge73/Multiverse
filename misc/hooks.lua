@@ -23,7 +23,7 @@ function love.draw()
 	local width, height = love.graphics.getDimensions()
 	local x_factor = width / 1536
 	local y_factor = height / 864
-	Multiverse.handle_other_drawing(x_factor, y_factor)
+	Multiverse.handle_other_drawing()
 	Multiverse.handle_limbo_drawing(x_factor, y_factor)
 	Multiverse.handle_undyne_drawing(x_factor, y_factor)
 	return ret
@@ -32,7 +32,7 @@ end
 local update_hook = Game.update
 function Game:update(dt, ...)
 	local ret = update_hook(self, dt, ...)
-	Multiverse.update_animations()
+	Multiverse.update_drawables()
 	Multiverse.update_spears()
 	if G.shared_stickers then
 		G.shared_stickers["mul_transmutable"]:animate()
@@ -90,7 +90,7 @@ function Card:set_ability(center, initial, delay_sprites, ...)
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				set_ability_hook(self, "c_base", initial, delay_sprites, misc)
-				Multiverse.explode()
+				Multiverse.explode({ target = self, x_scale = 1, y_scale = 1 })
 				return true
 			end,
 		}))
@@ -106,7 +106,7 @@ function copy_card(other, new_card, card_scale, playing_card, strip_edition, ...
 			func = function()
 				if Multiverse.contains_value(G.playing_cards or {}, ret) then
 					ret:set_ability("c_base")
-					Multiverse.explode()
+					Multiverse.explode({ target = ret, x_scale = 1, y_scale = 1 })
 				end
 				return true
 			end,
@@ -132,8 +132,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 					x_blind_size = 3,
 				}, G.GAME.blind)
 				G.GAME.failed_limbo = true
-				Multiverse.start_animation("explosion")
-				play_sound("mul_deltarune_explosion", 1, 0.8)
+				Multiverse.explode()
 			end
 		end
 	end
