@@ -476,16 +476,25 @@ Multiverse.UsableJoker({
 		return SMODS.merge_effects({ left, right })
 	end,
 	can_use = function(self, card)
-		return #G.jokers.highlighted == 1
-			and not SMODS.is_eternal(G.jokers.highlighted[1], card)
-			and G.jokers.highlighted[1] ~= card
-			and not card.ability.extra.used
+		return #Multiverse.filter(G.jokers.cards, function(item)
+			return item ~= card and not SMODS.is_eternal(item, card)
+		end) >= 1 and not card.ability.extra.used
 	end,
 	use = function(self, card)
 		card.ability.extra.used = true
-		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(card.ability.extra.tp_gain)
-		end)
+		Multiverse.start_interaction({
+			area = "jokers",
+			can_end_interaction = function()
+				return #G.jokers.highlighted == 1
+					and not SMODS.is_eternal(G.jokers.highlighted[1], card)
+					and G.jokers.highlighted[1] ~= card
+			end,
+			end_interaction = function ()
+				SMODS.destroy_cards(G.jokers.highlighted[1])
+				Multiverse.ease_TP(card.ability.extra.tp_gain)
+			end,
+			display_text = localize("k_mul_murder")
+		})
 	end,
 })
 

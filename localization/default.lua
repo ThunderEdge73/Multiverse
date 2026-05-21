@@ -2105,6 +2105,7 @@ return {
 			b_mul_skill_cards = "Skill Cards",
 			b_mul_discord_server = "My Discord Server",
 			b_mul_landing_page = "About Me",
+			k_mul_murder = "Select 1 Joker to destroy",
 			k_mul_ubw = "Select 1 card to split into #1# Half Cards",
 			k_mul_snowgrave = "Apply Frozen Seals to any number of selected cards",
 			k_mul_sinful_shell = "Select up to #1# cards to destroy",
