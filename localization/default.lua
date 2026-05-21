@@ -1816,8 +1816,11 @@ return {
 			mul_impostor_ability = {
 				name = "Ability: Murder",
 				text = {
-					"Cost: {C:attention}#1#%{} TP",
-					"Effect: {X:purple,C:white}X#2#{} Blind size",
+					"Cost: Destroy {C:attention}1{} Joker",
+					"Effect: Gain {C:attention}#1#{} TP",
+					"{C:inactive}(Can only be used{}",
+					"{C:inactive}once per round){}",
+					"{C:inactive}(Currently #1#){}",
 				},
 			},
 			mul_thunderedge_ability = {

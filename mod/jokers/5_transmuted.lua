@@ -382,15 +382,14 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
-	attributes = { "usable", "copying", "xblindsize", "tp" },
-	config = { extra = { tp_cost = 10, blind_reduce_x = 0.1 } },
+	attributes = { "usable", "copying", "tp", "destroy_card" },
+	config = { extra = { tp_gain = 10, used = false } },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_impostor_ability",
 			vars = {
-				card.ability.extra.tp_cost,
-				card.ability.extra.blind_reduce_x,
+				card.ability.extra.tp_gain,
 			},
 		})
 		if card.area and card.area == G.jokers then
@@ -463,6 +462,9 @@ Multiverse.UsableJoker({
 	end,
 	calculate = function(self, card, context)
 		local index = 1
+		if context.end_of_round and context.main_eval and not context.game_over then
+			card.ability.extra.used = false
+		end
 		for i = 1, #G.jokers.cards do
 			if G.jokers.cards[i] == card then
 				index = i
@@ -474,15 +476,16 @@ Multiverse.UsableJoker({
 		return SMODS.merge_effects({ left, right })
 	end,
 	can_use = function(self, card)
-		return G.GAME.mul_TP >= card.ability.extra.tp_cost and G.GAME.facing_blind
+		return #G.jokers.highlighted == 1
+			and not SMODS.is_eternal(G.jokers.highlighted[1], card)
+			and G.jokers.highlighted[1] ~= card
+			and not card.ability.extra.used
 	end,
 	use = function(self, card)
-		delay(0.4)
-		SMODS.calculate_effect({
-			x_blind_size = card.ability.extra.blind_reduce_x,
-			colour = G.C.PURPLE,
-		}, card)
-		delay(0.4)
+		card.ability.extra.used = true
+		Multiverse.effect_animation(card, function()
+			Multiverse.ease_TP(card.ability.extra.tp_gain)
+		end)
 	end,
 })
 

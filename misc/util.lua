@@ -765,3 +765,11 @@ function Multiverse.handle_ethereal()
 		delay(0.7)
 	end
 end
+
+function Multiverse.get_non_eternal_jokers(checking_source)
+	for _, j in ipairs(G.jokers) do
+		if SMODS.is_eternal(j, checking_source) then
+			
+		end
+	end
+end

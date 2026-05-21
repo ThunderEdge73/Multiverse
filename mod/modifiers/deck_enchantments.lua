@@ -921,7 +921,7 @@ Multiverse.DeckEnchantment({
 	end,
 	enchantment_type = "positive",
 	calculate = function(self, enchantment, context)
-		if context.after then
+		if context.after and G.GAME.current_round.discards_left > 0 then
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					ease_hands_played(enchantment.ability.exchanged)
