@@ -12,7 +12,7 @@ elseif not self.greyed then
 '''
 position = "before"
 payload = '''
-elseif Multiverse.is_valid_half(self) or (self.config.center_key == "m_mul_frankenstein" and Multiverse.is_valid_frankenstein(self)) then
+elseif Multiverse.is_valid_half(self) or self.mul_thunderedge_credits or (self.config.center_key == "m_mul_frankenstein" and Multiverse.is_valid_frankenstein(self)) then
     -- dont render base here as well
 '''
 match_indent = true
@@ -38,9 +38,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = '''
-if card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then
-'''
+pattern = '''if not hide_desc and card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then'''
 position = "before"
 payload = '''
 if card and card.ability and Multiverse.is_valid_half(card) then

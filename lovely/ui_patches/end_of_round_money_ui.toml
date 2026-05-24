@@ -7,17 +7,9 @@ dump_lua = true
 [patches.pattern]
 target = "functions/state_events.lua"
 pattern = '''
-        -- TARGET: calc_dollar_bonus per card
-        if ret then
-            i = i+1
-            add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = _card})
-            pitch = pitch + 0.06
-            dollars = dollars + ret
-        end
-    end
-end
+for _, target in ipairs(SMODS.get_card_areas('individual', 'calc_dollar_bonus')) do
 '''
-position = "after"
+position = "before"
 payload = '''
 local i2 = 0
 for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
@@ -41,7 +33,7 @@ match_indent = true
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = '''
-elseif config.name == 'custom' then
+elseif string.find(config.name, 'custom') then
 '''
 position = "before"
 payload = '''
