@@ -383,7 +383,7 @@ Multiverse.UsableJoker({
 	blueprint_compat = false,
 	cost = 40,
 	attributes = { "usable", "copying", "tp", "destroy_card" },
-	config = { extra = { tp_gain = 10, used = false } },
+	config = { extra = { tp_gain = 10 } },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
@@ -478,10 +478,9 @@ Multiverse.UsableJoker({
 	can_use = function(self, card)
 		return #Multiverse.filter(G.jokers.cards, function(item)
 			return item ~= card and not SMODS.is_eternal(item, card)
-		end) >= 1 and not card.ability.extra.used
+		end) >= 1
 	end,
 	use = function(self, card)
-		card.ability.extra.used = true
 		Multiverse.start_interaction({
 			area = "jokers",
 			can_end_interaction = function()

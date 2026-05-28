@@ -166,6 +166,38 @@ SMODS.DrawStep({
 	conditions = { vortex = false, facing = "front" },
 })
 
+SMODS.DrawStep({
+	key = "thunderedge_credits",
+	order = -9,
+	func = function(card, layer)
+		if card.mul_thunderedge_credits then
+			card.children.center:draw_shader("mul_hover_transition_below", nil, card.ARGS.send_to_shader)
+			card.children.thunderedge_alt:draw_shader("mul_hover_transition_above", nil, card.ARGS.send_to_shader)
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
+
+SMODS.Shader({
+	key = "hover_transition_above",
+	path = "hover_transition_above.fs",
+	send_vars = function(sprite, card)
+		return {
+			progress = card and (card.mul_transition_progress or 0) or 0,
+		}
+	end,
+})
+
+SMODS.Shader({
+	key = "hover_transition_below",
+	path = "hover_transition_below.fs",
+	send_vars = function(sprite, card)
+		return {
+			progress = card and (card.mul_transition_progress or 0) or 0,
+		}
+	end,
+})
+
 Multiverse.TEMP_ENHANCEMENT_SPRITES = {}
 SMODS.DrawStep({
 	key = "frankenstein_render",
@@ -247,5 +279,59 @@ SMODS.DrawSteps["tags_buttons"].func = function(card, layer)
 	end
 	if card.children.mul_joker_use_button and card.highlighted then
 		card.children.mul_joker_use_button:draw()
+	end
+end
+
+local floating_hook = SMODS.DrawSteps["floating_sprite"].func
+SMODS.DrawSteps["floating_sprite"].func = function(card, layer)
+	if card.mul_thunderedge_credits then
+		local scale_mod = 0.07 + 0.02 * math.sin(1.8 * G.TIMERS.REAL)
+		local rotate_mod = 0.05 * math.sin(1.219 * G.TIMERS.REAL)
+		card.children.floating_sprite:draw_shader(
+			"mul_hover_transition_below",
+			0,
+			nil,
+			nil,
+			card.children.center,
+			scale_mod,
+			rotate_mod,
+			nil,
+			0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
+			nil,
+			0.6
+		)
+		card.children.thunderedge_alt_soul:draw_shader(
+			"mul_hover_transition_above",
+			0,
+			nil,
+			nil,
+			card.children.center,
+			scale_mod,
+			rotate_mod,
+			nil,
+			0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
+			nil,
+			0.6
+		)
+		card.children.floating_sprite:draw_shader(
+			"mul_hover_transition_below",
+			nil,
+			nil,
+			nil,
+			card.children.center,
+			scale_mod,
+			rotate_mod
+		)
+		card.children.thunderedge_alt_soul:draw_shader(
+			"mul_hover_transition_above",
+			nil,
+			nil,
+			nil,
+			card.children.center,
+			scale_mod,
+			rotate_mod
+		)
+	else
+		floating_hook(card, layer)
 	end
 end

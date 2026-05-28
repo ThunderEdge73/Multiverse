@@ -79,17 +79,14 @@ end
 
 local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites, ...)
-	local misc = ...
 	local c = center
 	if
-		center == "m_mul_waldo"
-		and Multiverse.contains_value(G.playing_cards or {}, self)
-		and not Multiverse._CREATING_WALDO
+		(center == "m_mul_waldo" or Multiverse.is_intangible(self))
+		and not initial
 	then
-		c = "c_base"
+		c = self.config.center_key
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				set_ability_hook(self, "c_base", initial, delay_sprites, misc)
 				Multiverse.explode({ target = self, x_scale = 3, y_scale = 3 })
 				return true
 			end,
@@ -101,7 +98,7 @@ end
 local copy_card_hook = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition, ...)
 	local ret = copy_card_hook(other, new_card, card_scale, playing_card, strip_edition, ...)
-	if ret.config.center_key == "m_mul_waldo" then
+	if ret.config.center_key == "m_mul_waldo" or Multiverse.is_intangible(ret) then
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				if Multiverse.contains_value(G.playing_cards or {}, ret) then
@@ -262,6 +259,15 @@ function Card:click(...)
 	end
 end
 
+local can_highlight = CardArea.can_highlight
+function CardArea:can_highlight(card, ...)
+	local ret = can_highlight(self, card, ...)
+	if Multiverse.is_intangible(card) then
+		return false
+	end
+	return ret
+end
+
 local highlight_hook = Card.highlight
 function Card:highlight(is_highlighted, ...)
 	local ret = highlight_hook(self, is_highlighted, ...)
@@ -317,4 +323,10 @@ function Card:align_h_popup(...)
 		ret.offset.y = ret.offset.y - 0.6
 	end
 	return ret
+end
+
+local sort_hook = CardArea.sort
+function CardArea:sort(method, ...)
+	sort_hook(self, method, ...)
+	Multiverse.handle_pins(self.cards)
 end

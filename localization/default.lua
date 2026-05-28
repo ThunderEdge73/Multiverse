@@ -137,6 +137,16 @@ return {
 					"Enchantment Luck",
 				},
 			},
+			du_mul_intangible = {
+				name = "Intangible",
+				text = {
+					"{C:red}Cannot{} be selected",
+					"{C:red}Cannot{} be copied",
+					"This card {C:red}cannot",
+					"be changed into",
+					"another card",
+				}
+			}
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -820,6 +830,39 @@ return {
 					"{C:attention}Polymerization",
 				},
 			},
+			m_mul_left_hand = {
+				name = "Left Hand",
+				text = {
+					"{C:attention}Intangible",
+					"Pinned to the right",
+					"Has no rank or suit",
+					"{X:mult,C:white}X#1#{} Mult per card in",
+					"hand while held in hand",
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
+				}
+			},
+			m_mul_right_hand = {
+				name = "Right Hand",
+				text = {
+					"{C:attention}Intangible",
+					"Pinned to the left",
+					"Has no rank or suit",
+					"{C:chips}+#1#{} Chips per card in",
+					"hand while held in hand",
+					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}",
+				}
+			},
+			m_mul_singularity = {
+				name = "Singularity Card",
+				text = {
+					"{C:chips}+#1#{} Chips, {X:mult,C:white}X#2#{} Mult",
+					"while held in hand",
+					"{C:attention}Right Hand{} gives an",
+					"additional {C:chips}+#1#{} Chips",
+					"{C:attention}Left Hand{} gives an",
+					"additional {X:mult,C:white}X#3#{} Mult",
+				}
+			}
 		},
 		Edition = {
 			e_mul_hyperdimensional = {
@@ -1125,6 +1168,24 @@ return {
 						"or TP, instead lose",
 						"{C:attention}half{} that amount",
 					},
+					{
+						"{C:inactive,s:0.8}Certainly a programmer",
+						"{C:inactive,s:0.8}that exists.",
+					}
+				},
+			},
+			j_mul_thunderedge_awakened = {
+				name = {"ThunderEdge", "{C:mul_transmuted,s:0.8}(Awakened){}"},
+				text = {
+					{
+						"When round begins, add",
+						"{C:attention}Left Hand{} and {C:attention}Right",
+						"{C:attention}Hand{} to your hand",
+					},
+					{
+						"{C:inactive,s:0.8}(insert joke about overpowered",
+						"{C:inactive,s:0.8}self-insert joker here)",
+					}
 				},
 			},
 			j_mul_proto = {
@@ -1136,6 +1197,9 @@ return {
 						"scored hand",
 						"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
 					},
+					{
+						"{C:inactive,s:0.8}floof the ralsei :3"
+					}
 				},
 			},
 			j_mul_bloodbath = {
@@ -1817,10 +1881,7 @@ return {
 				name = "Ability: Murder",
 				text = {
 					"Cost: Destroy {C:attention}1{} Joker",
-					"Effect: Gain {C:attention}#1#{} TP",
-					"{C:inactive}(Can only be used{}",
-					"{C:inactive}once per round){}",
-					"{C:inactive}(Currently #1#){}",
+					"Effect: Gain {C:attention}#1#%{} TP",
 				},
 			},
 			mul_thunderedge_ability = {
@@ -1837,6 +1898,22 @@ return {
 					"Cost: {C:attention}#1#%{} TP",
 					"Effect: Apply a {C:attention}Frozen",
 					"{C:attention}Seal{} to {C:attention}#2#{} selected card",
+				},
+			},
+			mul_thunderedge_awakened_ability = {
+				name = "Ability: Collapse",
+				text = {
+					"Cost: {C:attention}#1#%{} TP",
+					"Effect: Destroy all cards",
+					"in hand that are not {C:attention}Left",
+					"{C:attention}Hand{} or {C:attention}Right Hand{}, then",
+					"add a {C:attention}Singularity Card{} to",
+					"your hand that inherits the",
+					"{C:chips}Chips{} of {C:attention}Right Hand{} and the",
+					"the {X:mult,C:white}XMult{} of {C:attention}Left Hand{} prior",
+					"to activating this ability",
+					"{C:inactive}(The created {C:attention}Singularity Card{}",
+					"{C:inactive}will have {C:chips}+#2#{C:inactive} Chips, {X:mult,C:white}X#3#{C:inactive} Mult){}",
 				},
 			},
 			--#endregion
@@ -1894,6 +1971,14 @@ return {
 				text = {
 					"Destroy {C:attention}#2#{}",
 					"playing cards",
+					"{C:inactive}(#1#/#2#){}",
+				},
+			},
+			mul_thunderedge_hint = {
+				name = "Hint",
+				text = {
+					"Play {C:attention}#2#{} hands that",
+					"contain a {C:attention}Storm{}",
 					"{C:inactive}(#1#/#2#){}",
 				},
 			},
@@ -2079,6 +2164,7 @@ return {
 			k_mul_antimatter_grow4 = "What have we done?",
 			k_mul_popped = "Popped!",
 			k_mul_mined = "Mined!",
+			k_mul_manifested = "Manifested!",
 			k_mul_won_fifty_fifty = "Won!",
 			k_mul_lost_fifty_fifty = "Lost...",
 			k_mul_eliminated = "Eliminated!",

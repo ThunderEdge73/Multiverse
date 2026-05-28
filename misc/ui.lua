@@ -999,6 +999,9 @@ function Multiverse.credits_tab_definition()
 	}
 end
 
+SMODS.draw_ignore_keys["thunderedge_alt"] = true
+SMODS.draw_ignore_keys["thunderedge_alt_soul"] = true
+
 function Multiverse.generate_credits_desc_nodes(entry)
 	G.mul_credits[#G.mul_credits + 1] = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
@@ -1024,6 +1027,49 @@ function Multiverse.generate_credits_desc_nodes(entry)
 	function card:click()
 		Moveable.click(self)
 		love.system.openURL(entry.link)
+	end
+	if entry.card_key == "j_mul_thunderedge" then
+		card.mul_thunderedge_credits = true
+		card.mul_transition_progress = 0
+		card.children.floating_sprite:set_role({ major = card, role_type = "Glued", draw_major = card })
+		card.children.thunderedge_alt_soul =
+			SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, "mul_contributors", { x = 1, y = 1 })
+		card.children.thunderedge_alt =
+			SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, "mul_contributors", { x = 0, y = 1 })
+		for _, s in ipairs({ "thunderedge_alt", "thunderedge_alt_soul" }) do
+			card.children[s].states.hover = card.states.hover
+			card.children[s].states.click = card.states.click
+			card.children[s].states.drag = card.states.drag
+			card.children[s].states.collide.can = false
+			card.children[s]:set_role({ major = card, role_type = "Glued", draw_major = card })
+		end
+		function card:hover()
+			Moveable.hover(self)
+			G.E_MANAGER:add_event(Event({
+				trigger = "ease",
+				ref_table = card,
+				ref_value = "mul_transition_progress",
+				blocking = false,
+				blockable = false,
+				ease_to = 1,
+				delay = 0.15,
+			}))
+		end
+		function card:stop_hover()
+			Moveable.stop_hover(self)
+			G.E_MANAGER:add_event(Event({
+				trigger = "ease",
+				ref_table = card,
+				ref_value = "mul_transition_progress",
+				blocking = false,
+				blockable = false,
+				ease_to = 0,
+				delay = 0.15,
+			}))
+		end
+		function card:update(dt)
+			Moveable:update(dt)
+		end
 	end
 	G.mul_credits[#G.mul_credits]:emplace(card)
 	return {

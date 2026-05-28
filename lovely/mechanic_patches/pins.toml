@@ -1,0 +1,14 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''cardarea.lua'''
+pattern = '''table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 < b.T.x + b.T.w/2 end)'''
+position = "after"
+payload = '''
+Multiverse.handle_pins(self.cards)
+'''
+match_indent = true

@@ -81,6 +81,12 @@ SMODS.current_mod.calculate = function(self, context)
 	end
 	if context.end_of_round and not context.game_over and context.main_eval then
 		G.GAME.mul_objection_active = false
+		local cards_to_destroy = Multiverse.filter(G.playing_cards, function (item)
+			return SMODS.has_enhancement(item, "m_mul_left_hand") or SMODS.has_enhancement(item, "m_mul_right_hand")
+		end)
+		if #cards_to_destroy > 0 then
+			SMODS.destroy_cards(cards_to_destroy)
+		end
 		Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_rate, { from_charge = true })
 		if context.beat_boss then
 			G.GAME.num_bosses_defeated = (G.GAME.num_bosses_defeated or 0) + 1

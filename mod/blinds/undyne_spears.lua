@@ -499,7 +499,10 @@ end
 
 function Multiverse.process_undyne_hit(percent)
 	play_sound("mul_take_damage", 1, 2.0)
-	Multiverse.modify_current_score(-G.GAME.blind.chips / (percent * G.GAME.mul_undyne_damage_mult), true)
+	SMODS.calculate_effect({
+		score = -G.GAME.blind.chips / (percent * G.GAME.mul_undyne_damage_mult),
+		colour = G.C.PURPLE,
+	}, G.GAME.blind)
 	local pool = Multiverse.filter(G.hand.cards, function(item)
 		return not item.debuff
 	end)

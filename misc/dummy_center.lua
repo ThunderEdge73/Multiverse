@@ -128,3 +128,7 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "ethereal"
 })
+
+Multiverse.DummyCenter({
+	key = "intangible"
+})

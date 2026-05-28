@@ -195,9 +195,138 @@ SMODS.Enhancement({
 				[card.ability.extra.enhancement2] = true,
 			}
 		end
-		if context.check_eternal and context.trigger and (context.trigger.mul_fusion or context.trigger.mul_split) and context.other_card == card then
+		if
+			context.check_eternal
+			and context.trigger
+			and (context.trigger.mul_fusion or context.trigger.mul_split)
+			and context.other_card == card
+		then
 			return {
 				no_destroy = { override_compat = true },
+			}
+		end
+	end,
+})
+
+function Multiverse.calculate_left_hand_xmult(card)
+	if not G.hand then
+		return 1
+	end
+	local total = 1 + card.ability.extra.xmult * #G.hand.cards
+	for _, c in ipairs(G.hand.cards) do
+		if SMODS.has_enhancement(c, "m_mul_singularity") then
+			total = total + ((c.ability.extra or {}).xmult or 1) - 1
+		end
+	end
+	return total
+end
+
+function Multiverse.calculate_right_hand_chips(card)
+	if not G.hand then
+		return 0
+	end
+	local total = card.ability.extra.chips * #G.hand.cards
+	for _, c in ipairs(G.hand.cards) do
+		if SMODS.has_enhancement(c, "m_mul_singularity") then
+			total = total + ((c.ability.extra or {}).chips or 0)
+		end
+	end
+	return total
+end
+
+SMODS.Enhancement({
+	key = "left_hand",
+	pos = { x = 3, y = 1 },
+	atlas = "contributors",
+	config = { extra_slots_used = -1, extra = { xmult = 0.1 } },
+	weight = 0,
+	always_scores = true,
+	no_suit = true,
+	no_rank = true,
+	replace_base_card = true,
+	mul_right_pinned = true,
+	mul_intangible = true,
+	in_pool = function(self, args)
+		return false
+	end,
+	loc_vars = function(self, info_queue, card)
+		if not card.fake_card then
+			info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_intangible"]
+		end
+		return {
+			vars = {
+				card.ability.extra.xmult,
+				Multiverse.calculate_left_hand_xmult(card)
+			},
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.hand then
+			return {
+				xmult = Multiverse.calculate_left_hand_xmult(card)
+			}
+		end
+	end,
+})
+
+SMODS.Enhancement({
+	key = "right_hand",
+	pos = { x = 2, y = 1 },
+	atlas = "contributors",
+	config = { extra_slots_used = -1, extra = { chips = 10 } },
+	weight = 0,
+	always_scores = true,
+	no_suit = true,
+	no_rank = true,
+	replace_base_card = true,
+	mul_left_pinned = true,
+	mul_intangible = true,
+	in_pool = function(self, args)
+		return false
+	end,
+	loc_vars = function(self, info_queue, card)
+		if not card.fake_card then
+			info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_intangible"]
+		end
+		return {
+			vars = {
+				card.ability.extra.chips,
+				Multiverse.calculate_right_hand_chips(card)
+			},
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.hand then
+			return {
+				chips = Multiverse.calculate_right_hand_chips(card)
+			}
+		end
+	end,
+})
+
+SMODS.Enhancement({
+	key = "singularity",
+	pos = { x = 4, y = 1 },
+	atlas = "contributors",
+	config = { extra = { chips = 0, xmult = 1 } },
+	weight = 0,
+	in_pool = function(self, args)
+		return false
+	end,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.chips,
+				card.ability.extra.xmult,
+				card.ability.extra.xmult - 1,
+			},
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.hand then
+			return {
+				chips = card.ability.extra.chips,
+				xmult = card.ability.extra.xmult
 			}
 		end
 	end,

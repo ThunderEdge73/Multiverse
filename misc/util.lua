@@ -609,7 +609,7 @@ end
 
 function Multiverse.explode(anchor)
 	Multiverse.play_animation("explosion", {
-		anchor = anchor
+		anchor = anchor,
 	})
 	play_sound("mul_deltarune_explosion", 1, 0.8)
 end
@@ -641,41 +641,6 @@ end
 
 function Multiverse.to_pixels(x)
 	return x * (G.TILESIZE * G.TILESCALE)
-end
-
-function Multiverse.modify_current_score(num, silent, no_juice)
-	if G.GAME.chips then
-		if not no_juice then
-			SMODS.juice_up_blind()
-		end
-		G.GAME.chips = G.GAME.chips + num
-		if not silent then
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.06 * G.SETTINGS.GAMESPEED,
-				blockable = false,
-				blocking = false,
-				func = function()
-					play_sound("tarot2", 0.76, 0.4)
-					return true
-				end,
-			}))
-			play_sound("tarot2", 1, 0.4)
-		end
-		if G.GAME.chips >= G.GAME.blind.chips then
-			G.E_MANAGER:add_event(Event({
-				blocking = false,
-				func = function()
-					if G.STATE == G.STATES.SELECTING_HAND then
-						G.STATE = G.STATES.HAND_PLAYED
-						G.STATE_COMPLETE = true
-						end_round()
-						return true
-					end
-				end,
-			}))
-		end
-	end
 end
 
 function Multiverse.eggman_secret()
@@ -766,10 +731,26 @@ function Multiverse.handle_ethereal()
 	end
 end
 
-function Multiverse.get_non_eternal_jokers(checking_source)
-	for _, j in ipairs(G.jokers) do
-		if SMODS.is_eternal(j, checking_source) then
-			
+function Multiverse.handle_pins(cards)
+	local l_insert_index = 1
+	for i, card in ipairs(cards) do
+		if Multiverse.is_left_pinned(card) then
+			table.insert(cards, l_insert_index, table.remove(cards, i))
+			l_insert_index = l_insert_index + 1
+		elseif Multiverse.is_right_pinned(card) then
+			table.insert(cards, table.remove(cards, i))
 		end
 	end
+end
+
+function Multiverse.is_intangible(card)
+	return (G.P_CENTERS[card.config.center_key] or {}).mul_intangible
+end
+
+function Multiverse.is_left_pinned(card)
+	return (G.P_CENTERS[card.config.center_key] or {}).mul_left_pinned
+end
+
+function Multiverse.is_right_pinned(card)
+	return (G.P_CENTERS[card.config.center_key] or {}).mul_right_pinned
 end
