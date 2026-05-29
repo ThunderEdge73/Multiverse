@@ -1,3 +1,22 @@
+function Multiverse.blind_instructions_HUD_def(key)
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			padding = 0.05,
+			colour = lighten(G.C.JOKER_GREY, 0.5),
+			align = "cm",
+			r = 0.1,
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { padding = 0.05, colour = G.C.L_BLACK, align = "cm", r = 0.1, emboss = 0.05 },
+				nodes = Multiverse.create_localized_rows("Other", "mul_" .. key .. "_inst"),
+			},
+		},
+	}
+end
+
 function Multiverse.show_blind_instructions(key)
 	if G.mul_blind_instructions then
 		G.mul_blind_instructions:remove()

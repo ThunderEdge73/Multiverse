@@ -1098,25 +1098,6 @@ function Multiverse.generate_credits_desc_nodes(entry)
 	}
 end
 
-function Multiverse.blind_instructions_HUD_def(key)
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			padding = 0.05,
-			colour = lighten(G.C.JOKER_GREY, 0.5),
-			align = "cm",
-			r = 0.1,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = { padding = 0.05, colour = G.C.L_BLACK, align = "cm", r = 0.1, emboss = 0.05 },
-				nodes = Multiverse.create_localized_rows("Other", "mul_" .. key .. "_inst"),
-			},
-		},
-	}
-end
-
 ---Creates a fancy UI that displays text from a loc table
 ---@param set string
 ---@param key string
