@@ -75,3 +75,84 @@ function Multiverse.create_UIBox_your_collection_skillcards()
 		snap_back = true,
 	})
 end
+
+function Multiverse.create_ench_name_UIBox(card)
+	local text = localize({
+		type = "name_text",
+		set = "mul_DeckEnchantment",
+		key = card.ability.extra.collection_enchant,
+	})
+	text = Multiverse.parse_vars(text, { "" })
+	words = {}
+	string.gsub(text, "([%a%p]+)", function(w)
+		table.insert(words, w)
+	end)
+	rows = {}
+	for _, word in ipairs(words) do
+		rows[#rows + 1] = {
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = word,
+						colour = G.C.UI.TEXT_LIGHT,
+						scale = 0.3,
+					},
+				},
+			},
+		}
+	end
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			r = 0.2,
+			colour = { 0, 0, 0, 0.4 },
+			align = "cm",
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					padding = 0.1,
+					align = "cm",
+				},
+				nodes = rows,
+			},
+		},
+	}
+end
+
+SMODS.draw_ignore_keys["mul_enchant_name"] = true
+
+SMODS.DrawStep({
+	key = "enchant_name",
+	order = 200,
+	func = function(self, layer)
+		local should_draw = (self.ability.extra or {}).collection_enchant
+		if
+			not self.children.mul_ench_name
+			and (self.config.center.discovered or self.bypass_discovery_center)
+			and should_draw
+		then
+			self.children.mul_ench_name = UIBox({
+				definition = Multiverse.create_ench_name_UIBox(self),
+				config = {
+					parent = self,
+					align = "cm",
+					bond = "Glued",
+				},
+			})
+		end
+		if self.children.mul_ench_name then
+			if should_draw then
+				self.children.mul_ench_name:draw()
+			else
+				self.children.mul_ench_name:remove()
+				self.children.mul_ench_name = nil
+			end
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
