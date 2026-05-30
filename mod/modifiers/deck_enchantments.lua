@@ -753,6 +753,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+	group_id = "mending_infinity"
 })
 
 Multiverse.DeckEnchantment({
@@ -931,6 +932,7 @@ Multiverse.DeckEnchantment({
 			}))
 		end
 	end,
+	group_id = "mending_infinity"
 })
 
 Multiverse.DeckEnchantment({
@@ -1071,6 +1073,12 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "emptiness",
+	max_level = 1,
+	enchantment_type = "negative",
 })
 
 Multiverse.DeckEnchantment({

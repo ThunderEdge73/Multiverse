@@ -29,15 +29,3 @@ payload = '''
 mul_thaumaturgy_energy = self.HUD:get_UIE_by_ID("thaumaturgy_UI_count"),
 '''
 match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''
-if _c.set == 'Other' then
-'''
-position = "after"
-payload = '''
-if _c.key == "mul_thaumaturgy_desc" then specific_vars = {G.GAME.mul_thaumaturgy_energy_rate >= 0 and "Gain" or "Lose", math.abs(G.GAME.mul_thaumaturgy_energy_rate)} end
-'''
-match_indent = true

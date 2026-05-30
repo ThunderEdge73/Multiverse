@@ -330,3 +330,9 @@ function CardArea:sort(method, ...)
 	sort_hook(self, method, ...)
 	Multiverse.handle_pins(self.cards)
 end
+
+local exit_overlay_menu_hook = G.FUNCS.exit_overlay_menu
+function G.FUNCS.exit_overlay_menu()
+	exit_overlay_menu_hook()
+	Multiverse.DETAILED_ENCHANTMENT_VIEW = nil
+end

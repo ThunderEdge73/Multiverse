@@ -96,7 +96,7 @@ end
 
 function Multiverse.create_TP_ui()
 	local col = {}
-	for i = 1, 50 do
+	for _ = 1, 50 do
 		col[#col + 1] = {
 			n = G.UIT.R,
 			config = {
@@ -207,7 +207,7 @@ function Multiverse.create_TP_ui()
 					r = 0.1,
 					colour = lighten(G.C.JOKER_GREY, 0.5),
 					padding = 0.05,
-					detailed_tooltip = { set = "Other", key = "mul_TP_desc" },
+					detailed_tooltip = Multiverse.DummyCenters["du_mul_tp_info"],
 					detailed_tooltip_align = "cl",
 					detailed_tooltip_offset = { x = -0.1, y = 0 },
 				},

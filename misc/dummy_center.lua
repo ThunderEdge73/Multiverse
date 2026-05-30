@@ -13,7 +13,7 @@ Multiverse.DummyCenter = SMODS.Center:extend({
 	no_collection = true,
 	pre_inject_class = function(self)
 		G.P_CENTER_POOLS[self.set] = {}
-	end
+	end,
 })
 
 Multiverse.DummyCenter({
@@ -106,7 +106,7 @@ Multiverse.DummyCenter({
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				50
+				50,
 			},
 		}
 	end,
@@ -118,17 +118,56 @@ Multiverse.DummyCenter({
 		return {
 			vars = {
 				100,
-				G.GAME.mul_enchantment_luck or 0
+				G.GAME.mul_enchantment_luck or 0,
 			},
-			key = Multiverse.config.ench_luck_brief and "du_mul_ench_luck_info_brief" or nil
+			key = Multiverse.config.ench_luck_brief and "du_mul_ench_luck_info_brief" or nil,
 		}
 	end,
 })
 
 Multiverse.DummyCenter({
-	key = "ethereal"
+	key = "ethereal",
 })
 
 Multiverse.DummyCenter({
-	key = "intangible"
+	key = "intangible",
+})
+
+Multiverse.DummyCenter({
+	key = "thaumaturgy_energy_info",
+	loc_vars = function(self, info_queue, card)
+		local key = "mul_thaumaturgy_gain_desc"
+		if G.GAME.mul_thaumaturgy_energy_rate < 0 then
+			key = "mul_thaumaturgy_loss_desc"
+		end
+		return {
+			set = "Other",
+			key = key,
+			vars = {
+				math.abs(G.GAME.mul_thaumaturgy_energy_rate),
+			},
+		}
+	end,
+})
+
+Multiverse.DummyCenter({
+	key = "tp_info",
+	loc_vars = function(self, info_queue, card)
+		local key = "mul_TP_desc"
+		if not Multiverse.joke_TP_desc_triggered and math.random(1, 500) == 1 then
+			key = "mul_TP_desc_joke1"
+			Multiverse.joke_TP_desc_triggered = true
+		elseif Multiverse.joke_TP_desc_triggered then
+			key = "mul_TP_desc_joke2"
+		end
+		Multiverse.joke_TP_desc_triggered = false
+		return {
+			set = "Other",
+			key = key,
+			vars = {
+				G.GAME.mul_TP_min_gain,
+				G.GAME.mul_TP_max_gain,
+			},
+		}
+	end,
 })

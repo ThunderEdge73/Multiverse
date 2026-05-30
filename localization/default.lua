@@ -145,8 +145,8 @@ return {
 					"This card {C:red}cannot",
 					"be changed into",
 					"another card",
-				}
-			}
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -611,6 +611,12 @@ return {
 					"cannot be {C:red}debuffed",
 				},
 			},
+			de_mul_emptiness = {
+				name = "Emptiness",
+				text = {
+					"Does nothing yet",
+				},
+			},
 		},
 		mul_EnchantedBook = {
 			c_mul_enchanted_book = {
@@ -839,7 +845,7 @@ return {
 					"{X:mult,C:white}X#1#{} Mult per card in",
 					"hand while held in hand",
 					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
-				}
+				},
 			},
 			m_mul_right_hand = {
 				name = "Right Hand",
@@ -850,7 +856,7 @@ return {
 					"{C:chips}+#1#{} Chips per card in",
 					"hand while held in hand",
 					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}",
-				}
+				},
 			},
 			m_mul_singularity = {
 				name = "Singularity Card",
@@ -861,8 +867,8 @@ return {
 					"additional {C:chips}+#1#{} Chips",
 					"{C:attention}Left Hand{} gives an",
 					"additional {X:mult,C:white}X#3#{} Mult",
-				}
-			}
+				},
+			},
 		},
 		Edition = {
 			e_mul_hyperdimensional = {
@@ -1171,11 +1177,11 @@ return {
 					{
 						"{C:inactive,s:0.8}Certainly a programmer",
 						"{C:inactive,s:0.8}that exists.",
-					}
+					},
 				},
 			},
 			j_mul_thunderedge_awakened = {
-				name = {"ThunderEdge", "{C:mul_transmuted,s:0.8}(Awakened){}"},
+				name = { "ThunderEdge", "{C:mul_transmuted,s:0.8}(Awakened){}" },
 				text = {
 					{
 						"When round begins, add",
@@ -1185,7 +1191,7 @@ return {
 					{
 						"{C:inactive,s:0.8}(insert joke about overpowered",
 						"{C:inactive,s:0.8}self-insert joker here)",
-					}
+					},
 				},
 			},
 			j_mul_proto = {
@@ -1198,8 +1204,8 @@ return {
 						"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
 					},
 					{
-						"{C:inactive,s:0.8}floof the ralsei :3"
-					}
+						"{C:inactive,s:0.8}floof the ralsei :3",
+					},
 				},
 			},
 			j_mul_bloodbath = {
@@ -1984,10 +1990,22 @@ return {
 			},
 			--#endregion
 			--#region Mechanic descriptions
-			mul_thaumaturgy_desc = {
+			mul_thaumaturgy_gain_desc = {
 				name = "Thaumaturgy Energy",
 				text = {
-					"#1#{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#2#{} at end of round",
+					"Gain{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} at end of round",
+					"If Thaumaturgy Energy",
+					"exceeds{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{} at end of",
+					"round, set Thaumaturgy",
+					"Energy to{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{} and create",
+					"a {C:attention}Philosopher's Stone",
+					"{C:inactive}(Must have room){}",
+				},
+			},
+			mul_thaumaturgy_loss_desc = {
+				name = "Thaumaturgy Energy",
+				text = {
+					"Lose{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{} at end of round",
 					"If Thaumaturgy Energy",
 					"exceeds{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{} at end of",
 					"round, set Thaumaturgy",
@@ -2173,6 +2191,8 @@ return {
 			k_mul_frozen = "Frozen!",
 			k_mul_destroyed = "Destroyed!",
 			k_mul_thaumaturgy_energy = "Thaumaturgy Energy",
+			k_mul_thaumaturgy = "Thaumaturgy",
+			k_mul_energy = "Energy",
 			k_mul_make_room = "Must have at least 1 available consumable slot",
 			k_mul_make_room2 = "in order to create a Philosopher's Stone...",
 			k_mul_confirm = "Confirm",
@@ -2181,10 +2201,19 @@ return {
 			k_mul_myth = "Myth",
 			k_mul_deckenchantment = "Deck Enchantment",
 			k_mul_enchantedbook = "Enchanted Book",
+			k_mul_normal = "Normal",
+			k_mul_cursed = "Cursed",
+			k_mul_legendary = "Legendary",
 			k_mul_skill = "Skill Card",
 			k_mul_activate = "Activate",
 			k_mul_ability = "Ability",
 			k_mul_none = "none",
+			k_mul_view_deck_enchantments = "View Deck Enchantments",
+			k_mul_level_info = "(Level #1#/#2#)",
+			k_mul_incompat_with1 = "The following Deck Enchantments cannot appear:",
+			k_mul_incompat_with2 = "Can't appear on",
+			k_mul_detailed_enchantment_hover_info1 = "(Hover over the book to view",
+			k_mul_detailed_enchantment_hover_info2 = "the enchantment's effects)",
 			b_mul_myth_cards = "Myth Cards",
 			b_mul_deckenchantment_cards = "Deck Enchantments",
 			b_mul_enchantedbook_cards = "Enchanted Books",
@@ -2333,5 +2362,11 @@ return {
 			a_mul_thaumaturgy_energy = "+#1# Energy",
 			a_mul_TP = "+#1#% TP",
 		},
+		tutorial = {
+			mul_de_1 = {
+				"{C:mul_enchantedbook}Deck Enchantments{} are",
+				"passive boosts that",
+			}
+		}
 	},
 }

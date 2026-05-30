@@ -5,29 +5,6 @@ dump_lua = true
 
 [[patches]]
 [patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''
-if _c.set == 'Other' then
-'''
-position = "after"
-payload = '''
-if string.sub(_c.key, 1, 11) == "mul_TP_desc" then
-    specific_vars = {G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain}
-    if not Multiverse.joke_TP_desc_triggered and math.random(1, 500) == 1 then
-        _c.key = "mul_TP_desc_joke1"
-        Multiverse.joke_TP_desc_triggered = true
-    elseif Multiverse.joke_TP_desc_triggered then
-        _c.key = "mul_TP_desc_joke2"
-        Multiverse.joke_TP_desc_triggered = false
-    else
-        _c.key = "mul_TP_desc"
-    end
-end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
 target = "engine/ui.lua"
 pattern = '''
 self.config.h_popup = create_UIBox_detailed_tooltip(self.config.detailed_tooltip)

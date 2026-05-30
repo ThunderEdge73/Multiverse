@@ -87,7 +87,7 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 					colour = temp_col,
 					emboss = 0.05,
 					r = 0.1,
-					detailed_tooltip = { set = "Other", key = "mul_thaumaturgy_desc" },
+					detailed_tooltip = Multiverse.DummyCenters["du_mul_thaumaturgy_energy_info"],
 				},
 				nodes = {
 					{
@@ -107,7 +107,7 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 											{
 												n = G.UIT.T,
 												config = {
-													text = "Thaumaturgy",
+													text = localize("k_mul_thaumaturgy"),
 													colour = G.C.UI.TEXT_LIGHT,
 													scale = 0.3,
 												},
@@ -121,7 +121,7 @@ function Multiverse.thaumaturgy_UI_row(temp_col, temp_col2, scale)
 											{
 												n = G.UIT.T,
 												config = {
-													text = "Energy",
+													text = localize("k_mul_energy"),
 													colour = G.C.UI.TEXT_LIGHT,
 													scale = 0.3,
 												},

@@ -986,7 +986,7 @@ function Multiverse.credits_tab_definition()
 				nodes = {
 					SMODS.GUI.scrollbar({
 						h = 6,
-						w = 0.3,
+						w = 0.2,
 						max = 1,
 						min = 0,
 						colour = Multiverse.C.TRANSMUTED_GRADIENT_SLOW,

@@ -82,11 +82,22 @@ function Multiverse.create_ench_name_UIBox(card)
 		set = "mul_DeckEnchantment",
 		key = card.ability.extra.collection_enchant,
 	})
-	text = Multiverse.parse_vars(text, { "" })
-	words = {}
+	text = Multiverse.parse_vars(
+		text,
+		{ card.ability.extra.forced_level and " " .. Multiverse.number_to_roman(card.ability.extra.forced_level) or "" }
+	)
+	local words = {}
 	string.gsub(text, "([%a%p]+)", function(w)
 		table.insert(words, w)
 	end)
+	if
+		card.ability.extra.forced_level
+		and Multiverse.DeckEnchantments[card.ability.extra.collection_enchant].max_level > 1
+		and #words > 1
+	then
+		local level = table.remove(words)
+		table.insert(words, table.remove(words) .. " " .. level)
+	end
 	rows = {}
 	for _, word in ipairs(words) do
 		rows[#rows + 1] = {
@@ -130,7 +141,7 @@ SMODS.DrawStep({
 	key = "enchant_name",
 	order = 200,
 	func = function(self, layer)
-		local should_draw = (self.ability.extra or {}).collection_enchant
+		local should_draw = ((self.ability and type(self.ability.extra) == "table") and self.ability.extra or {}).collection_enchant
 		if
 			not self.children.mul_ench_name
 			and (self.config.center.discovered or self.bypass_discovery_center)

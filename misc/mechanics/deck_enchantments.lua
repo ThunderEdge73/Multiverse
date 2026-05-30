@@ -162,6 +162,7 @@ end
 function Multiverse.init_deck_enchantments()
 	---@type table<string, EnchantmentData?>
 	G.GAME.mul_deck_enchantments = G.GAME.mul_deck_enchantments or {}
+	G.GAME.mul_deck_enchantment_order = G.GAME.mul_deck_enchantment_order or {}
 	---@type integer
 	G.GAME.mul_enchantment_luck = G.GAME.mul_enchantment_luck or 0
 	---@type integer
@@ -202,7 +203,9 @@ end
 
 function Multiverse.is_group_id_compat(enchantment, other)
 	local curr_id = Multiverse.DeckEnchantments[enchantment].group_id
-	if not curr_id then return true end
+	if not curr_id then
+		return true
+	end
 	for _, key in ipairs(Multiverse.ENCHANTMENT_GROUPS[curr_id]) do
 		if
 			(Multiverse.DeckEnchantments[key]:get_level() > 0) -- if incompat with thing already on deck
@@ -218,13 +221,10 @@ end
 ---@param context CalcContext
 ---@param results table
 function Multiverse.calculate_deck_enchantments(context, results)
-	if G.GAME.mul_deck_enchantments then
-		for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
+	if G.GAME.mul_deck_enchantment_order then
+		for _, key in ipairs(G.GAME.mul_deck_enchantment_order) do
 			local data = G.GAME.mul_deck_enchantments[key]
-			if data and data.level > 0 then
-				results[#results + 1] =
-					Multiverse.DeckEnchantments[key]:calculate(G.GAME.mul_deck_enchantments[key], context)
-			end
+			results[#results + 1] = Multiverse.DeckEnchantments[key]:calculate(data, context)
 		end
 	end
 end
@@ -237,7 +237,17 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 	local init_level = obj:get_level()
 	local final_level = Multiverse.clamp(init_level + amt, 0, obj.max_level)
 	local delta = final_level - init_level
-	if delta == 0 or not Multiverse.is_deck_compat(enchantment) or not Multiverse.is_enchant_compat(enchantment, {}) then
+	if
+		delta == 0
+		or (
+			not Multiverse.config.debug
+			and (
+				not Multiverse.is_deck_compat(enchantment)
+				or not Multiverse.is_enchant_compat(enchantment, {})
+				or not Multiverse.is_group_id_compat(enchantment, {})
+			)
+		)
+	then
 		return
 	end
 	local data = { level = final_level, key = enchantment, ability = copy_table(obj.config) }
@@ -247,8 +257,17 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 	local added = false
 	if init_level == 0 then
 		added = true
+		G.GAME.mul_deck_enchantment_order[#G.GAME.mul_deck_enchantment_order + 1] = enchantment
 	elseif final_level == 0 then
 		removed = true
+		local ench_to_wipe = -1
+		for i, ench in ipairs(G.GAME.mul_deck_enchantment_order) do
+			if ench == enchantment then
+				ench_to_wipe = i
+				break
+			end
+		end
+		table.remove(G.GAME.mul_deck_enchantment_order, ench_to_wipe)
 	end
 	obj:on_change_level(delta, G.GAME.mul_deck_enchantments[enchantment])
 	SMODS.calculate_context({
@@ -354,19 +373,736 @@ function Multiverse.deck_enchantment_info_UI_def()
 					align = "cm",
 					minw = 0.45,
 					minh = 0.2,
+					button = "mul_view_deck_enchantment_details",
+					hover = true,
+					button_dist = 0,
 				},
 				nodes = {
 					{
-						n = G.UIT.R,
-						config = { align = "cm" },
+						n = G.UIT.T,
+						config = {
+							text = localize("k_mul_view_deck_enchantments"),
+							scale = 0.25,
+							colour = G.C.UI.TEXT_LIGHT,
+							align = "cm",
+						},
+					},
+				},
+			},
+		},
+	}
+end
+
+function G.FUNCS.mul_view_deck_enchantment_details(e)
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = Multiverse.detailed_enchantment_info_UI_def(),
+		config = {},
+	})
+end
+
+function Multiverse.populate_info_queue(set, key)
+	local info_queue = {}
+	local loc_target = G.localization.descriptions[set][key]
+	for _, lines in ipairs(loc_target.text_parsed) do
+		for _, part in ipairs(lines) do
+			if part.control.T then
+				info_queue[#info_queue + 1] = G.P_CENTERS[part.control.T] or G.P_TAGS[part.control.T]
+			end
+		end
+	end
+	return info_queue
+end
+
+-- shamelessly taken from Galdur lmao
+Multiverse.back_desc_ui = function(args)
+	local col = G.UIT.R
+	local info_col = G.UIT.C
+	local info_queue = Multiverse.populate_info_queue("Back", args[1])
+	local tooltips = {}
+	local back = Back(G.P_CENTERS[args[1]])
+	local badges = { n = G.UIT.ROOT, config = { colour = G.C.CLEAR, align = "cm" }, nodes = {} }
+	SMODS.create_mod_badges(args[1], badges.nodes)
+	if badges.nodes.mod_set then
+		badges.nodes.mod_set = nil
+	end
+	for _, center in pairs(info_queue) do
+		local desc = generate_card_ui(center, {
+			main = {},
+			info = {},
+			type = {},
+			name = "done",
+			badges = badges or {},
+			from_detailed_tooltip = true,
+		}, nil, center.set, nil)
+		tooltips[#tooltips + 1] = {
+			n = info_col,
+			config = {
+				align = "cm",
+			},
+			nodes = {
+				{
+					n = G.UIT.R,
+					config = {
+						align = "cm",
+						colour = lighten(G.C.JOKER_GREY, 0.5),
+						r = 0.1,
+						padding = 0.05,
+						emboss = 0.05,
+					},
+					nodes = {
+						info_tip_from_rows(desc.info[1], desc.info[1].name),
+					},
+				},
+			},
+		}
+	end
+	return {
+		n = G.UIT.C,
+		config = { align = "cm", padding = 0.1 },
+		nodes = {
+			{
+				n = col,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = {
+							align = "cm",
+							minh = 1.5,
+							r = 0.1,
+							colour = G.C.L_BLACK,
+							padding = 0.1,
+							outline = 1,
+						},
 						nodes = {
 							{
-								n = G.UIT.T,
+								n = G.UIT.R,
 								config = {
-									text = "View Deck Enchantments",
-									scale = 0.25,
-									colour = G.C.UI.TEXT_LIGHT,
 									align = "cm",
+									r = 0.1,
+									minw = 3,
+									maxw = 4,
+									minh = 0.4,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = UIBox({
+												definition = {
+													n = G.UIT.ROOT,
+													config = {
+														align = "cm",
+														colour = G.C.CLEAR,
+													},
+													nodes = {
+														{
+															n = G.UIT.O,
+															config = {
+																object = DynaText({
+																	string = back:get_name(),
+																	maxw = 4,
+																	colours = { G.C.WHITE },
+																	shadow = true,
+																	bump = true,
+																	scale = 0.5,
+																	pop_in = 0,
+																	silent = true,
+																}),
+															},
+														},
+													},
+												},
+												config = {
+													offset = { x = 0, y = 0 },
+													align = "cm",
+												},
+											}),
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+									colour = G.C.WHITE,
+									minh = 1.3,
+									maxh = 3,
+									minw = 3,
+									maxw = 4,
+									r = 0.1,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = UIBox({
+												definition = back:generate_UI(),
+												config = { offset = { x = 0, y = 0 } },
+											}),
+										},
+									},
+								},
+							},
+							badges.nodes[1] and {
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+									r = 0.1,
+									minw = 3,
+									maxw = 4,
+									minh = 0.4,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = UIBox({
+												definition = badges,
+												config = { offset = { x = 0, y = 0 } },
+											}),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			#tooltips > 0 and {
+				n = col,
+				config = { align = "cm", padding = 0.1 },
+				nodes = tooltips,
+			} or nil,
+		},
+	}
+end
+
+local create_popup_UIBox_tooltip_hook = create_popup_UIBox_tooltip
+function create_popup_UIBox_tooltip(tooltip, ...)
+	local ret = create_popup_UIBox_tooltip_hook(tooltip, ...)
+	if tooltip.nothing_else then
+		ret = {
+			n = G.UIT.ROOT,
+			config = { align = "cm", colour = G.C.CLEAR },
+			nodes = ret.nodes[1].nodes,
+		}
+	end
+	return ret
+end
+
+function Multiverse.generate_enchantment_details_UIBox(enchantment_center)
+	local book = SMODS.create_card({ key = "c_mul_enchanted_book" })
+	book.ability.extra.collection_enchant = enchantment_center.key
+	book.ability.extra.forced_level = enchantment_center:get_level()
+	local book_area = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		G.CARD_W,
+		G.CARD_H,
+		{ card_limit = 1, type = "title", highlight_limit = 0, collection = true }
+	)
+	book_area:emplace(book)
+	local extra_text = DynaText({
+		string = localize("k_mul_normal"),
+		colours = { Multiverse.C.DECK_ENCHANTMENT },
+		bump = true,
+		silent = true,
+		scale = 0.6,
+		pop_in = 0,
+	})
+	if enchantment_center.enchantment_type == "negative" then
+		extra_text = DynaText({
+			string = localize("k_mul_cursed"),
+			colours = { G.C.RED },
+			silent = true,
+			scale = 0.6,
+			pop_in = 0,
+		})
+		extra_text.config.quiver = {
+			speed = 0.3,
+			amount = 0.1,
+			silent = true,
+		}
+	elseif enchantment_center.legendary then
+		extra_text = DynaText({
+			string = localize("k_mul_legendary"),
+			colours = { G.C.PURPLE },
+			silent = true,
+			float = true,
+			scale = 0.6,
+			pop_in = 0,
+		})
+	end
+	local incompat_cards = {}
+	for _, key in ipairs(enchantment_center.enchant_incompat) do
+		local incompat_book = SMODS.create_card({ key = "c_mul_enchanted_book" })
+		incompat_book.ability.extra.collection_enchant = key
+		incompat_cards[#incompat_cards + 1] = incompat_book
+	end
+	if enchantment_center.group_id then
+		for _, key in ipairs(Multiverse.ENCHANTMENT_GROUPS[enchantment_center.group_id]) do
+			if key ~= enchantment_center.key then
+				local incompat_book = SMODS.create_card({ key = "c_mul_enchanted_book" })
+				incompat_book.ability.extra.collection_enchant = key
+				incompat_cards[#incompat_cards + 1] = incompat_book
+			end
+		end
+	end
+	local deck_incompat_box = nil
+	if next(enchantment_center.deck_incompat) then
+		local deck_incompat_rows = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = localize("k_mul_incompat_with2"),
+							scale = 0.4,
+							colour = G.C.UI.TEXT_LIGHT,
+						},
+					},
+				},
+			},
+		}
+		for _, key in ipairs(enchantment_center.deck_incompat) do
+			deck_incompat_rows[#deck_incompat_rows + 1] = {
+				n = G.UIT.R,
+				config = {
+					align = "cm",
+					on_demand_tooltip = {
+						filler = {
+							func = Multiverse.back_desc_ui,
+							args = { key },
+						},
+						nothing_else = true,
+					},
+				},
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = localize({ type = "name_text", set = "Back", key = key }),
+							scale = 0.4,
+							colour = G.C.FILTER,
+						},
+					},
+				},
+			}
+		end
+		deck_incompat_box = {
+			n = G.UIT.C,
+			config = { align = "cm", padding = 0.1, colour = G.C.BLACK, r = 0.1 },
+			nodes = deck_incompat_rows,
+		}
+	end
+	local rows = {
+		{
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = {
+						{
+							n = G.UIT.O,
+							config = { object = book_area },
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "cm", padding = 0.1, colour = G.C.BLACK, r = 0.1 },
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.O,
+									config = {
+										object = extra_text,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.O,
+									config = {
+										object = DynaText({
+											string = localize("k_mul_deckenchantment"),
+											colours = { Multiverse.C.DECK_ENCHANTMENT },
+											bump = true,
+											silent = true,
+											scale = 0.6,
+											pop_in = 0,
+										}),
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										text = Multiverse.parse_vars(
+											localize("k_mul_level_info"),
+											{ enchantment_center:get_level(), enchantment_center.max_level }
+										),
+										colour = G.C.UI.TEXT_LIGHT,
+										scale = 0.4,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										text = localize("k_mul_detailed_enchantment_hover_info1"),
+										colour = G.C.UI.TEXT_INACTIVE,
+										scale = 0.4,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										text = localize("k_mul_detailed_enchantment_hover_info2"),
+										colour = G.C.UI.TEXT_INACTIVE,
+										scale = 0.4,
+									},
+								},
+							},
+						},
+					},
+				},
+				deck_incompat_box,
+			},
+		},
+	}
+	if #incompat_cards > 0 then
+		local incompat_area = CardArea(
+			G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+			G.ROOM.T.h,
+			G.CARD_W * (#incompat_cards * 0.95 + 0.25),
+			G.CARD_H,
+			{ card_limit = #incompat_cards, type = "title", highlight_limit = 0, collection = true }
+		)
+		for _, c in ipairs(incompat_cards) do
+			incompat_area:emplace(c)
+		end
+		rows[#rows + 1] = {
+			n = G.UIT.R,
+			config = { align = "cm", padding = 0.1 },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = { text = localize("k_mul_incompat_with1"), scale = 0.5, colour = G.C.UI.TEXT_LIGHT },
+				},
+			},
+		}
+		if incompat_area.T.w > 11 then
+			local scrollbox = SMODS.UIScrollBox({
+				content = {
+					definition = {
+						n = G.UIT.ROOT,
+						config = { align = "cm", colour = G.C.CLEAR, padding = 0.1 },
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = { object = incompat_area },
+							},
+						},
+					},
+					config = { align = "cm" },
+				},
+				overflow = {
+					node_config = {
+						maxw = 11,
+						r = 0.1,
+					},
+				},
+				sync_mode = "progress",
+			})
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = { object = scrollbox },
+					},
+				},
+			}
+			local bar = SMODS.GUI.scrollbar({
+				horizontal = true,
+				w = 11,
+				h = 0.2,
+				colour = Multiverse.C.DECK_ENCHANTMENT,
+				bg_colour = { 0, 0, 0, 0.15 },
+				scroll_collision_obj = scrollbox,
+			})
+			bar.config.align = "cm"
+			rows[#rows + 1] = bar
+		else
+			rows[#rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = { object = incompat_area },
+					},
+				},
+			}
+		end
+	end
+	local ui = {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR, padding = 0.1, align = "cm", minh = 8, minw = 12 },
+		nodes = rows,
+	}
+	return ui
+end
+
+function G.FUNCS.mul_update_enchantment_detailed_view(e)
+	if (Multiverse.DETAILED_ENCHANTMENT_VIEW or {}).key == e.config.center_data.key then
+		e.config.colour = Multiverse.C.DECK_ENCHANTMENT
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+	end
+end
+
+function G.FUNCS.mul_change_enchantment_detailed_view(e)
+	Multiverse.DETAILED_ENCHANTMENT_VIEW = e.config.center_data
+	local node = G.OVERLAY_MENU:get_UIE_by_ID("mul_enchantment_details_uibox")
+	if node.config.object then
+		node.config.object:remove()
+		node.config.object = nil
+	end
+	node.config.object = UIBox({
+		definition = Multiverse.generate_enchantment_details_UIBox(Multiverse.DETAILED_ENCHANTMENT_VIEW),
+		config = { parent = node, type = "cm" },
+	})
+	G.OVERLAY_MENU:recalculate()
+end
+
+function Multiverse.detailed_enchantment_info_UI_def()
+	local all_enchants = Multiverse.map(G.GAME.mul_deck_enchantment_order, function(item)
+		return Multiverse.DeckEnchantments[item]
+	end)
+	Multiverse.DETAILED_ENCHANTMENT_VIEW = all_enchants[1]
+	local rows = {}
+	for _, enchantment_center in ipairs(all_enchants) do
+		local text = localize({
+			type = "name_text",
+			set = "mul_DeckEnchantment",
+			key = enchantment_center.key,
+		})
+		text = Multiverse.parse_vars(text, { " " .. Multiverse.number_to_roman(enchantment_center:get_level()) })
+		local words = {}
+		string.gsub(text, "([%a%p]+)", function(w)
+			table.insert(words, w)
+		end)
+		if enchantment_center.max_level > 1 and #words > 1 then
+			local level = table.remove(words)
+			table.insert(words, table.remove(words) .. " " .. level)
+		end
+		local text_rows = {}
+		for _, word in ipairs(words) do
+			text_rows[#text_rows + 1] = {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = word,
+							colour = G.C.UI.TEXT_LIGHT,
+							scale = 0.3,
+						},
+					},
+				},
+			}
+		end
+		rows[#rows + 1] = {
+			n = G.UIT.R,
+			config = {
+				r = 0.1,
+				colour = G.C.UI.BACKGROUND_INACTIVE,
+				emboss = 0.05,
+				align = "cm",
+				func = "mul_update_enchantment_detailed_view",
+				button = "mul_change_enchantment_detailed_view",
+				center_data = enchantment_center,
+				minw = 2,
+				shadow = true,
+				hover = true,
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { padding = 0.1, align = "cm" },
+					nodes = text_rows,
+				},
+			},
+		}
+	end
+	local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.BLACK, minh = 8 },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "ct", padding = 0.1 },
+						nodes = rows,
+					},
+				},
+			},
+			config = { align = "cm" },
+		},
+		overflow = {
+			node_config = {
+				maxh = 8,
+				r = 0.1,
+			},
+		},
+		sync_mode = "progress",
+	})
+	local ench_list_box = {
+		n = G.UIT.C,
+		config = { align = "cm" },
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = {},
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = {
+									object = scrollbox,
+								},
+							},
+						},
+					},
+					scrollbox.content.T.h > 8 and {
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = {
+							SMODS.GUI.scrollbar({
+								h = 8,
+								w = 0.2,
+								colour = Multiverse.C.DECK_ENCHANTMENT,
+								bg_colour = { 0, 0, 0, 0.15 },
+								scroll_collision_obj = scrollbox,
+							}),
+						},
+					} or nil,
+				},
+			},
+		},
+	}
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			align = "cm",
+			minw = G.ROOM.T.w * 5,
+			minh = G.ROOM.T.h * 5,
+			padding = 0.1,
+			r = 0.1,
+			colour = { G.C.GREY[1], G.C.GREY[2], G.C.GREY[3], 0.7 },
+		},
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { r = 0.3, colour = G.C.JOKER_GREY, padding = 0.07, emboss = 0.1, align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { colour = G.C.L_BLACK, r = 0.1, padding = 0.2, align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.R,
+								config = { align = "cm" },
+								nodes = {
+									ench_list_box,
+									{
+										n = G.UIT.C,
+										config = { align = "cm" },
+										nodes = {
+											{
+												n = G.UIT.O,
+												config = {
+													object = UIBox({
+														definition = Multiverse.generate_enchantment_details_UIBox(
+															Multiverse.DETAILED_ENCHANTMENT_VIEW
+														),
+														config = { type = "cm" },
+													}),
+													id = "mul_enchantment_details_uibox",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.R,
+								config = {
+									id = "overlay_menu_back_button",
+									align = "cm",
+									minw = 2.5,
+									padding = 0.1,
+									r = 0.1,
+									hover = true,
+									colour = G.C.ORANGE,
+									button = "exit_overlay_menu",
+									shadow = true,
+									focus_args = { nav = "wide", button = "b" },
+								},
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = "cm", padding = 0, no_fill = true },
+										nodes = {
+											{
+												n = G.UIT.T,
+												config = {
+													text = localize("b_back"),
+													scale = 0.5,
+													colour = G.C.UI.TEXT_LIGHT,
+													shadow = true,
+												},
+											},
+										},
+									},
 								},
 							},
 						},
@@ -387,37 +1123,6 @@ function Multiverse.update_deck_enchantments()
 	elseif Multiverse.count_deck_enchantments() == 0 and G.mul_deck_enchantment_info then
 		G.mul_deck_enchantment_info:remove()
 		G.mul_deck_enchantment_info = nil
-	end
-	if
-		G.mul_deck_enchantment_info
-		and G.mul_deck_enchantment_info.states.collide.is
-		and G.deck
-		and not G.mul_deck_enchantment_tooltip
-	then
-		local fake_card = {
-			ability_UIBox_table = generate_card_ui(Multiverse.DummyCenters["du_mul_all_enchants"]),
-			config = {
-				center = Multiverse.DummyCenters["du_mul_all_enchants"],
-			},
-			T = G.deck.T,
-		}
-		G.mul_deck_enchantment_tooltip = UIBox({
-			definition = G.UIDEF.card_h_popup(fake_card),
-			config = {
-				align = "bm",
-				offset = { x = 0, y = 0.2 },
-				major = G.mul_deck_enchantment_info,
-				instance_type = "POPUP",
-			},
-		})
-		G.mul_deck_enchantment_tooltip.states.collide.can = false
-		G.mul_deck_enchantment_tooltip:recalculate()
-	elseif
-		(not G.mul_deck_enchantment_info or not G.mul_deck_enchantment_info.states.collide.is)
-		and G.mul_deck_enchantment_tooltip
-	then
-		G.mul_deck_enchantment_tooltip:remove()
-		G.mul_deck_enchantment_tooltip = nil
 	end
 	if G.P_CENTERS["c_mul_enchanted_book"] and not G.P_CENTERS["c_mul_enchanted_book"].alerted then
 		G.P_CENTERS["c_mul_enchanted_book"].alerted = true
@@ -497,16 +1202,30 @@ function Multiverse.poll_deck_enchantments(args)
 		local ench, index = Multiverse.weighted_poll(base_pool, function(item)
 			return item.enchant_obj:get_weight()
 		end, "mul_select_enchant_" .. key_append)
-		if ench and index > 0 then
+		if ench and index > 0 then -- If there is an available enchantment in the pool that was polled
 			local l_ench, l_index
 			local generate_legendary = not no_legendary
 				and pseudorandom("mul_legendary_ench_" .. G.GAME.round_resets.ante, 1, 1000) <= 3
-			if generate_legendary then
+			if generate_legendary then -- poll for legendary
 				l_ench, l_index = Multiverse.weighted_poll(legendary_pool, function(item)
 					return item.enchant_obj:get_weight()
 				end, "mul_select_legendary_enchant_" .. key_append)
 			end
-			if l_ench and l_index and l_index ~= -1 then
+			local curse, c_index
+			local has_curse = args.guaranteed_curse
+				or (
+					not args.forced_amt
+					and G.GAME.modifiers.mul_enable_curses
+					and not generate_legendary
+					and pseudorandom("mul_generate_curse_" .. key_append)
+						> 0.9 + (G.GAME.mul_enchantment_luck or 0) * 0.09
+				)
+			if has_curse then -- poll for curse
+				curse, c_index = Multiverse.weighted_poll(curse_pool, function(item)
+					return item.enchant_obj:get_weight()
+				end, "mul_select_curse_" .. key_append)
+			end
+			if l_ench and l_index and l_index ~= -1 then -- if a legendary was polled
 				local level_index = Multiverse.weighted_pseudorandom(
 					"mul_generate_level_" .. key_append,
 					luck_factor,
@@ -519,7 +1238,13 @@ function Multiverse.poll_deck_enchantments(args)
 					level_amt = l_ench.level_pool[level_index],
 				}
 				polled[#polled + 1] = l_ench.enchant_key
-			else
+			elseif has_curse and curse and c_index ~= -1 then -- if a curse was polled
+				local level_index = pseudorandom("mul_generate_level_" .. key_append, 1, #curse.level_pool)
+				ret[#ret + 1] = {
+					key = curse.enchant_key,
+					level_amt = curse.level_pool[level_index],
+				}
+			else -- use original polled enchantment
 				local level_index = Multiverse.weighted_pseudorandom(
 					"mul_generate_level_" .. key_append,
 					luck_factor,
@@ -533,32 +1258,11 @@ function Multiverse.poll_deck_enchantments(args)
 				}
 				polled[#polled + 1] = ench.enchant_key
 			end
-		else
+		else -- use overflow enchant
 			ret[#ret + 1] = {
 				key = "de_mul_overflow",
 				level_amt = pseudorandom("mul_overflow_level", 1, 3),
 			}
-		end
-		if i == amt then
-			local has_curse = args.guaranteed_curse
-				or (
-					not args.forced_amt
-					and G.GAME.modifiers.mul_enable_curses
-					and pseudorandom("mul_generate_curse_" .. key_append)
-						> 0.9 + (G.GAME.mul_enchantment_luck or 0) * 0.09
-				)
-			if has_curse then
-				local curse, c_index = Multiverse.weighted_poll(curse_pool, function(item)
-					return item.enchant_obj:get_weight()
-				end, "mul_select_curse_" .. key_append)
-				if curse and c_index then
-					local level_index = pseudorandom("mul_generate_level_" .. key_append, 1, #curse.level_pool)
-					ret["curse"] = {
-						key = curse.enchant_key,
-						level_amt = curse.level_pool[level_index],
-					}
-				end
-			end
 		end
 	end
 	return ret
@@ -602,7 +1306,7 @@ SMODS.Consumable({
 		if card.ability.extra.collection_enchant then
 			local ench_key = card.ability.extra.collection_enchant
 			local temp = Multiverse.DeckEnchantments[ench_key]:create_fake_card()
-			temp.level = 0
+			temp.level = card.ability.extra.forced_level or 0
 			temp.ability = copy_table(Multiverse.DeckEnchantments[ench_key].config)
 			local vars = Multiverse.DeckEnchantments[ench_key]:loc_vars(info_queue, temp) or {}
 			vars.set = vars.set or "mul_DeckEnchantment"
@@ -612,7 +1316,6 @@ SMODS.Consumable({
 			local main_end = {}
 			for index, _ in ipairs(card.ability.extra.enchant_list) do
 				if index > G.GAME.mul_visible_enchants then
-					print("A")
 					local final_str = ""
 					local str_pool = "qwertyuiopasdfghjklzxcvbnm"
 					for _ = 1, 7 do

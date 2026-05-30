@@ -56,6 +56,17 @@ function Multiverse.filter(t, func)
 	return ret
 end
 
+---@param t table
+---@param func fun(item): any
+---@return table
+function Multiverse.map(t, func)
+	local ret = {}
+	for k, v in pairs(t) do
+		ret[k] = func(v)
+	end
+	return ret
+end
+
 ---Gets `n` random values of `t` that each correspond to a distinct index of `t` while respecting seeds.
 ---@generic T
 ---@param t T[]
