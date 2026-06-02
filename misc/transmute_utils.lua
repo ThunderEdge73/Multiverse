@@ -78,12 +78,9 @@ function Multiverse.set_transmute_requirements(base)
 	return Multiverse.config.debug and 1 or base
 end
 
+---@param card Card
 function Multiverse.can_receive_transmutable(card)
-	return card
-		and card.ability
-		and type(card.ability.extra) == "table"
-		and card.config.center.transmute_req
-		and card.ability.extra.transmute_progress
+	return card and card:has_attribute("transmutable")
 end
 
 ---Will now safely return and do nothing if the card cannot become transmutable
