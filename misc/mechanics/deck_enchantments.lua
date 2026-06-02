@@ -270,6 +270,13 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		table.remove(G.GAME.mul_deck_enchantment_order, ench_to_wipe)
 	end
 	obj:on_change_level(delta, G.GAME.mul_deck_enchantments[enchantment])
+	if added and not G.mul_deck_enchantment_info then
+		G.mul_deck_enchantment_info = UIBox({
+			definition = Multiverse.deck_enchantment_info_UI_def(),
+			config = { align = "bli", offset = { x = 0, y = 0.4 }, major = G.consumeables, instance_type = "CARD" },
+		})
+		G.mul_deck_enchantment_info.states.collide.can = true
+	end
 	SMODS.calculate_context({
 		mul_deck_enchantments_modified = true,
 		amount = delta,
@@ -362,31 +369,25 @@ end
 function Multiverse.deck_enchantment_info_UI_def()
 	return {
 		n = G.UIT.ROOT,
-		config = { colour = G.C.CLEAR },
+		config = {
+			colour = G.C.RED,
+			r = 0.05,
+			padding = 0.05,
+			align = "cm",
+			minw = 0.45,
+			minh = 0.2,
+			button = "mul_view_deck_enchantment_details",
+			hover = true,
+			button_dist = 0,
+		},
 		nodes = {
 			{
-				n = G.UIT.C,
+				n = G.UIT.T,
 				config = {
-					colour = G.C.RED,
-					r = 0.05,
-					padding = 0.05,
+					text = localize("k_mul_view_deck_enchantments"),
+					scale = 0.25,
+					colour = G.C.UI.TEXT_LIGHT,
 					align = "cm",
-					minw = 0.45,
-					minh = 0.2,
-					button = "mul_view_deck_enchantment_details",
-					hover = true,
-					button_dist = 0,
-				},
-				nodes = {
-					{
-						n = G.UIT.T,
-						config = {
-							text = localize("k_mul_view_deck_enchantments"),
-							scale = 0.25,
-							colour = G.C.UI.TEXT_LIGHT,
-							align = "cm",
-						},
-					},
 				},
 			},
 		},
@@ -394,11 +395,18 @@ function Multiverse.deck_enchantment_info_UI_def()
 end
 
 function G.FUNCS.mul_view_deck_enchantment_details(e)
-	G.SETTINGS.paused = true
-	G.FUNCS.overlay_menu({
-		definition = Multiverse.detailed_enchantment_info_UI_def(),
-		config = {},
-	})
+	G.E_MANAGER:add_event(Event({
+		blocking = false,
+		blockable = false,
+		func = function()
+			G.SETTINGS.paused = true
+			G.FUNCS.overlay_menu({
+				definition = Multiverse.detailed_enchantment_info_UI_def(),
+				config = {},
+			})
+			return true
+		end,
+	}))
 end
 
 function Multiverse.populate_info_queue(set, key)
@@ -912,6 +920,9 @@ function Multiverse.detailed_enchantment_info_UI_def()
 	local all_enchants = Multiverse.map(G.GAME.mul_deck_enchantment_order, function(item)
 		return Multiverse.DeckEnchantments[item]
 	end)
+	for i = 1, math.floor(#all_enchants / 2) do
+		all_enchants[i], all_enchants[#all_enchants + 1 - i] = all_enchants[#all_enchants + 1 - i], all_enchants[i]
+	end
 	Multiverse.DETAILED_ENCHANTMENT_VIEW = all_enchants[1]
 	local rows = {}
 	for _, enchantment_center in ipairs(all_enchants) do
@@ -1114,13 +1125,20 @@ function Multiverse.detailed_enchantment_info_UI_def()
 end
 
 function Multiverse.update_deck_enchantments()
-	if Multiverse.count_deck_enchantments() > 0 and G.deck and not G.mul_deck_enchantment_info then
+	if
+		Multiverse.count_deck_enchantments() > 0
+		and G.deck
+		and not G.mul_deck_enchantment_info
+		and not Multiverse.in_interaction()
+	then
 		G.mul_deck_enchantment_info = UIBox({
 			definition = Multiverse.deck_enchantment_info_UI_def(),
-			config = { align = "bri", offset = { x = -0.1, y = 0.65 }, major = G.consumeables },
+			config = { align = "bli", offset = { x = 0, y = 0.4 }, major = G.consumeables, instance_type = "CARD" },
 		})
 		G.mul_deck_enchantment_info.states.collide.can = true
-	elseif Multiverse.count_deck_enchantments() == 0 and G.mul_deck_enchantment_info then
+	elseif
+		(Multiverse.count_deck_enchantments() == 0 or Multiverse.in_interaction()) and G.mul_deck_enchantment_info
+	then
 		G.mul_deck_enchantment_info:remove()
 		G.mul_deck_enchantment_info = nil
 	end
@@ -1176,9 +1194,49 @@ function Multiverse.poll_deck_enchantments(args)
 	if not args.forced_amt and pseudorandom("mul_lucky_4_" .. G.GAME.round_resets.ante, 1, 1000) <= 3 then
 		amt = 4
 	end
-	for i = 1, amt do
+	local legendary_polled = false
+	local legendary_pool = {}
+	for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
+		local obj = Multiverse.DeckEnchantments[key]
+		-- essentially acts as the in_pool check
+		local valid_levels = Multiverse.get_valid_enchantment_level_ups(key, polled, source)
+		if #valid_levels > 0 then
+			local entry = {
+				enchant_key = key,
+				enchant_obj = obj,
+				level_pool = valid_levels,
+			}
+			if obj.legendary then
+				legendary_pool[#legendary_pool + 1] = entry
+			end
+		end
+	end
+	local l_ench, l_index
+	local generate_legendary = not no_legendary
+		and pseudorandom("mul_legendary_ench_" .. G.GAME.round_resets.ante, 1, 1000) <= 3
+	if generate_legendary then -- poll for legendary
+		legendary_polled = true
+		l_ench, l_index = Multiverse.weighted_poll(legendary_pool, function(item)
+			return item.enchant_obj:get_weight()
+		end, "mul_select_legendary_enchant_" .. key_append)
+	end
+	if l_ench and l_index and l_index ~= -1 then -- if a legendary was polled
+		local level_index = Multiverse.weighted_pseudorandom(
+			"mul_generate_level_" .. key_append,
+			luck_factor,
+			0.4 + luck_factor / 5,
+			1,
+			#l_ench.level_pool
+		)
+		ret[#ret + 1] = {
+			key = l_ench.enchant_key,
+			level_amt = l_ench.level_pool[level_index],
+		}
+		polled[#polled + 1] = l_ench.enchant_key
+		amt = amt - 1
+	end
+	for _ = 1, amt do
 		local base_pool = {}
-		local legendary_pool = {}
 		local curse_pool = {}
 		for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
 			local obj = Multiverse.DeckEnchantments[key]
@@ -1190,11 +1248,9 @@ function Multiverse.poll_deck_enchantments(args)
 					enchant_obj = obj,
 					level_pool = valid_levels,
 				}
-				if obj.legendary then
-					legendary_pool[#legendary_pool + 1] = entry
-				elseif obj.enchantment_type ~= "negative" then
+				if obj.enchantment_type ~= "negative" then
 					base_pool[#base_pool + 1] = entry
-				else
+				elseif not obj.legendary then
 					curse_pool[#curse_pool + 1] = entry
 				end
 			end
@@ -1203,20 +1259,11 @@ function Multiverse.poll_deck_enchantments(args)
 			return item.enchant_obj:get_weight()
 		end, "mul_select_enchant_" .. key_append)
 		if ench and index > 0 then -- If there is an available enchantment in the pool that was polled
-			local l_ench, l_index
-			local generate_legendary = not no_legendary
-				and pseudorandom("mul_legendary_ench_" .. G.GAME.round_resets.ante, 1, 1000) <= 3
-			if generate_legendary then -- poll for legendary
-				l_ench, l_index = Multiverse.weighted_poll(legendary_pool, function(item)
-					return item.enchant_obj:get_weight()
-				end, "mul_select_legendary_enchant_" .. key_append)
-			end
 			local curse, c_index
 			local has_curse = args.guaranteed_curse
 				or (
 					not args.forced_amt
-					and G.GAME.modifiers.mul_enable_curses
-					and not generate_legendary
+					and not legendary_polled
 					and pseudorandom("mul_generate_curse_" .. key_append)
 						> 0.9 + (G.GAME.mul_enchantment_luck or 0) * 0.09
 				)
@@ -1225,25 +1272,13 @@ function Multiverse.poll_deck_enchantments(args)
 					return item.enchant_obj:get_weight()
 				end, "mul_select_curse_" .. key_append)
 			end
-			if l_ench and l_index and l_index ~= -1 then -- if a legendary was polled
-				local level_index = Multiverse.weighted_pseudorandom(
-					"mul_generate_level_" .. key_append,
-					luck_factor,
-					0.4 + luck_factor / 5,
-					1,
-					#l_ench.level_pool
-				)
-				ret[#ret + 1] = {
-					key = l_ench.enchant_key,
-					level_amt = l_ench.level_pool[level_index],
-				}
-				polled[#polled + 1] = l_ench.enchant_key
-			elseif has_curse and curse and c_index ~= -1 then -- if a curse was polled
+			if has_curse and curse and c_index ~= -1 then -- if a curse was polled
 				local level_index = pseudorandom("mul_generate_level_" .. key_append, 1, #curse.level_pool)
 				ret[#ret + 1] = {
 					key = curse.enchant_key,
 					level_amt = curse.level_pool[level_index],
 				}
+				polled[#polled + 1] = curse.enchant_key
 			else -- use original polled enchantment
 				local level_index = Multiverse.weighted_pseudorandom(
 					"mul_generate_level_" .. key_append,

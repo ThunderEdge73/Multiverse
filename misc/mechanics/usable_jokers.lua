@@ -14,6 +14,21 @@ Multiverse.UsableJoker = SMODS.Joker:extend({
 	end,
 })
 
+function Card:mul_can_use_generic(any_state, skip_check)
+	if
+		not skip_check
+		and ((G.play and #G.play.cards > 0) or G.CONTROLLER.locked or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
+	then
+		return false
+	end
+	if
+		G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT and Multiverse.in_interaction()
+		or any_state
+	then
+		return true
+	end
+end
+
 ---@param card Card
 Multiverse.joker_use_UI_def = function(card)
 	local obj = card.config.center
@@ -32,7 +47,7 @@ Multiverse.joker_use_UI_def = function(card)
 	end
 	function ability_sprite:click()
 		Node.click(self)
-		if not card.debuff and card:can_use_consumeable() then
+		if not card.debuff and card:mul_can_use_generic() then
 			local prev_state = G.STATE
 			G.TAROT_INTERRUPT = G.STATE
 			G.STATE = (G.STATE == G.STATES.TAROT_PACK and G.STATES.TAROT_PACK)
@@ -163,7 +178,7 @@ end
 
 function G.FUNCS.mul_can_use_joker(e)
 	local card = e.config.ref_table
-	if card:can_use_consumeable() and not card.debuff then
+	if card:mul_can_use_generic() and not card.debuff then
 		e.config.colour = G.C.GREEN
 	else
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE

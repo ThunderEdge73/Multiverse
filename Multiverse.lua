@@ -81,7 +81,7 @@ SMODS.current_mod.calculate = function(self, context)
 	end
 	if context.end_of_round and not context.game_over and context.main_eval then
 		G.GAME.mul_objection_active = false
-		local cards_to_destroy = Multiverse.filter(G.playing_cards, function (item)
+		local cards_to_destroy = Multiverse.filter(G.playing_cards, function(item)
 			return SMODS.has_enhancement(item, "m_mul_left_hand") or SMODS.has_enhancement(item, "m_mul_right_hand")
 		end)
 		if #cards_to_destroy > 0 then
@@ -136,14 +136,17 @@ SMODS.current_mod.calculate = function(self, context)
 				-- Multiverse.play_animation("ren_cut_in")
 			end
 		else
+			print("what")
 			G.E_MANAGER:add_event(Event({
 				func = function()
-					Multiverse.ease_TP(pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain))
+					Multiverse.ease_TP(
+					pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain),
+						{ from_hand = true }
+					)
 					return true
 				end,
 			}))
 		end
-		G.GAME.mul_temp_bonuses = {}
 	end
 	if
 		context.check_eternal
@@ -154,9 +157,7 @@ SMODS.current_mod.calculate = function(self, context)
 		ret[#ret + 1] = { no_destroy = { override_compat = true } }
 	end
 	Multiverse.calculate_deck_enchantments(context, ret)
-	if context.final_scoring_step then
-		ret[#ret + 1] = G.GAME.mul_temp_bonuses
-	end
+	Multiverse.handle_tutorials(context)
 	if #ret == 0 then
 		return nil
 	elseif #ret == 1 then

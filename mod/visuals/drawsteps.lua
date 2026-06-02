@@ -253,6 +253,46 @@ SMODS.DrawStep({
 	conditions = { vortex = false, facing = "front" },
 })
 
+SMODS.DrawStep({
+	key = "enchanted_book_particles",
+	order = 200,
+	func = function(card, layer)
+		if
+			card.config.center_key == "c_mul_enchanted_book"
+			and type(card.ability.extra) == "table"
+			and card.ability.extra.enchant_list
+		then
+			local colour = nil
+			for _, enchant in ipairs(card.ability.extra.enchant_list) do
+				if Multiverse.DeckEnchantments[enchant.key].legendary then
+					colour = G.C.PURPLE
+					break
+				elseif Multiverse.DeckEnchantments[enchant.key].enchantment_type == "negative" then
+					colour = G.C.RED
+					break
+				end
+			end
+			if colour then
+				card.children.enchantment_particles = card.children.enchantment_particles
+					or Particles(0, 0, G.CARD_W, G.CARD_H, {
+						timer_type = "TOTAL",
+						timer = 0.04,
+						scale = 0.15,
+						speed = 1.4,
+						lifespan = 0.7,
+						attach = card,
+						colours = { colour },
+						fill = true,
+					})
+			elseif card.children.enchantment_particles then
+				card.children.enchantment_particles:remove()
+				card.children.enchantment_particles = nil
+			end
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
+
 local greyed_draw_hook = SMODS.DrawSteps["greyed"].func
 SMODS.DrawSteps["greyed"].func = function(card, layer)
 	if card.mul_exhausted_display then

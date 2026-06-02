@@ -96,6 +96,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 						minh = 0.55,
 						emboss = 0.05,
 						padding = 0.03,
+						id = "skill_cost",
 					},
 					nodes = {
 						{
@@ -187,17 +188,13 @@ end
 G.FUNCS.mul_can_use_skill = function(e)
 	local card = e.config.ref_table
 	local center = card.config.center
-	local locked = (G.play and #G.play.cards > 0)
-		or G.CONTROLLER.locked
-		or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)
-			and not (G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT)
 	if
 		G.GAME.blind.in_blind
+		and card:mul_can_use_generic()
 		and #G.hand.highlighted == 1
 		and G.hand.highlighted[1] == card
 		and G.GAME.mul_TP >= center:get_final_tp_cost(card)
 		and (center.tp_cost ~= "X" or G.GAME.mul_TP > 0 or G.GAME.mul_x_boost > 0)
-		and not locked
 		and not card.debuff
 		and center:can_use_skill(card)
 	then
@@ -561,9 +558,6 @@ end
 function Multiverse.init_skills()
 	---@type integer
 	G.GAME.mul_x_boost = G.GAME.mul_x_boost or 0
-
-	---@type table
-	G.GAME.mul_temp_bonuses = G.GAME.mul_temp_bonuses or {}
 end
 
 function Multiverse.get_final_X_value(center, card, ui_format, with_paren)

@@ -109,7 +109,7 @@ return {
 				},
 			},
 			du_mul_exhausts = {
-				name = "Exhausts",
+				name = "Exhaust",
 				text = {
 					"{C:attention}Exhausted{} cards",
 					"are removed",
@@ -125,7 +125,7 @@ return {
 					"the average quantity and",
 					"quality of {C:mul_enchantedbook}Deck Enchantments{}",
 					"offered by {C:mul_enchantedbook}Enchanted Books",
-					"{C:inactive}(Currently {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
+					"{C:inactive}(You have {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
 					"{C:inactive}(Maximum boost occurs at{}",
 					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
 				},
@@ -133,8 +133,10 @@ return {
 			du_mul_ench_luck_info_brief = {
 				name = "Enchantment Luck",
 				text = {
-					"Currently {C:mul_enchantedbook}#2#/#1#{}",
+					"You have {C:mul_enchantedbook}#2#{}",
 					"Enchantment Luck",
+					"{C:inactive}(Maximum boost occurs at{}",
+					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
 				},
 			},
 			du_mul_intangible = {
@@ -2365,8 +2367,159 @@ return {
 		tutorial = {
 			mul_de_1 = {
 				"{C:mul_enchantedbook}Deck Enchantments{} are",
-				"passive boosts that",
-			}
+				"passive boosts that work",
+				"similarly to {C:attention}Vouchers{}."
+			},
+			mul_de_2 = {
+				"However, {C:mul_enchantedbook}Deck Enchantment{}",
+				"bonuses may not always",
+				"be beneficial to the run."
+			},
+			mul_de_3 = {
+				"{C:mul_enchantedbook}Enchanted Books{} will give",
+				"you a random collection",
+				"of {C:mul_enchantedbook}Deck Enchantments{}."
+			},
+			mul_de_4 = {
+				"A potentially dangerous",
+				"{C:red}Cursed{} {C:mul_enchantedbook}Deck Enchantment{} or a",
+				"{C:purple,E:1}Legendary{} {C:mul_enchantedbook}Deck Enchantment{}",
+				"may rarely appear.",
+			},
+			mul_de_5 = {
+				"{C:mul_enchantedbook}Enchantment Luck{} can reduce the",
+				"odds of {C:red}Cursed{} {C:mul_enchantedbook}Deck Enchantments{} appearing,",
+				"as well as increase the {C:attention}intensity{}",
+				"and {C:attention}amount{} of {C:mul_enchantedbook}Deck Enchantments{}",
+				"offered by {C:mul_enchantedbook}Enchanted Books{}.",
+			},
+			mul_de_view_1 = {
+				"{C:attention}Click here{} to view further",
+				"details regarding the",
+				"{C:mul_enchantedbook}Deck Enchantments{} you",
+				"have currently obtained.",
+			},
+			mul_tha_1 = {
+				"{C:mul_transmuted}Thaumaturgy Energy{} {C:inactive}(denoted{}",
+				"{C:inactive}with{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:inactive}){} is {C:mul_transmuted}Multiverse's{} primary",
+				"currency mechanic, so to say.",
+			},
+			mul_tha_2 = {
+				"At base, you gain{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}2{}",
+				"at end of round."
+			},
+			mul_tha_3 = {
+				"Once you accumulate {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{},",
+				"a {C:mul_transmuted}Philosopher's Stone{} will",
+				"appear in your {C:attention}consumable{}",
+				"{C:attention}slots{} at end of round, provided",
+				"you have at least {C:attention}1{} slot available.",
+			},
+			mul_tha_4 = {
+				"The creation of a {C:mul_transmuted}Philosopher's{}",
+				"{C:mul_transmuted}Stone{} will reset your",
+				"{C:mul_transmuted}Thaumaturgy Energy{} to{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}0{},",
+				"regardless of how much",
+				"{C:mul_transmuted}Thaumaturgy Energy{} you had.",
+			},
+			mul_tha_5 = {
+				"{C:mul_transmuted}Myth Cards{} interact with",
+				"{C:mul_transmuted}Thaumaturgy Energy{}, so be",
+				"on the lookout for",
+				"those cards in the {C:attention}Shop{}.",
+			},
+			mul_tp_1 = {
+				"{C:attention}TP{} {C:inactive}(Tension Points){} is a",
+				"system that incentivizes not",
+				"defeating {C:attention}Blinds{} in one hand.",
+			},
+			mul_tp_2 = {
+				"You cannot have more than",
+				"{C:attention}100%{} TP, so don't expect to",
+				"infinitely farm for TP.",
+			},
+			mul_tp_3 = {
+				"Initially, you gain {C:attention}2%-5%{} TP",
+				"when you play a hand whose",
+				"score does not {C:attention}exceed{} the",
+				"current {C:attention}Blind's{} requirement.",
+			},
+			mul_tp_4 = {
+				"{C:attention}TP{} is used to pay the",
+				"costs of {C:attention}Skill Cards{} and",
+				"activate the abilities",
+				"of certain {C:attention}Jokers{}.",
+			},
+			mul_skill_1 = {
+				"{C:attention}Skill Cards{} are a type",
+				"of {C:attention}playing card{} that",
+				"can be used, like how",
+				"consumables can be used.",
+			},
+			mul_skill_2 = {
+				"{C:attention}Skill Cards{} require {C:attention}TP{} in",
+				"order to be used, and",
+				"this number will tell",
+				"you the {C:attention}TP{} requirement.",
+			},
+			mul_skill_3 = {
+				"However, unlike most",
+				"consumables, {C:attention}Skill Cards{}",
+				"aren't permanently removed",
+				"when used, unless otherwise",
+				"stated on the card.",
+			},
+			mul_skill_4 = {
+				"{C:attention}Skill Cards{} have a lot",
+				"of utility, if you can",
+				"manage your {C:attention}TP{} well.",
+			},
+			mul_transmute_1 = {
+				"Some Jokers can be",
+				"{C:mul_transmuted}transmuted{} into powerful",
+				"{C:mul_transmuted,E:1}Transmuted{} {C:attention}Jokers{}.",
+			},
+			mul_transmute_2 = {
+				"In order to {C:mul_transmuted}transmute{}",
+				"them, you will need",
+				"to complete a {C:attention}task{}.",
+			},
+			mul_transmute_3 = {
+				"Hover over this {C:attention}Joker{}",
+				"and read its infotip",
+				"titled {C:attention}\"Hint\"{}.",
+			},
+			mul_transmute_4 = {
+				"Once you complete the {C:attention}task{}",
+				"specified by that infotip,",
+				"that {C:attention}Joker{} will become",
+				"{C:mul_transmuted}Transmutable{} and receive",
+				"a special {C:attention}Sticker{}.",
+			},
+			mul_transmute_5 = {
+				"Try to accumulate{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{}",
+				"to get a {C:mul_transmuted}Philosopher's Stone{}",
+				"once you have a",
+				"{C:mul_transmuted}Transmutable{} Joker.",
+			},
+			mul_phil_stone_1 = {
+				"This {C:mul_transmuted}Philosopher's Stone{}",
+				"is the key to becoming",
+				"extremely powerful.",
+			},
+			mul_phil_stone_2 = {
+				"If you have any {C:mul_transmuted}Transmutable{}",
+				"{C:attention}Jokers{}, use this consumable",
+				"while one of those {C:attention}Jokers{}",
+				"is selected.",
+			},
+			mul_phil_stone_3 = {
+				"The {C:attention}Joker{} that is created",
+				"from this {C:mul_transmuted}transmutation{}",
+				"process is determined by",
+				"the {C:attention}Joker{} that is selected",
+				"when this consumable is {C:attention}used{}.",
+			},
 		}
 	},
 }

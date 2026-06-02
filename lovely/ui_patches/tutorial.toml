@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+local pos = args.pos or {x=attach.major.T.x + attach.major.T.w/2, y=attach.major.T.y + attach.major.T.h/2}
+'''
+position = "after"
+payload = '''
+if args.multiverse_tutorial then
+    pos.center = "j_mul_thunderedge"
+end
+'''
+match_indent = true

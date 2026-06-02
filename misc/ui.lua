@@ -587,7 +587,7 @@ SMODS.current_mod.custom_ui = function(nodes)
 								local element = self:get_UIE_by_ID("first_item")
 								self.text_size = element.T.w
 							end
-							self.scroll_offset.x = math.fmod((self.scroll_offset.x or 0) + dt * 1.1, self.text_size)
+							self.scroll_offset.x = math.fmod((self.scroll_offset.x or 0) + G.real_dt * 1.1, self.text_size)
 						end,
 					}),
 				},
