@@ -68,7 +68,7 @@ function Multiverse.handle_tutorials(context)
 	end
 	if
 		context.card_added
-		and context.card:has_attribute("transmutable")
+		and Multiverse.can_receive_transmutable(context.card)
 		and not G.SETTINGS.multiverse_tutorial["transmute"]
 	then
 		G.SETTINGS.multiverse_tutorial["transmute"] = true
