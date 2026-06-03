@@ -543,7 +543,7 @@ return {
 			de_mul_overflow = {
 				name = "Overflow",
 				text = {
-					"Gives {X:mult,C:white}X#1#{} Mult per level",
+					"{X:mult,C:white}X#1#{} Mult per level",
 					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
 				},
 			},
@@ -648,8 +648,7 @@ return {
 			de_mul_apathy = {
 				name = "Curse of Apathy",
 				text = {
-					"{C:chips}#1#{} Chips",
-					"per level",
+					"{C:chips}#1#{} Chips per level",
 					"{C:inactive}(Currently {C:chips}#2#{C:inactive} Chips){}",
 				},
 			},
