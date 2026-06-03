@@ -1,0 +1,86 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = '''if obj.use and type(obj.use) == 'function' then'''
+position = "before"
+payload = '''
+if Multiverse.emptiness_active() then
+    G.E_MANAGER:add_event(Event({
+        trigger = "after",
+        delay = 0.4,
+        func = function()
+            attention_text({
+                text = localize("k_nope_ex"),
+                scale = 1.3,
+                hold = 1.4,
+                major = used_tarot,
+                backdrop_colour = G.C.SECONDARY_SET.Tarot,
+                align = (
+                    G.STATE == G.STATES.TAROT_PACK
+                    or G.STATE == G.STATES.SPECTRAL_PACK
+                    or G.STATE == G.STATES.SMODS_BOOSTER_OPENED
+                )
+                        and "tm"
+                    or "cm",
+                offset = {
+                    x = 0,
+                    y = (
+                        G.STATE == G.STATES.TAROT_PACK
+                        or G.STATE == G.STATES.SPECTRAL_PACK
+                        or G.STATE == G.STATES.SMODS_BOOSTER_OPENED
+                    ) and -0.2 or 0,
+                },
+                silent = true,
+            })
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.06 * G.SETTINGS.GAMESPEED,
+                blockable = false,
+                blocking = false,
+                func = function()
+                    play_sound("tarot2", 0.76, 0.4)
+                    return true
+                end,
+            }))
+            play_sound("tarot2", 1, 0.4)
+            used_tarot:juice_up(0.3, 0.5)
+            return true
+        end,
+    }))
+    return
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''if not hide_desc and card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then'''
+position = "before"
+payload = '''
+if card and card.ability and Multiverse.emptiness_active() and card.ability.consumeable and not card.fake_card and (
+    card.area == G.consumeables
+    or card.area == G.pack_cards
+    or card.area == G.shop_jokers
+) then
+    info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_emptied"]
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.STATE = prev_state'''
+position = "before"
+payload = '''
+if card.ability.consumeable and Multiverse.emptiness_active() then
+    G.GAME.mul_deck_enchantments["de_mul_emptiness"].ability.triggered = true
+end
+'''
+match_indent = true

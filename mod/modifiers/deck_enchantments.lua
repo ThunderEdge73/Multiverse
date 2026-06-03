@@ -753,7 +753,7 @@ Multiverse.DeckEnchantment({
 			}
 		end
 	end,
-	group_id = "mending_infinity"
+	group_id = "mending_infinity",
 })
 
 Multiverse.DeckEnchantment({
@@ -932,7 +932,7 @@ Multiverse.DeckEnchantment({
 			}))
 		end
 	end,
-	group_id = "mending_infinity"
+	group_id = "mending_infinity",
 })
 
 Multiverse.DeckEnchantment({
@@ -1079,7 +1079,24 @@ Multiverse.DeckEnchantment({
 	key = "emptiness",
 	max_level = 1,
 	enchantment_type = "negative",
+	config = { triggered = false },
+	calculate = function(self, enchantment, context)
+		if context.ante_change then
+			enchantment.ability.triggered = false
+		end
+	end,
+	on_change_level = function (self, delta, enchantment)
+		if delta > 0 then
+			enchantment.ability.triggered = G.GAME.mul_consumable_used_this_ante
+		end
+	end
 })
+
+function Multiverse.emptiness_active()
+	return G.GAME.mul_deck_enchantments
+		and G.GAME.mul_deck_enchantments["de_mul_emptiness"]
+		and not G.GAME.mul_deck_enchantments["de_mul_emptiness"].ability.triggered
+end
 
 Multiverse.DeckEnchantment({
 	key = "overflow",

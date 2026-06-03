@@ -149,6 +149,15 @@ return {
 					"another card",
 				},
 			},
+			du_mul_emptied = {
+				name = "Affected by Emptiness",
+				text = {
+					"No other consumable has",
+					"been used this {C:attention}Ante{}, so",
+					"this consumable's effects",
+					"will be {C:red}negated{} if used",
+				}
+			}
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -614,9 +623,12 @@ return {
 				},
 			},
 			de_mul_emptiness = {
-				name = "Emptiness",
+				name = "Curse of Emptiness",
 				text = {
-					"Does nothing yet",
+					"The first {C:attention}consumable{}",
+					"you use each {C:attention}Ante{}",
+					"will have its",
+					"effects {C:red}negated",
 				},
 			},
 		},

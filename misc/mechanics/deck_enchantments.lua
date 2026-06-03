@@ -940,6 +940,11 @@ function Multiverse.detailed_enchantment_info_UI_def()
 			local level = table.remove(words)
 			table.insert(words, table.remove(words) .. " " .. level)
 		end
+		if enchantment_center.enchantment_type == "negative" and #words >= 3 then
+			local curse = table.remove(words, 1)
+			local of = table.remove(words, 1)
+			table.insert(words, 1, curse .. " " .. of)
+		end
 		local text_rows = {}
 		for _, word in ipairs(words) do
 			text_rows[#text_rows + 1] = {

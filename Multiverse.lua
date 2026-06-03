@@ -79,6 +79,9 @@ SMODS.current_mod.calculate = function(self, context)
 			Multiverse.eggman_secret()
 		end
 	end
+	if context.ante_change then
+		G.GAME.mul_consumable_used_this_ante = false
+	end
 	if context.end_of_round and not context.game_over and context.main_eval then
 		G.GAME.mul_objection_active = false
 		local cards_to_destroy = Multiverse.filter(G.playing_cards, function(item)
@@ -89,7 +92,7 @@ SMODS.current_mod.calculate = function(self, context)
 		end
 		Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_rate, { from_charge = true })
 		if context.beat_boss then
-			G.GAME.num_bosses_defeated = (G.GAME.num_bosses_defeated or 0) + 1
+			G.GAME.mul_num_bosses_defeated = (G.GAME.mul_num_bosses_defeated or 0) + 1
 		end
 	end
 	if context.mul_philosophers_stone_check and not context.game_over and context.main_eval then
@@ -121,13 +124,16 @@ SMODS.current_mod.calculate = function(self, context)
 			}
 		end
 	end
-	if context.using_consumeable and context.consumeable.ability.set == "mul_Myth" then
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				G.GAME.mul_last_myth_used = context.consumeable.config.center_key
-				return true
-			end,
-		}))
+	if context.using_consumeable then
+		G.GAME.mul_consumable_used_this_ante = true
+		if context.consumeable.ability.set == "mul_Myth" then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					G.GAME.mul_last_myth_used = context.consumeable.config.center_key
+					return true
+				end,
+			}))
+		end
 	end
 	if context.after then
 		if SMODS.last_hand_oneshot then
@@ -136,7 +142,6 @@ SMODS.current_mod.calculate = function(self, context)
 				-- Multiverse.play_animation("ren_cut_in")
 			end
 		else
-			print("what")
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					Multiverse.ease_TP(

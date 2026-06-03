@@ -10,6 +10,81 @@ SMODS.DrawStep({
 	conditions = { vortex = false, facing = "front" },
 })
 
+SMODS.Shader({
+	key = "grayscale",
+	path = "grayscale.fs",
+})
+
+SMODS.DrawStep({
+	key = "emptiness_visuals",
+	order = 200,
+	func = function(card, layer)
+		if
+			Multiverse.emptiness_active()
+			and card.ability.consumeable
+			and (card.area == G.consumeables or card.area == G.pack_cards or card.area == G.shop_jokers)
+		then
+			card.children.center:draw_shader("mul_grayscale", nil, card.ARGS.send_to_shader)
+			if card.children.front and not card:should_hide_front() then
+				card.children.front:draw_shader("mul_grayscale", nil, card.ARGS.send_to_shader)
+			end
+			local scale_mod = 0.07 + 0.02 * math.sin(1.8 * G.TIMERS.REAL)
+			local rotate_mod = 0.05 * math.sin(1.219 * G.TIMERS.REAL)
+			if card.ability.name == "The Soul" and (card.config.center.discovered or card.bypass_discovery_center) then
+				local s_scale_mod = 0.05
+					+ 0.05 * math.sin(1.8 * G.TIMERS.REAL)
+					+ 0.07
+						* math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL)) * math.pi * 14)
+						* (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 3
+				local s_rotate_mod = 0.1 * math.sin(1.219 * G.TIMERS.REAL)
+					+ 0.07
+						* math.sin(G.TIMERS.REAL * math.pi * 5)
+						* (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 2
+				G.shared_soul.role.draw_major = card
+				G.shared_soul:draw_shader(
+					"mul_grayscale",
+					0,
+					nil,
+					nil,
+					card.children.center,
+					s_scale_mod,
+					s_rotate_mod,
+					nil,
+					0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
+					nil,
+					0.6
+				)
+				G.shared_soul:draw_shader("mul_grayscale", nil, nil, nil, card.children.center, s_scale_mod, s_rotate_mod)
+			end
+			if card.children.floating_sprite then
+				card.children.floating_sprite:draw_shader(
+					"mul_grayscale",
+					0,
+					nil,
+					nil,
+					card.children.center,
+					scale_mod,
+					rotate_mod,
+					nil,
+					0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
+					nil,
+					0.6
+				)
+				card.children.floating_sprite:draw_shader(
+					"mul_grayscale",
+					nil,
+					nil,
+					nil,
+					card.children.center,
+					scale_mod,
+					rotate_mod
+				)
+			end
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
+
 SMODS.DrawStep({
 	key = "transmutable_target",
 	order = 201,

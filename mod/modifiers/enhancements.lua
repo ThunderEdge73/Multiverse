@@ -14,12 +14,12 @@ SMODS.Enhancement({
 		card.config.center.pos.x = math.floor(Multiverse.clamp(G.GAME.mul_call_card_anim_state, 0, 5))
 	end,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult, 1 + card.ability.extra.xmult * (G.GAME.num_bosses_defeated or 0) } }
+		return { vars = { card.ability.extra.xmult, 1 + card.ability.extra.xmult * (G.GAME.mul_num_bosses_defeated or 0) } }
 	end,
 	calculate = function(self, card, context)
 		if context.main_scoring and context.cardarea == G.play then
 			return {
-				xmult = 1 + card.ability.extra.xmult * (G.GAME.num_bosses_defeated or 0),
+				xmult = 1 + card.ability.extra.xmult * (G.GAME.mul_num_bosses_defeated or 0),
 			}
 		end
 	end,

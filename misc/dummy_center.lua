@@ -171,3 +171,7 @@ Multiverse.DummyCenter({
 		}
 	end,
 })
+
+Multiverse.DummyCenter({
+	key = "emptied",
+})
