@@ -648,8 +648,8 @@ return {
 			de_mul_apathy = {
 				name = "Curse of Apathy",
 				text = {
-					"{C:chips}#1#{} Chips per level",
-					"{C:inactive}(Currently {C:chips}#2#{C:inactive} Chips){}",
+					"{C:chips}-#1#{} Chips per level",
+					"{C:inactive}(Currently {C:chips}-#2#{C:inactive} Chips){}",
 				},
 			},
 		},

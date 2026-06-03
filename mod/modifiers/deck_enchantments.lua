@@ -1120,12 +1120,12 @@ Multiverse.DeckEnchantment({
 	key = "apathy",
 	max_level = math.huge,
 	enchantment_type = "negative",
-	config = { chips = -10 },
+	config = { chips = -25 },
 	loc_vars = function (self, info_queue, enchantment)
 		return {
 			vars = {
-				enchantment.ability.chips,
-				enchantment.ability.chips * enchantment.level
+				math.abs(enchantment.ability.chips),
+				math.abs(enchantment.ability.chips * enchantment.level)
 			}
 		}
 	end,
