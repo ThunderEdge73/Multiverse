@@ -1085,18 +1085,42 @@ Multiverse.DeckEnchantment({
 			enchantment.ability.triggered = false
 		end
 	end,
-	on_change_level = function (self, delta, enchantment)
+	on_change_level = function(self, delta, enchantment)
 		if delta > 0 then
 			enchantment.ability.triggered = G.GAME.mul_consumable_used_this_ante
 		end
-	end
+	end,
 })
 
 function Multiverse.emptiness_active()
-	return G.GAME.mul_deck_enchantments
-		and G.GAME.mul_deck_enchantments["de_mul_emptiness"]
+	return Multiverse.has_deck_enchantment("de_mul_emptiness")
 		and not G.GAME.mul_deck_enchantments["de_mul_emptiness"].ability.triggered
 end
+
+Multiverse.DeckEnchantment({
+	key = "vanishing",
+	max_level = 1,
+	enchantment_type = "negative",
+})
+
+Multiverse.DeckEnchantment({
+	key = "binding",
+	max_level = 1,
+	enchantment_type = "negative",
+	loc_vars = function (self, info_queue, enchantment)
+		table.insert(info_queue, {
+			set = "Other",
+			key = "eternal",
+		})
+	end,
+	calculate = function(self, enchantment, context)
+		if context.check_eternal and (context.trigger or {}).from_sell then
+			return {
+				no_destroy = true,
+			}
+		end
+	end,
+})
 
 Multiverse.DeckEnchantment({
 	key = "overflow",

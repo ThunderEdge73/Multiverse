@@ -631,6 +631,23 @@ return {
 					"effects {C:red}negated",
 				},
 			},
+			de_mul_vanishing = {
+				name = "Curse of Vanishing",
+				text = {
+					"{C:attention}Death prevention",
+					"effects {C:red}do not{} work",
+				},
+			},
+			de_mul_binding = {
+				name = "Curse of Binding",
+				text = {
+					"{C:attention}Jokers{} {C:red}cannot{}",
+					"be sold",
+					"{C:inactive}(Does not apply to{}",
+					"{C:inactive}Jokers that cannot{}",
+					"{C:inactive}become {C:attention}Eternal{C:inactive})",
+				},
+			},
 		},
 		mul_EnchantedBook = {
 			c_mul_enchanted_book = {

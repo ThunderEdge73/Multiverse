@@ -1564,3 +1564,7 @@ SMODS.Consumable({
 		end
 	end,
 })
+
+function Multiverse.has_deck_enchantment(key)
+	return G.GAME.mul_deck_enchantments and G.GAME.mul_deck_enchantments[key]
+end

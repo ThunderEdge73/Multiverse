@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''if SMODS.saved then game_over = false end'''
+position = "before"
+payload = '''
+if Multiverse.has_deck_enchantment("de_mul_emptiness") then
+    SMODS.saved = false
+end
+'''
+match_indent = true
