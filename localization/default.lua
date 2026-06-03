@@ -643,9 +643,6 @@ return {
 				text = {
 					"{C:attention}Jokers{} {C:red}cannot{}",
 					"be sold",
-					"{C:inactive}(Does not apply to{}",
-					"{C:inactive}Jokers that cannot{}",
-					"{C:inactive}become {C:attention}Eternal{C:inactive})",
 				},
 			},
 		},

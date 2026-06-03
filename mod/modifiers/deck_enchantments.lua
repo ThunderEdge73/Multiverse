@@ -1107,16 +1107,10 @@ Multiverse.DeckEnchantment({
 	key = "binding",
 	max_level = 1,
 	enchantment_type = "negative",
-	loc_vars = function (self, info_queue, enchantment)
-		table.insert(info_queue, {
-			set = "Other",
-			key = "eternal",
-		})
-	end,
 	calculate = function(self, enchantment, context)
 		if context.check_eternal and (context.trigger or {}).from_sell then
 			return {
-				no_destroy = true,
+				no_destroy = { override_compat = true },
 			}
 		end
 	end,
