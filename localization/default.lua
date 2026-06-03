@@ -645,6 +645,14 @@ return {
 					"be sold",
 				},
 			},
+			de_mul_apathy = {
+				name = "Curse of Apathy",
+				text = {
+					"{C:chips}#1#{} Chips",
+					"per level",
+					"{C:inactive}(Currently {C:chips}#2#{C:inactive} Chips){}",
+				},
+			},
 		},
 		mul_EnchantedBook = {
 			c_mul_enchanted_book = {

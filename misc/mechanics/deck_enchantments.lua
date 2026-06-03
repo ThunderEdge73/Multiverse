@@ -1172,6 +1172,9 @@ function Multiverse.get_valid_enchantment_level_ups(key, other, source)
 	then
 		return levels
 	end
+	if key == "de_mul_overflow" or key == "de_mul_" then
+		return { 1, 2, 3 }
+	end
 	local curr_level = obj:get_level()
 	for i = 1, obj.max_level do
 		if curr_level + i <= obj.max_level and obj:in_pool({ level_amt = i, source = source }) then
@@ -1195,7 +1198,7 @@ function Multiverse.poll_deck_enchantments(args)
 	local polled = {}
 	local luck_factor = Multiverse.clamp((G.GAME.mul_enchantment_luck or 0) / 100, 0, 1)
 	local amt = args.forced_amt
-		or Multiverse.weighted_pseudorandom("mul_ench_amt_" .. key_append, luck_factor, 0.4 + luck_factor / 5, 1, 3)
+		or Multiverse.weighted_pseudorandom("mul_ench_amt_" .. key_append, luck_factor, 0.5, 1, 3)
 	if not args.forced_amt and pseudorandom("mul_lucky_4_" .. G.GAME.round_resets.ante, 1, 1000) <= 3 then
 		amt = 4
 	end
@@ -1260,49 +1263,39 @@ function Multiverse.poll_deck_enchantments(args)
 				end
 			end
 		end
-		local ench, index = Multiverse.weighted_poll(base_pool, function(item)
+		local ench = Multiverse.weighted_poll(base_pool, function(item)
 			return item.enchant_obj:get_weight()
 		end, "mul_select_enchant_" .. key_append)
-		if ench and index > 0 then -- If there is an available enchantment in the pool that was polled
-			local curse, c_index
-			local has_curse = args.guaranteed_curse
-				or (
-					not args.forced_amt
-					and not legendary_polled
-					and pseudorandom("mul_generate_curse_" .. key_append)
-						> 0.9 + (G.GAME.mul_enchantment_luck or 0) * 0.09
-				)
-			if has_curse then -- poll for curse
-				curse, c_index = Multiverse.weighted_poll(curse_pool, function(item)
-					return item.enchant_obj:get_weight()
-				end, "mul_select_curse_" .. key_append)
-			end
-			if has_curse and curse and c_index ~= -1 then -- if a curse was polled
-				local level_index = pseudorandom("mul_generate_level_" .. key_append, 1, #curse.level_pool)
-				ret[#ret + 1] = {
-					key = curse.enchant_key,
-					level_amt = curse.level_pool[level_index],
-				}
-				polled[#polled + 1] = curse.enchant_key
-			else -- use original polled enchantment
-				local level_index = Multiverse.weighted_pseudorandom(
-					"mul_generate_level_" .. key_append,
-					luck_factor,
-					0.4 + luck_factor / 5,
-					1,
-					#ench.level_pool
-				)
-				ret[#ret + 1] = {
-					key = ench.enchant_key,
-					level_amt = ench.level_pool[level_index],
-				}
-				polled[#polled + 1] = ench.enchant_key
-			end
-		else -- use overflow enchant
+		local curse
+		local has_curse = args.guaranteed_curse
+			or (
+				not args.forced_amt
+				and not legendary_polled
+				and pseudorandom("mul_generate_curse_" .. key_append) > 0.95 + luck_factor * 0.04
+			)
+		if has_curse then -- poll for curse
+			curse = Multiverse.weighted_poll(curse_pool, function(item)
+				return item.enchant_obj:get_weight()
+			end, "mul_select_curse_" .. key_append)
+			local level_index = pseudorandom("mul_generate_level_" .. key_append, 1, #curse.level_pool)
 			ret[#ret + 1] = {
-				key = "de_mul_overflow",
-				level_amt = pseudorandom("mul_overflow_level", 1, 3),
+				key = curse.enchant_key,
+				level_amt = curse.level_pool[level_index],
 			}
+			polled[#polled + 1] = curse.enchant_key
+		else
+			local level_index = Multiverse.weighted_pseudorandom(
+				"mul_generate_level_" .. key_append,
+				luck_factor,
+				0.5,
+				1,
+				#ench.level_pool
+			)
+			ret[#ret + 1] = {
+				key = ench.enchant_key,
+				level_amt = ench.level_pool[level_index],
+			}
+			polled[#polled + 1] = ench.enchant_key
 		end
 	end
 	return ret

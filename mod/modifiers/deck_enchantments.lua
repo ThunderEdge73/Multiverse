@@ -1117,6 +1117,28 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "apathy",
+	max_level = math.huge,
+	enchantment_type = "negative",
+	config = { chips = -10 },
+	loc_vars = function (self, info_queue, enchantment)
+		return {
+			vars = {
+				enchantment.ability.chips,
+				enchantment.ability.chips * enchantment.level
+			}
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if context.joker_main then
+			return {
+				chips = enchantment.level * enchantment.ability.chips,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "overflow",
 	max_level = math.huge,
 	config = {
@@ -1126,10 +1148,6 @@ Multiverse.DeckEnchantment({
 	loc_vars = function(self, info_queue, enchantment)
 		return { vars = { enchantment.ability.xmult, 1 + enchantment.level * enchantment.ability.xmult } }
 	end,
-	in_pool = function(self, args)
-		return false
-	end,
-	base_weight = 0,
 	calculate = function(self, enchantment, context)
 		if context.joker_main then
 			return {
