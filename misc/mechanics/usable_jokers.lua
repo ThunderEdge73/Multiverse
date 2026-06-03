@@ -22,7 +22,7 @@ function Card:mul_can_use_generic(any_state, skip_check)
 		return false
 	end
 	if
-		G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT and Multiverse.in_interaction()
+		G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT and not Multiverse.in_interaction()
 		or any_state
 	then
 		return true
