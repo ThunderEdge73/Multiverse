@@ -22,7 +22,7 @@ SMODS.DrawStep({
 		if
 			Multiverse.emptiness_active()
 			and card.ability.consumeable
-			and (card.area == G.consumeables or card.area == G.pack_cards or card.area == G.shop_jokers)
+			and (card.area == G.consumeables or card.area == G.pack_cards or card.area == G.shop_jokers or card.area == G.play)
 		then
 			card.children.center:draw_shader("mul_grayscale", nil, card.ARGS.send_to_shader)
 			if card.children.front and not card:should_hide_front() then

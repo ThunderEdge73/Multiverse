@@ -152,7 +152,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "druidic_affinity",
 	max_level = 2,
-	config = { hand_discard_bonus = 1, inflation = 3 },
+	config = { hand_discard_bonus = 1, inflation = 2 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -261,6 +261,153 @@ Multiverse.DeckEnchantment({
 		return enchantment.level * 6
 	end,
 	group_id = "deck",
+})
+
+Multiverse.DeckEnchantment({
+	key = "stellar_affinity",
+	max_level = 2,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * 2
+		end
+		ret.colours = colours
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_emperor
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_high_priestess
+		return {
+			vars = ret,
+		}
+	end,
+	deck_incompat = {
+		"b_zodiac",
+	},
+	enchantment_type = "neutral",
+	group_id = "deck",
+	calculate = function(self, enchantment, context)
+		if context.starting_shop then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					if enchantment.level == 1 then
+						local card = SMODS.create_card({
+							key = pseudorandom_element({ "c_emperor", "c_high_priestess" }, "mul_stellar_affinity"),
+						})
+						create_shop_card_ui(card)
+						G.shop_jokers:emplace(card)
+					else
+						local card1 = SMODS.create_card({
+							key = "c_emperor",
+						})
+						local card2 = SMODS.create_card({
+							key = "c_high_priestess",
+						})
+						create_shop_card_ui(card1)
+						G.shop_jokers:emplace(card1)
+						create_shop_card_ui(card2)
+						G.shop_jokers:emplace(card2)
+					end
+					return true
+				end,
+			}))
+		end
+	end,
+	on_change_level = function(self, delta, enchantment)
+		G.GAME.joker_rate = G.GAME.joker_rate / math.pow(2, delta)
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "chromatic_affinity",
+	max_level = 2,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_wild
+		return {
+			vars = ret,
+		}
+	end,
+	deck_incompat = {
+		"b_checkered",
+	},
+	enchantment_type = "neutral",
+	group_id = "deck",
+	calculate = function(self, enchantment, context)
+		if context.discard and G.GAME.current_round.discards_used < enchantment.level then
+			local c = context.other_card
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					c:juice_up()
+					c:set_ability("m_wild")
+				end,
+			}))
+			delay(0.45)
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "chaos_affinity",
+	max_level = 2,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	deck_incompat = {
+		"b_erratic",
+	},
+	enchantment_type = "neutral",
+	group_id = "deck",
+	calculate = function(self, enchantment, context)
+		if context.before and G.GAME.current_round.hands_played == 0 then
+			local rank_pool = {}
+			for key, def in pairs(SMODS.Ranks) do
+				if not def.in_pool or (type(def.in_pool) == "function" and def:in_pool()) then
+					rank_pool[#rank_pool + 1] = key
+				end
+			end
+			local suit_pool = {}
+			for key, def in pairs(SMODS.Suits) do
+				if not def.in_pool or (type(def.in_pool) == "function" and def:in_pool()) then
+					suit_pool[#suit_pool + 1] = key
+				end
+			end
+			for _, c in ipairs(context.full_hand) do
+				if enchantment.level == 1 then
+					local change_rank = pseudorandom("mul_chaos_affinity_select", 1, 2) == 1
+					if change_rank then
+						local r = pseudorandom_element(rank_pool, "mul_chaos_affinity")
+						assert(SMODS.change_base(c, nil, r))
+					else
+						local s = pseudorandom_element(suit_pool, "mul_chaos_affinity")
+						assert(SMODS.change_base(c, s))
+					end
+				else
+					local r = pseudorandom_element(rank_pool, "mul_chaos_affinity")
+					local s = pseudorandom_element(suit_pool, "mul_chaos_affinity")
+					assert(SMODS.change_base(c, s, r))
+				end
+				c:juice_up()
+			end
+		end
+	end,
 })
 
 Multiverse.DeckEnchantment({
@@ -1121,12 +1268,12 @@ Multiverse.DeckEnchantment({
 	max_level = math.huge,
 	enchantment_type = "negative",
 	config = { chips = -25 },
-	loc_vars = function (self, info_queue, enchantment)
+	loc_vars = function(self, info_queue, enchantment)
 		return {
 			vars = {
 				math.abs(enchantment.ability.chips),
-				math.abs(enchantment.ability.chips * enchantment.level)
-			}
+				math.abs(enchantment.ability.chips * enchantment.level),
+			},
 		}
 	end,
 	calculate = function(self, enchantment, context)

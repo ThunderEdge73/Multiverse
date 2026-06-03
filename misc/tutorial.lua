@@ -7,7 +7,7 @@ function Multiverse.handle_tutorials(context)
 		and context.mul_enchantment_applied
 		and not G.SETTINGS.multiverse_tutorial["deck_enchantment_view"]
 	then
-		G.SETTINGS.multiverse_tutorial["deck_enchantment_intro"] = true
+		G.SETTINGS.multiverse_tutorial["deck_enchantment_view"] = true
 		Multiverse.deck_enchantment_view_tutorial()
 	end
 	if

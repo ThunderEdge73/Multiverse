@@ -435,6 +435,34 @@ return {
 					"deck at end of round",
 				},
 			},
+			de_mul_stellar_affinity = {
+				name = "Stellar Affinity#1#",
+				text = {
+					"When entering the {C:attention}Shop{},",
+					"adds {C:tarot}Emperor{} {V:1}or{C:inactive}/{V:2}and{} {C:tarot}The High",
+					"{C:tarot}Priestess{} to the {C:attention}Shop{}",
+					"{C:attention}Jokers{} appear {V:1}#2#X{C:inactive}/{V:2}#3#X{} less",
+					"frequently in the {C:attention}Shop{}",
+				},
+			},
+			de_mul_chromatic_affinity = {
+				name = "Chromatic Affinity#1#",
+				text = {
+					"Cards in the first",
+					"{V:1}#2#{C:inactive}/{V:2}#3#{} discarded hands",
+					"of round are turned",
+					"into {C:attention}Wild Cards{}",
+				},
+			},
+			de_mul_chaos_affinity = {
+				name = "Chaos Affinity#1#",
+				text = {
+					"Randomize the {C:attention}rank{}",
+					"{V:1}or{C:inactive}/{V:2}and{} {C:attention}suit{} of cards",
+					"in the first played",
+					"hand of round",
+				},
+			},
 			de_mul_fortune = {
 				name = "Fortune#1#",
 				text = {

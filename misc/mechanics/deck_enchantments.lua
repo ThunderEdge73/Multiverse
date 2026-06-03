@@ -260,16 +260,12 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 		G.GAME.mul_deck_enchantment_order[#G.GAME.mul_deck_enchantment_order + 1] = enchantment
 	elseif final_level == 0 then
 		removed = true
-		local ench_to_wipe = -1
-		for i, ench in ipairs(G.GAME.mul_deck_enchantment_order) do
-			if ench == enchantment then
-				ench_to_wipe = i
-				break
-			end
-		end
-		table.remove(G.GAME.mul_deck_enchantment_order, ench_to_wipe)
 	end
+	data.added = added
+	data.removed = removed
 	obj:on_change_level(delta, G.GAME.mul_deck_enchantments[enchantment])
+	data.added = nil
+	data.removed = nil
 	if added and not G.mul_deck_enchantment_info then
 		G.mul_deck_enchantment_info = UIBox({
 			definition = Multiverse.deck_enchantment_info_UI_def(),
@@ -287,6 +283,14 @@ function Multiverse.level_up_deck_enchantment(enchantment, amt)
 	})
 	if removed then
 		G.GAME.mul_deck_enchantments[enchantment] = nil
+		local ench_to_wipe = -1
+		for i, ench in ipairs(G.GAME.mul_deck_enchantment_order) do
+			if ench == enchantment then
+				ench_to_wipe = i
+				break
+			end
+		end
+		table.remove(G.GAME.mul_deck_enchantment_order, ench_to_wipe)
 	end
 end
 
@@ -870,6 +874,7 @@ function Multiverse.generate_enchantment_details_UIBox(enchantment_center)
 				colour = Multiverse.C.DECK_ENCHANTMENT,
 				bg_colour = { 0, 0, 0, 0.15 },
 				scroll_collision_obj = scrollbox,
+				scroll_mult = 1.2,
 			})
 			bar.config.align = "cm"
 			rows[#rows + 1] = bar
@@ -1038,6 +1043,7 @@ function Multiverse.detailed_enchantment_info_UI_def()
 								colour = Multiverse.C.DECK_ENCHANTMENT,
 								bg_colour = { 0, 0, 0, 0.15 },
 								scroll_collision_obj = scrollbox,
+								scroll_mult = 1.2,
 							}),
 						},
 					} or nil,
