@@ -701,6 +701,124 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "protection",
+	max_level = 5,
+	config = { chips = 10 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.chips,
+				enchantment.ability.chips * enchantment.level,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.individual and context.cardarea == G.play then
+			return {
+				chips = enchantment.ability.chips * enchantment.level,
+			}
+		end
+	end,
+	group_id = "prot",
+})
+
+Multiverse.DeckEnchantment({
+	key = "proj_protection",
+	max_level = 5,
+	config = { chips = 40 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.chips,
+				enchantment.ability.chips * enchantment.level,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.individual
+			and context.cardarea == G.play
+			and #context.scoring_hand % 2 == 1
+			and context.other_card == context.scoring_hand[math.ceil(#context.scoring_hand / 2)]
+		then
+			return {
+				chips = enchantment.ability.chips * enchantment.level,
+			}
+		end
+	end,
+	group_id = "prot",
+})
+
+Multiverse.DeckEnchantment({
+	key = "blast_protection",
+	max_level = 5,
+	config = { chips = 30 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.chips,
+				enchantment.ability.chips * enchantment.level,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.individual
+			and context.cardarea == G.play
+			and G.GAME.current_round.hands_played == 0
+		then
+			return {
+				chips = enchantment.ability.chips * enchantment.level,
+			}
+		end
+	end,
+	group_id = "prot",
+})
+
+Multiverse.DeckEnchantment({
+	key = "fire_protection",
+	max_level = 5,
+	config = { chips = 2, current = 0 },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.chips,
+				enchantment.ability.chips * enchantment.level,
+				enchantment.ability.current,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.pre_discard then
+			enchantment.ability.current = enchantment.ability.current + enchantment.ability.chips * enchantment.level
+			return {
+				message = localize("k_upgrade_ex"),
+			}
+		end
+		if context.individual and context.cardarea == G.play then
+			return {
+				chips = enchantment.ability.current,
+			}
+		end
+		if context.end_of_round and context.main_eval and not context.game_over then
+			enchantment.ability.current = 0
+			return {
+				message = localize("k_reset"),
+			}
+		end
+	end,
+	group_id = "prot",
+})
+
+Multiverse.DeckEnchantment({
 	key = "sharpness",
 	max_level = 5,
 	config = { xmult = 0.25 },
@@ -964,6 +1082,9 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.before then
 			enchantment.ability.current = enchantment.ability.current + enchantment.ability.xmult * enchantment.level
+			return {
+				message = localize("k_upgrade_ex"),
+			}
 		end
 		if context.individual and context.cardarea == G.play then
 			return {
@@ -972,6 +1093,9 @@ Multiverse.DeckEnchantment({
 		end
 		if context.end_of_round and context.main_eval and not context.game_over then
 			enchantment.ability.current = 1
+			return {
+				message = localize("k_reset"),
+			}
 		end
 	end,
 	group_id = "damage",

@@ -470,6 +470,45 @@ return {
 					"Enchantment Luck",
 				},
 			},
+			de_mul_protection = {
+				name = "Protection#1#",
+				text = {
+					"Scored cards give",
+					"{C:chips}+#2#{} Chips per level",
+					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
+				},
+			},
+			de_mul_proj_protection = {
+				name = "Projectile Protection#1#",
+				text = {
+					"If there are an {C:attention}odd{}",
+					"number of scoring cards,",
+					"cards, the middle scored card",
+					"gives {C:chips}+#2#{} Chips per level",
+					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
+				},
+			},
+			de_mul_blast_protection = {
+				name = "Blast Protection#1#",
+				text = {
+					"Scored cards in the",
+					"first played hand",
+					"of round give {C:chips}+#2#{}",
+					"Chips per level",
+					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
+				},
+			},
+			de_mul_fire_protection = {
+				name = "Fire Protection#1#",
+				text = {
+					"Scored cards give {C:chips}+#4#{} Chips",
+					"Increases by {C:chips}X#2#{} Chips",
+					"per level this round",
+					"when a hand is played",
+					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
+					"{C:red}resets{C:inactive} at end of round)",
+				},
+			},
 			de_mul_sharpness = {
 				name = "Sharpness#1#",
 				text = {
