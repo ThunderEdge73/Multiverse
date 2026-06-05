@@ -42,3 +42,34 @@ SMODS.Sticker({
 		end
 	end,
 })
+
+SMODS.Sticker({
+	key = "webbed",
+	atlas = "temp_sticker",
+	pos = { x = 0, y = 0 },
+	badge_colour = G.C.GREY,
+	default_compat = true,
+	needs_enabled_flag = true,
+	sets = { Base = true, Enhanced = true },
+	config = { extra = { odds = 2 } },
+	loc_vars = function(self, info_queue, card)
+		local n, d = SMODS.get_probability_vars(card, 1, card.ability.mul_webbed.extra.odds)
+		return {
+			vars = { n, d },
+		}
+	end,
+	calculate = function(self, card, context)
+		if
+			context.stay_flipped
+			and (context.from_area == G.play or context.from_area == G.hand)
+			and context.to_area == G.discard
+			and SMODS.pseudorandom_probability(card, "mul_webbed", 1, card.ability.mul_webbed.extra.odds)
+		then
+			return {
+				modify = {
+					to_area = G.hand
+				}
+			}
+		end
+	end,
+})

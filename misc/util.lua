@@ -765,3 +765,70 @@ end
 function Multiverse.is_right_pinned(card)
 	return (G.P_CENTERS[card.config.center_key] or {}).mul_right_pinned
 end
+
+---@param context CalcContext
+---@param card Card
+---@param amt integer
+---@param args? {seed: string, dist_type: "random" | "even", cards: Card[]}
+---@return table?
+function Multiverse.handle_distributed_retriggers(context, card, amt, args)
+	args = args or {}
+	local cards = args.cards or context.scoring_hand
+	if context.before and not context.blueprint then
+		card.ability._mul_retrigger_index_cache = Multiverse.distribute_retriggers(#cards, amt, args)
+	end
+	if context.repetition and (context.cardarea == G.play or context.cardarea == G.hand) then
+		local i = Multiverse.get_index(context.other_card, cards)
+		if i ~= -1 then
+			return {
+				repetitions = card.ability._mul_retrigger_index_cache[i]
+			}
+		end
+	end
+	if context.after then
+		card.ability._mul_retrigger_index_cache = nil
+	end
+end
+
+---Handles retrigger distribution
+---@param num_cards integer
+---@param amt integer
+---@param args {seed: string, dist_type: "random" | "even"}
+---@return integer[]
+function Multiverse.distribute_retriggers(num_cards, amt, args)
+	args = args or {}
+	local dist_type = args.dist_type or "even"
+	local seed = args.seed or "mul_rand_retriggers"
+	local ret = {}
+	for i = 1, num_cards do
+		ret[i] = 0
+	end
+	if dist_type == "random" then
+		for _ = 1, amt do
+			local index = pseudorandom(seed, 1, num_cards)
+			ret[index] = (ret[index] or 0) + 1
+		end
+	elseif dist_type == "even" then
+		for i = 1, num_cards do
+			ret[i] = math.floor(amt / num_cards)
+		end
+		for i = 1, amt % num_cards do
+			ret[i] = ret[i] + 1
+		end
+	end
+	return ret
+end
+
+function Multiverse.get_index(card, card_list)
+	local i = -1
+	if not card_list then
+		return i
+	end
+	for j, c in ipairs(card_list) do
+		if c == card then
+			i = j
+			break
+		end
+	end
+	return i
+end

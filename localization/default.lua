@@ -541,6 +541,16 @@ return {
 					"{C:inactive}(Currently {C:attention}#2#{C:inactive} retriggers){}",
 				},
 			},
+			de_mul_bane_arthropods = {
+				name = "Bane of Arthropods#1#",
+				text = {
+					"{C:attention}Webbed playing cards",
+					"give {X:mult,C:white}X#2#{} Mult per level",
+					"when scored or",
+					"while held in hand",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult){}",
+				},
+			},
 			de_mul_breach = {
 				name = "Breach#1#",
 				text = {
@@ -1926,6 +1936,14 @@ return {
 					"at end of round",
 				},
 			},
+			mul_webbed = {
+				name = "Webbed",
+				text = {
+					"{C:green}#1# in #2#{} chance to",
+					"return to {C:attention}hand{} after",
+					"being played or discarded",
+				},
+			},
 			undiscovered_mul_myth = {
 				name = "Not Discovered",
 				text = {
@@ -2452,6 +2470,7 @@ return {
 		labels = {
 			mul_transmutable = "Transmutable",
 			mul_traitorous = "Traitorous",
+			mul_webbed = "Webbed",
 			-- myth = "Myth",
 			-- deckenchantment = "Deck Enchantment",
 			-- enchantedbook = "Enchanted Book",

@@ -336,22 +336,12 @@ Multiverse.UsableJoker({
 	end,
 	config = { extra = { retriggers = 6, retriggers_per_hand = 2, hands = 2, hand_boost = 4, tp_cost = 30 } },
 	calculate = function(self, card, context)
-		if context.repetition and context.cardarea == G.play then
-			local amt = card.ability.extra.retriggers
+		return Multiverse.handle_distributed_retriggers(
+			context,
+			card,
+			card.ability.extra.retriggers
 				+ (G.GAME.current_round.hands_left + 1) * card.ability.extra.retriggers_per_hand
-			-- adjusted for the -1 hand that happens when hand is played
-			local current_index = 1
-			for i, c in ipairs(context.scoring_hand) do
-				if c == context.other_card then
-					current_index = i
-					break
-				end
-			end
-			return {
-				repetitions = math.floor(amt / #context.scoring_hand)
-					+ ((current_index <= amt % #context.scoring_hand) and 1 or 0),
-			}
-		end
+		)
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
@@ -488,11 +478,11 @@ Multiverse.UsableJoker({
 					and not SMODS.is_eternal(G.jokers.highlighted[1], card)
 					and G.jokers.highlighted[1] ~= card
 			end,
-			end_interaction = function ()
+			end_interaction = function()
 				SMODS.destroy_cards(G.jokers.highlighted[1])
 				Multiverse.ease_TP(card.ability.extra.tp_gain)
 			end,
-			display_text = localize("k_mul_murder")
+			display_text = localize("k_mul_murder"),
 		})
 	end,
 })

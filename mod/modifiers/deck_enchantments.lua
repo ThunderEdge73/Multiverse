@@ -768,11 +768,7 @@ Multiverse.DeckEnchantment({
 	end,
 	enchantment_type = "positive",
 	calculate = function(self, enchantment, context)
-		if
-			context.individual
-			and context.cardarea == G.play
-			and G.GAME.current_round.hands_played == 0
-		then
+		if context.individual and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
 			return {
 				chips = enchantment.ability.chips * enchantment.level,
 			}
@@ -816,6 +812,40 @@ Multiverse.DeckEnchantment({
 		end
 	end,
 	group_id = "prot",
+})
+
+Multiverse.DeckEnchantment({
+	key = "bane_arthropods",
+	max_level = 5,
+	config = { xmult = 0.75 },
+	loc_vars = function(self, info_queue, enchantment)
+		local n, d = SMODS.get_probability_vars(enchantment, 1, 2)
+		info_queue[#info_queue+1] = {
+			set = "Other",
+			key = "mul_webbed",
+			vars = { n, d }
+		}
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.xmult,
+				1 + enchantment.ability.xmult * enchantment.level,
+			},
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.individual
+			and (context.cardarea == G.play or context.cardarea == G.hand)
+			and context.other_card.ability.mul_webbed
+		then
+			return {
+				xmult = 1 + enchantment.ability.xmult * enchantment.level,
+			}
+		end
+	end,
+	group_id = "damage",
 })
 
 Multiverse.DeckEnchantment({
