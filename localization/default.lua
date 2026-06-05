@@ -665,8 +665,7 @@ return {
 				text = {
 					"Distribute {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
 					"retriggers randomly",
-					"among all played and",
-					"scoring cards",
+					"among all played cards",
 				},
 			},
 			de_mul_trib_blessing = {
@@ -1641,9 +1640,9 @@ return {
 				text = {
 					{
 						"{C:blue}+#1#{} hands",
-						"Evenly distribute {C:attention}#2#{}",
-						"retriggers across",
-						"all scored cards",
+						"Distribute {C:attention}#2#{} retriggers",
+						"evenly across all",
+						"played cards",
 						"Increases by {C:attention}#3#{}",
 						"per hand remaining",
 						"{C:inactive}(Currently {C:attention}#4#{C:inactive} retriggers)",
