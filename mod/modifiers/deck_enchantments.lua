@@ -164,7 +164,7 @@ Multiverse.DeckEnchantment({
 			ret[#ret + 1] = i
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 3
+			ret[#ret + 1] = i * enchantment.ability.inflation
 		end
 		ret.colours = colours
 		return {
@@ -229,6 +229,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "light_affinity",
 	max_level = 2,
+	config = { dollar_bonus = 6 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -237,7 +238,7 @@ Multiverse.DeckEnchantment({
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.RED)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 6
+			ret[#ret + 1] = i * enchantment.ability.dollar_bonus
 		end
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i
@@ -258,7 +259,7 @@ Multiverse.DeckEnchantment({
 		return G.jokers.config.card_limit >= args.level_amt
 	end,
 	calc_dollar_bonus = function(self, enchantment)
-		return enchantment.level * 6
+		return enchantment.level * enchantment.ability.dollar_bonus
 	end,
 	group_id = "deck",
 })
@@ -266,6 +267,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "stellar_affinity",
 	max_level = 2,
+	config = { rate_div = 2 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -273,7 +275,7 @@ Multiverse.DeckEnchantment({
 		}
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 2
+			ret[#ret + 1] = i * enchantment.ability.rate_div
 		end
 		ret.colours = colours
 		info_queue[#info_queue + 1] = G.P_CENTERS.c_emperor
@@ -315,7 +317,7 @@ Multiverse.DeckEnchantment({
 		end
 	end,
 	on_change_level = function(self, delta, enchantment)
-		G.GAME.joker_rate = G.GAME.joker_rate / math.pow(2, delta)
+		G.GAME.joker_rate = G.GAME.joker_rate / math.pow(enchantment.ability.rate_div, delta)
 	end,
 })
 
@@ -413,6 +415,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "arcane_affinity",
 	max_level = 2,
+	config = { reroll_cost = 2 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -424,7 +427,7 @@ Multiverse.DeckEnchantment({
 			ret[#ret + 1] = i
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 2
+			ret[#ret + 1] = i * enchantment.ability.reroll_cost
 		end
 		ret.colours = colours
 		info_queue[#info_queue + 1] = G.P_CENTERS.c_fool
@@ -446,7 +449,7 @@ Multiverse.DeckEnchantment({
 			G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + enchantment.level
 			G.E_MANAGER:add_event(Event({
 				func = function()
-					for i = 1, enchantment.level do
+					for _ = 1, enchantment.level do
 						G.E_MANAGER:add_event(Event({
 							func = function()
 								SMODS.add_card({
@@ -474,6 +477,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "supernatural_affinity",
 	max_level = 2,
+	config = { blindsize_mult = 0.5 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -492,7 +496,7 @@ Multiverse.DeckEnchantment({
 			ret[#ret + 1] = i
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = 1 + i * 0.5
+			ret[#ret + 1] = 1 + i * enchantment.ability.blindsize_mult
 		end
 		ret.colours = colours
 		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
@@ -507,7 +511,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				x_blind_size = 1 + enchantment.level * 0.5,
+				x_blind_size = 1 + enchantment.level * enchantment.ability.blindsize_mult,
 				colour = G.C.PURPLE,
 			}
 		end
@@ -543,6 +547,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "illusory_affinity",
 	max_level = 2,
+	config = { dollar_fee = 2 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -554,7 +559,7 @@ Multiverse.DeckEnchantment({
 			ret[#ret + 1] = i
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = i * 2
+			ret[#ret + 1] = i * enchantment.ability.dollar_fee
 		end
 		ret.colours = colours
 		return {
@@ -586,6 +591,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "plasma_affinity",
 	max_level = 2,
+	config = { blindsize_mult = 0.5 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -601,7 +607,7 @@ Multiverse.DeckEnchantment({
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = 1 + i * 0.5
+			ret[#ret + 1] = 1 + i * enchantment.ability.blindsize_mult
 		end
 		ret.colours = colours
 		return {
@@ -615,7 +621,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.before then
 			return {
-				x_blind_size = 1 + enchantment.level * 0.5,
+				x_blind_size = 1 + enchantment.level * enchantment.ability.blindsize_mult,
 				colour = G.C.PURPLE,
 			}
 		end
@@ -820,10 +826,10 @@ Multiverse.DeckEnchantment({
 	config = { xmult = 0.75 },
 	loc_vars = function(self, info_queue, enchantment)
 		local n, d = SMODS.get_probability_vars(enchantment, 1, 2)
-		info_queue[#info_queue+1] = {
+		info_queue[#info_queue + 1] = {
 			set = "Other",
 			key = "mul_webbed",
-			vars = { n, d }
+			vars = { n, d },
 		}
 		return {
 			vars = {
@@ -1264,6 +1270,35 @@ Multiverse.DeckEnchantment({
 				modify = { to_area = G.hand },
 			}
 		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "depth_strider",
+	max_level = 3,
+	config = { retriggers = 2 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.retriggers
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		return Multiverse.handle_distributed_retriggers(
+			context,
+			enchantment,
+			enchantment.level * enchantment.ability.retriggers,
+			{ dist_type = "random", seed = "mul_depth_strider" }
+		)
 	end,
 })
 

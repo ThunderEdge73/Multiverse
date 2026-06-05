@@ -660,6 +660,15 @@ return {
 					"extra cards",
 				},
 			},
+			de_mul_depth_strider = {
+				name = "Depth Strider#1#",
+				text = {
+					"Distribute {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
+					"retriggers randomly",
+					"among all played and",
+					"scoring cards",
+				},
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {

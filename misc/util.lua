@@ -767,7 +767,7 @@ function Multiverse.is_right_pinned(card)
 end
 
 ---@param context CalcContext
----@param card Card
+---@param card Card | EnchantmentData
 ---@param amt integer
 ---@param args? {seed: string, dist_type: "random" | "even", cards: Card[]}
 ---@return table?
