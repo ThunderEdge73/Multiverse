@@ -1169,12 +1169,17 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "silk_touch",
 	max_level = 1,
-	config = { in_shop = false },
 	enchantment_type = "positive",
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = {
+			set = "Other",
+			key = "eternal",
+		}
+	end,
 	calculate = function(self, enchantment, context)
 		if context.check_eternal and context.other_card.ability.set == "Joker" and G.GAME.blind.in_blind then
 			return {
-				no_destroy = { bypass_compat = true },
+				no_destroy = true,
 			}
 		end
 	end,

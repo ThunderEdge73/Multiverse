@@ -921,6 +921,35 @@ function G.FUNCS.mul_change_enchantment_detailed_view(e)
 	G.OVERLAY_MENU:recalculate()
 end
 
+function Multiverse.generate_enchantment_name_words(text, enchantment_center, level)
+	local parsed = Multiverse.parse_vars(
+		text,
+		{ (level and level > 0) and " " .. Multiverse.number_to_roman(level) or "" }
+	)
+	local words = {}
+	string.gsub(parsed, "([%a%p]+)", function(w)
+		table.insert(words, w)
+	end)
+	if level and enchantment_center.max_level > 1 and #words > 1 then
+		local l = table.remove(words)
+		table.insert(words, table.remove(words) .. " " .. l)
+	end
+	if enchantment_center.enchantment_type == "negative" and #words >= 3 then
+		local curse = table.remove(words, 1)
+		local of = table.remove(words, 1)
+		table.insert(words, 1, curse .. " " .. of)
+	end
+	if enchantment_center.key == "de_mul_luck_of_sea" then
+		local luck = table.remove(words, 1)
+		local of = table.remove(words, 1)
+		table.insert(words, 1, luck .. " " .. of)
+		local the = table.remove(words, 2)
+		local sea = table.remove(words, 2)
+		table.insert(words, 2, the .. " " .. sea)
+	end
+	return words
+end
+
 function Multiverse.detailed_enchantment_info_UI_def()
 	local all_enchants = Multiverse.map(G.GAME.mul_deck_enchantment_order, function(item)
 		return Multiverse.DeckEnchantments[item]
@@ -936,20 +965,7 @@ function Multiverse.detailed_enchantment_info_UI_def()
 			set = "mul_DeckEnchantment",
 			key = enchantment_center.key,
 		})
-		text = Multiverse.parse_vars(text, { " " .. Multiverse.number_to_roman(enchantment_center:get_level()) })
-		local words = {}
-		string.gsub(text, "([%a%p]+)", function(w)
-			table.insert(words, w)
-		end)
-		if enchantment_center.max_level > 1 and #words > 1 then
-			local level = table.remove(words)
-			table.insert(words, table.remove(words) .. " " .. level)
-		end
-		if enchantment_center.enchantment_type == "negative" and #words >= 3 then
-			local curse = table.remove(words, 1)
-			local of = table.remove(words, 1)
-			table.insert(words, 1, curse .. " " .. of)
-		end
+		local words = Multiverse.generate_enchantment_name_words(text, enchantment_center, enchantment_center:get_level())
 		local text_rows = {}
 		for _, word in ipairs(words) do
 			text_rows[#text_rows + 1] = {

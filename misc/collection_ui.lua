@@ -82,30 +82,11 @@ function Multiverse.create_ench_name_UIBox(card)
 		set = "mul_DeckEnchantment",
 		key = card.ability.extra.collection_enchant,
 	})
-	text = Multiverse.parse_vars(
+	local words = Multiverse.generate_enchantment_name_words(
 		text,
-		{ card.ability.extra.forced_level and " " .. Multiverse.number_to_roman(card.ability.extra.forced_level) or "" }
-	)
-	local words = {}
-	string.gsub(text, "([%a%p]+)", function(w)
-		table.insert(words, w)
-	end)
-	if
+		Multiverse.DeckEnchantments[card.ability.extra.collection_enchant],
 		card.ability.extra.forced_level
-		and Multiverse.DeckEnchantments[card.ability.extra.collection_enchant].max_level > 1
-		and #words > 1
-	then
-		local level = table.remove(words)
-		table.insert(words, table.remove(words) .. " " .. level)
-	end
-	if
-		Multiverse.DeckEnchantments[card.ability.extra.collection_enchant].enchantment_type == "negative"
-		and #words >= 3
-	then
-		local curse = table.remove(words, 1)
-		local of = table.remove(words, 1)
-		table.insert(words, 1, curse .. " " .. of)
-	end
+	)
 	rows = {}
 	for _, word in ipairs(words) do
 		rows[#rows + 1] = {

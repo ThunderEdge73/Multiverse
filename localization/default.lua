@@ -612,9 +612,113 @@ return {
 			de_mul_silk_touch = {
 				name = "Silk Touch",
 				text = {
-					"Jokers {C:red}cannot{} be",
+					"{C:attention}Jokers{} {C:red}cannot{} be",
 					"sold or destroyed",
 					"while inside a {C:attention}Blind{}",
+					"{C:inactive}(Ignores Jokers that{}",
+					"{C:inactive}cannot become {C:attention}Eternal{C:inactive}){}",
+				},
+			},
+			de_mul_feather_falling = {
+				name = "Feather Falling#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_fire_aspect = {
+				name = "Fire Aspect#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_knockback = {
+				name = "Knockback#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_lunge = {
+				name = "Lunge#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_riptide = {
+				name = "Riptide#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_respiration = {
+				name = "Respiration#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_soul_speed = {
+				name = "Soul Speed#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_sweeping_edge = {
+				name = "Sweeping Edge#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_swift_sneak = {
+				name = "Swift Sneak#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_thorns = {
+				name = "Thorns#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_luck_of_sea = {
+				name = "Luck of the Sea#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_lure = {
+				name = "Lure#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_multishot = {
+				name = "Multishot",
+				text = {
+					"",
+				},
+			},
+			de_mul_piercing = {
+				name = "Piercing#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_punch = {
+				name = "Punch#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_quick_charge = {
+				name = "Quick Charge#1#",
+				text = {
+					"",
+				},
+			},
+			de_mul_frost_walker = {
+				name = "Frost Walker#1#",
+				text = {
+					"",
 				},
 			},
 			de_mul_overflow = {
