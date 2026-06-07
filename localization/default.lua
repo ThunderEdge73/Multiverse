@@ -492,7 +492,7 @@ return {
 					"Scored cards give {C:chips}+#4#{} Chips",
 					"Increases by {C:chips}X#2#{} Chips",
 					"per level this round",
-					"when a hand is played",
+					"when a discard is used",
 					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
 					"{C:red}resets{C:inactive} at end of round)",
 				},
