@@ -769,10 +769,12 @@ function Multiverse.generate_enchantment_details_UIBox(enchantment_center)
 								{
 									n = G.UIT.T,
 									config = {
-										text = Multiverse.parse_vars(
-											localize("k_mul_level_info"),
-											{ enchantment_center:get_level(), enchantment_center.max_level }
-										),
+										text = Multiverse.parse_vars(localize("k_mul_level_info"), {
+											enchantment_center:get_level(),
+											enchantment_center.max_level == math.huge
+													and localize("k_mul_infinity")
+												or enchantment_center.max_level,
+										}),
 										colour = G.C.UI.TEXT_LIGHT,
 										scale = 0.4,
 									},
@@ -922,10 +924,8 @@ function G.FUNCS.mul_change_enchantment_detailed_view(e)
 end
 
 function Multiverse.generate_enchantment_name_words(text, enchantment_center, level)
-	local parsed = Multiverse.parse_vars(
-		text,
-		{ (level and level > 0) and " " .. Multiverse.number_to_roman(level) or "" }
-	)
+	local parsed =
+		Multiverse.parse_vars(text, { (level and level > 0) and " " .. Multiverse.number_to_roman(level) or "" })
 	local words = {}
 	string.gsub(parsed, "([%a%p]+)", function(w)
 		table.insert(words, w)
@@ -965,7 +965,8 @@ function Multiverse.detailed_enchantment_info_UI_def()
 			set = "mul_DeckEnchantment",
 			key = enchantment_center.key,
 		})
-		local words = Multiverse.generate_enchantment_name_words(text, enchantment_center, enchantment_center:get_level())
+		local words =
+			Multiverse.generate_enchantment_name_words(text, enchantment_center, enchantment_center:get_level())
 		local text_rows = {}
 		for _, word in ipairs(words) do
 			text_rows[#text_rows + 1] = {
@@ -1290,13 +1291,15 @@ function Multiverse.poll_deck_enchantments(args)
 			return item.enchant_obj:get_weight()
 		end, "mul_select_enchant_" .. key_append)
 		local curse
-		local has_curse = (args.guaranteed_curse
+		local has_curse = (
+			args.guaranteed_curse
 			or (
 				not args.forced_amt
 				and not legendary_polled
 				and not amt == 4
 				and pseudorandom("mul_generate_curse_" .. key_append) > 0.95 + luck_factor * 0.04
-			)) and not curse_polled
+			)
+		) and not curse_polled
 		if has_curse then -- poll for curse
 			curse = Multiverse.weighted_poll(curse_pool, function(item)
 				return item.enchant_obj:get_weight()

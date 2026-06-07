@@ -2469,6 +2469,7 @@ return {
 			k_mul_ability = "Ability",
 			k_mul_none = "none",
 			k_mul_view_deck_enchantments = "View Deck Enchantments",
+			k_mul_infinity = "Infinity",
 			k_mul_level_info = "(Level #1#/#2#)",
 			k_mul_incompat_with1 = "The following Deck Enchantments cannot appear:",
 			k_mul_incompat_with2 = "Can't appear on",
