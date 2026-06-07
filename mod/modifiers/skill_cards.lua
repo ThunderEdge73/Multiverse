@@ -212,13 +212,14 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "embrittlement",
-	tp_cost = 25,
-	config = { extra = { blind_mult = 0.5, status = "psv_mul_vulnerable" } },
+	tp_cost = 15,
+	config = { extra = { blind_mult = 0.5, status = "psv_mul_vulnerable", amt = 1 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
 		return {
 			vars = {
 				card.ability.extra.blind_mult,
+				card.ability.extra.amt
 			},
 		}
 	end,
@@ -228,13 +229,10 @@ Multiverse.SkillCard({
 			x_blind_size = card.ability.extra.blind_mult,
 			colour = G.C.PURPLE,
 			func = function()
-				G.GAME.blind:add_passive(card.ability.extra.status)
+				Multiverse.modify_passive_stacks(card.ability.extra.status, card.ability.extra.amt)
 			end
 		}, card)
 		delay(0.4)
-	end,
-	can_use_skill = function(self, card)
-		return not find_passive(card.ability.extra.status)
 	end,
 })
 
@@ -303,17 +301,19 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "fireball",
 	tp_cost = 25,
-	config = { extra = { status = "psv_mul_burning" } },
+	config = { extra = { status = "psv_mul_burning", amt = 2 } },
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = blindexpander.Passives["psv_mul_burning"]
+		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
+		return {
+			vars = {
+				card.ability.extra.amt
+			}
+		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
-			G.GAME.blind:add_passive(card.ability.extra.status)
+			Multiverse.modify_passive_stacks(card.ability.extra.status, card.ability.extra.amt)
 		end)
-	end,
-	can_use_skill = function(self, card)
-		return not find_passive(card.ability.extra.status)
 	end,
 })
 
@@ -425,7 +425,7 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "reduced_atoms",
-	tp_cost = 15,
+	tp_cost = 10,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ethereal"]
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhausts"]

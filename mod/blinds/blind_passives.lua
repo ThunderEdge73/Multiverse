@@ -291,11 +291,11 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "vulnerable",
-	config = { xmult = 2 },
+	config = { xmult = 2, stacks = 0 },
 	loc_vars = function(self, blind, passive)
+		local stacks = (get_passive_data(passive.key) or passive).config.stacks
 		return {
-			vars = { passive.config.xmult },
-			key = passive.fake_card and "psv_mul_vulnerable_infoqueue" or nil,
+			vars = { stacks, passive.config.xmult },
 		}
 	end,
 	calculate = function(self, blind, passive, context)
@@ -305,41 +305,33 @@ blindexpander.Passive({
 			}
 		end
 		if context.after then
-			G.E_MANAGER:add_event(Event({
+			return {
 				func = function()
-					blind:remove_passive(self.key)
-					return true
+					Multiverse.modify_passive_stacks(passive.key, -1)
 				end,
-			}))
+			}
 		end
 	end,
 })
 
 blindexpander.Passive({
 	key = "burning",
-	config = { discards_left = 2 },
+	mul_stackable = true,
+	config = { stacks = 0 },
 	loc_vars = function(self, blind, passive)
+		local stacks = (get_passive_data(passive.key) or passive).config.stacks
 		return {
-			vars = { passive.config.discards_left },
-			key = passive.fake_card and "psv_mul_burning_infoqueue" or nil,
+			vars = { stacks },
 		}
 	end,
 	calculate = function(self, blind, passive, context)
 		if context.pre_discard and not context.hook then
-			passive.config.discards_left = passive.config.discards_left - 1
 			local text, _ = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
 			return {
 				level_up = true,
 				level_up_hand = text,
 				func = function()
-					if passive.config.discards_left <= 0 then
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								blind:remove_passive(self.key)
-								return true
-							end,
-						}))
-					end
+					Multiverse.modify_passive_stacks(passive.key, -1)
 				end,
 			}
 		end

@@ -781,7 +781,7 @@ function Multiverse.handle_distributed_retriggers(context, card, amt, args)
 		local i = Multiverse.get_index(context.other_card, cards)
 		if i ~= -1 then
 			return {
-				repetitions = card.ability._mul_retrigger_index_cache[i]
+				repetitions = card.ability._mul_retrigger_index_cache[i],
 			}
 		end
 	end
@@ -831,4 +831,37 @@ function Multiverse.get_index(card, card_list)
 		end
 	end
 	return i
+end
+
+function Multiverse.modify_passive_stacks(key, amt)
+	if not blindexpander.Passives[key].mul_stackable then
+		error("Attempt to stack unstackable passive")
+	end
+	if not G.GAME.blind then
+		error("Blind does not exist")
+	end
+	if not G.GAME.blind.in_blind then
+		error("Cannot stack passive outside of a Blind")
+	end
+	local index = -1
+	if G.GAME.blind.passives_data then
+		for i, v in ipairs(G.GAME.blind.passives_data) do
+			if v.key == key then
+				index = i
+				break
+			end
+		end
+	end
+	if index == -1 and amt > 0 then
+		G.GAME.blind:add_passive(key)
+		G.GAME.blind.passives_data[#G.GAME.blind.passives_data].config.stacks = amt
+	else
+		local final_amt = math.max(G.GAME.blind.passives_data[index].config.stacks
+			+ amt, 0)
+		if final_amt == 0 then
+			G.GAME.blind:remove_passive(key)
+		else
+			G.GAME.blind.passives_data[index].config.stacks = final_amt
+		end
+	end
 end

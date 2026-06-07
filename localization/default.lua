@@ -156,8 +156,8 @@ return {
 					"been used this {C:attention}Ante{}, so",
 					"this consumable's effects",
 					"will be {C:red}negated{} if used",
-				}
-			}
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -302,33 +302,21 @@ return {
 			psv_mul_vulnerable = {
 				name = "Vulnerable",
 				text = {
-					"During final score calculation, {X:mult,C:white}X#1#{} Mult",
-					"{C:attention}Removed{} after playing a hand",
-				},
-			},
-			psv_mul_vulnerable_infoqueue = {
-				name = "Vulnerable",
-				text = {
 					"During final score",
-					"calculation, {X:mult,C:white}X#1#{} Mult",
-					"{C:attention}Removed{} after",
+					"calculation, {X:mult,C:white}X#2#{} Mult",
+					"Loses {C:attention}1{} stack after",
 					"playing a hand",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
 			psv_mul_burning = {
 				name = "Burning",
 				text = {
-					"Level up discarded poker hand once",
-					"{C:attention}Removed{} after discarding {C:attention}2{} {C:inactive}(#1#){} times",
-				},
-			},
-			psv_mul_burning_infoqueue = {
-				name = "Burning",
-				text = {
-					"Level up discarded",
+					"Level up {C:attention}discarded{}",
 					"poker hand once",
-					"{C:attention}Removed{} after",
-					"discarding {C:attention}2{} {C:inactive}(#1#){} times",
+					"Loses {C:attention}1{} stack",
+					"after discarding",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
 		},
@@ -834,6 +822,44 @@ return {
 					"be sold",
 				},
 			},
+			de_mul_decay = {
+				name = "Curse of Decay#1#",
+				text = {
+					"Every {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{} cards discarded,",
+					"{C:red}debuff{} {C:attention}1{} random card",
+					"in hand that is not",
+					"currently debuffed",
+				},
+			},
+			de_mul_envy = {
+				name = "Curse of Envy#1#",
+				text = {
+					"If you do not buy",
+					"a {C:attention}Joker{} from the",
+					"{C:attention}Shop{} before leaving",
+					"it, lose {V:1}$#2#{C:inactive}/{V:2}$#3#{C:inactive}/{V:3}$#4#{}",
+				},
+			},
+			de_mul_vengeance = {
+				name = "Curse of Vengeance",
+				text = {
+					"After defeating a",
+					"{C:attention}Boss Blind{}, if you",
+					"have not sold a card",
+					"during that {C:attention}Boss{}",
+					"{C:attention}Blind{}, {C:red}-#1#{} Joker slot",
+				},
+			},
+			de_mul_misfortune = {
+				name = "Curse of Misfortune#1#",
+				text = {
+					"If you draw a hand",
+					"inside a {C:attention}Booster{}",
+					"{C:attention}Pack{}, force {V:1}#2#{C:inactive}/{V:2}#3#",
+					"cards to always",
+					"be selected",
+				},
+			},
 			de_mul_apathy = {
 				name = "Curse of Apathy",
 				text = {
@@ -917,8 +943,9 @@ return {
 				name = "Embrittlement",
 				text = {
 					"{X:purple,C:white}X#1#{} Blind size",
-					"Applies {C:attention}Vulnerable{}",
-					"to current Blind",
+					"Applies {C:attention}#2#{} stack",
+					"of {C:attention}Vulnerable{} to",
+					"the current Blind",
 				},
 			},
 			sk_mul_rum_seventh = {
@@ -937,8 +964,9 @@ return {
 			sk_mul_fireball = {
 				name = "Fireball",
 				text = {
-					"Applies {C:attention}Burning{}",
-					"to current Blind",
+					"Applies {C:attention}#1#{} stacks",
+					"of {C:attention}Burning{} to",
+					"the current Blind",
 				},
 			},
 			sk_mul_ultra_instinct = {
@@ -2599,17 +2627,17 @@ return {
 			mul_de_1 = {
 				"{C:mul_enchantedbook}Deck Enchantments{} are",
 				"passive boosts that work",
-				"similarly to {C:attention}Vouchers{}."
+				"similarly to {C:attention}Vouchers{}.",
 			},
 			mul_de_2 = {
 				"However, {C:mul_enchantedbook}Deck Enchantment{}",
 				"bonuses may not always",
-				"be beneficial to the run."
+				"be beneficial to the run.",
 			},
 			mul_de_3 = {
 				"{C:mul_enchantedbook}Enchanted Books{} will give",
 				"you a random collection",
-				"of {C:mul_enchantedbook}Deck Enchantments{}."
+				"of {C:mul_enchantedbook}Deck Enchantments{}.",
 			},
 			mul_de_4 = {
 				"A potentially dangerous",
@@ -2637,7 +2665,7 @@ return {
 			},
 			mul_tha_2 = {
 				"At base, you gain{s:0.5} {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}2{}",
-				"at end of round."
+				"at end of round.",
 			},
 			mul_tha_3 = {
 				"Once you accumulate {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}100{},",
@@ -2718,7 +2746,7 @@ return {
 			mul_transmute_3 = {
 				"Hover over this {C:attention}Joker{}",
 				"and read its infotip",
-				"titled {C:attention}\"Hint\"{}.",
+				'titled {C:attention}"Hint"{}.',
 			},
 			mul_transmute_4 = {
 				"Once you complete the {C:attention}task{}",
@@ -2751,6 +2779,6 @@ return {
 				"the {C:attention}Joker{} that is selected",
 				"when this consumable is {C:attention}used{}.",
 			},
-		}
+		},
 	},
 }
