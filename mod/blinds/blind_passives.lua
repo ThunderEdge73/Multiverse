@@ -216,29 +216,31 @@ blindexpander.Passive({
 	end,
 	calculate = function(self, blind, passive, context)
 		if context.hand_drawn then
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.3,
-				func = function()
-					local pool1 = Multiverse.filter(G.hand.cards, function(c)
-						return not c.debuff
-					end)
-					local target = pseudorandom_element(pool1, "mul_corrupt_heart")
-					if target then
-						SMODS.debuff_card(target, true, "mul_corrupt_heart")
-						target:juice_up()
-					end
-					local pool2 = Multiverse.filter(G.hand.cards, function(c)
-						return c.facing == "front"
-					end)
-					local target2 = pseudorandom_element(pool2, "mul_corrupt_heart")
-					if target2 then
-						target2:flip()
+			local pool1 = Multiverse.filter(G.hand.cards, function(c)
+				return not c.debuff
+			end)
+			local target = pseudorandom_element(pool1, "mul_corrupt_heart")
+			local pool2 = Multiverse.filter(G.hand.cards, function(c)
+				return c.facing == "front"
+			end)
+			local target2 = pseudorandom_element(pool2, "mul_corrupt_heart")
+			if target or target2 then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.3,
+					func = function()
+						if target then
+							SMODS.debuff_card(target, true, "mul_corrupt_heart")
+							target:juice_up()
+						end
+						if target2 then
+							target2:flip()
+							return true
+						end
 						return true
-					end
-					return true
-				end,
-			}))
+					end,
+				}))
+			end
 		end
 	end,
 	remove = function(self, passive, from_disable)

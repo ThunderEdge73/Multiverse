@@ -44,6 +44,8 @@
 ---@field level number
 ---@field ability table
 ---@field key string
+---@field added boolean? Not nil inside `on_change_level`
+---@field removed boolean? Not nil inside `on_change_level`
 
 ---@class EnchantmentPoolArgs
 ---@field level_amt? integer Will equal 0 when checking if the enchantment can be spawned regardless of checked level.

@@ -1458,6 +1458,70 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "decay",
+	max_level = 3,
+	enchantment_type = "negative",
+	config = { current = 0, limit = 13 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret[#ret + 1] = enchantment.ability.limit
+		ret[#ret + 1] = enchantment.ability.current
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if context.setting_blind then
+			enchantment.ability.current = 0
+		end
+		if context.hand_drawn then
+			enchantment.ability.current = enchantment.ability.current + #context.hand_drawn
+			local loops = math.floor(enchantment.ability.current / enchantment.ability.limit)
+			enchantment.ability.current = enchantment.ability.current % enchantment.ability.limit
+			for _ = 1, loops do
+				local pool = Multiverse.filter(G.hand.cards, function(c)
+					return not c.debuff
+				end)
+				local targets = Multiverse.get_unique_pseudorandom_elements(pool, enchantment.level, "mul_decay")
+				if next(targets) then
+					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						delay = 0.3,
+						func = function()
+							for _, c in ipairs(targets) do
+								SMODS.debuff_card(c, true, "mul_decay")
+								c:juice_up()
+							end
+							return true
+						end,
+					}))
+				end
+			end
+		end
+		if context.blind_defeated then
+			Multiverse.apply_to_playing_cards(function(playing_card)
+				SMODS.debuff_card(playing_card, false, "mul_decay")
+			end)
+		end
+	end,
+	on_change_level = function(self, delta, enchantment)
+		if enchantment.removed then
+			Multiverse.apply_to_playing_cards(function(playing_card)
+				SMODS.debuff_card(playing_card, false, "mul_decay")
+			end)
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "apathy",
 	max_level = math.huge,
 	enchantment_type = "negative",

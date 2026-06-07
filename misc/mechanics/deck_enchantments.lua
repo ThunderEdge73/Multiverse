@@ -1265,6 +1265,7 @@ function Multiverse.poll_deck_enchantments(args)
 		polled[#polled + 1] = l_ench.enchant_key
 		amt = amt - 1
 	end
+	local curse_polled = false
 	for _ = 1, amt do
 		local base_pool = {}
 		local curse_pool = {}
@@ -1289,12 +1290,13 @@ function Multiverse.poll_deck_enchantments(args)
 			return item.enchant_obj:get_weight()
 		end, "mul_select_enchant_" .. key_append)
 		local curse
-		local has_curse = args.guaranteed_curse
+		local has_curse = (args.guaranteed_curse
 			or (
 				not args.forced_amt
 				and not legendary_polled
+				and not amt == 4
 				and pseudorandom("mul_generate_curse_" .. key_append) > 0.95 + luck_factor * 0.04
-			)
+			)) and not curse_polled
 		if has_curse then -- poll for curse
 			curse = Multiverse.weighted_poll(curse_pool, function(item)
 				return item.enchant_obj:get_weight()
@@ -1305,6 +1307,8 @@ function Multiverse.poll_deck_enchantments(args)
 				level_amt = curse.level_pool[level_index],
 			}
 			polled[#polled + 1] = curse.enchant_key
+			curse_polled = true
+			amt = amt + 1
 		else
 			local level_index = Multiverse.weighted_pseudorandom(
 				"mul_generate_level_" .. key_append,
@@ -1362,7 +1366,6 @@ SMODS.Consumable({
 			local ench_key = card.ability.extra.collection_enchant
 			local temp = Multiverse.DeckEnchantments[ench_key]:create_fake_card()
 			temp.level = card.ability.extra.forced_level or 0
-			temp.ability = copy_table(Multiverse.DeckEnchantments[ench_key].config)
 			local vars = Multiverse.DeckEnchantments[ench_key]:loc_vars(info_queue, temp) or {}
 			vars.set = vars.set or "mul_DeckEnchantment"
 			vars.key = vars.key or ench_key

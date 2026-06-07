@@ -825,10 +825,10 @@ return {
 			de_mul_decay = {
 				name = "Curse of Decay#1#",
 				text = {
-					"Every {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{} cards discarded,",
-					"{C:red}debuff{} {C:attention}1{} random card",
-					"in hand that is not",
-					"currently debuffed",
+					"Every {C:attention}#5#{} {C:inactive}(#6#){} cards drawn,",
+					"{C:red}debuff{} {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{} random cards",
+					"in hand that are not",
+					"currently {C:red}debuffed",
 				},
 			},
 			de_mul_envy = {
