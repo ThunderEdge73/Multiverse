@@ -1522,6 +1522,120 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "envy",
+	max_level = 3,
+	enchantment_type = "negative",
+	config = { dollars = 3, bought_from_shop = false },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.dollars
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if context.starting_shop then
+			enchantment.ability.bought_from_shop = false
+		end
+		if context.buying_card and context.card.ability.set == "Joker" then
+			enchantment.ability.bought_from_shop = true
+		end
+		if context.ending_shop and not enchantment.ability.bought_from_shop then
+			ease_dollars(-enchantment.level * enchantment.ability.dollars)
+		end
+	end,
+	on_change_level = function(self, delta, enchantment)
+		if enchantment.removed then
+			Multiverse.apply_to_playing_cards(function(playing_card)
+				SMODS.debuff_card(playing_card, false, "mul_decay")
+			end)
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "vengeance",
+	max_level = 1,
+	enchantment_type = "negative",
+	config = { slots = 1, sold_this_blind = false },
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				enchantment.ability.slots,
+			},
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if context.setting_blind and context.blind.boss then
+			enchantment.ability.sold_this_blind = false
+		end
+		if context.selling_card and G.GAME.blind.boss and G.GAME.blind.in_blind then
+			enchantment.ability.sold_this_blind = true
+		end
+		if
+			context.end_of_round
+			and context.main_eval
+			and context.beat_boss
+			and not enchantment.ability.sold_this_blind
+			and not context.game_over
+		then
+			G.jokers:change_size(-enchantment.ability.slots)
+			return {
+				message = localize({
+					type = "variable",
+					key = "a_mul_slots",
+					vars = { -enchantment.ability.slots },
+				}),
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "misfortune",
+	max_level = 2,
+	enchantment_type = "negative",
+	config = { selected = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if context.other_drawn then
+			local cards =
+				Multiverse.get_unique_pseudorandom_elements(context.other_drawn, enchantment.level, "mul_misfortune")
+			if next(cards) then
+				for _, card in ipairs(cards) do
+					card.ability.forced_selection = true
+				end
+			end
+		end
+		if context.ending_booster then
+			Multiverse.apply_to_playing_cards(function(playing_card)
+				playing_card.ability.forced_selection = nil
+			end)
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "apathy",
 	max_level = math.huge,
 	enchantment_type = "negative",

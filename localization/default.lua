@@ -2622,6 +2622,7 @@ return {
 		v_dictionary = {
 			a_mul_thaumaturgy_energy = "+#1# Energy",
 			a_mul_TP = "+#1#% TP",
+			a_mul_slots = "#1# Slots",
 		},
 		tutorial = {
 			mul_de_1 = {
