@@ -184,3 +184,56 @@ function Card:set_ability(center, initial, delay_sprites, ...)
 	end
 	set_ability_hook(self, center, initial, delay_sprites, ...)
 end
+
+SMODS.Joker({
+	key = "whispering_earring",
+	atlas = "placeholder",
+	pos = { x = 2, y = 0 },
+	config = { extra = { xmult = 3 } },
+	rarity = 3,
+	cost = 8,
+	blueprint_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.xmult,
+			},
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {
+				xmult = card.ability.extra.xmult,
+			}
+		end
+		if context.hand_drawn and context.first_hand_drawn then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						delay = 0.2,
+						func = function()
+							local cards_selected = #G.hand.highlighted
+							local index = 1
+							while cards_selected < G.GAME.starting_params.play_limit do
+								G.hand:add_to_highlighted(G.hand.cards[index], index ~= 1)
+								index = index + 1
+								cards_selected = cards_selected + 1
+							end
+							return true
+						end,
+					}))
+					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						delay = 0.2,
+						func = function()
+							G.FUNCS.play_cards_from_highlighted()
+							return true
+						end,
+					}))
+					return true
+				end,
+			}))
+		end
+	end,
+})

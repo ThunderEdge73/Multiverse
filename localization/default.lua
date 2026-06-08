@@ -1709,6 +1709,19 @@ return {
 					},
 				},
 			},
+			j_mul_whispering_earring = {
+				name = "Whispering Earring",
+				text = {
+					{
+						"{X:mult,C:white}X#1#{} Mult",
+						"{C:attention}Vakuu{} plays your",
+						"first hand for you",
+					},
+					{
+						"{C:inactive,s:0.8}That's better...{}"
+					}
+				},
+			},
 			j_mul_stand_user = {
 				name = "Stand User",
 				text = {
