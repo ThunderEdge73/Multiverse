@@ -816,11 +816,6 @@ Multiverse.credits_table = {
 		desc_key = "k_mul_proto_credits",
 		link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
 	},
-	{
-		card_key = "j_mul_sleepy",
-		desc_key = "k_mul_sleepy_credits",
-		link = "https://github.com/SleepyG11/HandyBalatro",
-	},
 	"MISC_CREDITS",
 }
 

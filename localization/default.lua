@@ -1887,14 +1887,14 @@ return {
 					},
 				},
 			},
-			j_mul_sleepy = {
-				name = "SleepyG11",
-				text = {
-					"Balance base",
-					"and final {C:chips}Chips",
-					"and {C:red}Mult",
-				},
-			},
+			-- j_mul_sleepy = {
+			-- 	name = "SleepyG11",
+			-- 	text = {
+			-- 		"Balance base",
+			-- 		"and final {C:chips}Chips",
+			-- 		"and {C:red}Mult",
+			-- 	},
+			-- },
 		},
 		Spectral = {
 			c_mul_eternity = {
@@ -2493,12 +2493,12 @@ return {
 				"Added attack patterns",
 				"for {C:attention}The Undying{}",
 			},
-			k_mul_sleepy_credits = {
-				"{C:attention}SleepyG11{}",
-				"Helped with setting",
-				"up {C:attention}scrollbars{} and other",
-				"{C:attention}UI-related{} functionality",
-			},
+			-- k_mul_sleepy_credits = {
+			-- 	"{C:attention}SleepyG11{}",
+			-- 	"Helped with setting",
+			-- 	"up {C:attention}scrollbars{} and other",
+			-- 	"{C:attention}UI-related{} functionality",
+			-- },
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
 			k_mul_skills = "Learn Skills",
