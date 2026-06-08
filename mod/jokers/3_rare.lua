@@ -213,12 +213,13 @@ SMODS.Joker({
 						trigger = "after",
 						delay = 0.2,
 						func = function()
-							local cards_selected = #G.hand.highlighted
 							local index = 1
-							while cards_selected < G.GAME.starting_params.play_limit do
+							while #G.hand.highlighted < G.GAME.starting_params.play_limit do
+								if not G.hand.cards[index] then
+									break
+								end
 								G.hand:add_to_highlighted(G.hand.cards[index], index ~= 1)
 								index = index + 1
-								cards_selected = cards_selected + 1
 							end
 							return true
 						end,
