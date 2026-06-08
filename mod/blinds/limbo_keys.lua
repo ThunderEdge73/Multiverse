@@ -156,7 +156,7 @@ function Multiverse.limbo_keys_end()
 			func = function()
 				if not Multiverse.has_guessed then
 					SMODS.calculate_effect({
-						x_blind_size = 3,
+						xblindsize = 3,
 						colour = G.C.PURPLE,
 					}, G.GAME.blind)
 					G.GAME.failed_limbo = true

@@ -477,7 +477,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "supernatural_affinity",
 	max_level = 2,
-	config = { blindsize_mult = 0.5 },
+	config = { xblindsize = 0.5 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -496,7 +496,7 @@ Multiverse.DeckEnchantment({
 			ret[#ret + 1] = i
 		end
 		for i = 1, self.max_level do
-			ret[#ret + 1] = 1 + i * enchantment.ability.blindsize_mult
+			ret[#ret + 1] = 1 + i * enchantment.ability.xblindsize
 		end
 		ret.colours = colours
 		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
@@ -511,7 +511,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				x_blind_size = 1 + enchantment.level * enchantment.ability.blindsize_mult,
+				xblindsize = 1 + enchantment.level * enchantment.ability.xblindsize,
 				colour = G.C.PURPLE,
 			}
 		end
@@ -591,7 +591,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "plasma_affinity",
 	max_level = 2,
-	config = { blindsize_mult = 0.5 },
+	config = { xblindsize = 0.5 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -607,7 +607,7 @@ Multiverse.DeckEnchantment({
 			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
 		)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = 1 + i * enchantment.ability.blindsize_mult
+			ret[#ret + 1] = 1 + i * enchantment.ability.xblindsize
 		end
 		ret.colours = colours
 		return {
@@ -621,7 +621,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.before then
 			return {
-				x_blind_size = 1 + enchantment.level * enchantment.ability.blindsize_mult,
+				xblindsize = 1 + enchantment.level * enchantment.ability.xblindsize,
 				colour = G.C.PURPLE,
 			}
 		end
@@ -968,7 +968,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "breach",
 	max_level = 4,
-	config = { mult = 0.1 },
+	config = { xblindsize = 0.15 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -983,7 +983,7 @@ Multiverse.DeckEnchantment({
 		)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = 1 - i * enchantment.ability.mult
+			ret[#ret + 1] = 1 - i * enchantment.ability.xblindsize
 		end
 		ret.colours = colours
 		return {
@@ -994,7 +994,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.setting_blind then
 			return {
-				x_blind_size = (1 - enchantment.level * enchantment.ability.mult),
+				xblindsize = (1 - enchantment.level * enchantment.ability.xblindsize),
 				colour = G.C.PURPLE,
 			}
 		end
@@ -1167,6 +1167,588 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "feather_falling",
+	max_level = 4,
+	config = { chips = 3, current = 0 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.CHIPS)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.chips
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.individual then
+			if context.cardarea == G.play then
+				enchantment.ability.current = enchantment.ability.current
+					+ enchantment.ability.chips * enchantment.level
+				if context.other_card == context.scoring_hand[#context.scoring_hand] then
+					return {
+						chips = enchantment.ability.current,
+					}
+				end
+			end
+		end
+		if context.after then
+			enchantment.ability.current = 0
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "fire_aspect",
+	max_level = 2,
+	config = { status = "psv_mul_burning" },
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = blindexpander.Passives[enchantment.ability.status]
+		local colours = {}
+		local num, _ = SMODS.get_probability_vars(enchantment, 1, 6 - enchantment.level, "mul_fire_aspect")
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+			num,
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.GREEN)
+		for i = 1, self.max_level do
+			local _, denom = SMODS.get_probability_vars(enchantment, 1, 6 - i, "mul_fire_aspect")
+			ret[#ret + 1] = denom
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.setting_blind
+			and SMODS.pseudorandom_probability(enchantment, "mul_fire_aspect", 1, 6 - enchantment.level)
+		then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					Multiverse.modify_passive_stacks(enchantment.ability.status, 1)
+					return true
+				end,
+			}))
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "knockback",
+	max_level = 2,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.press_play then
+			local temp = SMODS.shallow_copy(G.hand.cards)
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					table.sort(temp, function(a, b)
+						return a:get_id() < b:get_id()
+					end)
+					local cards_to_shuffle = {}
+					for i = 1, enchantment.level do
+						cards_to_shuffle[#cards_to_shuffle + 1] = temp[i]
+					end
+					Multiverse.shuffle_to_deck(cards_to_shuffle)
+					return true
+				end,
+			}))
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "lunge",
+	max_level = 3,
+	config = { retriggers = 3, dollars = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.MONEY)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.retriggers
+		end
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.dollars
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.after then
+			G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - enchantment.ability.dollars * enchantment.level
+			return {
+				dollars = -enchantment.ability.dollars * enchantment.level,
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							G.GAME.dollar_buffer = 0
+							return true
+						end,
+					}))
+				end,
+			}
+		end
+		return Multiverse.handle_distributed_retriggers(
+			context,
+			enchantment,
+			enchantment.level * enchantment.ability.retriggers
+		)
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "riptide",
+	max_level = 3,
+	config = { retriggers = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.retriggers
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		return Multiverse.handle_distributed_retriggers(
+			context,
+			enchantment,
+			enchantment.level * enchantment.ability.retriggers,
+			{
+				cards = Multiverse.filter(context.scoring_hand, function(item)
+					return next(SMODS.get_enhancements(item)) ~= nil
+				end),
+				dist_type = "random",
+				seed = "mul_riptide",
+			}
+		)
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "respiration",
+	max_level = 3,
+	config = { xblindsize = 0.05 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.PURPLE,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = 1 - i * enchantment.ability.xblindsize
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.pre_discard then
+			return {
+				xblindsize = 1 - enchantment.level * enchantment.ability.xblindsize,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "soul_speed",
+	max_level = 3,
+	config = { retriggers = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.retriggers
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.repetition and context.cardarea == G.play and next(SMODS.get_enhancements(context.other_card)) then
+			return {
+				repetitions = enchantment.ability.retriggers * enchantment.level,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "sweeping_edge",
+	max_level = 3,
+	config = { xmult = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.MULT,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = 1 + i * enchantment.ability.xmult
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.final_scoring_step and (G.GAME.blind:get_type() == "Small" or G.GAME.blind:get_type() == "Big") then
+			return {
+				xmult = 1 + enchantment.level * enchantment.ability.xmult,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "swift_sneak",
+	max_level = 3,
+	config = { retriggers = 1, min_unscoring = 2 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+			enchantment.ability.min_unscoring,
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.retriggers
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if
+			context.repetition
+			and context.cardarea == G.play
+			and #context.full_hand - #context.scoring_hand >= enchantment.ability.min_unscoring
+		then
+			return {
+				repetitions = enchantment.level * enchantment.ability.retriggers,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "thorns",
+	max_level = 3,
+	config = { xblindsize = 0.05 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.PURPLE,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = 1 - i * enchantment.ability.xblindsize
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.individual and context.cardarea == "unscored" then
+			return {
+				xblindsize = 1 - enchantment.level * enchantment.ability.xblindsize,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "luck_of_sea",
+	max_level = 3,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	on_change_level = function(self, delta, enchantment)
+		G.GAME.modifiers.booster_size_mod = (G.GAME.modifiers.booster_size_mod or 0) + delta
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "lure",
+	max_level = 4,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.selling_card and context.card.ability.set == "Joker" and G.GAME.blind.in_blind then
+			SMODS.draw_cards(enchantment.level)
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "multishot",
+	max_level = 1,
+	enchantment_type = "positive",
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
+	end,
+	calculate = function(self, enchantment, context)
+		if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+			G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+			local cards = {}
+			for _, half in ipairs({ "left", "right" }) do
+				local card_copied = copy_card(context.full_hand[1], nil, nil, G.playing_card)
+				card_copied:add_to_deck()
+				G.deck.config.card_limit = G.deck.config.card_limit + 1
+				table.insert(G.playing_cards, card_copied)
+				G.hand:emplace(card_copied)
+				card_copied.states.visible = nil
+				Multiverse.convert_to_half_card(card_copied, half)
+				cards[#cards + 1] = card_copied
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						card_copied:start_materialize()
+						return true
+					end,
+				}))
+			end
+			return {
+				message = localize("k_copied_ex"),
+				colour = G.C.CHIPS,
+				func = function() -- This is for timing purposes, it runs after the message
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							SMODS.calculate_context({ playing_card_added = true, cards = cards })
+							return true
+						end,
+					}))
+				end,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "piercing",
+	max_level = 4,
+	config = { xmult = 0.25 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(
+			self,
+			enchantment,
+			colours,
+			G.C.MULT,
+			lighten(G.C.UI.TEXT_INACTIVE, 0.3)
+		)
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.xmult
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.final_scoring_step then
+			return {
+				xmult = 1 + enchantment.level * enchantment.ability.xmult * #context.scoring_hand,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "punch",
+	max_level = 2,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.press_play then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					local cards_to_shuffle = {}
+					for i = 1, enchantment.level do
+						cards_to_shuffle[#cards_to_shuffle + 1] = G.hand.cards[#G.hand.cards + 1 - i]
+					end
+					Multiverse.shuffle_to_deck(cards_to_shuffle)
+					return true
+				end,
+			}))
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "quick_charge",
+	max_level = 3,
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.hand_drawn and context.first_hand_drawn then
+			SMODS.draw_cards(enchantment.level)
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "frost_walker",
+	max_level = 2,
+	config = { seal = "mul_frozen" },
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = G.P_SEALS[enchantment.ability.seal]
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	enchantment_type = "positive",
+	calculate = function(self, enchantment, context)
+		if context.hand_drawn and context.first_hand_drawn and G.GAME.blind.boss then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					local cards =
+						Multiverse.get_unique_pseudorandom_elements(G.hand.cards, enchantment.level, "mul_frost_walker")
+					for _, c in ipairs(cards) do
+						c:set_seal(enchantment.ability.seal, nil, true)
+						c:juice_up(0.3, 0.5)
+					end
+					return true
+				end,
+			}))
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "silk_touch",
 	max_level = 1,
 	enchantment_type = "positive",
@@ -1188,7 +1770,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "efficiency",
 	max_level = 5,
-	config = { mult = 0.01 },
+	config = { xblindsize = 0.02 },
 	loc_vars = function(self, info_queue, enchantment)
 		local colours = {}
 		local ret = {
@@ -1203,7 +1785,7 @@ Multiverse.DeckEnchantment({
 		)
 		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.WHITE)
 		for i = 1, self.max_level do
-			ret[#ret + 1] = 1 - i * enchantment.ability.mult
+			ret[#ret + 1] = 1 - i * enchantment.ability.xblindsize
 		end
 		ret.colours = colours
 		return {
@@ -1214,7 +1796,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.individual and context.cardarea == G.play then
 			return {
-				x_blind_size = (1 - enchantment.level * enchantment.ability.mult),
+				xblindsize = (1 - enchantment.level * enchantment.ability.xblindsize),
 				colour = G.C.PURPLE,
 			}
 		end
@@ -1422,13 +2004,8 @@ Multiverse.DeckEnchantment({
 	enchantment_type = "negative",
 	config = { triggered = false },
 	calculate = function(self, enchantment, context)
-		if context.ante_change then
+		if context.end_of_round and context.beat_boss and not context.game_over and context.main_eval then
 			enchantment.ability.triggered = false
-		end
-	end,
-	on_change_level = function(self, delta, enchantment)
-		if delta > 0 then
-			enchantment.ability.triggered = G.GAME.mul_consumable_used_this_ante
 		end
 	end,
 })
@@ -1649,7 +2226,7 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	calculate = function(self, enchantment, context)
-		if context.joker_main then
+		if context.final_scoring_step then
 			return {
 				chips = enchantment.level * enchantment.ability.chips,
 			}
@@ -1668,7 +2245,7 @@ Multiverse.DeckEnchantment({
 		return { vars = { enchantment.ability.xmult, 1 + enchantment.level * enchantment.ability.xmult } }
 	end,
 	calculate = function(self, enchantment, context)
-		if context.joker_main then
+		if context.final_scoring_step then
 			return {
 				xmult = 1 + enchantment.level * enchantment.ability.xmult,
 			}

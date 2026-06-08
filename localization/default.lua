@@ -447,8 +447,8 @@ return {
 				text = {
 					"Randomize the {C:attention}rank{}",
 					"{V:1}or{C:inactive}/{V:2}and{} {C:attention}suit{} of cards",
-					"in the first played",
-					"hand of round",
+					"in the first hand",
+					"of round",
 				},
 			},
 			de_mul_fortune = {
@@ -480,8 +480,8 @@ return {
 				name = "Blast Protection#1#",
 				text = {
 					"Scored cards in the",
-					"first played hand",
-					"of round give {C:chips}+#2#{}",
+					"first hand of",
+					"round give {C:chips}+#2#{}",
 					"Chips per level",
 					"{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}",
 				},
@@ -610,103 +610,156 @@ return {
 			de_mul_feather_falling = {
 				name = "Feather Falling#1#",
 				text = {
-					"",
+					"The {C:attention}last{} scored card",
+					"gives {V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{C:inactive}/{V:4}+#5#{}",
+					"Chips per time a",
+					"card in played hand",
+					"has been scored",
 				},
 			},
 			de_mul_fire_aspect = {
 				name = "Fire Aspect#1#",
 				text = {
-					"",
+					"When {C:attention}Blind{} is selected,",
+					"{C:green}#2# in {V:1}#3#{C:inactive}/{V:2}#4#{} chance to",
+					"apply {C:attention}1{} stack of",
+					"{C:attention}Burning{} to the {C:attention}Blind{}",
 				},
 			},
 			de_mul_knockback = {
 				name = "Knockback#1#",
 				text = {
-					"",
+					"Return the {V:1}#2#{C:inactive}/{V:2}#3#",
+					"{C:attention}lowest{} ranked",
+					"cards held in",
+					"hand to {C:attention}deck{} when",
+					"a hand is played",
 				},
 			},
 			de_mul_lunge = {
 				name = "Lunge#1#",
 				text = {
-					"",
+					"Distribute {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
+					"retriggers evenly",
+					"among all played cards",
+					"Lose {V:4}$#5#{C:inactive}/{V:5}$#6#{C:inactive}/{V:6}$#7#{} when",
+					"playing a hand",
 				},
 			},
 			de_mul_riptide = {
 				name = "Riptide#1#",
 				text = {
-					"",
+					"Distribute {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
+					"retriggers randomly",
+					"among all scored",
+					"enhanced cards",
 				},
 			},
 			de_mul_respiration = {
 				name = "Respiration#1#",
 				text = {
-					"",
+					"After discarding,",
+					"{B:1,V:4}X#2#{C:inactive}/{B:2,V:5}X#3#{C:inactive}/{B:3,V:6}X#4#",
+					"Blind size",
 				},
 			},
 			de_mul_soul_speed = {
 				name = "Soul Speed#1#",
 				text = {
-					"",
+					"Retrigger all played",
+					"{C:attention}unenhanced{} cards",
+					"{V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{} times",
 				},
 			},
 			de_mul_sweeping_edge = {
 				name = "Sweeping Edge#1#",
 				text = {
-					"",
+					"{B:1,V:4}X#2#{C:inactive}/{B:2,V:5}X#3#{C:inactive}/{B:3,V:6}X#4#{} Mult",
+					"on {C:attention}Small{} and",
+					"{C:attention}Big Blinds{}",
 				},
 			},
 			de_mul_swift_sneak = {
 				name = "Swift Sneak#1#",
 				text = {
-					"",
+					"If played hand contains",
+					"{C:attention}#2#{} or more {C:attention}unscoring{}",
+					"cards, retrigger all",
+					"all played cards",
+					"{V:1}#3#{C:inactive}/{V:2}#4#{C:inactive}/{V:3}#5#{} times",
 				},
 			},
 			de_mul_thorns = {
 				name = "Thorns#1#",
 				text = {
-					"",
+					"Unscored cards give",
+					"{B:1,V:4}X#2#{C:inactive}/{B:2,V:5}X#3#{C:inactive}/{B:3,V:6}X#4#{}",
+					"Blind size",
 				},
 			},
 			de_mul_luck_of_sea = {
 				name = "Luck of the Sea#1#",
 				text = {
-					"",
+					"Booster Packs",
+					"have {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
+					"extra cards to",
+					"choose from",
 				},
 			},
 			de_mul_lure = {
 				name = "Lure#1#",
 				text = {
-					"",
+					"Draw {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{C:inactive}/{V:4}#5#{} cards",
+					"after selling a {C:attention}Joker{}",
+					"while in a {C:attention}Blind{}",
 				},
 			},
 			de_mul_multishot = {
 				name = "Multishot",
 				text = {
-					"",
+					"If first hand of round",
+					"contains exactly {C:attention}1{} card,",
+					"that can be split,",
+					"add {C:attention}2{} permanent copies",
+					"to deck that are {C:attention}Half{}",
+					"{C:attention}Cards{} with {C:attention}opposite{} sides",
 				},
 			},
 			de_mul_piercing = {
 				name = "Piercing#1#",
 				text = {
-					"",
+					"{B:1,V:5}X#2#{C:inactive}/{B:2,V:6}X#3#{C:inactive}/{B:3,V:7}X#4#{C:inactive}/{B:4,V:8}X#5#{}",
+					"Mult per scoring",
+					"card in played hand",
 				},
 			},
 			de_mul_punch = {
 				name = "Punch#1#",
 				text = {
-					"",
+					"Return the {V:1}#2#{C:inactive}/{V:2}#3#",
+					"rightmost cards",
+					"held in hand to",
+					"{C:attention}deck{} when a hand",
+					"is played",
 				},
 			},
 			de_mul_quick_charge = {
 				name = "Quick Charge#1#",
 				text = {
-					"",
+					"When drawing your",
+					"first hand against",
+					"a {C:attention}Blind{}, draw {V:1}#2#{C:inactive}/{V:2}#3#{C:inactive}/{V:3}#4#{}",
+					"additional cards",
 				},
 			},
 			de_mul_frost_walker = {
 				name = "Frost Walker#1#",
 				text = {
-					"",
+					"Add a {C:attention}Frozen Seal{}",
+					"to {V:1}#2#{C:inactive}/{V:2}#3#{} random cards",
+					"in hand when drawing",
+					"your first hand",
+					"against a {C:attention}Boss Blind{}",
 				},
 			},
 			de_mul_overflow = {

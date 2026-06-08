@@ -947,6 +947,11 @@ function Multiverse.generate_enchantment_name_words(text, enchantment_center, le
 		local sea = table.remove(words, 2)
 		table.insert(words, 2, the .. " " .. sea)
 	end
+	if enchantment_center.key == "de_mul_bane_arthropods" then
+		local bane = table.remove(words, 1)
+		local of = table.remove(words, 1)
+		table.insert(words, 1, bane .. " " .. of)
+	end
 	return words
 end
 

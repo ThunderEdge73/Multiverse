@@ -856,12 +856,18 @@ function Multiverse.modify_passive_stacks(key, amt)
 		G.GAME.blind:add_passive(key)
 		G.GAME.blind.passives_data[#G.GAME.blind.passives_data].config.stacks = amt
 	else
-		local final_amt = math.max(G.GAME.blind.passives_data[index].config.stacks
-			+ amt, 0)
+		local final_amt = math.max(G.GAME.blind.passives_data[index].config.stacks + amt, 0)
 		if final_amt == 0 then
 			G.GAME.blind:remove_passive(key)
 		else
 			G.GAME.blind.passives_data[index].config.stacks = final_amt
 		end
+	end
+end
+
+function Multiverse.shuffle_to_deck(cards)
+	local card_count = #cards
+	for i = 1, card_count do --draw cards from deck
+		draw_card(G.hand, G.deck, i * 100 / card_count, "down", nil, cards[i], 0.08)
 	end
 end

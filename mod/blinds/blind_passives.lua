@@ -25,7 +25,7 @@ blindexpander.Passive({
 	remove = function(self, blind, passive, from_disable)
 		if G.GAME.failed_limbo then
 			SMODS.calculate_effect({
-				x_blind_size = 1 / passive.config.mult,
+				xblindsize = 1 / passive.config.mult,
 				colour = G.C.PURPLE,
 			}, G.GAME.blind)
 		end
@@ -33,7 +33,7 @@ blindexpander.Passive({
 	apply = function(self, blind, passive, from_disable)
 		if G.GAME.failed_limbo then
 			SMODS.calculate_effect({
-				x_blind_size = passive.config.mult,
+				xblindsize = passive.config.mult,
 				colour = G.C.PURPLE,
 			}, G.GAME.blind)
 		end
@@ -278,14 +278,14 @@ blindexpander.Passive({
 	apply = function(self, blind, passive, from_disable)
 		if from_disable then
 			SMODS.calculate_effect({
-				x_blind_size = passive.config.mult,
+				xblindsize = passive.config.mult,
 				colour = G.C.PURPLE,
 			}, G.GAME.blind)
 		end
 	end,
 	remove = function(self, blind, passive, from_disable)
 		SMODS.calculate_effect({
-			x_blind_size = 1 / passive.config.mult,
+			xblindsize = 1 / passive.config.mult,
 			colour = G.C.PURPLE,
 		}, G.GAME.blind)
 	end,
@@ -293,6 +293,7 @@ blindexpander.Passive({
 
 blindexpander.Passive({
 	key = "vulnerable",
+	mul_stackable = true,
 	config = { xmult = 2, stacks = 0 },
 	loc_vars = function(self, blind, passive)
 		local stacks = (get_passive_data(passive.key) or passive).config.stacks

@@ -77,10 +77,7 @@ end
 local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites, ...)
 	local c = center
-	if
-		(center == "m_mul_waldo" or Multiverse.is_intangible(self))
-		and not initial
-	then
+	if (center == "m_mul_waldo" or Multiverse.is_intangible(self)) and not initial then
 		c = self.config.center_key
 		G.E_MANAGER:add_event(Event({
 			func = function()
@@ -123,7 +120,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 			Multiverse.limbo_safe = clicked.is_correct
 			if not clicked.is_correct then
 				SMODS.calculate_effect({
-					x_blind_size = 3,
+					xblindsize = 3,
 				}, G.GAME.blind)
 				G.GAME.failed_limbo = true
 				Multiverse.explode()

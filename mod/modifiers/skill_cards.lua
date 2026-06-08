@@ -1,18 +1,18 @@
 Multiverse.SkillCard({
 	key = "strike",
 	tp_cost = 5,
-	config = { extra = { blind_mult = 0.9 } },
+	config = { extra = { xblindsize = 0.9 } },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				card.ability.extra.blind_mult,
+				card.ability.extra.xblindsize,
 			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		delay(0.4)
 		SMODS.calculate_effect({
-			x_blind_size = card.ability.extra.blind_mult,
+			xblindsize = card.ability.extra.xblindsize,
 			colour = G.C.PURPLE,
 		}, card)
 		delay(0.4)
@@ -213,24 +213,24 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "embrittlement",
 	tp_cost = 15,
-	config = { extra = { blind_mult = 0.5, status = "psv_mul_vulnerable", amt = 1 } },
+	config = { extra = { xblindsize = 0.5, status = "psv_mul_vulnerable", amt = 1 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
 		return {
 			vars = {
-				card.ability.extra.blind_mult,
-				card.ability.extra.amt
+				card.ability.extra.xblindsize,
+				card.ability.extra.amt,
 			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		delay(0.4)
 		SMODS.calculate_effect({
-			x_blind_size = card.ability.extra.blind_mult,
+			xblindsize = card.ability.extra.xblindsize,
 			colour = G.C.PURPLE,
 			func = function()
 				Multiverse.modify_passive_stacks(card.ability.extra.status, card.ability.extra.amt)
-			end
+			end,
 		}, card)
 		delay(0.4)
 	end,
@@ -306,8 +306,8 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
 		return {
 			vars = {
-				card.ability.extra.amt
-			}
+				card.ability.extra.amt,
+			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)

@@ -79,9 +79,6 @@ SMODS.current_mod.calculate = function(self, context)
 			Multiverse.eggman_secret()
 		end
 	end
-	if context.ante_change then
-		G.GAME.mul_consumable_used_this_ante = false
-	end
 	if context.end_of_round and not context.game_over and context.main_eval then
 		G.GAME.mul_objection_active = false
 		local cards_to_destroy = Multiverse.filter(G.playing_cards, function(item)
@@ -125,7 +122,6 @@ SMODS.current_mod.calculate = function(self, context)
 		end
 	end
 	if context.using_consumeable then
-		G.GAME.mul_consumable_used_this_ante = true
 		if context.consumeable.ability.set == "mul_Myth" then
 			G.E_MANAGER:add_event(Event({
 				func = function()
@@ -145,7 +141,7 @@ SMODS.current_mod.calculate = function(self, context)
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					Multiverse.ease_TP(
-					pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain),
+						pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain),
 						{ from_hand = true }
 					)
 					return true
@@ -168,7 +164,7 @@ SMODS.current_mod.calculate = function(self, context)
 	elseif #ret == 1 then
 		return ret[1]
 	else
-		return SMODS.merge_effects(unpack(ret))
+		return SMODS.merge_effects(ret)
 	end
 end
 
