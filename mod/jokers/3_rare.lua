@@ -206,6 +206,11 @@ SMODS.Joker({
 				xmult = card.ability.extra.xmult,
 			}
 		end
+		if context.after then
+			return {
+				message = localize("k_mul_thats_better")
+			}
+		end
 		if context.hand_drawn and context.first_hand_drawn then
 			G.E_MANAGER:add_event(Event({
 				func = function()

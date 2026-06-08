@@ -1718,7 +1718,7 @@ return {
 						"first hand for you",
 					},
 					{
-						"{C:inactive,s:0.8}That's better...{}"
+						"{C:inactive,s:0.8}Vakuu knows best{}"
 					}
 				},
 			},
@@ -2517,6 +2517,7 @@ return {
 			k_mul_antimatter_grow4 = "What have we done?",
 			k_mul_popped = "Popped!",
 			k_mul_mined = "Mined!",
+			k_mul_thats_better = "That's better...",
 			k_mul_manifested = "Manifested!",
 			k_mul_won_fifty_fifty = "Won!",
 			k_mul_lost_fifty_fifty = "Lost...",
