@@ -18,3 +18,4 @@
 ---@field mul_enchantment_data? EnchantmentData The data that stores the affected enchantment's state.
 ---@field exhausted? Card[] A list of all cards that were exhausted.
 ---@field mul_exhaust_playing_cards? boolean Whether or not playing cards were exhausted.
+---@field mul_post_discard? boolean True after all other discard effects.

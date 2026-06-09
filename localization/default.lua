@@ -304,7 +304,7 @@ return {
 				text = {
 					"During final score",
 					"calculation, {X:mult,C:white}X#2#{} Mult",
-					"Loses {C:attention}1{} stack after",
+					"Remove {C:attention}1{} stack after",
 					"playing a hand",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
@@ -314,11 +314,22 @@ return {
 				text = {
 					"Level up {C:attention}discarded{}",
 					"poker hand once",
-					"Loses {C:attention}1{} stack",
+					"Remove {C:attention}1{} stack",
 					"after discarding",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
+			psv_mul_ether_touched = {
+				name = "Ether-touched",
+				text = {
+					"Discarded cards",
+					"permanently gain",
+					"{C:mult}+#2#{} Mult per stack",
+					"Remove all stacks",
+					"after discarding",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
+				}
+			}
 		},
 		mul_DeckEnchantment = {
 			de_mul_dark_affinity = {
@@ -869,6 +880,14 @@ return {
 					"Chips per {C:attention}%{} of TP",
 				}
 			},
+			de_mul_ether_aspect = {
+				name = "Ether Aspect#1#",
+				text = {
+					"Applies {V:1}#2#{C:inactive}/{V:2}#3#{} stacks",
+					"of {C:attention}Ether-touched{}",
+					"when playing a hand",
+				}
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {
@@ -967,6 +986,18 @@ return {
 					"{C:attention}Pack{}, force {V:1}#2#{C:inactive}/{V:2}#3#",
 					"cards to always",
 					"be selected",
+				},
+			},
+			de_mul_ruin = {
+				name = "Curse of Ruin",
+				text = {
+					"{C:attention}Exhaust{} your highest",
+					"ranked card held in",
+					"hand after drawing",
+					"cards in a {C:attention}Blind{}",
+					"{C:inactive}(Does not trigger{}",
+					"{C:inactive}after drawing first{}",
+					"{C:inactive}hand of round){}",
 				},
 			},
 			de_mul_apathy = {

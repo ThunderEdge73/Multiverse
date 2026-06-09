@@ -1,0 +1,22 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+-- TARGET: effects after cards destroyed in discard
+'''
+position = "after"
+payload = '''
+SMODS.calculate_context({
+	mul_post_discard = true,
+	cards = Multiverse.filter(cards, function(item)
+		return not Multiverse.contains_value(destroyed_cards, item)
+	end),
+	hook = hook,
+})
+'''
+match_indent = true

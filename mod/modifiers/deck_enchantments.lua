@@ -2066,10 +2066,49 @@ Multiverse.DeckEnchantment({
 			vars = ret,
 		}
 	end,
-	calculate = function (self, enchantment, context)
+	calculate = function(self, enchantment, context)
 		if context.final_scoring_step then
 			return {
-				chips = enchantment.ability.chips * enchantment.level * G.GAME.mul_TP
+				chips = enchantment.ability.chips * enchantment.level * G.GAME.mul_TP,
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "ether_aspect",
+	max_level = 2,
+	enchantment_type = "positive",
+	config = { status = "psv_mul_ether_touched", stacks = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = blindexpander.Passives[enchantment.ability.status]
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.stacks
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if context.after then
+			return {
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							Multiverse.modify_passive_stacks(
+								enchantment.ability.status,
+								enchantment.level * enchantment.ability.stacks
+							)
+							return true
+						end,
+					}))
+				end,
 			}
 		end
 	end,
@@ -2216,6 +2255,33 @@ Multiverse.DeckEnchantment({
 			return {
 				no_destroy = { override_compat = true },
 			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "ruin",
+	max_level = 1,
+	enchantment_type = "negative",
+	calculate = function(self, enchantment, context)
+		if context.hand_drawn and not context.first_hand_drawn then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					local c = nil
+					local max_rank = -1
+					for _, card in ipairs(G.hand.cards) do
+						local id = card:get_id()
+						if id > max_rank then
+							c = card
+							max_rank = id
+						end
+					end
+					if max_rank ~= -1 then
+						Multiverse.exhaust_cards(c)
+					end
+					return true
+				end,
+			}))
 		end
 	end,
 })

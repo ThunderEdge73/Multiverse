@@ -296,9 +296,8 @@ blindexpander.Passive({
 	mul_stackable = true,
 	config = { xmult = 2, stacks = 0 },
 	loc_vars = function(self, blind, passive)
-		local stacks = (get_passive_data(passive.key) or passive).config.stacks
 		return {
-			vars = { stacks, passive.config.xmult },
+			vars = { passive.config.stacks, passive.config.xmult },
 		}
 	end,
 	calculate = function(self, blind, passive, context)
@@ -322,9 +321,8 @@ blindexpander.Passive({
 	mul_stackable = true,
 	config = { stacks = 0 },
 	loc_vars = function(self, blind, passive)
-		local stacks = (get_passive_data(passive.key) or passive).config.stacks
 		return {
-			vars = { stacks },
+			vars = { passive.config.stacks },
 		}
 	end,
 	calculate = function(self, blind, passive, context)
@@ -335,6 +333,44 @@ blindexpander.Passive({
 				level_up_hand = text,
 				func = function()
 					Multiverse.modify_passive_stacks(passive.key, -1)
+				end,
+			}
+		end
+	end,
+})
+
+blindexpander.Passive({
+	key = "ether_touched",
+	mul_stackable = true,
+	config = { stacks = 0, mult = 1 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.stacks, passive.config.mult },
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if context.discard then
+			local c = context.other_card
+			return {
+				func = function()
+					SMODS.calculate_effect({
+						message = localize("k_upgrade_ex"),
+					}, c)
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							c.ability.perma_mult = (c.ability.perma_mult or 0)
+								+ passive.config.stacks * passive.config.mult
+							c:juice_up()
+							return true
+						end,
+					}))
+				end,
+			}
+		end
+		if context.mul_post_discard and not context.hook then
+			return {
+				func = function()
+					Multiverse.modify_passive_stacks(passive.key, -passive.config.stacks)
 				end,
 			}
 		end
