@@ -852,6 +852,16 @@ return {
 					"{V:1}#2#%{C:inactive}/{V:2}#3#%{C:inactive}/{V:3}#4#%{C:inactive}/{V:4}#5#%{} TP",
 				},
 			},
+			de_mul_bounty = {
+				name = "Bounty#1#",
+				text = {
+					"Earn {C:money}$#2#{} per level",
+					"at end of round",
+					"if TP is at",
+					"{C:attention}#3#%{} or higher",
+					"{C:inactive}(Will earn {C:money}$#4#{C:inactive}){}",
+				}
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {

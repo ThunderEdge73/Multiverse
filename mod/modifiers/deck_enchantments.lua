@@ -2026,6 +2026,28 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "bounty",
+	max_level = 5,
+	config = { dollars = 2, min_tp = 50 },
+	enchantment_type = "positive",
+	loc_vars = function(self, info_queue, enchantment)
+		return {
+			vars = {
+				(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+				enchantment.ability.dollars,
+				enchantment.ability.min_tp,
+				enchantment.ability.dollars * enchantment.level,
+			},
+		}
+	end,
+	calc_dollar_bonus = function(self, enchantment)
+		if G.GAME.mul_TP >= enchantment.ability.min_tp then
+			return enchantment.ability.dollars * enchantment.level
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },
 	max_level = 1,
