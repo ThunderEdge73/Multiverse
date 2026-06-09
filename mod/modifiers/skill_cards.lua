@@ -21,7 +21,6 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "snowgrave",
-	no_save_on_use = true,
 	tp_cost = 50,
 	config = { extra = { seal = "mul_frozen" } },
 	loc_vars = function(self, info_queue, card)
@@ -57,7 +56,6 @@ Multiverse.SkillCard({
 	key = "jud_slash",
 	tp_cost = "X",
 	config = { extra = { tp_per_split = 5 } },
-	no_save_on_use = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ultimate"]
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_half"]
@@ -108,7 +106,6 @@ Multiverse.SkillCard({
 	key = "sinful_shell",
 	tp_cost = "X",
 	config = { extra = { tp_per_destroy = 8 } },
-	no_save_on_use = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
@@ -168,7 +165,6 @@ Multiverse.SkillCard({
 	key = "teio_step",
 	tp_cost = 40,
 	config = { extra = { affected = 2, retriggers = 1 } },
-	no_save_on_use = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
