@@ -818,9 +818,30 @@ return {
 				text = {
 					"Gain {V:1}#2#%{C:inactive}/{V:2}#3#%{} TP for",
 					"each discarded card",
-					"in first discard",
+					"in {C:attention}first{} discard",
 					"of round",
 				},
+			},
+			de_mul_drain = {
+				name = "Drain",
+				text = {
+					"Whenever you would",
+					"gain {C:attention}TP{} from playing",
+					"a hand, gain that",
+					"much {C:mul_transmuted}Thaumaturgy{}",
+					"{C:mul_transmuted}Energy{} instead",
+				},
+			},
+			de_mul_eagle_eye = {
+				name = "Eagle Eye#1#",
+				text = {
+					"When you open a",
+					"{C:attention}Booster Pack{},",
+					"{V:1}#3#{C:inactive}/{V:2}#4#{C:inactive}/{V:3}#5#{C:inactive}/{V:4}#6#{C:green} in #2#{} chance",
+					"for the {C:attention}leftmost{} item",
+					"to be replaced by",
+					"a {C:mul_transmuted}Myth Card{}",
+				}
 			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",

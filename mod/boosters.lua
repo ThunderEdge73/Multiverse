@@ -67,7 +67,7 @@ end
 Multiverse.init_booster(
 	"dimension",
 	nil,
-	{ weight = 0.5, extra = 4, choose = 1, draw_hand = true, cost = 6 },
+	{ weight = 0.5, extra = 4, choose = 1, cost = 6 },
 	function(card, i)
 		local c
 		local card_type = pseudorandom("mul_dimension_pack", 1, 4)

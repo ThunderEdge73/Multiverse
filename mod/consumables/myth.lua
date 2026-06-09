@@ -5,6 +5,7 @@ SMODS.ConsumableType({
 	collection_rows = { 3, 4 },
 	shop_rate = 2,
 	default = "c_mul_homunculus",
+	select_card = "consumeables",
 })
 
 function Multiverse.init_myth()

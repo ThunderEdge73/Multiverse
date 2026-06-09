@@ -38,7 +38,6 @@ SMODS.Edition({
 					key = "a_mul_TP",
 					vars = { card.edition.extra.tp },
 				}),
-				colour = G.C.IMPORTANT,
 			}, card)
 			Multiverse.ease_TP(card.edition.extra.tp)
 			SMODS.calculate_effect({

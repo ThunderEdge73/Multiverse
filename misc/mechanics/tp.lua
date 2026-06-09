@@ -65,6 +65,10 @@ function Multiverse.ease_TP(amt, args)
 	end
 	local actual_change = Multiverse.clamp(amt, -G.GAME.mul_TP, 100 - G.GAME.mul_TP)
 	args = args or {}
+	if Multiverse.has_deck_enchantment("de_mul_drain") and args.from_hand and actual_change > 0 then
+		Multiverse.ease_thaumaturgy_energy(actual_change, { immediate = args.immediate, silent = true })
+		return
+	end
 	SMODS.calculate_context({
 		--True if the amount of TP was changed.
 		mul_TP_altered = true,
