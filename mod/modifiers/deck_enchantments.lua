@@ -1935,7 +1935,7 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "drain",
 	max_level = 1,
-	enchantment_type = "positive",
+	enchantment_type = "neutral",
 })
 
 Multiverse.DeckEnchantment({
@@ -1964,12 +1964,62 @@ Multiverse.DeckEnchantment({
 		if
 			context.create_booster_card
 			and context.index == 1
-			and SMODS.pseudorandom_probability(enchantment, "mul_eagle_eye", enchantment.level, enchantment.ability.odds)
+			and SMODS.pseudorandom_probability(
+				enchantment,
+				"mul_eagle_eye",
+				enchantment.level,
+				enchantment.ability.odds
+			)
 		then
 			return {
 				booster_create_flags = {
 					set = "mul_Myth",
-				}
+				},
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
+	key = "vigorous",
+	max_level = 4,
+	enchantment_type = "positive",
+	config = { tp = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.FILTER)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.tp
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	calculate = function(self, enchantment, context)
+		if
+			context.individual
+			and context.cardarea == G.play
+			and context.other_card == context.scoring_hand[1]
+			and G.GAME.current_round.hands_played == 0
+		then
+			return {
+				message = localize({
+					type = "variable",
+					key = "a_mul_TP",
+					vars = { enchantment.level * enchantment.ability.tp },
+				}),
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp)
+							return true
+						end,
+					}))
+				end,
 			}
 		end
 	end,

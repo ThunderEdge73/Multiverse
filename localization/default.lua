@@ -843,6 +843,15 @@ return {
 					"a {C:mul_transmuted}Myth Card{}",
 				}
 			},
+			de_mul_vigorous = {
+				name = "Vigorous#1#",
+				text = {
+					"{C:attention}First{} scored card",
+					"in {C:attention}first{} hand",
+					"of round gives",
+					"{V:1}#2#%{C:inactive}/{V:2}#3#%{C:inactive}/{V:3}#4#%{C:inactive}/{V:4}#5#%{} TP",
+				},
+			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
 				text = {
