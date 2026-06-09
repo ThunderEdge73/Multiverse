@@ -777,7 +777,7 @@ function Multiverse.handle_distributed_retriggers(context, card, amt, args)
 	if context.before and not context.blueprint then
 		card.ability._mul_retrigger_index_cache = Multiverse.distribute_retriggers(#cards, amt, args)
 	end
-	if context.repetition and (context.cardarea == G.play or context.cardarea == G.hand) then
+	if context.repetition and context.cardarea == G.play then
 		local i = Multiverse.get_index(context.other_card, cards)
 		if i ~= -1 then
 			return {
