@@ -490,10 +490,10 @@ return {
 				name = "Fire Protection#1#",
 				text = {
 					"Scored cards give {C:chips}+#4#{} Chips",
-					"Increases by {C:chips}X#2#{} Chips",
+					"Increases by {C:chips}+#2#{} Chips",
 					"per level this round",
 					"when a discard is used",
-					"{C:inactive}(Will gain {X:mult,C:white}X#3#{C:inactive} Mult,",
+					"{C:inactive}(Will gain {C:chips}+#3#{C:inactive} Chips,",
 					"{C:red}resets{C:inactive} at end of round)",
 				},
 			},
@@ -860,6 +860,13 @@ return {
 					"if TP is at",
 					"{C:attention}#3#%{} or higher",
 					"{C:inactive}(Will earn {C:money}$#4#{C:inactive}){}",
+				}
+			},
+			de_mul_indomitable = {
+				name = "Indomitable#1#",
+				text = {
+					"{V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{C:inactive}/{V:4}+#5#{C:inactive}/{V:5}+#6#{}",
+					"Chips per {C:attention}%{} of TP",
 				}
 			},
 			de_mul_trib_blessing = {

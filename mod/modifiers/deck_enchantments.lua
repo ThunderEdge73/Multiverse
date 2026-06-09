@@ -2048,6 +2048,34 @@ Multiverse.DeckEnchantment({
 })
 
 Multiverse.DeckEnchantment({
+	key = "indomitable",
+	max_level = 5,
+	enchantment_type = "positive",
+	config = { chips = 1 },
+	loc_vars = function(self, info_queue, enchantment)
+		local colours = {}
+		local ret = {
+			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
+		}
+		Multiverse.handle_deck_enchantment_loc_colours(self, enchantment, colours, G.C.CHIPS)
+		for i = 1, self.max_level do
+			ret[#ret + 1] = i * enchantment.ability.chips
+		end
+		ret.colours = colours
+		return {
+			vars = ret,
+		}
+	end,
+	calculate = function (self, enchantment, context)
+		if context.final_scoring_step then
+			return {
+				chips = enchantment.ability.chips * enchantment.level * G.GAME.mul_TP
+			}
+		end
+	end,
+})
+
+Multiverse.DeckEnchantment({
 	key = "trib_blessing",
 	config = { retriggers = 2 },
 	max_level = 1,
