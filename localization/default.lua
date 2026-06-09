@@ -1113,11 +1113,11 @@ return {
 				name = "Ultra Instinct",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, discard",
-					"{C:attention}any{} number of",
-					"selected cards",
+					"After use, send {C:attention}any{}",
+					"number of selected cards",
+					"to the discard pile",
 					"Gain {C:attention}#1#%{} TP per",
-					"discarded card",
+					"card sent",
 				},
 			},
 			sk_mul_aurafarming = {
@@ -1144,7 +1144,7 @@ return {
 				name = "Reduced to Atoms",
 				text = {
 					"{C:attention}Ethereal{}",
-					"{C:attention}Exhausts{} all other",
+					"{C:attention}Exhaust{} all other",
 					"cards in hand",
 				},
 			},
