@@ -4,7 +4,7 @@
     #define PRECISION mediump
 #endif
 
-extern PRECISION vec2 grayscale;
+extern PRECISION vec2 highlight;
 
 extern PRECISION number dissolve;
 extern PRECISION number time;
@@ -27,12 +27,10 @@ vec4 effect(vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords)
     // Position of a pixel within the sprite
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
     
-    float avg = (tex.r + tex.g + tex.b) / 3.0;
+    tex.rgb = vec3(1.0, 0.6, 0.0);
 
-    tex.rgb = vec3(avg);
-
-    if (grayscale == 2 * grayscale) {
-        uv = grayscale;
+    if (highlight == 2 * highlight) {
+        uv = highlight;
     }
     
     return dissolve_mask(tex*colour, texture_coords, uv);

@@ -235,7 +235,7 @@ G.FUNCS.mul_use_skill = function(e)
 			func = function()
 				Multiverse.exhaust_cards(card)
 				return true
-			end
+			end,
 		}))
 	end
 	G.E_MANAGER:add_event(Event({
@@ -306,25 +306,27 @@ function Multiverse.interaction_UI_def(text)
 	}
 end
 
----@param args {area?: visibleInteractionArea, display_text?: string, end_interaction?: fun(), can_end_interaction?: fun(): boolean?}
-function Multiverse.start_interaction(args)
+---@param args {select_limit?: number, area?: visibleInteractionArea, display_text?: string, end_interaction?: fun(), can_end_interaction?: fun(): boolean?}
+---@param card Card?
+function Multiverse.start_interaction(args, card)
 	args = args or {}
 	args.area = args.area or "hand"
+	if args.area == "discard" and not card then
+		error("Need to specify card that triggers the interaction")
+	end
+	args.select_limit = args.select_limit or math.huge
 	args.display_text = args.display_text or "ERROR"
-	args.end_interaction = args.end_interaction or function() end
-	args.can_end_interaction = args.can_end_interaction or function()
+	Multiverse.can_end_interaction = args.can_end_interaction or function()
 		return true
 	end
-
-	Multiverse.can_end_interaction = args.can_end_interaction
-	Multiverse.on_end_interaction = args.end_interaction
+	Multiverse.on_end_interaction = args.end_interaction or function() end
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.show_interaction_ui(args.display_text, args.area)
+							Multiverse.show_interaction_ui(args.display_text, args.area, card, args.select_limit)
 							return true
 						end,
 					}))
@@ -355,7 +357,6 @@ end
 function Multiverse.on_end_interaction() end
 
 function G.FUNCS.mul_end_interaction(e)
-	Multiverse.can_end_interaction = nil
 	Multiverse.on_end_interaction()
 	G.E_MANAGER:add_event(Event({
 		func = function()
@@ -392,19 +393,154 @@ function Multiverse.confirm_end_interaction_UI_def()
 	}
 end
 
+function Multiverse.build_discard_view_UI_def(cards_to_display, highlighted_max)
+	G.mul_discard_view_areas = {}
+	local rows = {}
+	local cards_left = #cards_to_display
+	while cards_left > 0 do
+		local size = math.min(cards_left, 5)
+		local area = CardArea(
+			G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+			G.ROOM.T.h,
+			size * G.CARD_W,
+			1.03 * G.CARD_H,
+			{ card_limit = size, type = "title", highlight_limit = math.huge, collection = true }
+		)
+		G.mul_discard_view_areas[#G.mul_discard_view_areas + 1] = area
+		cards_left = cards_left - size
+		rows[#rows + 1] = {
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cl" },
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						object = area,
+					},
+				},
+			},
+		}
+	end
+	local i, n = 1, 0
+	G.mul_discard_view_areas._discard_select_data = { max = highlighted_max, highlighted = {} }
+	for index_ref, c in ipairs(G.discard.cards) do
+		if Multiverse.contains_value(cards_to_display, c) then
+			n = n + 1
+			local card = copy_card(c)
+			card.ability._mul_index_ref = index_ref
+			function card:click()
+				if card.ability._mul_discard_view_selected then
+					card.ability._mul_discard_view_selected = false
+					local index_to_remove = -1
+					for k, v in ipairs(G.mul_discard_view_areas._discard_select_data.highlighted) do
+						if v == card.ability._mul_index_ref then
+							index_to_remove = k
+						end
+					end
+					table.remove(G.mul_discard_view_areas._discard_select_data.highlighted, index_to_remove)
+				elseif
+					G.mul_discard_view_areas._discard_select_data.max
+					> #G.mul_discard_view_areas._discard_select_data.highlighted
+				then
+					card.ability._mul_discard_view_selected = true
+					table.insert(G.mul_discard_view_areas._discard_select_data.highlighted, card.ability._mul_index_ref)
+				end
+			end
+			G.mul_discard_view_areas[i]:emplace(card)
+			if n >= G.mul_discard_view_areas[i].config.card_limit then
+				i = i + 1
+				n = 0
+			end
+		end
+	end
+	local scrollbox = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.CLEAR, padding = 0.1, align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cl" },
+						nodes = rows,
+					},
+				},
+			},
+			config = { align = "cm" },
+		},
+		overflow = {
+			node_config = {
+				align = "tm",
+				maxh = 6.5,
+				r = 0.1,
+				minw = 5.5 * G.CARD_W,
+				padding = 0.1,
+			},
+		},
+		sync_mode = "progress",
+	})
+	return {
+		n = G.UIT.ROOT,
+		config = { align = "cm", colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							object = scrollbox,
+						},
+					},
+				},
+			},
+			scrollbox.content.T.h > 6.5 and {
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					SMODS.GUI.scrollbar({
+						h = 6.5,
+						w = 0.2,
+						max = 1,
+						min = 0,
+						colour = G.C.FILTER,
+						bg_colour = { 0, 0, 0, 0.15 },
+						scroll_collision_obj = scrollbox,
+					}),
+				},
+			} or nil,
+		},
+	}
+end
+
+function Multiverse.get_discard_view_selected()
+	if G.STATE ~= G.STATES.MULTIVERSE_INTERACTION_DISCARD or not G.mul_discard_view_areas then
+		return {}
+	end
+	local cards = Multiverse.map(G.mul_discard_view_areas._discard_select_data.highlighted, function(item)
+		return G.discard.cards[item]
+	end)
+	return cards
+end
+
 G.STATES.MULTIVERSE_INTERACTION_HAND = -10
 G.STATES.MULTIVERSE_INTERACTION_JOKERS = -11
 G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES = -12
+G.STATES.MULTIVERSE_INTERACTION_DISCARD = -13
 Multiverse.interaction_old_data = {}
 
 ---@alias visibleInteractionArea
 ---| "hand"
 ---| "jokers"
 ---| "consumables"
+---| "discard"
 
 ---@param text string
 ---@param area? visibleInteractionArea
-function Multiverse.show_interaction_ui(text, area)
+---@param card? Card For use specifically with the discard view interaction
+---@param highlighted_max? number
+function Multiverse.show_interaction_ui(text, area, card, highlighted_max)
 	if Multiverse.in_interaction() then
 		return
 	end
@@ -422,13 +558,15 @@ function Multiverse.show_interaction_ui(text, area)
 	elseif visible == "consumables" then
 		G.STATE = G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES
 		Multiverse.interaction_old_data.highlighted_limit = G.consumeables.config.highlighted_limit
+	elseif visible == "discard" then
+		G.STATE = G.STATES.MULTIVERSE_INTERACTION_DISCARD
 	else
 		error("Invalid interaction focus area")
 	end
 	Multiverse.interaction_old_data.affected = visible
 	G.mul_interact_menu = UIBox({
 		definition = Multiverse.interaction_UI_def(text),
-		config = { offset = { x = 0, y = -1.5 }, major = G.ROOM_ATTACH, align = "cm" },
+		config = { offset = { x = 0, y = visible == "discard" and -5 or -1.5 }, major = G.ROOM_ATTACH, align = "cm" },
 	})
 	G.mul_end_interact_button = UIBox({
 		definition = Multiverse.confirm_end_interaction_UI_def(),
@@ -442,17 +580,27 @@ function Multiverse.show_interaction_ui(text, area)
 		end
 		G.jokers.T.y = -4
 		G.consumeables.T.y = -4
-		G.hand.config.highlighted_limit = 1e308
+		G.hand.config.highlighted_limit = highlighted_max
 	elseif visible == "jokers" then
 		G.consumeables.T.y = -4
 		G.jokers.T.x = 3.8536585365854 + (G.hand.T.w - G.jokers.T.w) / 2
 		G.jokers.T.y = G.TILE_H - G.jokers.T.h - 1.9
-		G.jokers.config.highlighted_limit = 1e308
-	else
+		G.jokers.config.highlighted_limit = highlighted_max
+	elseif visible == "consumables" then
 		G.jokers.T.y = -4
 		G.consumeables.T.x = 3.8536585365854 + (G.hand.T.w - G.consumeables.T.w) / 2
 		G.consumeables.T.y = G.TILE_H - G.consumeables.T.h - 1.9
-		G.consumeables.config.highlighted_limit = 1e308
+		G.consumeables.config.highlighted_limit = highlighted_max
+	else
+		G.jokers.T.y = -4
+		G.consumeables.T.y = -4
+		local c = Multiverse.filter(G.discard.cards, function(item)
+			return item ~= card
+		end)
+		G.mul_discard_view = UIBox({
+			definition = Multiverse.build_discard_view_UI_def(c, highlighted_max),
+			config = { offset = { x = 0, y = 0 }, major = G.ROOM_ATTACH, align = "cm" },
+		})
 	end
 	Multiverse.hide_TP_meter()
 	G.HUD:set_alignment({ offset = { x = -6.7, y = 0 } })
@@ -479,7 +627,13 @@ end
 local can_use_consumable_hook = Card.can_use_consumeable
 function Card:can_use_consumeable(any_state, skip_check, ...)
 	local ret = can_use_consumable_hook(self, any_state, skip_check, ...)
-	if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT and not Multiverse.in_interaction() or any_state then
+	if
+		G.STATE ~= G.STATES.HAND_PLAYED
+			and G.STATE ~= G.STATES.DRAW_TO_HAND
+			and G.STATE ~= G.STATES.PLAY_TAROT
+			and not Multiverse.in_interaction()
+		or any_state
+	then
 		return ret
 	end
 	return false
@@ -497,6 +651,11 @@ function Multiverse.remove_interaction_ui()
 			G.consumeables.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
 			G.consumeables:unhighlight_all()
 		end
+		if G.mul_discard_view then
+			G.mul_discard_view:remove()
+			G.mul_discard_view = nil
+		end
+		G.mul_discard_view_areas = nil
 		G.mul_interact_menu:get_UIE_by_ID("interaction_text").config.object:pop_out(3)
 		G.STATE = G.STATES.SELECTING_HAND
 		G.hand.T.x = G.TILE_W - G.hand.T.w - 2.85

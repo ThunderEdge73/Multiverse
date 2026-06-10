@@ -22,7 +22,12 @@ SMODS.DrawStep({
 		if
 			Multiverse.emptiness_active()
 			and card.ability.consumeable
-			and (card.area == G.consumeables or card.area == G.pack_cards or card.area == G.shop_jokers or card.area == G.play)
+			and (
+				card.area == G.consumeables
+				or card.area == G.pack_cards
+				or card.area == G.shop_jokers
+				or card.area == G.play
+			)
 		then
 			card.children.center:draw_shader("mul_grayscale", nil, card.ARGS.send_to_shader)
 			if card.children.front and not card:should_hide_front() then
@@ -54,7 +59,15 @@ SMODS.DrawStep({
 					nil,
 					0.6
 				)
-				G.shared_soul:draw_shader("mul_grayscale", nil, nil, nil, card.children.center, s_scale_mod, s_rotate_mod)
+				G.shared_soul:draw_shader(
+					"mul_grayscale",
+					nil,
+					nil,
+					nil,
+					card.children.center,
+					s_scale_mod,
+					s_rotate_mod
+				)
 			end
 			if card.children.floating_sprite then
 				card.children.floating_sprite:draw_shader(
@@ -450,3 +463,19 @@ SMODS.DrawSteps["floating_sprite"].func = function(card, layer)
 		floating_hook(card, layer)
 	end
 end
+
+SMODS.DrawStep({
+	key = "draw_highlight_border",
+	order = -11,
+	func = function(card, layer)
+		if card.ability._mul_discard_view_selected then
+			card.children.center:draw_shader("mul_highlight", nil, nil, nil, card.children.center, 0.04)
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
+
+SMODS.Shader({
+	key = "highlight",
+	path = "highlight.fs",
+})

@@ -1147,6 +1147,16 @@ return {
 					"cards in hand",
 				},
 			},
+			sk_mul_dredge = {
+				name = "Dredge",
+				text = {
+					"{C:attention}Ethereal{}",
+					"Return up to {C:attention}3{}",
+					"discarded cards",
+					"to hand",
+				},
+			},
+			
 		},
 		Enhanced = {
 			m_mul_calling_card = {
@@ -2642,6 +2652,7 @@ return {
 			k_mul_rum_seventh = "Select #1# Jokers to destroy",
 			k_mul_ultra_instinct = "Discard any number of selected cards",
 			k_mul_dupe_glitch = "Create a Negative copy of 1 selected consumable",
+			k_mul_dredge = "Return up to #1# discarded cards to hand",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

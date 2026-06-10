@@ -121,9 +121,7 @@ Multiverse.SkillCard({
 			end_interaction = function()
 				SMODS.destroy_cards(G.hand.highlighted)
 			end,
-			can_end_interaction = function()
-				return #G.hand.highlighted <= math.ceil(x / card.ability.extra.tp_per_destroy)
-			end,
+			select_limit = math.ceil(x / card.ability.extra.tp_per_destroy),
 			display_text = Multiverse.parse_vars(
 				localize("k_mul_sinful_shell"),
 				{ math.ceil(x / card.ability.extra.tp_per_destroy) }
@@ -191,9 +189,7 @@ Multiverse.SkillCard({
 					end
 				)
 			end,
-			can_end_interaction = function()
-				return #G.hand.highlighted <= card.ability.extra.affected
-			end,
+			select_limit = card.ability.extra.affected,
 			display_text = Multiverse.parse_vars(
 				localize("k_mul_teio_step"),
 				{ card.ability.extra.affected, card.ability.extra.retriggers }
@@ -274,6 +270,7 @@ Multiverse.SkillCard({
 					== G.jokers.highlighted[2].config.center.rarity
 				return count == 2 and same_rarity
 			end,
+			select_limit = card.ability.extra.affected,
 			display_text = Multiverse.parse_vars(localize("k_mul_rum_seventh"), { card.ability.extra.affected }),
 		})
 		return "destroy"
@@ -407,6 +404,7 @@ Multiverse.SkillCard({
 					end,
 				}))
 			end,
+			select_limit = 1,
 			can_end_interaction = function()
 				return #G.consumeables.highlighted == 1
 			end,
@@ -435,4 +433,53 @@ Multiverse.SkillCard({
 		return #G.hand.cards > 0
 	end,
 	ethereal = true,
+})
+
+Multiverse.SkillCard({
+	key = "dredge",
+	tp_cost = 10,
+	ethereal = true,
+	config = { extra = { returned = 3 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ethereal"]
+		return {
+			vars = {
+				card.ability.extra.returned,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.start_interaction({
+			area = "discard",
+			end_interaction = function()
+				local cards = Multiverse.get_discard_view_selected()
+				G.E_MANAGER:add_event(Event({
+					trigger = "immediate",
+					func = function()
+						local count = #cards
+						for i = 1, count do
+							draw_card(
+								G.discard,
+								G.hand,
+								i * 100 / count,
+								"up",
+								nil,
+								cards[i],
+								0.005,
+								i % 2 == 0,
+								nil,
+								math.max((21 - i) / 20, 0.7)
+							)
+						end
+						return true
+					end,
+				}))
+			end,
+			select_limit = card.ability.extra.returned,
+			display_text = Multiverse.parse_vars(localize("k_mul_dredge"), { card.ability.extra.returned }),
+		}, card)
+	end,
+	can_use_skill = function(self, card)
+		return #G.discard.cards > 0
+	end,
 })

@@ -13,8 +13,19 @@ position = "after"
 payload = '''
 if not G.deck_preview and G.STATE == G.STATES.MULTIVERSE_INTERACTION_HAND then
     desired_y = desired_y - 1.9
-elseif G.STATE == G.STATES.MULTIVERSE_INTERACTION_JOKERS or G.STATE == G.STATES.MULTIVERSE_INTERACTION_CONSUMABLES then
+elseif not G.deck_preview and Multiverse.in_interaction() then
     desired_y = G.TILE_H - G.hand.T.h + 4
 end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.DRAW_TO_HAND'''
+position = "at"
+payload = '''
+G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.DRAW_TO_HAND or Multiverse.in_interaction()
 '''
 match_indent = true
