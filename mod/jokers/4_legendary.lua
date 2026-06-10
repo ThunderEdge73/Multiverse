@@ -7,7 +7,7 @@ Multiverse.UsableJoker({
 		extra = {
 			tp_cost = 20,
 			thaum_energy_cost = 20,
-			transmute_progress = 0
+			transmute_progress = 0,
 		},
 	},
 	rarity = 4,
@@ -41,11 +41,11 @@ Multiverse.UsableJoker({
 			add_tag(Tag("tag_mul_dimensional", false, "Small"))
 		end)
 	end,
-	calculate = function (self, card, context)
+	calculate = function(self, card, context)
 		if context.before and next(context.poker_hands["mul_storm"]) then
 			Multiverse.increment_transmute_progress(card, 1)
 		end
-	end
+	end,
 })
 
 function Multiverse.calculate_singularity_values()
@@ -83,7 +83,6 @@ Multiverse.UsableJoker({
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_left_hand"]
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_right_hand"]
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_intangible"]
 		local vars, _ = Multiverse.calculate_singularity_values()
 		table.insert(vars, 1, card.ability.extra.tp_cost)
 		info_queue[#info_queue + 1] = {
@@ -119,7 +118,7 @@ Multiverse.UsableJoker({
 							G.STATE_COMPLETE = true
 							G.STATE = G.STATES.SELECTING_HAND
 							return true
-						end
+						end,
 					}))
 					return true
 				end,
@@ -152,7 +151,7 @@ Multiverse.UsableJoker({
 				end,
 			}))
 			return {
-				message = localize("k_mul_manifested")
+				message = localize("k_mul_manifested"),
 			}
 		end
 	end,

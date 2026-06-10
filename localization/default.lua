@@ -139,16 +139,6 @@ return {
 					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
 				},
 			},
-			du_mul_intangible = {
-				name = "Intangible",
-				text = {
-					"{C:red}Cannot{} be selected",
-					"{C:red}Cannot{} be copied",
-					"This card {C:red}cannot",
-					"be changed into",
-					"another card",
-				},
-			},
 			du_mul_emptied = {
 				name = "Affected by Emptiness",
 				text = {
@@ -1156,7 +1146,53 @@ return {
 					"to hand",
 				},
 			},
-			
+			sk_mul_light_burns_sky = {
+				name = {
+					"Light That Burns",
+					"the Sky",
+				},
+				text = {
+					"{C:attention}Ultimate{}",
+					"All cards in hand",
+					"become {C:dark_edition}Polychrome",
+					"and permanently",
+					"gain {X:mult,C:white}X#1#{} Mult",
+
+				}
+			},
+			sk_mul_pocket_aces = {
+				name = "Pocket Aces",
+				text = {
+					"{C:attention}Impulse{}",
+					"Put up to {C:attention}#1#{}",
+					"random {C:attention}Aces{} in",
+					"your deck into",
+					"your hand",
+				}
+			},
+			sk_mul_pot_of_greed = {
+				name = "Pot of Greed",
+				text = {
+					"Draw {C:attention}#1#{} cards",
+				}
+			},
+			sk_mul_prepared = {
+				name = "Prepared",
+				text = {
+					"Draw {C:attention}#1#{} card",
+					"Discard {C:attention}#1#{} card",
+				}
+			},
+			sk_mul_hollow_technique_purple = {
+				name = {
+					"Hollow Technique:",
+					"Purple",
+				},
+				text = {
+					"{C:attention}Ultimate{}",
+					"",
+				}
+			}
 		},
 		Enhanced = {
 			m_mul_calling_card = {
@@ -1240,7 +1276,8 @@ return {
 			m_mul_left_hand = {
 				name = "Left Hand",
 				text = {
-					"{C:attention}Intangible",
+					"{C:red,E:2}Self-destructs{} at",
+					"end of round",
 					"Pinned to the right",
 					"Has no rank or suit",
 					"{X:mult,C:white}X#1#{} Mult per card in",
@@ -1251,7 +1288,8 @@ return {
 			m_mul_right_hand = {
 				name = "Right Hand",
 				text = {
-					"{C:attention}Intangible",
+					"{C:red,E:2}Self-destructs{} at",
+					"end of round",
 					"Pinned to the left",
 					"Has no rank or suit",
 					"{C:chips}+#1#{} Chips per card in",

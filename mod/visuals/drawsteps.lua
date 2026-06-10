@@ -469,7 +469,8 @@ SMODS.DrawStep({
 	order = -11,
 	func = function(card, layer)
 		if card.ability._mul_discard_view_selected then
-			card.children.center:draw_shader("mul_highlight", nil, nil, nil, card.children.center, 0.04)
+			local scale_mod = 0.05 + 0.01 * math.sin(1.8 * G.TIMERS.REAL)
+			card.children.center:draw_shader("mul_highlight", nil, nil, nil, card.children.center, scale_mod)
 		end
 	end,
 	conditions = { vortex = false, facing = "front" },

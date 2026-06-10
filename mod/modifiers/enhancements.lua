@@ -247,14 +247,10 @@ SMODS.Enhancement({
 	no_rank = true,
 	replace_base_card = true,
 	mul_right_pinned = true,
-	mul_intangible = true,
 	in_pool = function(self, args)
 		return false
 	end,
 	loc_vars = function(self, info_queue, card)
-		if not card.fake_card then
-			info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_intangible"]
-		end
 		return {
 			vars = {
 				card.ability.extra.xmult,
@@ -282,14 +278,10 @@ SMODS.Enhancement({
 	no_rank = true,
 	replace_base_card = true,
 	mul_left_pinned = true,
-	mul_intangible = true,
 	in_pool = function(self, args)
 		return false
 	end,
 	loc_vars = function(self, info_queue, card)
-		if not card.fake_card then
-			info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_intangible"]
-		end
 		return {
 			vars = {
 				card.ability.extra.chips,

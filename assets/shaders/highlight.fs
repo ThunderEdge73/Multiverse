@@ -27,7 +27,7 @@ vec4 effect(vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords)
     // Position of a pixel within the sprite
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
     
-    tex.rgb = vec3(1.0, 0.6, 0.0);
+    tex.rgb = vec3(1.0, 1.0, 0.0);
 
     if (highlight == 2 * highlight) {
         uv = highlight;

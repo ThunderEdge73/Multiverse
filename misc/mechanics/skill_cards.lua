@@ -461,7 +461,7 @@ function Multiverse.build_discard_view_UI_def(cards_to_display, highlighted_max)
 				nodes = {
 					{
 						n = G.UIT.C,
-						config = { align = "cl" },
+						config = { align = "cl", padding = 0.1 },
 						nodes = rows,
 					},
 				},
@@ -507,6 +507,7 @@ function Multiverse.build_discard_view_UI_def(cards_to_display, highlighted_max)
 						colour = G.C.FILTER,
 						bg_colour = { 0, 0, 0, 0.15 },
 						scroll_collision_obj = scrollbox,
+						scroll_mult = 1.25,
 					}),
 				},
 			} or nil,
@@ -566,7 +567,7 @@ function Multiverse.show_interaction_ui(text, area, card, highlighted_max)
 	Multiverse.interaction_old_data.affected = visible
 	G.mul_interact_menu = UIBox({
 		definition = Multiverse.interaction_UI_def(text),
-		config = { offset = { x = 0, y = visible == "discard" and -5 or -1.5 }, major = G.ROOM_ATTACH, align = "cm" },
+		config = { offset = { x = 0, y = visible == "discard" and -4.5 or -1.5 }, major = G.ROOM_ATTACH, align = "cm" },
 	})
 	G.mul_end_interact_button = UIBox({
 		definition = Multiverse.confirm_end_interaction_UI_def(),

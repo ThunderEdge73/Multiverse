@@ -130,10 +130,6 @@ Multiverse.DummyCenter({
 })
 
 Multiverse.DummyCenter({
-	key = "intangible",
-})
-
-Multiverse.DummyCenter({
 	key = "thaumaturgy_energy_info",
 	loc_vars = function(self, info_queue, card)
 		local key = "mul_thaumaturgy_gain_desc"

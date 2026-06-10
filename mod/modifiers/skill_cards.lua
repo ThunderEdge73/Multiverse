@@ -205,7 +205,7 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "embrittlement",
 	tp_cost = 15,
-	config = { extra = { xblindsize = 0.5, status = "psv_mul_vulnerable", amt = 1 } },
+	config = { extra = { xblindsize = 0.7, status = "psv_mul_vulnerable", amt = 1 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
 		return {

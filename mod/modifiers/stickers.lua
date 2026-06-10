@@ -67,8 +67,8 @@ SMODS.Sticker({
 		then
 			return {
 				modify = {
-					to_area = G.hand
-				}
+					to_area = G.hand,
+				},
 			}
 		end
 	end,

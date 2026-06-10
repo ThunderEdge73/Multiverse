@@ -755,10 +755,6 @@ function Multiverse.handle_pins(cards)
 	end
 end
 
-function Multiverse.is_intangible(card)
-	return (G.P_CENTERS[card.config.center_key] or {}).mul_intangible
-end
-
 function Multiverse.is_left_pinned(card)
 	return (G.P_CENTERS[card.config.center_key] or {}).mul_left_pinned
 end
@@ -786,7 +782,7 @@ function Multiverse.handle_distributed_retriggers(context, card, amt, args)
 			}
 		end
 	end
-	if context.after then
+	if context.after and not context.blueprint then
 		card.ability._mul_retrigger_index_cache = nil
 	end
 end
