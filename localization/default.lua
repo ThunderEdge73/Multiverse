@@ -1124,8 +1124,9 @@ return {
 				name = "Duplication Glitch",
 				text = {
 					"{C:attention}Retain{}",
-					"Create a {C:dark_edition}Negative",
-					"copy of {C:attention}1{} selected",
+					"After use, create",
+					"a {C:dark_edition}Negative{} copy",
+					"of {C:attention}1{} selected",
 					"consumable",
 				},
 			},
@@ -1141,9 +1142,10 @@ return {
 				name = "Dredge",
 				text = {
 					"{C:attention}Ethereal{}",
-					"Return up to {C:attention}3{}",
-					"discarded cards",
-					"to hand",
+					"After use, select",
+					"up to {C:attention}#1#{} discarded",
+					"cards and put them",
+					"into your hand",
 				},
 			},
 			sk_mul_light_burns_sky = {
@@ -1173,6 +1175,7 @@ return {
 			sk_mul_pot_of_greed = {
 				name = "Pot of Greed",
 				text = {
+					"{C:attention}Exhaust{}",
 					"Draw {C:attention}#1#{} cards",
 				}
 			},
@@ -1181,6 +1184,15 @@ return {
 				text = {
 					"Draw {C:attention}#1#{} card",
 					"Discard {C:attention}#1#{} card",
+				}
+			},
+			sk_mul_supplements = {
+				name = "Supplements",
+				text = {
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
 				}
 			},
 		},
@@ -2681,6 +2693,8 @@ return {
 			k_mul_ultra_instinct = "Discard any number of selected cards",
 			k_mul_dupe_glitch = "Create a Negative copy of 1 selected consumable",
 			k_mul_dredge = "Return up to #1# discarded cards to hand",
+			k_mul_prepared = "Discard 1 card",
+			k_mul_supplements = "Give +#2# chips permanently to up to #1# selected cards",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

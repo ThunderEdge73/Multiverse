@@ -483,3 +483,186 @@ Multiverse.SkillCard({
 		return #G.discard.cards > 0
 	end,
 })
+
+Multiverse.SkillCard({
+	key = "light_burns_sky",
+	tp_cost = 70,
+	config = { extra = { xmult = 0.5 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
+		return {
+			vars = {
+				card.ability.extra.xmult,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.apply_to_cards_animation(card, G.hand.cards, function(_card)
+			local first = _card == G.hand.cards[1]
+			_card:set_edition("e_polychrome", nil, not first)
+			_card.ability.perma_x_mult = _card.ability.perma_x_mult + card.ability.extra.xmult
+		end)
+	end,
+	can_use_skill = function(self, card)
+		return #G.discard.cards > 0
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "pocket_aces",
+	tp_cost = 20,
+	mul_impulse = true,
+	config = { extra = { cards = 2 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.cards,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			local cards = Multiverse.get_unique_pseudorandom_elements(
+				Multiverse.filter(G.deck.cards, function(item)
+					return item:get_id() == 14
+				end),
+				card.ability.extra.cards,
+				"mul_pocket_aces"
+			)
+			local count = #cards
+			for i = 1, count do
+				draw_card(
+					G.deck,
+					G.hand,
+					i * 100 / count,
+					"up",
+					nil,
+					cards[i],
+					0.005,
+					i % 2 == 0,
+					nil,
+					math.max((21 - i) / 20, 0.7)
+				)
+			end
+		end)
+	end,
+	can_use_skill = function(self, card)
+		return #Multiverse.filter(G.deck.cards, function(item)
+			return item:get_id() == 14
+		end) > 0
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "pot_of_greed",
+	tp_cost = 5,
+	config = { extra = { cards = 2 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.cards,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			SMODS.draw_cards(card.ability.extra.cards)
+		end)
+		return "exhaust"
+	end,
+	can_use_skill = function(self, card)
+		return #G.deck.cards >= card.ability.extra.cards
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "prepared",
+	tp_cost = 5,
+	config = { extra = { cards = 1 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.cards,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			SMODS.draw_cards(card.ability.extra.cards)
+		end)
+		Multiverse.start_interaction({
+			select_limit = card.ability.extra.cards,
+			area = "hand",
+			can_end_interaction = function()
+				return #G.hand.highlighted == math.min(#G.hand.cards, card.ability.extra.cards)
+			end,
+			display_text = Multiverse.parse_vars(localize("k_mul_prepared"), { card.ability.extra.cards }),
+			end_interaction = function()
+				G.FUNCS.discard_cards_from_highlighted(nil, true)
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.3,
+					func = function()
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								G.STATE = G.STATES.DRAW_TO_HAND
+								G.E_MANAGER:add_event(Event({
+									trigger = "immediate",
+									func = function()
+										G.STATE_COMPLETE = false
+										return true
+									end,
+								}))
+								return true
+							end,
+						}))
+						return true
+					end,
+				}))
+			end,
+		})
+		return "exhaust"
+	end,
+	can_use_skill = function(self, card)
+		return #G.deck.cards >= card.ability.extra.cards
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "supplements",
+	tp_cost = 15,
+	config = { extra = { affected = 2, chips = 20 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.affected,
+				card.ability.extra.chips,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.start_interaction({
+			area = "discard",
+			end_interaction = function()
+				local cards = Multiverse.get_discard_view_selected()
+				G.E_MANAGER:add_event(Event({
+					trigger = "immediate",
+					func = function()
+						for _, c in ipairs(cards) do
+							c.ability.perma_bonus = (c.ability.perma_bonus or 0) + card.ability.extra.chips
+						end
+						return true
+					end,
+				}))
+			end,
+			select_limit = card.ability.extra.affected,
+			display_text = Multiverse.parse_vars(
+				localize("k_mul_dredge"),
+				{ card.ability.extra.affected, card.ability.extra.chips }
+			),
+		}, card)
+	end,
+	can_use_skill = function(self, card)
+		return #G.discard.cards > 0
+	end,
+})
