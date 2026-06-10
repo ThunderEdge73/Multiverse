@@ -319,7 +319,7 @@ return {
 					"after discarding",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				}
-			}
+			},
 		},
 		mul_DeckEnchantment = {
 			de_mul_dark_affinity = {
@@ -1183,16 +1183,6 @@ return {
 					"Discard {C:attention}#1#{} card",
 				}
 			},
-			sk_mul_hollow_technique_purple = {
-				name = {
-					"Hollow Technique:",
-					"Purple",
-				},
-				text = {
-					"{C:attention}Ultimate{}",
-					"",
-				}
-			}
 		},
 		Enhanced = {
 			m_mul_calling_card = {
