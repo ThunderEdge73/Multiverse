@@ -315,7 +315,7 @@ SMODS.Consumable({
 	set = "mul_Myth",
 	atlas = "temp_myth",
 	pos = { x = 0, y = 0 },
-	loc_vars = function (self, info_queue, card)
+	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_transmutable",
