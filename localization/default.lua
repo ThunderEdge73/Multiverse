@@ -94,10 +94,10 @@ return {
 			du_mul_impulse = {
 				name = "Impulse",
 				text = {
-					"If no hands or",
+					"TP cost is halved",
+					"if no hands or",
 					"discards were",
 					"used this round,",
-					"{C:attention}-#1#%{} TP cost",
 				},
 			},
 			du_mul_ethereal = {
@@ -1165,7 +1165,7 @@ return {
 			sk_mul_pocket_aces = {
 				name = "Pocket Aces",
 				text = {
-					"{C:attention}Impulse{}",
+					"{C:attention}Impulse, Impervious{}",
 					"Put up to {C:attention}#1#{}",
 					"random {C:attention}Aces{} in",
 					"your deck into",

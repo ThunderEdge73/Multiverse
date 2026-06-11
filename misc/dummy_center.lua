@@ -103,13 +103,6 @@ Multiverse.DummyCenter({
 
 Multiverse.DummyCenter({
 	key = "impulse",
-	loc_vars = function(self, info_queue, card)
-		return {
-			vars = {
-				50,
-			},
-		}
-	end,
 })
 
 Multiverse.DummyCenter({

@@ -512,8 +512,11 @@ Multiverse.SkillCard({
 	key = "pocket_aces",
 	tp_cost = 20,
 	mul_impulse = true,
+	mul_impervious = true,
 	config = { extra = { cards = 2 } },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impulse"]
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impervious"]
 		return {
 			vars = {
 				card.ability.extra.cards,
@@ -558,6 +561,7 @@ Multiverse.SkillCard({
 	tp_cost = 5,
 	config = { extra = { cards = 2 } },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
 			vars = {
 				card.ability.extra.cards,
@@ -631,7 +635,7 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "supplements",
 	tp_cost = 15,
-	config = { extra = { affected = 2, chips = 20 } },
+	config = { extra = { affected = 2, chips = 30 } },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
