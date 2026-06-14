@@ -14,3 +14,15 @@ payload = '''
 if card.config.center.key ~= "c_base" and card.ability.set ~= "mul_Skill" then
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+local is_playing_card = SMODS.is_playing_card(card) or args.playing_card or args.set == "Base" or args.set == "Enhanced"
+'''
+position = "after"
+payload = '''
+is_playing_card = is_playing_card or args.set == "mul_Skill"
+'''
+match_indent = true

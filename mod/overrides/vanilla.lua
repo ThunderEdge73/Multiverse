@@ -123,12 +123,9 @@ SMODS.Joker:take_ownership("invisible", {
 				if #jokers > 0 then
 					if #G.jokers.cards <= G.jokers.config.card_limit then
 						local chosen_joker = pseudorandom_element(jokers, "vremade_invisible")
-						local copied_joker = copy_card(
+						local copied_joker = SMODS.copy_card(
 							chosen_joker,
-							nil,
-							nil,
-							nil,
-							chosen_joker.edition and chosen_joker.edition.negative
+							{ strip_edition = chosen_joker.edition and chosen_joker.edition.negative }
 						)
 						if copied_joker.ability.invis_rounds then
 							copied_joker.ability.invis_rounds = 0

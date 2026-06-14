@@ -319,3 +319,9 @@ function G.FUNCS.exit_overlay_menu()
 	exit_overlay_menu_hook()
 	Multiverse.DETAILED_ENCHANTMENT_VIEW = nil
 end
+
+local is_playing_card_hook = SMODS.is_playing_card
+function SMODS.is_playing_card(card, ...)
+	local set = (card.ability or {}).set or ((card.config or {}).center or {}).set
+	return is_playing_card_hook(card, ...) or set == "mul_Skill"
+end

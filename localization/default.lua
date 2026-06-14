@@ -318,7 +318,7 @@ return {
 					"Remove all stacks",
 					"after discarding",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
-				}
+				},
 			},
 		},
 		mul_DeckEnchantment = {
@@ -842,7 +842,7 @@ return {
 					"for the {C:attention}leftmost{} item",
 					"to be replaced by",
 					"a {C:mul_transmuted}Myth Card{}",
-				}
+				},
 			},
 			de_mul_vigorous = {
 				name = "Vigorous#1#",
@@ -861,14 +861,14 @@ return {
 					"if TP is at",
 					"{C:attention}#3#%{} or higher",
 					"{C:inactive}(Will earn {C:money}$#4#{C:inactive}){}",
-				}
+				},
 			},
 			de_mul_indomitable = {
 				name = "Indomitable#1#",
 				text = {
 					"{V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{C:inactive}/{V:4}+#5#{C:inactive}/{V:5}+#6#{}",
 					"Chips per {C:attention}%{} of TP",
-				}
+				},
 			},
 			de_mul_ether_aspect = {
 				name = "Ether Aspect#1#",
@@ -876,7 +876,7 @@ return {
 					"Applies {V:1}#2#{C:inactive}/{V:2}#3#{} stacks",
 					"of {C:attention}Ether-touched{}",
 					"when playing a hand",
-				}
+				},
 			},
 			de_mul_trib_blessing = {
 				name = "Triboulet's Blessing",
@@ -1130,8 +1130,8 @@ return {
 					"consumable",
 				},
 			},
-			sk_mul_reduced_atoms = {
-				name = "Reduced to Atoms",
+			sk_mul_atomize = {
+				name = "Atomize",
 				text = {
 					"{C:attention}Ethereal{}",
 					"{C:attention}Exhaust{} all other",
@@ -1159,8 +1159,7 @@ return {
 					"become {C:dark_edition}Polychrome",
 					"and permanently",
 					"gain {X:mult,C:white}X#1#{} Mult",
-
-				}
+				},
 			},
 			sk_mul_pocket_aces = {
 				name = "Pocket Aces",
@@ -1170,21 +1169,21 @@ return {
 					"random {C:attention}Aces{} in",
 					"your deck into",
 					"your hand",
-				}
+				},
 			},
 			sk_mul_pot_of_greed = {
 				name = "Pot of Greed",
 				text = {
 					"{C:attention}Exhaust{}",
 					"Draw {C:attention}#1#{} cards",
-				}
+				},
 			},
 			sk_mul_prepared = {
 				name = "Prepared",
 				text = {
 					"Draw {C:attention}#1#{} card",
 					"Discard {C:attention}#1#{} card",
-				}
+				},
 			},
 			sk_mul_supplements = {
 				name = "Supplements",
@@ -1193,8 +1192,39 @@ return {
 					"to {C:attention}#1#{} discarded cards",
 					"and give them {C:chips}+#2#{}",
 					"Chips permanently",
-				}
+				},
 			},
+			sk_mul_blue_rose_closer = {},
+			sk_mul_soverign_blade = {},
+			sk_mul_kamehameha = {},
+			sk_mul_hollow_technique_purple = {},
+			sk_mul_falcon_punch = {},
+			sk_mul_360_no_scope = {},
+			sk_mul_backflip = {},
+			sk_mul_megidolaon = {},
+			sk_mul_wish = {},
+			sk_mul_invisibility = {},
+			sk_mul_icbm = {},
+			sk_mul_dark_magic_attack = {},
+			sk_mul_larceny = {},
+			sk_mul_ray_of_doom = {},
+			sk_mul_bloodletting = {},
+			sk_mul_eldritch_blast = {},
+			sk_mul_telekinesis = {},
+			sk_mul_chaos_form = {},
+			sk_mul_hyper_beam = {},
+			sk_mul_storm_ritual = {},
+			sk_mul_shape_water = {},
+			sk_mul_vine_growth = {},
+			sk_mul_raise_undead = {},
+			sk_mul_wind_gale = {},
+			sk_mul_earthen_spikes = {},
+			sk_mul_exorcise_spirit = {},
+			sk_mul_rude_buster = {},
+			sk_mul_juggling = {},
+			sk_mul_card_counting = {},
+			sk_mul_sleight_of_hand = {},
+			sk_mul_foresight = {},
 		},
 		Enhanced = {
 			m_mul_calling_card = {
@@ -1845,8 +1875,8 @@ return {
 						"first hand for you",
 					},
 					{
-						"{C:inactive,s:0.8}Vakuu knows best{}"
-					}
+						"{C:inactive,s:0.8}Vakuu knows best{}",
+					},
 				},
 			},
 			j_mul_stand_user = {

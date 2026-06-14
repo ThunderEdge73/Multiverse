@@ -396,10 +396,8 @@ Multiverse.SkillCard({
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						local card_to_copy = G.consumeables.highlighted[1]
-						local copied_card = copy_card(card_to_copy)
+						local copied_card = SMODS.copy_card(card_to_copy, { area = G.consumeables })
 						copied_card:set_edition("e_negative", true)
-						copied_card:add_to_deck()
-						G.consumeables:emplace(copied_card)
 						return true
 					end,
 				}))
@@ -418,7 +416,7 @@ Multiverse.SkillCard({
 })
 
 Multiverse.SkillCard({
-	key = "reduced_atoms",
+	key = "atomize",
 	tp_cost = 10,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ethereal"]

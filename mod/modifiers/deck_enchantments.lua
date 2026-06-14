@@ -1586,12 +1586,7 @@ Multiverse.DeckEnchantment({
 			G.playing_card = (G.playing_card and G.playing_card + 1) or 1
 			local cards = {}
 			for _, half in ipairs({ "left", "right" }) do
-				local card_copied = copy_card(context.full_hand[1], nil, nil, G.playing_card)
-				card_copied:add_to_deck()
-				G.deck.config.card_limit = G.deck.config.card_limit + 1
-				table.insert(G.playing_cards, card_copied)
-				G.hand:emplace(card_copied)
-				card_copied.states.visible = nil
+				local card_copied = SMODS.copy_card(context.full_hand[1], { area = G.deck })
 				Multiverse.convert_to_half_card(card_copied, half)
 				cards[#cards + 1] = card_copied
 				G.E_MANAGER:add_event(Event({

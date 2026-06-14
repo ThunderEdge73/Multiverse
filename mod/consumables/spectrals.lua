@@ -42,7 +42,7 @@ SMODS.Consumable({
 			end
 			local destroyed = Multiverse.get_unique_pseudorandom_elements(G.hand.cards, count, "mul_eternity")
 			Multiverse.play_animation("lightning")
-			cards_to_destroy = SMODS.merge_lists({cards_to_destroy, destroyed})
+			cards_to_destroy = SMODS.merge_lists({ cards_to_destroy, destroyed })
 			SMODS.destroy_cards(cards_to_destroy)
 		end)
 	end,
@@ -65,11 +65,9 @@ SMODS.Consumable({
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			local target = pseudorandom_element(G.jokers.cards, "mul_backstab")
-			local copied_joker = copy_card(target, nil, nil, nil, true)
+			local copied_joker = SMODS.copy_card(target, { strip_edition = true })
 			copied_joker:add_sticker("mul_traitorous", true)
 			copied_joker:set_edition("e_negative")
-			copied_joker:add_to_deck()
-			G.jokers:emplace(copied_joker)
 		end)
 	end,
 })
