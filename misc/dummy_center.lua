@@ -164,3 +164,7 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "emptied",
 })
+
+Multiverse.DummyCenter({
+	key = "sneaky",
+})

@@ -465,7 +465,7 @@ SMODS.Consumable({
 		delay(0.6)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			Multiverse.ease_TP(total, { instant = true })
+			Multiverse.ease_TP(total, { immediate = true })
 		end)
 	end,
 })

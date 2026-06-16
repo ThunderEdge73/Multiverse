@@ -345,7 +345,7 @@ Multiverse.UsableJoker({
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost)
+			Multiverse.ease_TP(-card.ability.extra.tp_cost, { immediate = true })
 			ease_hands_played(card.ability.extra.hand_boost)
 			SMODS.calculate_effect({
 				message = localize("k_eaten_ex"),

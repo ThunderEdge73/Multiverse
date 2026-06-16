@@ -1917,7 +1917,7 @@ Multiverse.DeckEnchantment({
 					}, c)
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp)
+							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp, { immediate = true })
 							return true
 						end,
 					}))
@@ -2010,7 +2010,7 @@ Multiverse.DeckEnchantment({
 				func = function()
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp)
+							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp, { immediate = true })
 							return true
 						end,
 					}))
@@ -2257,6 +2257,9 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "ruin",
 	max_level = 1,
+	loc_vars = function (self, info_queue, enchantment)
+		info_queue[#info_queue+1] = Multiverse.DummyCenters["du_mul_exhausts"]
+	end,
 	enchantment_type = "negative",
 	calculate = function(self, enchantment, context)
 		if context.hand_drawn and not context.first_hand_drawn then

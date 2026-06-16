@@ -864,3 +864,8 @@ function Multiverse.shuffle_to_deck(cards)
 		draw_card(G.hand, G.deck, i * 100 / card_count, "down", nil, cards[i], 0.08)
 	end
 end
+
+function Multiverse.is_status_card(card)
+	return SMODS.is_playing_card(card) and (card.config.center.mul_status or card.ability.mul_webbed)
+end
+

@@ -142,7 +142,7 @@ SMODS.current_mod.calculate = function(self, context)
 				func = function()
 					Multiverse.ease_TP(
 						pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain),
-						{ from_hand = true }
+						{ from_hand = true, immediate = true }
 					)
 					return true
 				end,

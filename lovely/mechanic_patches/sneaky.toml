@@ -1,0 +1,36 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+else 
+    G.hand.highlighted[i].ability.discarded = true
+    draw_card(G.hand, G.discard, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+end
+'''
+position = "before"
+payload = '''
+elseif G.hand.highlighted[i].ability.set == "mul_Skill" and hook and G.hand.highlighted[i].config.center.mul_sneaky then
+    local sneaky_card = G.hand.highlighted[i]
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            G.FUNCS.mul_use_skill({ config = {ref_table = sneaky_card}, sneaky_trigger = true })
+                            return true
+                        end
+                    }))
+                    return true
+                end
+            }))
+            return true
+        end
+    }))
+'''
+match_indent = true

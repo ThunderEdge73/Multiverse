@@ -218,7 +218,9 @@ G.FUNCS.mul_use_skill = function(e)
 	if center.tp_cost == "X" then
 		x = paid + G.GAME.mul_x_boost
 	end
-	Multiverse.ease_TP(-paid, { from_skill = true })
+	if not e.sneaky_trigger then
+		Multiverse.ease_TP(-paid, { from_skill = true })
+	end
 	draw_card(G.hand, G.play, 1, "up", true, card)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"
@@ -648,7 +650,7 @@ function Multiverse.remove_interaction_ui()
 		elseif Multiverse.interaction_old_data.affected == "jokers" then
 			G.jokers.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
 			G.jokers:unhighlight_all()
-		else
+		elseif Multiverse.interaction_old_data.affected == "consumables" then
 			G.consumeables.config.highlighted_limit = Multiverse.interaction_old_data.highlighted_limit
 			G.consumeables:unhighlight_all()
 		end

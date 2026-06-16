@@ -148,6 +148,15 @@ return {
 					"will be {C:red}negated{} if used",
 				},
 			},
+			du_mul_sneaky = {
+				name = "Sneaky",
+				text = {
+					"When discarded by",
+					"{C:attention}effect{}, use this",
+					"card {C:attention}without{} paying",
+					"its TP cost",
+				},
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -1194,37 +1203,256 @@ return {
 					"Chips permanently",
 				},
 			},
-			sk_mul_blue_rose_closer = {},
-			sk_mul_soverign_blade = {},
-			sk_mul_kamehameha = {},
-			sk_mul_hollow_technique_purple = {},
-			sk_mul_falcon_punch = {},
-			sk_mul_360_no_scope = {},
-			sk_mul_backflip = {},
-			sk_mul_megidolaon = {},
-			sk_mul_wish = {},
-			sk_mul_invisibility = {},
-			sk_mul_icbm = {},
-			sk_mul_dark_magic_attack = {},
-			sk_mul_larceny = {},
-			sk_mul_ray_of_doom = {},
-			sk_mul_bloodletting = {},
-			sk_mul_eldritch_blast = {},
-			sk_mul_telekinesis = {},
-			sk_mul_chaos_form = {},
-			sk_mul_hyper_beam = {},
-			sk_mul_storm_ritual = {},
-			sk_mul_shape_water = {},
-			sk_mul_vine_growth = {},
-			sk_mul_raise_undead = {},
-			sk_mul_wind_gale = {},
-			sk_mul_earthen_spikes = {},
-			sk_mul_exorcise_spirit = {},
-			sk_mul_rude_buster = {},
-			sk_mul_juggling = {},
-			sk_mul_card_counting = {},
-			sk_mul_sleight_of_hand = {},
-			sk_mul_foresight = {},
+			sk_mul_blue_rose_closer = {
+				name = "Blue Rose Closer",
+				text = {
+					"Can only be used",
+					"when you have {C:attention}#1#{}",
+					"hand remaining",
+					"{X:purple,C:white}X#2#{} Blind Size",
+				},
+			},
+			sk_mul_sovereign_blade = {
+				name = "Sovereign Blade",
+				text = {
+					"{C:attention}Retain{}",
+					"{X:purple,C:white}X#1#{} Blind Size",
+				},
+			},
+			sk_mul_kamehameha = {
+				name = "Kamehameha",
+				text = {
+					"For each hand played",
+					"or discard used",
+					"while this card is",
+					"held in hand,",
+					"{X:purple,C:white}X#1#{} Blind Size",
+				},
+			},
+			sk_mul_hollow_technique_purple = {
+				name = {
+					"Hollow Technique:",
+					"{C:tarot}Purple",
+				},
+				text = {
+					"Applies {C:attention}#1#{} stacks of",
+					"{C:attention}Disintegration{} to",
+					"the current {C:attention}Blind{}",
+				},
+			},
+			sk_mul_falcon_punch = {
+				name = "Falcon Punch",
+				text = {
+					"{X:purple,C:white}X#1#{} Blind Size",
+					"Applies {C:attention}1{} stack of",
+					"{C:attention}Dazed{} to the",
+					"current {C:attention}Blind{}",
+				},
+			},
+			sk_mul_360_no_scope = {
+				name = "360 No Scope",
+				text = {
+					"{C:attention}Impulse, Exhaust{}",
+					"Draw {C:attention}1{} card",
+					"Gain {C:attention}#1#%{} TP",
+				},
+			},
+			sk_mul_backflip = {
+				name = "Backflip",
+				text = {
+					"Draw {C:attention}#1#{} cards",
+					"Cards drawn by",
+					"this {C:attention}Skill Card{}",
+					"permanently gain",
+					"{C:chips}+#2#{} Chips",
+				},
+			},
+			sk_mul_megidolaon = {
+				name = "Megidolaon",
+				text = {
+					"",
+				},
+			},
+			sk_mul_wish = {
+				name = "Wish",
+				text = {
+					"{C:attention}Ultimate, Impervious{}",
+					"Earn {C:money}$#1#{}, level up",
+					"all {C:legendary,E:1}poker hands{},",
+					"and create a random",
+					"{C:dark_edition}Negative{} {C:mul_transmuted}Myth Card{}",
+				},
+			},
+			sk_mul_invisibility = {
+				name = "Invisibility",
+				text = {
+					"{C:attention}Exhaust{}",
+					"Create a copy of",
+					"a {C:attention}random{} card",
+					"in your hand",
+				},
+			},
+			sk_mul_icbm = {
+				name = {
+					"Intercontinental",
+					"Ballistic Missile",
+				},
+				text = {
+					"",
+					"",
+				},
+			},
+			sk_mul_dark_magic_attack = {
+				name = "Dark Magic Attack",
+				text = {
+					"",
+					"",
+					"",
+				},
+			},
+			sk_mul_larceny = {
+				name = "Larceny",
+				text = {
+					"{C:attention}Sneaky{}",
+					"Earn {C:money}$#1#{}",
+				},
+			},
+			sk_mul_ray_of_doom = {
+				name = "Ray of Doom",
+				text = {
+					"",
+				},
+			},
+			sk_mul_bloodletting = {
+				name = "Bloodletting",
+				text = {
+					"Gain {C:attention}#1#%{} TP",
+					"Lose Score equal",
+					"to {C:attention}half{} of the",
+					"current Blind",
+					"requirement",
+				},
+			},
+			sk_mul_eldritch_blast = {
+				name = "Eldritch Blast",
+				text = {
+					"{C:attention}Ethereal{}",
+					"",
+				},
+			},
+			sk_mul_telekinesis = {
+				name = "Telekinesis",
+				text = {
+					"",
+				},
+			},
+			sk_mul_chaos_form = {
+				name = "Chaos Form",
+				text = {
+					"",
+				},
+			},
+			sk_mul_hyper_beam = {
+				name = "Hyper Beam",
+				text = {
+					"Exhaust",
+				},
+			},
+			sk_mul_storm_ritual = {
+				name = "Storm Ritual",
+				text = {
+					"",
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
+				},
+			},
+			sk_mul_waterbending = {
+				name = "Waterbending",
+				text = {
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
+				},
+			},
+			sk_mul_vine_growth = {
+				name = "Vine Growth",
+				text = {
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
+				},
+			},
+			sk_mul_raise_undead = {
+				name = "Raise Undead",
+				text = {
+					"Add {C:attention}#1#{} random {C:attention}Skeletal{}",
+					"{C:attention}Cards{} to your hand",
+				},
+			},
+			sk_mul_wind_gale = {
+				name = "Wind Gale",
+				text = {},
+			},
+			sk_mul_earthen_spikes = {
+				name = "Earthen Spikes",
+				text = {
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
+				},
+			},
+			sk_mul_exorcise_spirit = {
+				name = "Exorcise Spirit",
+				text = {
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
+				},
+			},
+			sk_mul_rude_buster = {
+				name = "Rude Buster",
+				text = {
+					"After use, select up",
+					"to {C:attention}#1#{} discarded cards",
+					"and give them {C:chips}+#2#{}",
+					"Chips permanently",
+				},
+			},
+			sk_mul_juggling = {
+				name = "Juggling",
+				text = {
+					"",
+				},
+			},
+			sk_mul_card_counting = {
+				name = "Card Counting",
+				text = {
+					"Convert the next",
+					"2 cards drawn",
+					"into a random rank",
+				},
+			},
+			sk_mul_sleight_of_hand = {
+				name = "Sleight of Hand",
+				text = {
+					"{C:attention}Exhaust{}",
+					"Gain {C:attention}#1#{} hand and",
+					"{C:attention}#1#{} discard this round",
+				},
+			},
+			sk_mul_foresight = {
+				name = "Foresight",
+				text = {
+					"",
+					"",
+				},
+			},
 		},
 		Enhanced = {
 			m_mul_calling_card = {
@@ -2314,6 +2542,9 @@ return {
 					"{C:green}#1# in #2#{} chance to",
 					"return to {C:attention}hand{} after",
 					"being played or discarded",
+					"{C:inactive}(Cards with this{}",
+					"{C:attention}Sticker{C:inactive} are treated{}",
+					"{C:inactive}as {C:attention}Status Cards{C:inactive})",
 				},
 			},
 			undiscovered_mul_myth = {

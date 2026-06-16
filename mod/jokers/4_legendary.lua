@@ -36,8 +36,8 @@ Multiverse.UsableJoker({
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost)
-			Multiverse.ease_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost)
+			Multiverse.ease_TP(-card.ability.extra.tp_cost, { immediate = true })
+			Multiverse.ease_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost, { immediate = true })
 			add_tag(Tag("tag_mul_dimensional", false, "Small"))
 		end)
 	end,
@@ -98,7 +98,7 @@ Multiverse.UsableJoker({
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost)
+			Multiverse.ease_TP(-card.ability.extra.tp_cost, { immediate = true })
 			local singularity_vals = Multiverse.calculate_singularity_values()
 			local cards_to_destroy = Multiverse.filter(G.hand.cards, function(item)
 				return not (

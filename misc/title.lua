@@ -55,17 +55,6 @@ function Game:main_menu(change_context, ...)
 	function G.SPLASH_MULTIVERSE_LOGO:stop_hover()
 		Node.stop_hover(self)
 	end
-	G.SPLASH_BACK:define_draw_steps({
-		{
-			shader = "splash",
-			send = {
-				{ name = "time", ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
-				{ name = "vort_speed", val = 0.4 },
-				{ name = "colour_1", ref_table = Multiverse.C, ref_value = "TRANSMUTED_GRADIENT_SLOW" },
-				{ name = "colour_2", ref_table = Multiverse.C, ref_value = "SECONDARY" },
-			},
-		},
-	})
 	return ret
 end
 

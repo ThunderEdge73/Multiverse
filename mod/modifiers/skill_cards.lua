@@ -333,20 +333,7 @@ Multiverse.SkillCard({
 						trigger = "after",
 						delay = 0.3,
 						func = function()
-							Multiverse.ease_TP(amt)
-							G.E_MANAGER:add_event(Event({
-								func = function()
-									G.STATE = G.STATES.DRAW_TO_HAND
-									G.E_MANAGER:add_event(Event({
-										trigger = "immediate",
-										func = function()
-											G.STATE_COMPLETE = false
-											return true
-										end,
-									}))
-									return true
-								end,
-							}))
+							Multiverse.ease_TP(amt, { immediate = true })
 							return true
 						end,
 					}))
@@ -372,8 +359,8 @@ Multiverse.SkillCard({
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
 			local amt = G.GAME.mul_thaumaturgy_energy
-			Multiverse.ease_thaumaturgy_energy(-amt)
-			Multiverse.ease_TP(amt)
+			Multiverse.ease_thaumaturgy_energy(-amt, { immediate = true })
+			Multiverse.ease_TP(amt, { immediate = true })
 		end)
 		return "exhaust"
 	end,
@@ -666,5 +653,25 @@ Multiverse.SkillCard({
 	end,
 	can_use_skill = function(self, card)
 		return #G.discard.cards > 0
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "larceny",
+	tp_cost = 20,
+	mul_sneaky = true,
+	config = { extra = { money = 5 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_sneaky"]
+		return {
+			vars = {
+				card.ability.extra.money,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			ease_dollars(card.ability.extra.money, true)
+		end)
 	end,
 })
