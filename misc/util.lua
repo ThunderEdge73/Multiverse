@@ -577,7 +577,7 @@ G.FUNCS.mul_draw_from_exhausted_to_deck = function(e)
 end
 
 ---@param cards Card[] | Card
-function Multiverse.exhaust_cards(cards)
+function Multiverse.exhaust_cards(cards, from_skill_use)
 	if not cards[1] then
 		cards = { cards }
 	end
@@ -594,14 +594,14 @@ function Multiverse.exhaust_cards(cards)
 		end
 		card:mul_safe_dissolve({ G.C.BLUE }, true, nil, true)
 		draw_card(
-			card.area,
+			from_skill_use and G.play or card.area,
 			G.mul_exhaust,
 			i * 100 / #cards,
 			"down",
 			false,
 			card,
 			0.005,
-			i % 2 == 0,
+			true,
 			nil,
 			math.max((21 - i) / 20, 0.7)
 		)
@@ -868,4 +868,3 @@ end
 function Multiverse.is_status_card(card)
 	return SMODS.is_playing_card(card) and (card.config.center.mul_status or card.ability.mul_webbed)
 end
-

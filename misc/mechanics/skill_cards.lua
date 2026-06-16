@@ -206,6 +206,59 @@ G.FUNCS.mul_can_use_skill = function(e)
 	end
 end
 
+function Multiverse.handle_sneaky_trigggers(cards)
+	local prev_state = G.STATE
+	G.TAROT_INTERRUPT = G.STATE
+	G.STATE = G.STATES.PLAY_TAROT
+	G.CONTROLLER.locks.use = true
+	for i, c in ipairs(cards) do
+		delay(0.2)
+		draw_card(G.hand, G.play, i * 100 / #cards, "up", nil, c)
+		delay(0.2)
+	end
+	for _, c in ipairs(cards) do
+		local center = c.config.center
+		delay(0.2)
+		local res = center:use_skill(c, 0, G.GAME.mul_x_boost) or "discard"
+		delay(0.6)
+		if res == "discard" then
+			c.ability.discarded = true
+			draw_card(G.play, G.discard, 100, "down", false, c)
+		elseif res == "retain" then
+			draw_card(G.play, G.hand, 100, "up", false, c)
+		elseif res == "destroy" then
+			SMODS.destroy_cards(c, { immediate = true })
+		else
+			Multiverse.exhaust_cards(c, true)
+		end
+	end
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.2,
+		func = function()
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					G.STATE = prev_state
+					G.TAROT_INTERRUPT = nil
+					G.CONTROLLER.locks.use = false
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					save_run()
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
+end
+
 G.FUNCS.mul_use_skill = function(e)
 	local card = e.config.ref_table
 	local center = card.config.center
@@ -218,10 +271,8 @@ G.FUNCS.mul_use_skill = function(e)
 	if center.tp_cost == "X" then
 		x = paid + G.GAME.mul_x_boost
 	end
-	if not e.sneaky_trigger then
-		Multiverse.ease_TP(-paid, { from_skill = true })
-	end
-	draw_card(G.hand, G.play, 1, "up", true, card)
+	Multiverse.ease_TP(-paid, { from_skill = true, immediate = true })
+	draw_card(G.hand, G.play, 1, "up", true, card, nil, true)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"
 	delay(0.6)
@@ -231,14 +282,9 @@ G.FUNCS.mul_use_skill = function(e)
 	elseif res == "retain" then
 		draw_card(G.play, G.hand, 100, "up", false, card)
 	elseif res == "destroy" then
-		SMODS.destroy_cards(card, true)
+		SMODS.destroy_cards(card, { immediate = true })
 	else
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				Multiverse.exhaust_cards(card)
-				return true
-			end,
-		}))
+		Multiverse.exhaust_cards(card, true)
 	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",

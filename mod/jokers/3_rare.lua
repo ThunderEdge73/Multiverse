@@ -133,23 +133,12 @@ SMODS.Joker({
 	attributes = { "discard", "xmult", "scaling", "destroy_card", "transmutable" },
 	calculate = function(self, card, context)
 		if not context.blueprint then
-			if context.mul_dragon_transmute_check or context.playing_card_added then
-				local amt = 1
-				if context.cards then
-					amt = 0
-					for _, c in ipairs(context.cards) do
-						if
-							SMODS.has_enhancement(c, "m_stone")
-							or SMODS.has_enhancement(c, "m_steel")
-							or SMODS.has_enhancement(c, "m_gold")
-						then
-							amt = amt + 1
-						end
-					end
-				end
-				if amt > 0 then
-					Multiverse.increment_transmute_progress(card, amt)
-				end
+			if
+				context.setting_ability
+				and Multiverse.contains_value({ "m_gold", "m_steel", "m_stone" }, context.new)
+				and not context.unchanged
+			then
+				Multiverse.increment_transmute_progress(card, 1)
 			end
 			if context.discard and context.other_card:get_id() == 13 then
 				SMODS.scale_card(card, {
@@ -172,18 +161,6 @@ SMODS.Joker({
 	mul_grail = { "c_tower", "c_chariot", "c_devil" },
 	mul_tree_of_eden = { "j_midas_mask", "j_marble" },
 })
-
-local set_ability_hook = Card.set_ability
-function Card:set_ability(center, initial, delay_sprites, ...)
-	if
-		self.playing_card
-		and (center.key == "m_stone" or center.key == "m_steel" or center.key == "m_gold")
-		and self.config.center_key ~= center.key
-	then
-		SMODS.calculate_context({ mul_dragon_transmute_check = true })
-	end
-	set_ability_hook(self, center, initial, delay_sprites, ...)
-end
 
 SMODS.Joker({
 	key = "whispering_earring",
@@ -208,7 +185,7 @@ SMODS.Joker({
 		end
 		if context.after then
 			return {
-				message = localize("k_mul_thats_better")
+				message = localize("k_mul_thats_better"),
 			}
 		end
 		if context.hand_drawn and context.first_hand_drawn then

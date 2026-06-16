@@ -14,7 +14,7 @@ payload = '''
 if not G.deck_preview and G.STATE == G.STATES.MULTIVERSE_INTERACTION_HAND then
     desired_y = desired_y - 1.9
 elseif not G.deck_preview and Multiverse.in_interaction() then
-    desired_y = G.TILE_H - G.hand.T.h + 4
+    desired_y = G.TILE_H - G.hand.T.h + 4.3
 end
 '''
 match_indent = true
