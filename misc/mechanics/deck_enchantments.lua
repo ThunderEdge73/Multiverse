@@ -771,8 +771,7 @@ function Multiverse.generate_enchantment_details_UIBox(enchantment_center)
 									config = {
 										text = Multiverse.parse_vars(localize("k_mul_level_info"), {
 											enchantment_center:get_level(),
-											enchantment_center.max_level == math.huge
-													and localize("k_mul_infinity")
+											enchantment_center.max_level == math.huge and localize("k_mul_infinity")
 												or enchantment_center.max_level,
 										}),
 										colour = G.C.UI.TEXT_LIGHT,
@@ -876,7 +875,7 @@ function Multiverse.generate_enchantment_details_UIBox(enchantment_center)
 				colour = Multiverse.C.DECK_ENCHANTMENT,
 				bg_colour = { 0, 0, 0, 0.15 },
 				scroll_collision_obj = scrollbox,
-				scroll_mult = 1.2,
+				scroll_mult = 1.8,
 			})
 			bar.config.align = "cm"
 			rows[#rows + 1] = bar
@@ -1155,6 +1154,15 @@ function Multiverse.detailed_enchantment_info_UI_def()
 			},
 		},
 	}
+end
+
+local start_run = G.start_run
+function G:start_run(args, ...)
+	local ret = start_run(self, args, ...)
+	if G.mul_deck_enchantment_info then
+		G.mul_deck_enchantment_info:remove()
+		G.mul_deck_enchantment_info = nil
+	end
 end
 
 function Multiverse.update_deck_enchantments()
