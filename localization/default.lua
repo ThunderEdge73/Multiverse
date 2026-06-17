@@ -329,6 +329,18 @@ return {
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
+			psv_mul_disintegration = {
+				name = "Disintegration",
+				text = {
+					
+				},
+			},
+			psv_mul_dazed = {
+				name = "Dazed",
+				text = {
+					
+				},
+			},
 		},
 		mul_DeckEnchantment = {
 			de_mul_dark_affinity = {
@@ -1270,7 +1282,9 @@ return {
 			sk_mul_megidolaon = {
 				name = "Megidolaon",
 				text = {
-					"",
+					"{C:attention}Ultimate{}",
+					"All cards in your",
+					"hand become {C:dark_edition}Almighty",
 				},
 			},
 			sk_mul_wish = {
@@ -1327,10 +1341,9 @@ return {
 				name = "Bloodletting",
 				text = {
 					"Gain {C:attention}#1#%{} TP",
-					"Lose Score equal",
-					"to {C:attention}half{} of the",
-					"current Blind",
-					"requirement",
+					"All cards in hand",
+					"permanently lose",
+					"{C:mult}#1#{} Mult",
 				},
 			},
 			sk_mul_eldritch_blast = {
@@ -1349,32 +1362,26 @@ return {
 			sk_mul_chaos_form = {
 				name = "Chaos Form",
 				text = {
-					"",
+					"{C:attention}Innate{}",
 				},
 			},
 			sk_mul_hyper_beam = {
 				name = "Hyper Beam",
 				text = {
-					"Exhaust",
+					"{C:attention}Exhaust{}",
 				},
 			},
 			sk_mul_storm_ritual = {
 				name = "Storm Ritual",
 				text = {
-					"",
-					"After use, select up",
-					"to {C:attention}#1#{} discarded cards",
-					"and give them {C:chips}+#2#{}",
-					"Chips permanently",
+					"For each Skill Card",
+					"used this Blind,",
 				},
 			},
 			sk_mul_waterbending = {
 				name = "Waterbending",
 				text = {
-					"After use, select up",
-					"to {C:attention}#1#{} discarded cards",
-					"and give them {C:chips}+#2#{}",
-					"Chips permanently",
+					"",
 				},
 			},
 			sk_mul_vine_growth = {
