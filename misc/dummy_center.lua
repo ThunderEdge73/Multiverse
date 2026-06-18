@@ -168,3 +168,15 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "sneaky",
 })
+
+Multiverse.DummyCenter({
+	key = "priority",
+})
+
+Multiverse.DummyCenter({
+	key = "innate",
+})
+
+Multiverse.DummyCenter({
+	key = "buried",
+})

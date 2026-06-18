@@ -140,6 +140,17 @@ SMODS.Joker({
 			then
 				Multiverse.increment_transmute_progress(card, 1)
 			end
+			if context.playing_card_added then
+				local amt = 0
+				for _, c in ipairs(context.cards) do
+					if Multiverse.contains_value({ "m_gold", "m_steel", "m_stone" }, c.config.center_key) then
+						amt = amt + 1
+					end
+				end
+				if amt > 0 then
+					Multiverse.increment_transmute_progress(card, amt)
+				end
+			end
 			if context.discard and context.other_card:get_id() == 13 then
 				SMODS.scale_card(card, {
 					ref_table = card.ability.extra,

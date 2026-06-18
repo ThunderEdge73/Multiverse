@@ -1,0 +1,49 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+dump_lua = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+local n = 0
+'''
+position = "after"
+payload = '''
+if G.GAME.blind.in_blind then
+    Multiverse.sort_deck_by_priority()
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/common_events.lua'''
+pattern = '''
+SMODS.compat_0_9_8.generate_UIBox_ability_table_card = nil
+'''
+position = "before"
+payload = '''
+local has_priority_mod = false
+if card and card.ability then
+    has_priority_mod = (card.ability.mul_temp_priority or 0) ~= 0 or (card.ability.mul_perma_priority or 0) ~= 0
+end
+if not hide_desc and has_priority_mod then
+    info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_priority"]
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = '''
+nominal_chips = self.base.nominal ~= 0 and self.base.nominal or nil,
+'''
+position = "after"
+payload = '''
+mul_perma_priority = self.ability.mul_perma_priority,
+mul_temp_priority = self.ability.mul_temp_priority,
+'''
+match_indent = true

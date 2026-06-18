@@ -660,7 +660,7 @@ Multiverse.SkillCard({
 	key = "larceny",
 	tp_cost = 20,
 	mul_sneaky = true,
-	config = { extra = { money = 5 } },
+	config = { extra = { money = 6 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_sneaky"]
 		return {

@@ -325,3 +325,14 @@ function SMODS.is_playing_card(card, ...)
 	local set = (card.ability or {}).set or ((card.config or {}).center or {}).set
 	return is_playing_card_hook(card, ...) or set == "mul_Skill"
 end
+
+local localize_bonuses_hook = SMODS.localize_perma_bonuses
+function SMODS.localize_perma_bonuses(specific_vars, desc_nodes, ...)
+	localize_bonuses_hook(specific_vars, desc_nodes, ...)
+	if specific_vars and specific_vars.mul_perma_priority then
+		localize({ type = "other", key = "mul_perma_priority", nodes = desc_nodes, vars = { SMODS.signed(specific_vars.mul_perma_priority) } })
+	end
+	if specific_vars and specific_vars.mul_temp_priority then
+		localize({ type = "other", key = "mul_temp_priority", nodes = desc_nodes, vars = { SMODS.signed(specific_vars.mul_temp_priority) } })
+	end
+end

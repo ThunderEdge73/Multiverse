@@ -74,6 +74,18 @@ end
 
 SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
+	if context.mul_calc_priority then
+		ret[#ret + 1] = {
+			innate = context.other_card.config.center.mul_innate,
+			buried = context.other_card.config.center.mul_buried,
+		}
+	end
+	if context.fix_probability and G.GAME.mul_chaos_form then
+		return {
+			numerator = 1,
+			denominator = 2,
+		}
+	end
 	if context.setting_blind then
 		if next(SMODS.find_card("c_mul_eggman")) and not G.GAME.mul_eggman_secret then
 			Multiverse.eggman_secret()
@@ -91,6 +103,11 @@ SMODS.current_mod.calculate = function(self, context)
 		if context.beat_boss then
 			G.GAME.mul_num_bosses_defeated = (G.GAME.mul_num_bosses_defeated or 0) + 1
 		end
+		Multiverse.apply_to_playing_cards(function(playing_card)
+			if playing_card.ability.mul_temp_priority then
+				playing_card.ability.mul_temp_priority = nil
+			end
+		end)
 	end
 	if context.mul_philosophers_stone_check and not context.game_over and context.main_eval then
 		G.E_MANAGER:add_event(Event({

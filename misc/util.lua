@@ -868,3 +868,59 @@ end
 function Multiverse.is_status_card(card)
 	return SMODS.is_playing_card(card) and (card.config.center.mul_status or card.ability.mul_webbed)
 end
+
+function Multiverse.calc_priority(card)
+	if not SMODS.is_playing_card(card) then
+		return 0
+	end
+	local res = {}
+	local priority = (card.ability.mul_temp_priority or 0) + (card.ability.mul_perma_priority or 0)
+	SMODS.calculate_context({ mul_calc_priority = true, other_card = card }, res)
+	local is_innate = false
+	local is_buried = false
+	for _, eff in pairs(res) do
+		for _, tab in pairs(eff) do
+			if tab.mod_priority then
+				priority = priority + math.floor(tab.mod_priority)
+			end
+			if tab.innate then
+				is_innate = true
+				break
+			end
+			if tab.buried then
+				is_buried = false
+				break
+			end
+		end
+	end
+	if is_innate then
+		return math.huge
+	end
+	if is_buried then
+		return -math.huge
+	end
+	return priority
+end
+
+function Multiverse.sort_deck_by_priority()
+	local cards = G.deck.cards
+	local priorities = {}
+	local card_priority_map = {}
+	for _, card in ipairs(cards) do
+		local p = Multiverse.calc_priority(card)
+		if not card_priority_map[p] then
+			priorities[#priorities + 1] = p
+			card_priority_map[p] = { card }
+		else
+			card_priority_map[p][#card_priority_map[p] + 1] = card
+		end
+	end
+	table.sort(priorities)
+	local final_list = {}
+	for _, priority_level in ipairs(priorities) do
+		for _, card in ipairs(card_priority_map[priority_level]) do
+			final_list[#final_list + 1] = card
+		end
+	end
+	G.deck.cards = final_list
+end

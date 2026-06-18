@@ -157,6 +157,32 @@ return {
 					"its TP cost",
 				},
 			},
+			du_mul_priority = {
+				name = "Priority",
+				text = {
+					"Drawn {C:attention}before{} cards",
+					"with lower priority",
+					"All {C:attention}playing cards{}",
+					"initially have",
+					"{C:attention}0{} priority",
+				}
+			},
+			du_mul_innate = {
+				name = "Innate",
+				text = {
+					"Drawn {C:attention}before{} all",
+					"other cards",
+					"Ignores priority",
+				}
+			},
+			du_mul_buried = {
+				name = "Buried",
+				text = {
+					"Drawn {C:attention}after{} all",
+					"other cards",
+					"Ignores priority",
+				}
+			},
 		},
 		Blind = {
 			bl_mul_limbo = {
@@ -329,16 +355,14 @@ return {
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
-			psv_mul_disintegration = {
-				name = "Disintegration",
-				text = {
-					
-				},
-			},
 			psv_mul_dazed = {
 				name = "Dazed",
 				text = {
-					
+					"After drawing cards,",
+					"draw {C:attention}1{} extra card",
+					"Remove {C:attention}1{} stack",
+					"after drawing cards",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
 		},
@@ -1203,7 +1227,8 @@ return {
 				name = "Prepared",
 				text = {
 					"Draw {C:attention}#1#{} card",
-					"Discard {C:attention}#1#{} card",
+					"After use, discard",
+					"{C:attention}#1#{} card",
 				},
 			},
 			sk_mul_supplements = {
@@ -1247,9 +1272,10 @@ return {
 					"{C:tarot}Purple",
 				},
 				text = {
-					"Applies {C:attention}#1#{} stacks of",
-					"{C:attention}Disintegration{} to",
-					"the current {C:attention}Blind{}",
+					"{C:attention}Exhaust{}",
+					"Destroy all",
+					"cards in hand",
+					"Set TP to {C:attention}0%{}",
 				},
 			},
 			sk_mul_falcon_punch = {
@@ -1291,9 +1317,10 @@ return {
 				name = "Wish",
 				text = {
 					"{C:attention}Ultimate, Impervious{}",
-					"Earn {C:money}$#1#{}, level up",
-					"all {C:legendary,E:1}poker hands{},",
-					"and create a random",
+					"Earn {C:money}$#1#{}",
+					"Level up all",
+					"{C:legendary,E:1}poker hands{}",
+					"Create a random",
 					"{C:dark_edition}Negative{} {C:mul_transmuted}Myth Card{}",
 				},
 			},
@@ -1312,16 +1339,18 @@ return {
 					"Ballistic Missile",
 				},
 				text = {
-					"",
-					"",
+					"{X:purple,C:white}X#1#{} Blind Size",
+					"Destroy a {C:attention}random{}",
+					"card in your hand",
+					"and cards {C:attention}adjacent{}",
+					"to it",
 				},
 			},
-			sk_mul_dark_magic_attack = {
-				name = "Dark Magic Attack",
+			sk_mul_calc_gamble = {
+				name = "Calculated Gamble",
 				text = {
-					"",
-					"",
-					"",
+					"{C:attention}Exhaust{}",
+					"Discard your hand",
 				},
 			},
 			sk_mul_larceny = {
@@ -1334,7 +1363,11 @@ return {
 			sk_mul_ray_of_doom = {
 				name = "Ray of Doom",
 				text = {
-					"",
+					"{C:attention}Ultimate{}",
+					"A random card in",
+					"hand permanently",
+					"gains {C:mult}+#1#{} Mult",
+					"Repeat this {C:attention}#2#{} times",
 				},
 			},
 			sk_mul_bloodletting = {
@@ -1350,105 +1383,133 @@ return {
 				name = "Eldritch Blast",
 				text = {
 					"{C:attention}Ethereal{}",
-					"",
+					"Gain {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
+					"Thaumaturgy Energy",
+					"{X:purple,C:white}X#1#{} Blind Size",
 				},
 			},
-			sk_mul_telekinesis = {
-				name = "Telekinesis",
+			sk_mul_haste = {
+				name = "Haste",
 				text = {
-					"",
+					"{C:attention}Impulse{}",
+					"After use, up to {C:attention}#1#{} selected",
+					"cards permanently gain",
+					"{C:attention}+#2#{} priority",
 				},
 			},
 			sk_mul_chaos_form = {
 				name = "Chaos Form",
 				text = {
 					"{C:attention}Innate{}",
+					"For this round, set",
+					"all {C:green}probabilities",
+					"to {C:green}1 in 2{}",
 				},
 			},
 			sk_mul_hyper_beam = {
 				name = "Hyper Beam",
 				text = {
-					"{C:attention}Exhaust{}",
+					"{X:purple,C:white}X#1#{} Blind Size",
+					"Other {C:attention}Skill Cards{}",
+					"cost {C:attention}#2#%{} more TP",
+					"this round",
 				},
 			},
 			sk_mul_storm_ritual = {
 				name = "Storm Ritual",
 				text = {
-					"For each Skill Card",
-					"used this Blind,",
+					"{C:attention}Buried{}",
+					"For each {C:attention}Skill Card{}",
+					"used this {C:attention}Blind{},",
+					"apply {C:attention}1{} stack of",
+					"{C:attention}Shocked{} to the",
+					"current {C:attention}Blind{}",
 				},
 			},
 			sk_mul_waterbending = {
 				name = "Waterbending",
 				text = {
-					"",
+					"You can play up",
+					"to {C:attention}#1#{} cards in",
+					"the next hand",
 				},
 			},
 			sk_mul_vine_growth = {
 				name = "Vine Growth",
 				text = {
-					"After use, select up",
-					"to {C:attention}#1#{} discarded cards",
-					"and give them {C:chips}+#2#{}",
-					"Chips permanently",
+					"Up to {C:attention}#1#{} random",
+					"Enhanced cards in",
+					"deck gain {C:attention}+#2#{}",
+					"priority this round",
 				},
 			},
 			sk_mul_raise_undead = {
 				name = "Raise Undead",
 				text = {
-					"Add {C:attention}#1#{} random {C:attention}Skeletal{}",
-					"{C:attention}Cards{} to your hand",
+					"{C:attention}Buried{}",
+					"After use, select",
+					"{C:attention}#1#{} discarded card",
+					"Add {C:attention}#2#{} copies of that",
+					"card into your hand",
+					"The copies become",
+					"{C:attention}Skeletal Cards{}",
 				},
 			},
 			sk_mul_wind_gale = {
 				name = "Wind Gale",
-				text = {},
+				text = {
+					"Add the bottom",
+					"{C:attention}#1#{} cards of your",
+					"deck to hand",
+				},
 			},
 			sk_mul_earthen_spikes = {
 				name = "Earthen Spikes",
 				text = {
-					"After use, select up",
-					"to {C:attention}#1#{} discarded cards",
-					"and give them {C:chips}+#2#{}",
-					"Chips permanently",
+					"Apply {C:attention}#1#{} stacks of",
+					"{C:attention}Spiky Terrain{} to",
+					"the current {C:attention}Blind{}",
 				},
 			},
 			sk_mul_exorcise_spirit = {
 				name = "Exorcise Spirit",
 				text = {
-					"After use, select up",
-					"to {C:attention}#1#{} discarded cards",
-					"and give them {C:chips}+#2#{}",
-					"Chips permanently",
+					"After use, {C:attention}Exhaust{}",
+					"up to {C:attention}#1#{} selected",
+					"cards in hand",
 				},
 			},
 			sk_mul_rude_buster = {
 				name = "Rude Buster",
 				text = {
-					"After use, select up",
-					"to {C:attention}#1#{} discarded cards",
-					"and give them {C:chips}+#2#{}",
-					"Chips permanently",
+					"{C:attention}Retain{}",
+					"{X:purple,C:white}X#1#{} Blind Size",
 				},
 			},
 			sk_mul_juggling = {
 				name = "Juggling",
 				text = {
-					"",
+					"Earn {C:money}$#1#{} for each",
+					"card drawn while",
+					"this card is held",
+					"in your hand",
 				},
 			},
 			sk_mul_card_counting = {
 				name = "Card Counting",
 				text = {
-					"Convert the next",
-					"2 cards drawn",
-					"into a random rank",
+					"{C:attention}Ethereal, Sneaky{}",
+					"Draw {C:attention}#1#{} cards",
+					"The drawn cards",
+					"become {C:attention}#2#{}",
+					"{C:inactive}(Rank changes at",
+					"{C:inactive}end of round)",
 				},
 			},
 			sk_mul_sleight_of_hand = {
 				name = "Sleight of Hand",
 				text = {
-					"{C:attention}Exhaust{}",
+					"{C:attention}Exhaust, Sneaky{}",
 					"Gain {C:attention}#1#{} hand and",
 					"{C:attention}#1#{} discard this round",
 				},
@@ -1456,8 +1517,13 @@ return {
 			sk_mul_foresight = {
 				name = "Foresight",
 				text = {
-					"",
-					"",
+					"{C:attention}Innate, Exhaust{}",
+					"After use, select a",
+					"discarded card",
+					"Cards with the same",
+					"rank or suit as that",
+					"selected card gain {C:attention}+#2#{}",
+					"priority this round",
 				},
 			},
 		},
@@ -1573,6 +1639,16 @@ return {
 					"additional {C:chips}+#1#{} Chips",
 					"{C:attention}Left Hand{} gives an",
 					"additional {X:mult,C:white}X#3#{} Mult",
+				},
+			},
+			m_mul_skeletal = {
+				name = "Skeletal Card",
+				text = {
+					"{C:mult}+#1#{} Mult",
+					"{C:mult}-#2#{} Mult when played",
+					"and scoring",
+					"{C:red,E:2}Self-destructs{} at",
+					"{C:mult}0{} Mult",
 				},
 			},
 		},
@@ -2791,6 +2867,17 @@ return {
 					"and will {C:attention}stop{} applying its effects",
 					"{C:inactive}(Note that this card will receive{}",
 					"{C:inactive}Eternal while it is active){}",
+				},
+			},
+			mul_perma_priority = {
+				text = {
+					"Has {C:attention}#1#{} priority",
+				},
+			},
+			mul_temp_priority = {
+				text = {
+					"Has {C:attention}#1#{} priority",
+					"this round",
 				},
 			},
 			--#endregion

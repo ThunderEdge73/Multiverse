@@ -149,3 +149,9 @@ SMODS.Atlas({
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 21,
 })
+SMODS.Atlas({
+	key = "crossmod",
+	px = 71,
+	py = 95,
+	path = "crossmod.png",
+})
