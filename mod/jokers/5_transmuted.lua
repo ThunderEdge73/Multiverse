@@ -127,7 +127,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
-	attributes = { "usable", "hand_size", "modify_card", "scaling", "generation", "tp", "economy" },
+	attributes = { "usable", "hand_size", "modify_card", "scaling", "generation", "tp", "economy", "passive" },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, G.P_CENTERS.m_mul_netherite)
 		table.insert(info_queue, {
@@ -314,7 +314,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
-	attributes = { "hands", "retrigger", "scaling", "usable", "tp" },
+	attributes = { "hands", "retrigger", "scaling", "usable", "tp", "passive" },
 	loc_vars = function(self, info_queue, card)
 		table.insert(info_queue, {
 			set = "Other",
@@ -494,7 +494,7 @@ Multiverse.UsableJoker({
 	rarity = "mul_transmuted",
 	blueprint_compat = false,
 	cost = 40,
-	attributes = { "modify_card", "usable", "tp" },
+	attributes = { "modify_card", "usable", "tp", "passive" },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
 		table.insert(info_queue, {

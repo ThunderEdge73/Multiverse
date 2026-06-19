@@ -80,7 +80,7 @@ end
 
 ---@param card Card
 function Multiverse.can_receive_transmutable(card)
-	return card and card:has_attribute("transmutable")
+	return card and card.config.center.has_attribute and card:has_attribute("transmutable")
 end
 
 ---Will now safely return and do nothing if the card cannot become transmutable

@@ -1208,7 +1208,7 @@ function Multiverse.get_valid_enchantment_level_ups(key, other, source)
 	then
 		return levels
 	end
-	if key == "de_mul_overflow" or key == "de_mul_" then
+	if key == "de_mul_overflow" or key == "de_mul_apathy" then
 		return { 1, 2, 3 }
 	end
 	local curr_level = obj:get_level()

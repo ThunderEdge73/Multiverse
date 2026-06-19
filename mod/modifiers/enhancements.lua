@@ -271,7 +271,7 @@ SMODS.Enhancement({
 	key = "right_hand",
 	pos = { x = 2, y = 1 },
 	atlas = "contributors",
-	config = { extra_slots_used = -1, extra = { chips = 10 } },
+	config = { extra_slots_used = -1, extra = { chips = 25 } },
 	weight = 0,
 	always_scores = true,
 	no_suit = true,

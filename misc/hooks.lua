@@ -53,7 +53,7 @@ function Card:set_sprites(_center, _front, ...)
 			self.children.mul_hitbox_indicator:set_role({ major = self, role_type = "Glued", draw_major = self })
 		end
 	end
-	if self.config.center.set == "Joker" and Multiverse.can_receive_transmutable(self) then
+	if Multiverse.can_receive_transmutable(self) then
 		if not self.children.transmutable_target then
 			self.children.transmutable_target =
 				SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, "mul_transmutable_target", { x = 0, y = 0 })

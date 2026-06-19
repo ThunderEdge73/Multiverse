@@ -17,7 +17,9 @@ SMODS.Edition({
 	weight = 4,
 	in_shop = true,
 	in_pool = function(self, args)
-		if args and args.source == "sta" then return false end
+		if args and args.source == "sta" then
+			return false
+		end
 		if G.jokers then
 			for _, j in ipairs(G.jokers.cards) do
 				if j:is_rarity("mul_transmuted") or j.ability.mul_transmutable then
@@ -50,5 +52,38 @@ SMODS.Edition({
 			}, card)
 			Multiverse.ease_thaumaturgy_energy(card.edition.extra.thaum_energy, { from_charge = true })
 		end
+	end,
+})
+
+SMODS.Shader({
+	key = "almighty",
+	path = "almighty.fs",
+})
+
+SMODS.Edition({
+	key = "almighty",
+	shader = "almighty",
+	extra_cost = 6,
+	weight = 3,
+	in_shop = false,
+	config = { extra = { xscore = 1.1 } },
+	calculate = function(self, card, context)
+		if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
+			return {
+				xscore = card.edition.extra.xscore,
+			}
+		end
+		if context.debuff_card == card then
+			return {
+				prevent_debuff = true
+			}
+		end
+	end,
+	loc_vars = function (self, info_queue, card)
+		return {
+			vars = {
+				card.edition.extra.xscore
+			}
+		}
 	end,
 })

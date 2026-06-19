@@ -1661,6 +1661,14 @@ return {
 					"Energy at end of round",
 				},
 			},
+			e_mul_almighty = {
+				name = "Almighty",
+				text = {
+					"Cannot be",
+					"{C:red}debuffed{}",
+					"{X:attention,C:white}X#1#{} Score",
+				},
+			},
 		},
 		mul_Myth = {
 			c_mul_philosophers_stone = {
@@ -3179,6 +3187,7 @@ return {
 			-- skill = "Skill Card",
 			k_mul_transmuted = "Transmuted",
 			mul_hyperdimensional = "Hyperdimensional",
+			mul_almighty = "Almighty",
 			mul_frozen_seal = "Frozen Seal",
 		},
 		v_dictionary = {

@@ -2,6 +2,8 @@ extern float stage;
 extern vec2 pos;
 extern float time;
 
+float PI = 3.14159265359;
+
 vec3 blend( vec3 c1, vec3 c2, float c1_bias) {
     return c1 * c1_bias + c2 * (1 - c1_bias);
 }
@@ -15,7 +17,6 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     float rays = ceil(min(stage, 3.0)) * 4;
     float angle = atan(screen_coords.y - pos.y, screen_coords.x - pos.x);
 
-    float PI = 3.14159265359;
     float dist = distance(screen_coords, pos);
     for (int i = 0; i < rays; i++) {
         if (screen_coords.y - pos.y == 0 && screen_coords.x - pos.x == 0) {
