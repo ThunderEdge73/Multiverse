@@ -238,17 +238,24 @@ end
 ---Animation for consumable-like effects
 ---@param card Card The card that is applying its effect
 ---@param func fun(): nil The effect to apply
-function Multiverse.effect_animation(card, func)
-	G.E_MANAGER:add_event(Event({
-		trigger = "after",
-		delay = 0.4,
-		func = function()
-			func()
-			card:juice_up(0.3, 0.5)
-			return true
-		end,
-	}))
-	delay(0.6)
+---@param no_event boolean?
+function Multiverse.effect_animation(card, func, no_event)
+	if no_event then
+		delay(0.4)
+		func()
+		delay(0.6)
+	else
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.4,
+			func = function()
+				func()
+				card:juice_up(0.3, 0.5)
+				return true
+			end,
+		}))
+		delay(0.6)
+	end
 end
 
 ---@param trigger_card Card
@@ -923,4 +930,62 @@ function Multiverse.sort_deck_by_priority()
 		end
 	end
 	G.deck.cards = final_list
+end
+
+function Multiverse.draw_card(from, to, percent, dir, sort, card, delay, mute, stay_flipped, vol, discarded_only)
+	percent = percent or 50
+	delay = delay or 0.1
+	if dir == "down" then
+		percent = 1 - percent
+	end
+	sort = sort or false
+	local drawn = nil
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		delay = delay,
+		func = function()
+			if card then
+				if from then
+					card = from:remove_card(card)
+				end
+				if card then
+					drawn = true
+				end
+				local stay_flipped = G.GAME and G.GAME.blind and G.GAME.blind:stay_flipped(to, card, from)
+				if SMODS.to_area then
+					to = SMODS.to_area
+					SMODS.to_area = nil
+				end
+				if G.GAME.modifiers.flipped_cards and to == G.hand then
+					if pseudorandom(pseudoseed("flipped_card")) < 1 / G.GAME.modifiers.flipped_cards then
+						stay_flipped = true
+					end
+				end
+				to:emplace(card, nil, stay_flipped)
+			else
+				card = to:draw_card_from(from, stay_flipped, discarded_only)
+				if card then
+					drawn = true
+				end
+			end
+			if not mute and drawn then
+				if
+					from == G.deck
+					or from == G.hand
+					or from == G.play
+					or from == G.jokers
+					or from == G.consumeables
+					or from == G.discard
+				then
+					G.VIBRATION = G.VIBRATION + 0.6
+				end
+				play_sound("card1", 0.85 + percent * 0.2 / 100, 0.6 * (vol or 1))
+			end
+			if sort then
+				to:sort()
+			end
+			return true
+		end,
+	}))
 end

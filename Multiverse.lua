@@ -66,14 +66,28 @@ function Multiverse.handle_debuffs(card)
 	if G.GAME.mul_objection_active and card.playing_card then
 		ret["prevent_debuff"] = true
 	end
-	if card.config.center.mul_impervious then
+	if card.config.center.impervious then
 		ret["prevent_debuff"] = true
 	end
 	return ret
 end
 
+---@type table[]
+Multiverse.drawn_card_modify_queue = {}
+
 SMODS.current_mod.calculate = function(self, context)
 	local ret = {}
+	if context.hand_drawn and context.mul_effect_draw then
+		for i, card in ipairs(context.hand_drawn) do
+			if Multiverse.drawn_card_modify_queue[i] then
+				for key, modifier in pairs(Multiverse.drawn_card_modify_queue[i]) do
+					card.ability[key] = (card.ability[key] or 0) + modifier
+				end
+				Multiverse.drawn_card_modify_queue[i] = nil
+			end
+		end
+		remove_nils(Multiverse.drawn_card_modify_queue)
+	end
 	if context.mul_calc_priority then
 		ret[#ret + 1] = {
 			innate = context.other_card.config.center.mul_innate,
@@ -129,7 +143,7 @@ SMODS.current_mod.calculate = function(self, context)
 	end
 	if context.mul_change_skill_cost then
 		if
-			context.other_card.config.center.mul_impulse
+			context.other_card.config.center.impulse
 			and G.GAME.current_round.hands_played == 0
 			and G.GAME.current_round.discards_used == 0
 		then

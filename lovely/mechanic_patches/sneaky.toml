@@ -14,9 +14,8 @@ end
 '''
 position = "before"
 payload = '''
-elseif G.hand.highlighted[i].ability.set == "mul_Skill" and hook and G.hand.highlighted[i].config.center.mul_sneaky then
+elseif G.hand.highlighted[i].ability.set == "mul_Skill" and hook and G.hand.highlighted[i].config.center.sneaky then
     sneaky_cards[#sneaky_cards + 1] = G.hand.highlighted[i]
-    
 '''
 match_indent = true
 

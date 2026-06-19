@@ -10,12 +10,12 @@ Multiverse.SkillCard({
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		delay(0.4)
-		SMODS.calculate_effect({
-			xblindsize = card.ability.extra.xblindsize,
-			colour = G.C.PURPLE,
-		}, card)
-		delay(0.4)
+		Multiverse.effect_animation(card, function()
+			SMODS.calculate_effect({
+				xblindsize = card.ability.extra.xblindsize,
+				colour = G.C.PURPLE,
+			}, card)
+		end, true)
 	end,
 })
 
@@ -145,7 +145,7 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "objection",
 	tp_cost = 30,
-	mul_impervious = true,
+	impervious = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impervious"]
 	end,
@@ -216,22 +216,22 @@ Multiverse.SkillCard({
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
-		delay(0.4)
-		SMODS.calculate_effect({
-			xblindsize = card.ability.extra.xblindsize,
-			colour = G.C.PURPLE,
-			func = function()
-				Multiverse.modify_passive_stacks(card.ability.extra.status, card.ability.extra.amt)
-			end,
-		}, card)
-		delay(0.4)
+		Multiverse.effect_animation(card, function()
+			SMODS.calculate_effect({
+				xblindsize = card.ability.extra.xblindsize,
+				colour = G.C.PURPLE,
+				func = function()
+					Multiverse.modify_passive_stacks(card.ability.extra.status, card.ability.extra.amt)
+				end,
+			}, card)
+		end, true)
 	end,
 })
 
 Multiverse.SkillCard({
 	key = "rum_seventh",
 	tp_cost = 100,
-	mul_impulse = true,
+	impulse = true,
 	config = { extra = { affected = 2, percent = 100 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ultimate"]
@@ -331,7 +331,7 @@ Multiverse.SkillCard({
 					G.FUNCS.discard_cards_from_highlighted(nil, true)
 					G.E_MANAGER:add_event(Event({
 						trigger = "after",
-						delay = 0.3,
+						delay = 0.4,
 						func = function()
 							Multiverse.ease_TP(amt, { immediate = true })
 							return true
@@ -443,7 +443,7 @@ Multiverse.SkillCard({
 					func = function()
 						local count = #cards
 						for i = 1, count do
-							draw_card(
+							Multiverse.draw_card(
 								G.discard,
 								G.hand,
 								i * 100 / count,
@@ -496,8 +496,8 @@ Multiverse.SkillCard({
 Multiverse.SkillCard({
 	key = "pocket_aces",
 	tp_cost = 20,
-	mul_impulse = true,
-	mul_impervious = true,
+	impulse = true,
+	impervious = true,
 	config = { extra = { cards = 2 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impulse"]
@@ -519,7 +519,7 @@ Multiverse.SkillCard({
 			)
 			local count = #cards
 			for i = 1, count do
-				draw_card(
+				Multiverse.draw_card(
 					G.deck,
 					G.hand,
 					i * 100 / count,
@@ -566,7 +566,7 @@ Multiverse.SkillCard({
 
 Multiverse.SkillCard({
 	key = "prepared",
-	tp_cost = 5,
+	tp_cost = 0,
 	config = { extra = { cards = 1 } },
 	loc_vars = function(self, info_queue, card)
 		return {
@@ -579,38 +579,19 @@ Multiverse.SkillCard({
 		Multiverse.effect_animation(card, function()
 			SMODS.draw_cards(card.ability.extra.cards)
 		end)
-		Multiverse.start_interaction({
-			select_limit = card.ability.extra.cards,
-			area = "hand",
-			can_end_interaction = function()
-				return #G.hand.highlighted == math.min(#G.hand.cards, card.ability.extra.cards)
-			end,
-			display_text = Multiverse.parse_vars(localize("k_mul_prepared"), { card.ability.extra.cards }),
-			end_interaction = function()
-				G.FUNCS.discard_cards_from_highlighted(nil, true)
-				G.E_MANAGER:add_event(Event({
-					trigger = "after",
-					delay = 0.3,
-					func = function()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								G.STATE = G.STATES.DRAW_TO_HAND
-								G.E_MANAGER:add_event(Event({
-									trigger = "immediate",
-									func = function()
-										G.STATE_COMPLETE = false
-										return true
-									end,
-								}))
-								return true
-							end,
-						}))
-						return true
-					end,
-				}))
-			end,
-		})
-		return "exhaust"
+		if #G.hand.cards >= card.ability.extra.cards then
+			Multiverse.start_interaction({
+				select_limit = card.ability.extra.cards,
+				area = "hand",
+				can_end_interaction = function()
+					return #G.hand.highlighted == math.min(#G.hand.cards, card.ability.extra.cards)
+				end,
+				display_text = Multiverse.parse_vars(localize("k_mul_prepared"), { card.ability.extra.cards }),
+				end_interaction = function()
+					G.FUNCS.discard_cards_from_highlighted(nil, true)
+				end,
+			})
+		end
 	end,
 	can_use_skill = function(self, card)
 		return #G.deck.cards >= card.ability.extra.cards
@@ -634,19 +615,13 @@ Multiverse.SkillCard({
 			area = "discard",
 			end_interaction = function()
 				local cards = Multiverse.get_discard_view_selected()
-				G.E_MANAGER:add_event(Event({
-					trigger = "immediate",
-					func = function()
-						for _, c in ipairs(cards) do
-							c.ability.perma_bonus = (c.ability.perma_bonus or 0) + card.ability.extra.chips
-						end
-						return true
-					end,
-				}))
+				for _, c in ipairs(cards) do
+					c.ability.perma_bonus = (c.ability.perma_bonus or 0) + card.ability.extra.chips
+				end
 			end,
 			select_limit = card.ability.extra.affected,
 			display_text = Multiverse.parse_vars(
-				localize("k_mul_dredge"),
+				localize("k_mul_supplements"),
 				{ card.ability.extra.affected, card.ability.extra.chips }
 			),
 		}, card)
@@ -657,9 +632,173 @@ Multiverse.SkillCard({
 })
 
 Multiverse.SkillCard({
+	key = "blue_rose_closer",
+	tp_cost = 0,
+	ethereal = true,
+	config = { extra = { xblindsize = 0.1, hands = 1 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ethereal"]
+		return {
+			vars = {
+				card.ability.extra.hands,
+				card.ability.extra.xblindsize,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			SMODS.calculate_effect({
+				xblindsize = card.ability.extra.xblindsize,
+				colour = G.C.PURPLE,
+			}, card)
+		end, true)
+	end,
+	can_use_skill = function(self, card)
+		return G.GAME.current_round.hands_left == card.ability.extra.hands
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "sovereign_blade",
+	tp_cost = 20,
+	config = { extra = { xblindsize = 0.5 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_retain"]
+		return {
+			vars = {
+				card.ability.extra.xblindsize,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			SMODS.calculate_effect({
+				xblindsize = card.ability.extra.xblindsize,
+				colour = G.C.PURPLE,
+			}, card)
+		end, true)
+		return "retain"
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "kamehameha",
+	tp_cost = 15,
+	config = { extra = { xblindsize = 0.9 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.xblindsize,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			for _ = 1, (G.GAME.current_round.hands_played + G.GAME.current_round.discards_used) do
+				SMODS.calculate_effect({
+					xblindsize = card.ability.extra.xblindsize,
+					colour = G.C.PURPLE,
+				}, card)
+			end
+		end, true)
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "hollow_technique_purple",
+	tp_cost = 25,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			SMODS.destroy_cards(G.hand.cards)
+			Multiverse.ease_TP(-G.GAME.mul_TP, { immediate = true })
+		end)
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "falcon_punch",
+	tp_cost = 20,
+	config = { extra = { xblindsize = 0.8, status = "psv_mul_dazed" } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = blindexpander.Passives[card.ability.extra.status]
+		return {
+			vars = {
+				card.ability.extra.xblindsize,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			SMODS.calculate_effect({
+				xblindsize = card.ability.extra.xblindsize,
+				colour = G.C.PURPLE,
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							Multiverse.modify_passive_stacks(card.ability.extra.status, 1)
+							return true
+						end,
+					}))
+				end,
+			}, card)
+		end, true)
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "360_no_scope",
+	tp_cost = 30,
+	impulse = true,
+	config = { extra = { tp = 40 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_impulse"]
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
+		return {
+			vars = {
+				card.ability.extra.tp,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			Multiverse.ease_TP(card.ability.extra.tp, { immediate = true })
+			SMODS.draw_cards(1)
+		end)
+		return "exhaust"
+	end,
+})
+
+Multiverse.SkillCard({
+	key = "backflip",
+	tp_cost = 15,
+	config = { extra = { cards = 2, chips = 10 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.cards,
+				card.ability.extra.chips,
+			},
+		}
+	end,
+	use_skill = function(self, card, paid_amt, x)
+		Multiverse.effect_animation(card, function()
+			for _ = 1, 2 do
+				Multiverse.drawn_card_modify_queue[#Multiverse.drawn_card_modify_queue+1] = {
+					perma_bonus = card.ability.extra.chips
+				}
+			end
+			SMODS.draw_cards(card.ability.extra.cards)
+		end)
+	end,
+})
+
+Multiverse.SkillCard({
 	key = "larceny",
 	tp_cost = 20,
-	mul_sneaky = true,
+	sneaky = true,
 	config = { extra = { money = 6 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_sneaky"]

@@ -53,7 +53,7 @@ function Card:set_sprites(_center, _front, ...)
 			self.children.mul_hitbox_indicator:set_role({ major = self, role_type = "Glued", draw_major = self })
 		end
 	end
-	if Multiverse.can_receive_transmutable(self) then
+	if self.config.center.set == "Joker" and Multiverse.can_receive_transmutable(self) then
 		if not self.children.transmutable_target then
 			self.children.transmutable_target =
 				SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, "mul_transmutable_target", { x = 0, y = 0 })
@@ -335,4 +335,12 @@ function SMODS.localize_perma_bonuses(specific_vars, desc_nodes, ...)
 	if specific_vars and specific_vars.mul_temp_priority then
 		localize({ type = "other", key = "mul_temp_priority", nodes = desc_nodes, vars = { SMODS.signed(specific_vars.mul_temp_priority) } })
 	end
+end
+
+local draw_card_hook = draw_card
+function draw_card(from, to, ...)
+	if G.GAME.blind and G.GAME.blind.in_blind and from == G.deck and to == G.hand then
+		Multiverse.sort_deck_by_priority()
+	end
+	draw_card_hook(from, to, ...)
 end

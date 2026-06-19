@@ -376,3 +376,25 @@ blindexpander.Passive({
 		end
 	end,
 })
+
+blindexpander.Passive({
+	key = "dazed",
+	mul_stackable = true,
+	modifies_draw = true,
+	config = { stacks = 0 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.stacks, passive.config.mult },
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if context.hand_drawn then
+			return {
+				func = function()
+					SMODS.draw_cards(1)
+					Multiverse.modify_passive_stacks(passive.key, -1)
+				end,
+			}
+		end
+	end,
+})

@@ -213,7 +213,7 @@ function Multiverse.handle_sneaky_trigggers(cards)
 	G.CONTROLLER.locks.use = true
 	for i, c in ipairs(cards) do
 		delay(0.2)
-		draw_card(G.hand, G.play, i * 100 / #cards, "up", nil, c)
+		Multiverse.draw_card(G.hand, G.play, i * 100 / #cards, "up", nil, c)
 		delay(0.2)
 	end
 	for _, c in ipairs(cards) do
@@ -223,9 +223,9 @@ function Multiverse.handle_sneaky_trigggers(cards)
 		delay(0.6)
 		if res == "discard" then
 			c.ability.discarded = true
-			draw_card(G.play, G.discard, 100, "down", false, c)
+			Multiverse.draw_card(G.play, G.discard, 100, "down", false, c)
 		elseif res == "retain" then
-			draw_card(G.play, G.hand, 100, "up", false, c)
+			Multiverse.draw_card(G.play, G.hand, 100, "up", false, c)
 		elseif res == "destroy" then
 			SMODS.destroy_cards(c, { immediate = true })
 		else
@@ -272,15 +272,15 @@ G.FUNCS.mul_use_skill = function(e)
 		x = paid + G.GAME.mul_x_boost
 	end
 	Multiverse.ease_TP(-paid, { from_skill = true, immediate = true })
-	draw_card(G.hand, G.play, 1, "up", true, card, nil, true)
+	Multiverse.draw_card(G.hand, G.play, 1, "up", true, card, nil, true)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"
 	delay(0.6)
 	if res == "discard" then
 		card.ability.discarded = true
-		draw_card(G.play, G.discard, 100, "down", false, card)
+		Multiverse.draw_card(G.play, G.discard, 100, "down", false, card)
 	elseif res == "retain" then
-		draw_card(G.play, G.hand, 100, "up", false, card)
+		Multiverse.draw_card(G.play, G.hand, 100, "up", false, card)
 	elseif res == "destroy" then
 		SMODS.destroy_cards(card, { immediate = true })
 	else
@@ -490,6 +490,22 @@ function Multiverse.build_discard_view_UI_def(cards_to_display, highlighted_max)
 					G.mul_discard_view_areas._discard_select_data.max
 					> #G.mul_discard_view_areas._discard_select_data.highlighted
 				then
+					card.ability._mul_discard_view_selected = true
+					table.insert(G.mul_discard_view_areas._discard_select_data.highlighted, card.ability._mul_index_ref)
+				else
+					local index_to_find = table.remove(G.mul_discard_view_areas._discard_select_data.highlighted, 1)
+					for _, area in ipairs(G.mul_discard_view_areas) do
+						for _, area_card in ipairs(area.cards) do
+							if area_card.ability._mul_index_ref == index_to_find then
+								area_card.ability._mul_discard_view_selected = false
+								index_to_find = nil
+								break
+							end
+						end
+						if not index_to_find then
+							break
+						end
+					end
 					card.ability._mul_discard_view_selected = true
 					table.insert(G.mul_discard_view_areas._discard_select_data.highlighted, card.ability._mul_index_ref)
 				end

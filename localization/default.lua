@@ -94,10 +94,10 @@ return {
 			du_mul_impulse = {
 				name = "Impulse",
 				text = {
-					"TP cost is halved",
+					"{C:attention}TP{} cost is {C:attention}halved{}",
 					"if no hands or",
 					"discards were",
-					"used this round,",
+					"used this round",
 				},
 			},
 			du_mul_ethereal = {
@@ -359,7 +359,7 @@ return {
 				name = "Dazed",
 				text = {
 					"After drawing cards,",
-					"draw {C:attention}1{} extra card",
+					"draw {C:attention}1{} card",
 					"Remove {C:attention}1{} stack",
 					"after drawing cards",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
@@ -1243,6 +1243,7 @@ return {
 			sk_mul_blue_rose_closer = {
 				name = "Blue Rose Closer",
 				text = {
+					"{C:attention}Ethereal{}",
 					"Can only be used",
 					"when you have {C:attention}#1#{}",
 					"hand remaining",
@@ -1259,10 +1260,9 @@ return {
 			sk_mul_kamehameha = {
 				name = "Kamehameha",
 				text = {
-					"For each hand played",
-					"or discard used",
-					"while this card is",
-					"held in hand,",
+					"For each {C:attention}hand{} played",
+					"or {C:attention}discard{} used",
+					"this round,",
 					"{X:purple,C:white}X#1#{} Blind Size",
 				},
 			},
@@ -1376,7 +1376,7 @@ return {
 					"Gain {C:attention}#1#%{} TP",
 					"All cards in hand",
 					"permanently lose",
-					"{C:mult}#1#{} Mult",
+					"{C:mult}#2#{} Mult",
 				},
 			},
 			sk_mul_eldritch_blast = {
@@ -1385,7 +1385,7 @@ return {
 					"{C:attention}Ethereal{}",
 					"Gain {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
 					"Thaumaturgy Energy",
-					"{X:purple,C:white}X#1#{} Blind Size",
+					"{X:purple,C:white}X#2#{} Blind Size",
 				},
 			},
 			sk_mul_haste = {
@@ -1401,7 +1401,7 @@ return {
 				name = "Chaos Form",
 				text = {
 					"{C:attention}Innate{}",
-					"For this round, set",
+					"This round, set",
 					"all {C:green}probabilities",
 					"to {C:green}1 in 2{}",
 				},
@@ -1518,7 +1518,7 @@ return {
 				name = "Foresight",
 				text = {
 					"{C:attention}Innate, Exhaust{}",
-					"After use, select a",
+					"After use, select {C:attention}#1#{}",
 					"discarded card",
 					"Cards with the same",
 					"rank or suit as that",
