@@ -165,7 +165,7 @@ return {
 					"All {C:attention}playing cards{}",
 					"initially have",
 					"{C:attention}0{} priority",
-				}
+				},
 			},
 			du_mul_innate = {
 				name = "Innate",
@@ -173,7 +173,7 @@ return {
 					"Drawn {C:attention}before{} all",
 					"other cards",
 					"Ignores priority",
-				}
+				},
 			},
 			du_mul_buried = {
 				name = "Buried",
@@ -181,7 +181,7 @@ return {
 					"Drawn {C:attention}after{} all",
 					"other cards",
 					"Ignores priority",
-				}
+				},
 			},
 		},
 		Blind = {
@@ -347,9 +347,8 @@ return {
 			psv_mul_ether_touched = {
 				name = "Ether-touched",
 				text = {
-					"Discarded cards",
-					"permanently gain",
-					"{C:mult}+#2#{} Mult per stack",
+					"Discarded cards permanently",
+					"gain {C:mult}+#2#{} Mult per stack",
 					"Remove all stacks",
 					"after discarding",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
@@ -364,6 +363,27 @@ return {
 					"after drawing cards",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
 				},
+			},
+			psv_mul_shocked = {
+				name = "Shocked",
+				text = {
+					"A random card held in hand",
+					"permanently gains {C:chips}+#2#{} Chips",
+					"when a card scores",
+					"Remove {C:attention}1{} stack when",
+					"a card scores",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
+				},
+			},
+			psv_mul_spiky_terrain = {
+				name = "Spiky Terrain",
+				text = {
+					"Whenever a card is drawn,",
+					"gain {C:attention}#2#%{} TP",
+					"Remove {C:attention}1{} stack when",
+					"a card is drawn",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
+				}
 			},
 		},
 		mul_DeckEnchantment = {
@@ -1109,8 +1129,9 @@ return {
 				name = "Sky High Teio Step",
 				text = {
 					"{C:attention}Exhaust{}",
-					"After use, up to {C:attention}#1#{} selected",
-					"cards permanently gain",
+					"After use, up to {C:attention}#1#{}",
+					"selected cards",
+					"permanently gain",
 					"{C:attention}+#2#{} retriggers",
 				},
 			},
@@ -1141,7 +1162,7 @@ return {
 				text = {
 					"Applies {C:attention}#1#{} stacks",
 					"of {C:attention}Burning{} to",
-					"the current Blind",
+					"the current {C:attention}Blind{}",
 				},
 			},
 			sk_mul_ultra_instinct = {
@@ -1226,9 +1247,9 @@ return {
 			sk_mul_prepared = {
 				name = "Prepared",
 				text = {
-					"Draw {C:attention}#1#{} card",
+					"Draw {C:attention}#1#{} cards",
 					"After use, discard",
-					"{C:attention}#1#{} card",
+					"{C:attention}#1#{} cards",
 				},
 			},
 			sk_mul_supplements = {
@@ -1376,14 +1397,14 @@ return {
 					"Gain {C:attention}#1#%{} TP",
 					"All cards in hand",
 					"permanently lose",
-					"{C:mult}#2#{} Mult",
+					"{C:mult}-#2#{} Mult",
 				},
 			},
 			sk_mul_eldritch_blast = {
 				name = "Eldritch Blast",
 				text = {
 					"{C:attention}Ethereal{}",
-					"Gain {C:mul_transmuted,f:mul_thaum_icon,E:mul_rotate}+{C:mul_transmuted}#1#{}",
+					"Gain {C:mul_transmuted,f:mul_thaum_icon}+{C:mul_transmuted}#1#{}",
 					"Thaumaturgy Energy",
 					"{X:purple,C:white}X#2#{} Blind Size",
 				},
@@ -1392,8 +1413,9 @@ return {
 				name = "Haste",
 				text = {
 					"{C:attention}Impulse{}",
-					"After use, up to {C:attention}#1#{} selected",
-					"cards permanently gain",
+					"After use, up to {C:attention}#1#{}",
+					"selected cards",
+					"permanently gain",
 					"{C:attention}+#2#{} priority",
 				},
 			},
@@ -1424,13 +1446,15 @@ return {
 					"apply {C:attention}1{} stack of",
 					"{C:attention}Shocked{} to the",
 					"current {C:attention}Blind{}",
+					"{C:inactive}(Will apply {C:attention}#1#{C:inactive} stacks){}",
 				},
 			},
 			sk_mul_waterbending = {
 				name = "Waterbending",
 				text = {
-					"You can play up",
-					"to {C:attention}#1#{} cards in",
+					"{C:attention}Exhaust{}",
+					"You can play",
+					"{C:attention}#1#{} extra card in",
 					"the next hand",
 				},
 			},
@@ -1438,7 +1462,7 @@ return {
 				name = "Vine Growth",
 				text = {
 					"Up to {C:attention}#1#{} random",
-					"Enhanced cards in",
+					"{C:attention}Enhanced{} cards in",
 					"deck gain {C:attention}+#2#{}",
 					"priority this round",
 				},
@@ -1448,8 +1472,8 @@ return {
 				text = {
 					"{C:attention}Buried{}",
 					"After use, select",
-					"{C:attention}#1#{} discarded card",
-					"Add {C:attention}#2#{} copies of that",
+					"{C:attention}1{} discarded card",
+					"Add {C:attention}#1#{} copies of that",
 					"card into your hand",
 					"The copies become",
 					"{C:attention}Skeletal Cards{}",
@@ -1482,17 +1506,19 @@ return {
 			sk_mul_rude_buster = {
 				name = "Rude Buster",
 				text = {
-					"{C:attention}Retain{}",
 					"{X:purple,C:white}X#1#{} Blind Size",
+					"{C:green}#2# in #3#{} chance",
+					"for {X:purple,C:white}X#4#{} Blind Size",
+					"instead",
 				},
 			},
 			sk_mul_juggling = {
 				name = "Juggling",
 				text = {
-					"Earn {C:money}$#1#{} for each",
-					"card drawn while",
-					"this card is held",
-					"in your hand",
+					"Draw {C:attention}#1#{} card",
+					"Discard {C:attention}#1#{} card",
+					"Put {C:attention}#1#{} discarded",
+					"card into your hand",
 				},
 			},
 			sk_mul_card_counting = {
@@ -1501,7 +1527,7 @@ return {
 					"{C:attention}Ethereal, Sneaky{}",
 					"Draw {C:attention}#1#{} cards",
 					"The drawn cards",
-					"become {C:attention}#2#{}",
+					"become {C:attention}#2#s{}",
 					"{C:inactive}(Rank changes at",
 					"{C:inactive}end of round)",
 				},
@@ -1518,11 +1544,11 @@ return {
 				name = "Foresight",
 				text = {
 					"{C:attention}Innate, Exhaust{}",
-					"After use, select {C:attention}#1#{}",
+					"After use, select {C:attention}1{}",
 					"discarded card",
 					"Cards with the same",
 					"rank or suit as that",
-					"selected card gain {C:attention}+#2#{}",
+					"selected card gain {C:attention}+#1#{}",
 					"priority this round",
 				},
 			},
@@ -1645,8 +1671,8 @@ return {
 				name = "Skeletal Card",
 				text = {
 					"{C:mult}+#1#{} Mult",
-					"{C:mult}-#2#{} Mult when played",
-					"and scoring",
+					"Loses {C:mult}-#2#{} Mult when",
+					"played and scoring",
 					"{C:red,E:2}Self-destructs{} at",
 					"{C:mult}0{} Mult",
 				},
@@ -3055,9 +3081,13 @@ return {
 			k_mul_rum_seventh = "Select #1# Jokers to destroy",
 			k_mul_ultra_instinct = "Discard any number of selected cards",
 			k_mul_dupe_glitch = "Create a Negative copy of 1 selected consumable",
-			k_mul_dredge = "Return up to #1# discarded cards to hand",
-			k_mul_prepared = "Discard 1 card",
+			k_mul_dredge = "Put up to #1# discarded cards into your hand",
+			k_mul_prepared = "Discard #1# card(s)",
 			k_mul_supplements = "Give +#2# chips permanently to up to #1# selected cards",
+			k_mul_haste = "Give +#2# priority permanently to up to #1# selected cards",
+			k_mul_raise_undead = "Create #1# Skeletal Copies of 1 discarded card",
+			k_mul_juggling1 = "Discard #1# card",
+			k_mul_juggling2 = "Put #1# discarded card into your hand",
 			mul_stand_user = "Saved by Stand User via time reversal",
 			k_mul_eggman_speech = {
 				"I'VE COME TO MAKE AN ANNOUNCEMENT",

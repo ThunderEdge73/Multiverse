@@ -62,7 +62,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 		for _, eff in pairs(res) do
 			for _, tab in pairs(eff) do
 				if tab.skill_tp_discount and type(tab.skill_tp_discount) == "number" then
-					discount = discount - math.floor(tab.skill_tp_discount) -- flat modifications
+					discount = discount + math.floor(tab.skill_tp_discount) -- flat modifications
 				end
 				if tab.skill_tp_cost_mult and type(tab.skill_tp_cost_mult) == "number" then
 					cost_mult = cost_mult * tab.skill_tp_cost_mult -- multiplicative modifications
@@ -221,6 +221,7 @@ function Multiverse.handle_sneaky_trigggers(cards)
 		delay(0.2)
 		local res = center:use_skill(c, 0, G.GAME.mul_x_boost) or "discard"
 		delay(0.6)
+		SMODS.calculate_context({ mul_using_skill = true, other_card = c })
 		if res == "discard" then
 			c.ability.discarded = true
 			Multiverse.draw_card(G.play, G.discard, 100, "down", false, c)
@@ -276,6 +277,7 @@ G.FUNCS.mul_use_skill = function(e)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"
 	delay(0.6)
+	SMODS.calculate_context({ mul_using_skill = true, other_card = card })
 	if res == "discard" then
 		card.ability.discarded = true
 		Multiverse.draw_card(G.play, G.discard, 100, "down", false, card)
@@ -782,6 +784,11 @@ end
 function Multiverse.init_skills()
 	---@type integer
 	G.GAME.mul_x_boost = G.GAME.mul_x_boost or 0
+	---@type table
+	G.GAME.mul_skill_usage = G.GAME.mul_skill_usage or {
+		run = 0,
+		round = 0,
+	}
 end
 
 function Multiverse.get_final_X_value(center, card, ui_format, with_paren)

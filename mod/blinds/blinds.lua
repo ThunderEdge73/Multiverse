@@ -151,8 +151,8 @@ SMODS.Blind({
 		Multiverse.HOVER_HINT_KEY = nil
 	end,
 	disable = function(self)
-		if G.GAME.chips < to_big(0) then
-			G.GAME.chips = to_big(0)
+		if G.GAME.chips < 0 then
+			G.GAME.chips = 0
 		end
 		Multiverse.apply_to_playing_cards(function(playing_card)
 			SMODS.debuff_card(playing_card, false, "mul_undying")

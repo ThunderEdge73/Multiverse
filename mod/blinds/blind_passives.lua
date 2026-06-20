@@ -398,3 +398,70 @@ blindexpander.Passive({
 		end
 	end,
 })
+
+blindexpander.Passive({
+	key = "shocked",
+	mul_stackable = true,
+	config = { chips = 10, stacks = 0 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.stacks, passive.config.chips },
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if context.individual and context.cardarea == G.play then
+			local rand = pseudorandom_element(G.hand.cards, "mul_shocked")
+			SMODS.calculate_effect({
+				message = localize("k_upgrade_ex"),
+				func = function()
+					rand.ability.perma_bonus = (rand.ability.perma_bonus or 0) + passive.config.chips
+				end,
+			}, rand)
+			return {
+				func = function()
+					Multiverse.modify_passive_stacks(passive.key, -1)
+				end,
+			}
+		end
+	end,
+})
+
+blindexpander.Passive({
+	key = "spiky_terrain",
+	mul_stackable = true,
+	config = { stacks = 0, tp = 2 },
+	loc_vars = function(self, blind, passive)
+		return {
+			vars = { passive.config.stacks, passive.config.tp },
+		}
+	end,
+	calculate = function(self, blind, passive, context)
+		if context.hand_drawn then
+			local affected = math.min(passive.config.stacks, #context.hand_drawn)
+			for i, c in ipairs(context.hand_drawn) do
+				if i <= affected then
+					SMODS.calculate_effect({
+						message = localize({
+							type = "variable",
+							key = "a_mul_TP",
+							vars = { passive.config.tp },
+						}),
+						func = function()
+							G.E_MANAGER:add_event(Event({
+								func = function()
+									Multiverse.ease_TP(passive.config.tp)
+									return true
+								end
+							}))
+						end,
+					}, c)
+				end
+			end
+			return {
+				func = function()
+					Multiverse.modify_passive_stacks(passive.key, -affected)
+				end,
+			}
+		end
+	end,
+})

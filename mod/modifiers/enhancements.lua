@@ -149,6 +149,31 @@ SMODS.Enhancement({
 	end,
 })
 
+SMODS.Enhancement({
+	key = "skeletal",
+	atlas = "modifiers_placeholder",
+	pos = { x = 0, y = 0 },
+	config = { extra = { mult = 5, decrement = 1 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.mult, card.ability.extra.decrement } }
+	end,
+	calculate = function(self, card, context)
+		if context.after and Multiverse.contains_value(context.scoring_hand, card) then
+			card.ability.extra.mult = card.ability.extra.mult - card.ability.extra.decrement
+		end
+		if context.main_scoring and context.cardarea == G.play then
+			return {
+				mult = card.ability.extra.mult
+			}
+		end
+		if context.destroy_card and card.ability.extra.mult == 1 then
+			return {
+				remove = true
+			}
+		end
+	end,
+})
+
 SMODS.Shader({
 	key = "lefthalf",
 	path = "lefthalf.fs",

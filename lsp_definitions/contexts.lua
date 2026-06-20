@@ -19,3 +19,4 @@
 ---@field mul_exhaust_playing_cards? boolean Whether or not playing cards were exhausted.
 ---@field mul_post_discard? boolean True after all other discard effects.
 ---@field mul_calc_priority? boolean True when calculating the priority of a specific card.
+---@field mul_using_skill? boolean True when a Skill card is used.

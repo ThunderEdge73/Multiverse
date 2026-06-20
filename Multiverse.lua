@@ -36,14 +36,6 @@ SMODS.current_mod.ui_config = {
 
 Multiverse.ENCHANTMENT_GROUPS = {}
 
----Talisman compatibility?
-to_big = to_big or function(x)
-	return x
-end
-to_number = to_number or function(x)
-	return x
-end
-
 SMODS.ObjectType({
 	key = "mul_can_transmute",
 	default = "j_joker",
@@ -81,7 +73,12 @@ SMODS.current_mod.calculate = function(self, context)
 		for i, card in ipairs(context.hand_drawn) do
 			if Multiverse.drawn_card_modify_queue[i] then
 				for key, modifier in pairs(Multiverse.drawn_card_modify_queue[i]) do
-					card.ability[key] = (card.ability[key] or 0) + modifier
+					if key ~= "func" then
+						card.ability[key] = (card.ability[key] or 0) + modifier
+					end
+				end
+				if Multiverse.drawn_card_modify_queue[i].func then
+					Multiverse.drawn_card_modify_queue[i].func(card)
 				end
 				Multiverse.drawn_card_modify_queue[i] = nil
 			end
@@ -90,12 +87,12 @@ SMODS.current_mod.calculate = function(self, context)
 	end
 	if context.mul_calc_priority then
 		ret[#ret + 1] = {
-			innate = context.other_card.config.center.mul_innate,
-			buried = context.other_card.config.center.mul_buried,
+			innate = context.other_card.config.center.innate,
+			buried = context.other_card.config.center.buried,
 		}
 	end
 	if context.fix_probability and G.GAME.mul_chaos_form then
-		return {
+		ret[#ret + 1] = {
 			numerator = 1,
 			denominator = 2,
 		}
@@ -105,8 +102,15 @@ SMODS.current_mod.calculate = function(self, context)
 			Multiverse.eggman_secret()
 		end
 	end
+	if context.mul_using_skill then
+		G.GAME.mul_skill_usage.run = G.GAME.mul_skill_usage.run + 1
+		G.GAME.mul_skill_usage.round = G.GAME.mul_skill_usage.round + 1
+	end
 	if context.end_of_round and not context.game_over and context.main_eval then
 		G.GAME.mul_objection_active = false
+		G.GAME.mul_chaos_form = false
+		G.GAME.mul_temp_skill_discount = 0
+		G.GAME.mul_skill_usage.round = 0
 		local cards_to_destroy = Multiverse.filter(G.playing_cards, function(item)
 			return SMODS.has_enhancement(item, "m_mul_left_hand") or SMODS.has_enhancement(item, "m_mul_right_hand")
 		end)
@@ -151,6 +155,9 @@ SMODS.current_mod.calculate = function(self, context)
 				skill_tp_cost_mult = 0.5,
 			}
 		end
+		ret[#ret + 1] = {
+			skill_tp_discount = (G.GAME.mul_temp_skill_discount or 0) + (G.GAME.mul_skill_discount or 0),
+		}
 	end
 	if context.using_consumeable then
 		if context.consumeable.ability.set == "mul_Myth" then
@@ -163,6 +170,10 @@ SMODS.current_mod.calculate = function(self, context)
 		end
 	end
 	if context.after then
+		if G.GAME.mul_waterbending then
+			SMODS.change_play_limit(-G.GAME.mul_waterbending)
+			G.GAME.mul_waterbending = nil
+		end
 		if SMODS.last_hand_oneshot then
 			if next(SMODS.find_card("j_mul_ren_amamiya")) then
 				-- Hold off on this until some dedicated artist gets this animation done
@@ -208,6 +219,7 @@ SMODS.draw_ignore_keys["mul_skill_cost_ui"] = true
 function SMODS.current_mod.reset_game_globals(run_start)
 	Multiverse.set_foddian_suit()
 	Multiverse.set_stand_arrow_suit()
+	Multiverse.set_card_counting_rank()
 end
 
 ---@param path string

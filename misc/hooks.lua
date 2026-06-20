@@ -219,9 +219,9 @@ end
 local ease_dollars_hook = ease_dollars
 function ease_dollars(mod, instant, ...)
 	local amt = mod
-	if to_big(mod) > to_big(0) and G.GAME.mul_money_mult ~= 1 then
+	if mod > 0 and G.GAME.mul_money_mult ~= 1 then
 		amt = amt * G.GAME.mul_money_mult
-		amt = math.floor(amt + 0.5)
+		amt = math.floor(amt)
 	end
 	return ease_dollars_hook(amt, instant, ...)
 end
@@ -339,7 +339,7 @@ end
 
 local draw_card_hook = draw_card
 function draw_card(from, to, ...)
-	if G.GAME.blind and G.GAME.blind.in_blind and from == G.deck and to == G.hand then
+	if G.GAME.blind and G.GAME.blind.in_blind and from == G.deck then
 		Multiverse.sort_deck_by_priority()
 	end
 	draw_card_hook(from, to, ...)

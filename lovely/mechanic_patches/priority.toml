@@ -33,3 +33,17 @@ mul_perma_priority = self.ability.mul_perma_priority,
 mul_temp_priority = self.ability.mul_temp_priority,
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+local n = 0
+'''
+position = "after"
+payload = '''
+if G.GAME.blind.in_blind then
+    Multiverse.sort_deck_by_priority()
+end
+'''
+match_indent = true

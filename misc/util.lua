@@ -775,18 +775,18 @@ function Multiverse.handle_distributed_retriggers(context, card, amt, args)
 	args = args or {}
 	local cards = args.cards or context.scoring_hand
 	if context.before and not context.blueprint then
-		card.ability._mul_retrigger_index_cache = Multiverse.distribute_retriggers(#cards, amt, args)
+		card._mul_retrigger_index_cache = Multiverse.distribute_retriggers(#cards, amt, args)
 	end
 	if context.repetition and context.cardarea == G.play then
 		local i = Multiverse.get_index(context.other_card, cards)
 		if i ~= -1 then
 			return {
-				repetitions = card.ability._mul_retrigger_index_cache[i],
+				repetitions = card._mul_retrigger_index_cache[i],
 			}
 		end
 	end
 	if context.after and not context.blueprint then
-		card.ability._mul_retrigger_index_cache = nil
+		card._mul_retrigger_index_cache = nil
 	end
 end
 
@@ -860,6 +860,7 @@ function Multiverse.modify_passive_stacks(key, amt)
 		if final_amt == 0 then
 			G.GAME.blind:remove_passive(key)
 		else
+			SMODS.juice_up_blind()
 			G.GAME.blind.passives_data[index].config.stacks = final_amt
 		end
 	end
@@ -892,11 +893,9 @@ function Multiverse.calc_priority(card)
 			end
 			if tab.innate then
 				is_innate = true
-				break
 			end
 			if tab.buried then
 				is_buried = false
-				break
 			end
 		end
 	end

@@ -128,7 +128,7 @@ SMODS.Booster({
 		extra = 3,
 		choose = 1,
 	},
-	weight = 3,
+	weight = 4,
 	group_key = "k_mul_enchantment_table",
 	kind = "mul_enchantment",
 	cost = 10,

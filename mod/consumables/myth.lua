@@ -604,7 +604,7 @@ SMODS.Consumable({
 		return not card.ability.extra.is_active
 	end,
 	can_use = function(self, card)
-		return card.ability.extra.is_active or (to_big(G.GAME.shop.joker_max) > to_big(1))
+		return card.ability.extra.is_active or G.GAME.shop.joker_max > 1
 	end,
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
