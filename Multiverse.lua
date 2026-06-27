@@ -250,7 +250,7 @@ SMODS.current_mod.custom_card_areas = function(game)
 		game.discard.T.y,
 		game.discard.T.w,
 		game.discard.T.h,
-		{ type = "discard", card_limit = 1e308, max_highlighted = 1e308 }
+		{ type = "discard", card_limit = 1e308, max_highlighted = 0 }
 	)
 end
 

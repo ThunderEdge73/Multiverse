@@ -383,7 +383,7 @@ return {
 					"Remove {C:attention}1{} stack when",
 					"a card is drawn",
 					"{C:inactive}(Currently {C:attention}#1#{C:inactive} stacks){}",
-				}
+				},
 			},
 		},
 		mul_DeckEnchantment = {
@@ -2389,14 +2389,24 @@ return {
 					},
 				},
 			},
-			-- j_mul_sleepy = {
-			-- 	name = "SleepyG11",
-			-- 	text = {
-			-- 		"Balance base",
-			-- 		"and final {C:chips}Chips",
-			-- 		"and {C:red}Mult",
-			-- 	},
-			-- },
+			j_mul_dog = { -- common
+				name = "Dog",
+				text = {
+					{
+						"At end of round,",
+						"destroy all held",
+						"consumables and this",
+						"Joker gains {C:chips}+#1#{} Chips",
+						"per card destroyed",
+						"{C:inactive}Currently {C:chips}+#2#{C:inactive} Chips)",
+					},
+					{
+						"{C:inactive,s:0.8}The dog absorbed",
+						"{C:inactive,s:0.8}the consumable.",
+					}
+				},
+			},
+			
 		},
 		Spectral = {
 			c_mul_eternity = {

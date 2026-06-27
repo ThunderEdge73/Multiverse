@@ -587,7 +587,8 @@ SMODS.current_mod.custom_ui = function(nodes)
 								local element = self:get_UIE_by_ID("first_item")
 								self.text_size = element.T.w
 							end
-							self.scroll_offset.x = math.fmod((self.scroll_offset.x or 0) + G.real_dt * 1.1, self.text_size)
+							self.scroll_offset.x =
+								math.fmod((self.scroll_offset.x or 0) + G.real_dt * 1.1, self.text_size)
 						end,
 					}),
 				},
@@ -760,13 +761,33 @@ SMODS.current_mod.config_tab = function()
 	}
 end
 
--- Multiverse.test_ui_def = function()
--- 	return {
--- 		n = G.UIT.ROOT,
--- 		config = {},
--- 		nodes = {},
--- 	}
--- end
+Multiverse.test_ui_def = function()
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					minw = 3,
+					minh = 0.8,
+					mul_custom_draw_func = function(self)
+						local t = self.VT or self.T
+						local offset = 0.2
+						local verts = {
+							offset * G.TILESIZE, 0,
+							t.w * G.TILESIZE, 0,
+							(t.w - offset) * G.TILESIZE, t.h * G.TILESIZE,
+							0, t.h * G.TILESIZE,
+						}
+						love.graphics.setColor(Multiverse.C.PRIMARY1)
+						love.graphics.polygon("fill", verts)
+					end,
+				},
+			},
+		},
+	}
+end
 
 SMODS.current_mod.extra_tabs = function()
 	return {
@@ -776,12 +797,12 @@ SMODS.current_mod.extra_tabs = function()
 				return Multiverse.music_tab()
 			end,
 		},
-		-- {
-		-- 	label = "Test",
-		-- 	tab_definition_function = function()
-		-- 		return Multiverse.test_ui_def()
-		-- 	end,
-		-- },
+		{
+			label = "Test",
+			tab_definition_function = function()
+				return Multiverse.test_ui_def()
+			end,
+		},
 	}
 end
 
@@ -1229,3 +1250,31 @@ function G.FUNCS.mul_prbk_link()
 end
 
 --#endregion
+
+local uie_draw_self = UIElement.draw_self
+
+function UIElement:draw_self(...)
+	if self.config.mul_custom_draw_func then
+		if not self.states.visible then
+			if self.config.force_focus then
+				add_to_drawhash(self)
+			end
+			return
+		end
+		if
+			self.config.force_focus
+			or self.config.force_collision
+			or self.config.button_UIE
+			or self.config.button
+			or self.states.collide.can
+		then
+			add_to_drawhash(self)
+		end
+		prep_draw(self, 1)
+		love.graphics.scale(1 / G.TILESIZE)
+		self.config.mul_custom_draw_func(self)
+		love.graphics.pop()
+	else
+		uie_draw_self(self, ...)
+	end
+end

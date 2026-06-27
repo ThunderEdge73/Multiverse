@@ -90,7 +90,6 @@ function Multiverse.ease_TP(amt, args)
 			blockable = false,
 			delay = 1,
 			ease_to = G.GAME._gradual_TP_amt + actual_change,
-			ease = "inoutquad",
 			func = function(n)
 				return math.floor(n)
 			end,
@@ -229,12 +228,47 @@ function Multiverse.create_TP_ui()
 							display,
 							{
 								n = G.UIT.R,
-								config = { align = "cm" },
+								config = { align = "cm", minh = 3.6 },
 								nodes = {
 									{
 										n = G.UIT.C,
-										config = { align = "cm", func = "mul_update_TP_bar" },
-										nodes = col,
+										config = {
+											align = "cm",
+											--func = "mul_update_TP_bar",
+											mul_custom_draw_func = function(self)
+												local t = self.VT or self.T
+												local offset = 0.175
+												local bg_verts = {
+													0, offset * G.TILESIZE,
+													t.w * G.TILESIZE, 0,
+													t.w * G.TILESIZE, (t.h - offset) * G.TILESIZE,
+													0, t.h * G.TILESIZE
+												}
+												love.graphics.setColor(G.C.DYN_UI.BOSS_DARK)
+												love.graphics.polygon("fill", bg_verts)
+												local line_h = 0.1
+												local t1 = math.max(G.GAME._gradual_TP_amt, G.GAME.mul_TP)
+												local tp_bg_verts = {
+													0, offset * G.TILESIZE + (100 - t1) / 100 * (t.h - offset - line_h) * G.TILESIZE,
+													t.w * G.TILESIZE, (100 - t1) / 100 * (t.h - offset - line_h) * G.TILESIZE,
+													t.w * G.TILESIZE, (t.h - offset) * G.TILESIZE,
+													0, t.h * G.TILESIZE
+												}
+												love.graphics.setColor(lighten(G.C.FILTER, 0.4))
+												love.graphics.polygon("fill", tp_bg_verts)
+												local t2 = math.min(G.GAME._gradual_TP_amt, G.GAME.mul_TP)
+												local tp_main_verts = {
+													0, line_h * G.TILESIZE + offset * G.TILESIZE + (100 - t2) / 100 * (t.h - offset - line_h) * G.TILESIZE,
+													t.w * G.TILESIZE, line_h * G.TILESIZE + (100 - t2) / 100 * (t.h - offset - line_h) * G.TILESIZE,
+													t.w * G.TILESIZE, (t.h - offset) * G.TILESIZE,
+													0, t.h * G.TILESIZE
+												}
+												love.graphics.setColor(G.C.FILTER)
+												love.graphics.polygon("fill", tp_main_verts)
+											end,
+											minw = 0.6,
+											minh = 3.5,
+										},
 									},
 								},
 							},

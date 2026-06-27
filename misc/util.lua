@@ -931,6 +931,7 @@ function Multiverse.sort_deck_by_priority()
 	G.deck.cards = final_list
 end
 
+-- For when i dont want to trigger smods drawing context related stuff
 function Multiverse.draw_card(from, to, percent, dir, sort, card, delay, mute, stay_flipped, vol, discarded_only)
 	percent = percent or 50
 	delay = delay or 0.1
