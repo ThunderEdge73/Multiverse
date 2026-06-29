@@ -74,6 +74,113 @@ function create_popup_UIBox_tooltip(tooltip, ...)
 	return ret
 end
 
+Multiverse.art_credits_visuals = {
+	vertices = {
+		{ 0, 0, 0, 0, unpack(darken(Multiverse.C.PRIMARY1, 0.1)) },
+		{ 1, 0, 1, 0, unpack(darken(Multiverse.C.PRIMARY2, 0.1)) },
+		{ 1, 1, 1, 1, unpack(darken(Multiverse.C.PRIMARY2, 0.1)) },
+		{ 0, 1, 0, 1, unpack(darken(Multiverse.C.PRIMARY1, 0.1)) },
+	},
+}
+Multiverse.art_credits_visuals.mesh = love.graphics.newMesh(Multiverse.art_credits_visuals.vertices)
+
+local h_popup_hook = G.UIDEF.card_h_popup
+function G.UIDEF.card_h_popup(card, ...)
+	local ret = h_popup_hook(card, ...)
+	if (card.config.center or {}).mul_art_credit or (card.config.center or {}).original_mod == Multiverse then
+		table.insert(ret.nodes[1].nodes, {
+			n = G.UIT.R,
+			config = { colour = G.C.CLEAR, padding = 0.1, align = "cm", w = 0 },
+			nodes = {
+				{
+					n = G.UIT.R,
+					config = {
+						padding = 0.1,
+						mul_custom_draw_func = function(self)
+							local t = self.VT or self.T
+							local offset = 0.1
+							local border = 0.05
+							local verts = {
+								-border * G.TILESIZE,
+								-border * G.TILESIZE,
+								(t.w + offset + border) * G.TILESIZE,
+								-border * G.TILESIZE,
+								(t.w + border) * G.TILESIZE,
+								(t.h + border) * G.TILESIZE,
+								(-offset - border) * G.TILESIZE,
+								(t.h + border) * G.TILESIZE,
+							}
+							local verts_bg = {
+								(t.w + offset + border) * G.TILESIZE,
+								-border * G.TILESIZE,
+								(t.w + offset + border) * G.TILESIZE,
+								border * 2.25 * G.TILESIZE,
+								(t.w + border) * G.TILESIZE,
+								(t.h + border * 2.25) * G.TILESIZE,
+								(-offset - border) * G.TILESIZE,
+								(t.h + border * 2.25) * G.TILESIZE,
+								(-offset - border) * G.TILESIZE,
+								(t.h + border) * G.TILESIZE,
+								(t.w + border) * G.TILESIZE,
+								(t.h + border) * G.TILESIZE,
+							}
+							love.graphics.setColor(darken(G.C.JOKER_GREY, 0.3))
+							love.graphics.polygon("fill", verts_bg)
+							love.graphics.setColor(lighten(G.C.JOKER_GREY, 0.5))
+							love.graphics.polygon("fill", verts)
+
+							love.graphics.setColor(1, 1, 1, 1)
+							Multiverse.art_credits_visuals.mesh:setVertexAttribute(2, 1, (t.w + offset) * G.TILESIZE, 0)
+							Multiverse.art_credits_visuals.mesh:setVertexAttribute(
+								3,
+								1,
+								t.w * G.TILESIZE,
+								t.h * G.TILESIZE
+							)
+							Multiverse.art_credits_visuals.mesh:setVertexAttribute(
+								4,
+								1,
+								-offset * G.TILESIZE,
+								t.h * G.TILESIZE
+							)
+							love.graphics.draw(Multiverse.art_credits_visuals.mesh)
+						end,
+						align = "cm",
+					},
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										scale = 0.3,
+										text = Multiverse.parse_vars(
+											localize("k_mul_art_credit"),
+											{ card.config.center.mul_art_credit or "ThunderEdge" }
+										),
+										colour = G.C.UI.TEXT_LIGHT,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		})
+		local old = ret.nodes[1].nodes[1]
+		ret.nodes[1].nodes[1] = {
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				old,
+			},
+		}
+	end
+	return ret
+end
+
 local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites, ...)
 	local c = center
@@ -231,7 +338,7 @@ function Card:hover(...)
 	if self.config.center_key == "c_mul_polymerization" then
 		Multiverse.FUSION_HOVER = true
 	end
-	return hover_hook(self, ...)
+	hover_hook(self, ...)
 end
 
 local stop_hover_hook = Card.stop_hover
@@ -330,10 +437,20 @@ local localize_bonuses_hook = SMODS.localize_perma_bonuses
 function SMODS.localize_perma_bonuses(specific_vars, desc_nodes, ...)
 	localize_bonuses_hook(specific_vars, desc_nodes, ...)
 	if specific_vars and specific_vars.mul_perma_priority then
-		localize({ type = "other", key = "mul_perma_priority", nodes = desc_nodes, vars = { SMODS.signed(specific_vars.mul_perma_priority) } })
+		localize({
+			type = "other",
+			key = "mul_perma_priority",
+			nodes = desc_nodes,
+			vars = { SMODS.signed(specific_vars.mul_perma_priority) },
+		})
 	end
 	if specific_vars and specific_vars.mul_temp_priority then
-		localize({ type = "other", key = "mul_temp_priority", nodes = desc_nodes, vars = { SMODS.signed(specific_vars.mul_temp_priority) } })
+		localize({
+			type = "other",
+			key = "mul_temp_priority",
+			nodes = desc_nodes,
+			vars = { SMODS.signed(specific_vars.mul_temp_priority) },
+		})
 	end
 end
 

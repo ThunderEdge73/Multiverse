@@ -87,7 +87,6 @@ function Multiverse.ease_TP(amt, args)
 			trigger = "ease",
 			ref_table = G.GAME,
 			ref_value = "_gradual_TP_amt",
-			blockable = false,
 			delay = 1,
 			ease_to = G.GAME._gradual_TP_amt + actual_change,
 			func = function(n)
@@ -266,7 +265,7 @@ function Multiverse.create_TP_ui()
 												love.graphics.setColor(G.C.FILTER)
 												love.graphics.polygon("fill", tp_main_verts)
 											end,
-											minw = 0.6,
+											minw = 0.55,
 											minh = 3.5,
 										},
 									},

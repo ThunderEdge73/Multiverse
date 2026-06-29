@@ -3007,6 +3007,7 @@ return {
 		},
 		dictionary = {
 			k_multiverse_desc = "A content mod by ThunderEdge",
+			k_mul_art_credit = "Art by #1#",
 			k_mul_thunderedge_credits = {
 				"{C:mul_transmuted}ThunderEdge{}",
 				"Creator of {C:mul_transmuted}Multiverse{}",

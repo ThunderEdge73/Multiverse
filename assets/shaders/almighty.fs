@@ -45,7 +45,7 @@ vec4 effect(vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords)
 
     float angle = atan(adjusted.y - 0.5, adjusted.x - 0.5);
 
-    if (mod(angle + PI, PI / 4) < PI / 8) {
+    if (mod(angle - almighty.y / 6.0, PI / 4) < PI / 8) {
         tex.rgb = 0.3 * tex.rgb + 0.7;
     } else {
         tex.rgb *= 0.8;
