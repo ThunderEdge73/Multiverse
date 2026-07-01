@@ -54,6 +54,7 @@ SMODS.Consumable({
 	atlas = "placeholder",
 	pos = { x = 1, y = 1 },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
 		table.insert(info_queue, {
 			set = "Other",
 			key = "mul_traitorous",

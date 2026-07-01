@@ -46,7 +46,7 @@ SMODS.Joker({
 	eternal_compat = false,
 	cost = 4,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.money, card.ability.extra.rounds_held, card.ability.extra.total_rounds } }
+		return { vars = { card.ability.extra.money, card.ability.extra.total_rounds - card.ability.extra.rounds_held, card.ability.extra.total_rounds } }
 	end,
 	attributes = { "economy" },
 	calculate = function(self, card, context)

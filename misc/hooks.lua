@@ -146,23 +146,18 @@ function G.UIDEF.card_h_popup(card, ...)
 							love.graphics.draw(Multiverse.art_credits_visuals.mesh)
 						end,
 						align = "cm",
+						minw = 2,
 					},
 					nodes = {
 						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = {
-								{
-									n = G.UIT.T,
-									config = {
-										scale = 0.3,
-										text = Multiverse.parse_vars(
-											localize("k_mul_art_credit"),
-											{ card.config.center.mul_art_credit or "ThunderEdge" }
-										),
-										colour = G.C.UI.TEXT_LIGHT,
-									},
-								},
+							n = G.UIT.T,
+							config = {
+								scale = 0.3,
+								text = Multiverse.parse_vars(
+									localize("k_mul_art_credit"),
+									{ card.config.center.mul_art_credit or "ThunderEdge" }
+								),
+								colour = G.C.UI.TEXT_LIGHT,
 							},
 						},
 					},

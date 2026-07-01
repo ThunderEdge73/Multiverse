@@ -1405,7 +1405,6 @@ return {
 				text = {
 					"{C:attention}Ethereal{}",
 					"Gain {C:mul_transmuted,f:mul_thaum_icon}+{C:mul_transmuted}#1#{}",
-					"Thaumaturgy Energy",
 					"{X:purple,C:white}X#2#{} Blind Size",
 				},
 			},
@@ -2070,7 +2069,8 @@ return {
 				name = "Villager",
 				text = {
 					{
-						"{C:mult}+#1#{} Mult, lose {C:money}$#2#{}",
+						"{C:mult}+#1#{} Mult",
+						"Lose {C:money}$#2#{}",
 						"when hand is played",
 					},
 					{
@@ -2095,9 +2095,9 @@ return {
 				name = "Red Bloon",
 				text = {
 					{
-						"Earn {C:money}$#1#{} when a card is scored",
-						"{C:red,E:2}Self-destructs{} in {C:attention}#3#{} rounds",
-						"{C:inactive}(Currently #2#/#3#){}",
+						"Scored cards give {C:money}$#1#{}",
+						"{C:red,E:2}Self-destructs{}",
+						"in {C:attention}#3#{} {C:inactive}(#2#){} rounds",
 					},
 					{
 						"{C:inactive,s:0.8}Who is paying the monkeys",
@@ -2396,17 +2396,16 @@ return {
 						"At end of round,",
 						"destroy all held",
 						"consumables and this",
-						"Joker gains {C:chips}+#1#{} Chips",
-						"per card destroyed",
+						"Joker gains {C:chips}+#1#{} Chips per",
+						"consumable destroyed",
 						"{C:inactive}Currently {C:chips}+#2#{C:inactive} Chips)",
 					},
 					{
-						"{C:inactive,s:0.8}The dog absorbed",
+						"{C:inactive,s:0.8}The dog absorbs",
 						"{C:inactive,s:0.8}the consumable.",
 					}
 				},
 			},
-			
 		},
 		Spectral = {
 			c_mul_eternity = {

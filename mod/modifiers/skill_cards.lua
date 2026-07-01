@@ -1547,39 +1547,6 @@ Multiverse.SkillCard({
 })
 
 Multiverse.SkillCard({
-	key = "card_counting",
-	tp_cost = 20,
-	sneaky = true,
-	ethereal = true,
-	config = { extra = { cards = 2 } },
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ethereal"]
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_sneaky"]
-		return {
-			vars = {
-				card.ability.extra.cards,
-				localize(G.GAME.current_round.mul_cc_rank or "Ace", "ranks_plural"),
-			},
-		}
-	end,
-	use_skill = function(self, card, paid_amt, x)
-		Multiverse.effect_animation(card, function()
-			for _ = 1, 2 do
-				Multiverse.drawn_card_modify_queue[#Multiverse.drawn_card_modify_queue + 1] = {
-					func = function(c)
-						assert(SMODS.change_base(c, nil, G.GAME.current_round.mul_cc_rank))
-					end,
-				}
-			end
-			SMODS.draw_cards(card.ability.extra.cards)
-		end)
-	end,
-	can_use_skill = function(self, card)
-		return #G.deck.cards >= card.ability.extra.cards
-	end,
-})
-
-Multiverse.SkillCard({
 	key = "sleight_of_hand",
 	tp_cost = 20,
 	sneaky = true,
