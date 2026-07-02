@@ -1670,7 +1670,7 @@ return {
 				name = "Skeletal Card",
 				text = {
 					"{C:mult}+#1#{} Mult",
-					"Loses {C:mult}-#2#{} Mult when",
+					"Loses {C:mult}#2#{} Mult when",
 					"played and scoring",
 					"{C:red,E:2}Self-destructs{} at",
 					"{C:mult}0{} Mult",

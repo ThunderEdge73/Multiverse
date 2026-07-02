@@ -218,7 +218,7 @@ SMODS.Joker({
 					delay(0.4)
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.play_animation("gerson_disable", {
+							Multiverse.play_animation("mul_gerson_disable", {
 								anchor = {
 									target = G.GAME.blind,
 								},
@@ -242,7 +242,7 @@ SMODS.Joker({
 					delay(0.4)
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.play_animation("gerson_disable", {
+							Multiverse.play_animation("mul_gerson_disable", {
 								anchor = {
 									target = G.GAME.blind,
 									x_offset = Multiverse.to_pixels(G.GAME.blind.VT.w),

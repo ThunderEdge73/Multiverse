@@ -7,7 +7,8 @@ Multiverse.Animations = {}
 ---@param t Multiverse.Animation
 ---@return Multiverse.Animation
 function Multiverse.Animation(t)
-	if Multiverse.Animations[t.key] then
+	local full_key = SMODS.current_mod.prefix .. t.key
+	if Multiverse.Animations[full_key] then
 		error("Attempt to define a duplicate animation")
 	end
 	local file_data =
@@ -35,7 +36,7 @@ function Multiverse.Animation(t)
 			love.graphics.newQuad(x * t.px, y * t.py, t.px, t.py, love_image)
 	end
 	Multiverse.Animations = Multiverse.Animations or {}
-	Multiverse.Animations[t.key] = anim_data
+	Multiverse.Animations[full_key] = anim_data
 	return anim_data
 end
 
@@ -46,12 +47,13 @@ Multiverse.Videos = {}
 ---@param t Multiverse.Video
 ---@return Multiverse.Video
 function Multiverse.Video(t)
-	if Multiverse.Videos[t.key] then
+	local full_key = SMODS.current_mod.prefix .. t.key
+	if Multiverse.Videos[full_key] then
 		error("Attempt to define a duplicate video")
 	end
 	local path = Multiverse.path .. "assets/videos/" .. t.path
 	local f = SMODS.NFS.read(path)
-	local cached_path = "video_cache/mul_" .. t.key .. ".ogv"
+	local cached_path = "video_cache/mul_" .. full_key .. ".ogv"
 	if not love.filesystem.getInfo(cached_path) then
 		love.filesystem.write(cached_path, f)
 	end
@@ -70,7 +72,7 @@ function Multiverse.Video(t)
 		py = love_video:getHeight(),
 	}
 	Multiverse.Videos = Multiverse.Videos or {}
-	Multiverse.Videos[t.key] = v_data
+	Multiverse.Videos[full_key] = v_data
 	return v_data
 end
 

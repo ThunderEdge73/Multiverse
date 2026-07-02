@@ -41,7 +41,7 @@ SMODS.Consumable({
 				end
 			end
 			local destroyed = Multiverse.get_unique_pseudorandom_elements(G.hand.cards, count, "mul_eternity")
-			Multiverse.play_animation("lightning")
+			Multiverse.play_animation("mul_lightning")
 			cards_to_destroy = SMODS.merge_lists({ cards_to_destroy, destroyed })
 			SMODS.destroy_cards(cards_to_destroy)
 		end)

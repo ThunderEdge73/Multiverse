@@ -623,7 +623,7 @@ function Multiverse.in_interaction()
 end
 
 function Multiverse.explode(anchor)
-	Multiverse.play_animation("explosion", {
+	Multiverse.play_animation("mul_explosion", {
 		anchor = anchor,
 	})
 	play_sound("mul_deltarune_explosion", 1, 0.8)

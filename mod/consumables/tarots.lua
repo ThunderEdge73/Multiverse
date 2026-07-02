@@ -37,15 +37,15 @@ SMODS.Consumable({
 		return Multiverse.config["joke"]
 	end,
 	use = function(self, card, area, copier)
-		Multiverse.play_animation("black_bg")
-		Multiverse.play_video("bad_apple")
+		Multiverse.play_animation("mul_black_bg")
+		Multiverse.play_video("mul_bad_apple")
 		Multiverse.very_important_thing = true
 		G.E_MANAGER:add_event(Event({
 			blockable = false,
 			func = function()
-				if not Multiverse.is_video_playing("bad_apple") then
+				if not Multiverse.is_video_playing("mul_bad_apple") then
 					Multiverse.very_important_thing = false
-					Multiverse.stop_animation("black_bg")
+					Multiverse.stop_animation("mul_black_bg")
 					return true
 				end
 			end,

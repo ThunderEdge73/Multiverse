@@ -217,10 +217,6 @@ Multiverse.music_credits = {
 				"Pigstep",
 				"Minecraft OST",
 			},
-			{
-				"Hammer of Justice",
-				"Deltarune Chapter 4 OST",
-			},
 		},
 		{
 			{
@@ -244,6 +240,10 @@ Multiverse.music_credits = {
 			{
 				"Isolation",
 				"NightHawk22",
+			},
+			{
+				"Hammer of Justice",
+				"Deltarune Chapter 4 OST",
 			},
 		},
 	},
@@ -644,7 +644,7 @@ function Multiverse.display_songs(page)
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = { align = "cm" },
+				config = { align = "cm", minh = 5.5 },
 				nodes = rows,
 			},
 		},
