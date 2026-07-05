@@ -55,6 +55,34 @@ function Game:main_menu(change_context, ...)
 	function G.SPLASH_MULTIVERSE_LOGO:stop_hover()
 		Node.stop_hover(self)
 	end
+	UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = {
+				align = "cm",
+				colour = G.C.UI.TRANSPARENT_DARK,
+			},
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						scale = 0.3,
+						text = "Multiverse: " .. Multiverse.version,
+						colour = G.C.UI.TEXT_LIGHT,
+					},
+				},
+			},
+		},
+		config = {
+			align = "tri",
+			bond = "Weak",
+			offset = {
+				x = 0,
+				y = 0.6,
+			},
+			major = G.ROOM_ATTACH,
+		},
+	})
 	return ret
 end
 
