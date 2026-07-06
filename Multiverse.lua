@@ -36,16 +36,6 @@ SMODS.current_mod.ui_config = {
 
 Multiverse.ENCHANTMENT_GROUPS = {}
 
-SMODS.ObjectType({
-	key = "mul_can_transmute",
-	default = "j_joker",
-	cards = {
-		["j_joker"] = true,
-		["j_pareidolia"] = true,
-		["j_invisible"] = true,
-	},
-})
-
 ---@param card Card
 function Multiverse.handle_debuffs(card)
 	local ret = {}

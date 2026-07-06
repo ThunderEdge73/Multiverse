@@ -13,5 +13,6 @@
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-1814a)",
         "blindexpander (>=1.2.9f)"
-    ]
+    ],
+    "icon_path": "modicon.png"
 }

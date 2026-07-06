@@ -17,12 +17,6 @@ SMODS.Atlas({
 	path = "placeholder_modifiers.png",
 })
 SMODS.Atlas({
-	key = "modicon",
-	px = 34,
-	py = 34,
-	path = "modicon.png",
-})
-SMODS.Atlas({
 	key = "p_stone",
 	px = 71,
 	py = 95,
