@@ -260,7 +260,7 @@ return {
 			psv_mul_justice = {
 				name = "Justice",
 				text = {
-					"If you get hit, destroy {C:attention}#1#{} random card",
+					"If you get hit, {C:red}debuff {C:attention}#1#{} random card",
 					"currently held in hand",
 				},
 			},
@@ -2668,9 +2668,6 @@ return {
 					"{C:green}#1# in #2#{} chance to",
 					"return to {C:attention}hand{} after",
 					"being played or discarded",
-					"{C:inactive}(Cards with this{}",
-					"{C:attention}Sticker{C:inactive} are treated{}",
-					"{C:inactive}as {C:attention}Status Cards{C:inactive})",
 				},
 			},
 			undiscovered_mul_myth = {
@@ -2737,6 +2734,8 @@ return {
 				text = {
 					"Cost: Destroy {C:attention}1{} Joker",
 					"Effect: Gain {C:attention}#1#%{} TP",
+					"{C:inactive}(Can only be used{}",
+					"{C:inactive}while in a {C:attention}Blind{C:inactive}){}",
 				},
 			},
 			mul_thunderedge_ability = {

@@ -466,7 +466,7 @@ Multiverse.UsableJoker({
 		return SMODS.merge_effects({ left, right })
 	end,
 	can_use = function(self, card)
-		return #Multiverse.filter(G.jokers.cards, function(item)
+		return G.GAME.blind.in_blind and #Multiverse.filter(G.jokers.cards, function(item)
 			return item ~= card and not SMODS.is_eternal(item, card)
 		end) >= 1
 	end,

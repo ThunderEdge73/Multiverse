@@ -12,7 +12,7 @@
     "version": "0.1.0~PLAYTEST",
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-1814a)",
-        "blindexpander (>=1.2.9f)"
+        "blindexpander (>=1.2.9g)"
     ],
     "icon_path": "modicon.png"
 }
