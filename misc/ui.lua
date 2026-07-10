@@ -333,11 +333,7 @@ function Multiverse.config_tab_definition()
 			},
 		},
 	}
-	local mul_nodes = Multiverse.create_localized_rows(
-		nil,
-		"mul_config_menu_title",
-		{ text_scale = 2, bg_colour = G.C.CLEAR, no_padding = true }
-	)
+	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_config_menu_title", { text_scale = 2, empty = true })
 	mul_nodes[#mul_nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm" },
@@ -652,7 +648,7 @@ function Multiverse.display_songs(page)
 end
 
 function Multiverse.music_tab_definition(page)
-	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_music_menu_text", { text_scale = 1.5 })
+	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_music_menu_text", { text_scale = 1.5, minh = 1.2 })
 	table.insert(mul_nodes, Multiverse.display_songs(page))
 	local pages = {}
 	for i, _ in ipairs(Multiverse.music_credits) do
@@ -775,10 +771,14 @@ Multiverse.test_ui_def = function()
 						local t = self.VT or self.T
 						local offset = 0.2
 						local verts = {
-							offset * G.TILESIZE, 0,
-							t.w * G.TILESIZE, 0,
-							(t.w - offset) * G.TILESIZE, t.h * G.TILESIZE,
-							0, t.h * G.TILESIZE,
+							offset * G.TILESIZE,
+							0,
+							t.w * G.TILESIZE,
+							0,
+							(t.w - offset) * G.TILESIZE,
+							t.h * G.TILESIZE,
+							0,
+							t.h * G.TILESIZE,
 						}
 						love.graphics.setColor(Multiverse.C.PRIMARY1)
 						love.graphics.polygon("fill", verts)
@@ -829,12 +829,12 @@ end
 Multiverse.credits_table = {
 	{
 		card_key = "j_mul_thunderedge",
-		desc_key = "k_mul_thunderedge_credits",
+		desc_key = "mul_thunderedge_credits",
 		link = "https://github.com/ThunderEdge73/Multiverse",
 	},
 	{
 		card_key = "j_mul_proto",
-		desc_key = "k_mul_proto_credits",
+		desc_key = "mul_proto_credits",
 		link = "https://github.com/ProotTheFoxCodes/Trials-of-the-protogen",
 	},
 	"MISC_CREDITS",
@@ -1107,8 +1107,25 @@ function Multiverse.generate_credits_desc_nodes(entry)
 			},
 			{
 				n = G.UIT.C,
-				config = { align = "cm" },
-				nodes = Multiverse.create_localized_rows(nil, entry.desc_key, { text_scale = 1.1 }),
+				config = { align = "cm", padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { padding = 0.05, align = "cm" },
+						nodes = localize({
+							type = "name",
+							key = entry.desc_key,
+							set = "Other",
+							name_nodes = {},
+							vars = {},
+						}),
+					},
+					{
+						n = G.UIT.R,
+						config = {},
+						nodes = Multiverse.create_localized_rows(nil, entry.desc_key),
+					},
+				},
 			},
 		},
 	}
@@ -1117,89 +1134,44 @@ end
 ---Creates a fancy UI that displays text from a loc table
 ---@param set string
 ---@param key string
----@param args? {bg_colour: table?, text_scale: number?, loc_vars: table?, no_padding: boolean?, text_colour: table?}
+---@param args? {bg_colour?: table, text_scale?: number, loc_vars?: table, text_colour?: table, align?: "c" | "l" | "r", empty?: boolean, minh?: number, minw?: number}
 ---@return table
 function Multiverse.create_localized_rows(set, key, args)
 	args = args or {}
-	args.bg_colour = args.bg_colour or G.C.WHITE
-	local loc_entry
 	args.text_scale = args.text_scale or 1
-	if set then
-		loc_entry = G.localization.descriptions[set][key]
-	else
-		loc_entry = G.localization.misc.dictionary[key]
-	end
+	local desc_nodes = {}
+	localize({
+		type = "descriptions",
+		set = set or "Other",
+		key = key,
+		nodes = desc_nodes,
+		fixed_scale = args.text_scale,
+		scale = args.text_scale,
+		text_colour = args.text_colour,
+		vars = args.loc_vars or {},
+	})
 	local rows = {}
-	if set then
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = { align = "cm", padding = args.no_padding and 0 or 0.05 },
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = { align = "cm" },
-					nodes = {
-						{ n = G.UIT.T, config = { text = loc_entry.name, colour = G.C.UI.TEXT_LIGHT, scale = 0.4 } },
-					},
-				},
-			},
-		})
-		local text_rows = {}
-		for _, line in ipairs(loc_entry.text_parsed) do
-			table.insert(text_rows, {
-				n = G.UIT.R,
-				config = { align = "cm" },
-				nodes = SMODS.localize_box(line, { scale = 0.9 * args.text_scale, vars = args.loc_vars }),
-			})
-		end
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = {
-				align = "cm",
-				padding = args.no_padding and 0 or 0.05,
-				colour = args.bg_colour,
-				r = 0.1,
-				emboss = 0.05,
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = { align = "cm", padding = 0.05 },
-					nodes = text_rows,
-				},
-			},
-		})
-	else
-		local text_rows = {}
-		for _, line in ipairs(loc_entry) do
-			table.insert(text_rows, {
-				n = G.UIT.R,
-				config = { align = "cm" },
-				nodes = SMODS.localize_box(
-					loc_parse_string(line),
-					{ scale = 0.9 * args.text_scale, vars = args.loc_vars, default_col = args.text_colour }
-				),
-			})
-		end
-		table.insert(rows, {
-			n = G.UIT.R,
-			config = {
-				align = "cm",
-				padding = args.no_padding and 0 or 0.05,
-				colour = args.bg_colour,
-				r = 0.1,
-				emboss = 0.05,
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = { align = "cm", padding = 0.05 },
-					nodes = text_rows,
-				},
-			},
-		})
+	for _, v in ipairs(desc_nodes) do
+		rows[#rows + 1] = { n = G.UIT.R, config = { align = (args.align or "c") .. "m" }, nodes = v }
 	end
-	return rows
+	return {
+		{
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+				colour = args.bg_colour or (args.empty and G.C.CLEAR or G.C.UI.BACKGROUND_WHITE),
+				r = 0.1,
+				padding = 0.04,
+				minw = args.minw or 2,
+				minh = args.minh or 0.8,
+				emboss = not args.empty and 0.05 or nil,
+				filler = true,
+			},
+			nodes = {
+				{ n = G.UIT.R, config = { align = "cm", padding = 0.03 }, nodes = rows },
+			},
+		},
+	}
 end
 
 --#region Other mod link redirects

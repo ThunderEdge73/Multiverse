@@ -2403,7 +2403,7 @@ return {
 					{
 						"{C:inactive,s:0.8}The dog absorbs",
 						"{C:inactive,s:0.8}the consumable.",
-					}
+					},
 				},
 			},
 		},
@@ -2974,6 +2974,31 @@ return {
 					"> {V:11}PaperMoon {C:inactive}({button:mul_prbk_link,u:blue,C:blue}Paperback{C:inactive})",
 				},
 			},
+			mul_thunderedge_credits = {
+				name = "{C:mul_transmuted}ThunderEdge{}",
+				text = {
+					"Creator of {C:mul_transmuted}Multiverse{}",
+					"Implemented all of",
+					"{C:mul_transmuted}Multiverse{}'s mechanics",
+				},
+			},
+			mul_proto_credits = {
+				name = "{C:attention}Proto{}",
+				text = {
+					"Added some {C:attention}challenges{}",
+					"Added attack patterns",
+					"for {C:attention}The Undying{}",
+				},
+			},
+			mul_config_menu_title = {
+				text = { "{C:white}Change {C:mul_transmuted}Multiverse{C:white}'s settings here" },
+			},
+			mul_music_menu_text = {
+				text = {
+					"{C:attention}Enable{} or {C:attention}disable{} certain songs that this mod uses",
+					"{C:attention}Hover{} over the song details to see when the song plays",
+				},
+			},
 		},
 	},
 	misc = {
@@ -3006,24 +3031,6 @@ return {
 		dictionary = {
 			k_multiverse_desc = "A content mod by ThunderEdge",
 			k_mul_art_credit = "Art by #1#",
-			k_mul_thunderedge_credits = {
-				"{C:mul_transmuted}ThunderEdge{}",
-				"Creator of {C:mul_transmuted}Multiverse{}",
-				"Implemented all of",
-				"{C:mul_transmuted}Multiverse{}'s mechanics",
-			},
-			k_mul_proto_credits = {
-				"{C:attention}Proto{}",
-				"Added some {C:attention}challenges{}",
-				"Added attack patterns",
-				"for {C:attention}The Undying{}",
-			},
-			-- k_mul_sleepy_credits = {
-			-- 	"{C:attention}SleepyG11{}",
-			-- 	"Helped with setting",
-			-- 	"up {C:attention}scrollbars{} and other",
-			-- 	"{C:attention}UI-related{} functionality",
-			-- },
 			k_mul_enchantment_table = "Enchant your Deck",
 			k_mul_dimension = "Traverse Reality",
 			k_mul_skills = "Learn Skills",
@@ -3136,13 +3143,6 @@ return {
 				"HITS THE VERDANT LEAF",
 				"NOW GET REROLLED",
 				"BEFORE I DISABLE YOU TOO",
-			},
-			mul_config_menu_title = {
-				"{C:white}Change {C:mul_transmuted}Multiverse{C:white}'s settings here",
-			},
-			mul_music_menu_text = {
-				"{C:attention}Enable{} or {C:attention}disable{} certain songs that this mod uses",
-				"{C:attention}Hover{} over the song details to see when the song plays",
 			},
 			mul_multiverse = "Multiverse",
 			mul_mod_items = {

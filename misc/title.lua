@@ -99,6 +99,9 @@ function Multiverse.update_main_menu()
 			offset = { x = 8 * math.sin(G.mul_loaded_timer * 0.075), y = 3.7 * math.cos(G.mul_loaded_timer * 0.075) },
 		})
 	end
+	if not G.SETTINGS.mul_controller_warning_seen and G.CONTROLLER.HID.controller then
+		
+	end
 end
 
 SMODS.Atlas({
