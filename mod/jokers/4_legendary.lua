@@ -31,13 +31,13 @@ Multiverse.UsableJoker({
 		info_queue[#info_queue + 1] = G.P_TAGS["tag_mul_dimensional"]
 	end,
 	can_use = function(self, card)
-		return G.GAME.mul_TP >= card.ability.extra.tp_cost
+		return G.GAME.mul_tp >= card.ability.extra.tp_cost
 			and G.GAME.mul_thaumaturgy_energy >= card.ability.extra.thaum_energy_cost
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost, { immediate = true })
-			Multiverse.ease_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost, { immediate = true })
+			ease_mul_tp(-card.ability.extra.tp_cost, true)
+			ease_mul_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost, true)
 			add_tag(Tag("tag_mul_dimensional", false, "Small"))
 		end)
 	end,
@@ -94,11 +94,11 @@ Multiverse.UsableJoker({
 	end,
 	can_use = function(self, card)
 		local _, found = Multiverse.calculate_singularity_values()
-		return G.GAME.mul_TP >= card.ability.extra.tp_cost and found
+		return G.GAME.mul_tp >= card.ability.extra.tp_cost and found
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost, { immediate = true })
+			ease_mul_tp(-card.ability.extra.tp_cost, true)
 			local singularity_vals = Multiverse.calculate_singularity_values()
 			local cards_to_destroy = Multiverse.filter(G.hand.cards, function(item)
 				return not (

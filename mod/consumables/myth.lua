@@ -74,10 +74,7 @@ SMODS.Consumable({
 				delay = 0.4,
 				func = function()
 					play_sound("timpani")
-					Multiverse.ease_thaumaturgy_energy(
-						count * card.ability.extra.energy_per_joker,
-						{ immediate = true }
-					)
+					ease_mul_thaumaturgy_energy(count * card.ability.extra.energy_per_joker, true)
 					return true
 				end,
 			}))
@@ -227,9 +224,9 @@ SMODS.Consumable({
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(
+			ease_mul_thaumaturgy_energy(
 				Multiverse.clamp(G.GAME.mul_thaumaturgy_energy, 0, card.ability.extra.max_thaum_energy),
-				{ immediate = true }
+				true
 			)
 		end)
 	end,
@@ -286,7 +283,7 @@ SMODS.Consumable({
 			local count = #G.hand.cards
 			SMODS.destroy_cards(G.hand.cards, nil, true)
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(-count * card.ability.extra.energy_loss, { immediate = true })
+			ease_mul_thaumaturgy_energy(-count * card.ability.extra.energy_loss, true)
 		end)
 	end,
 })
@@ -305,7 +302,7 @@ SMODS.Consumable({
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
 			SMODS.add_card({ rarity = "Rare", set = "Joker", key_append = "mul_necronomicon" })
-			Multiverse.ease_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, { immediate = true })
+			ease_mul_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, true)
 		end)
 	end,
 })
@@ -396,10 +393,7 @@ SMODS.Consumable({
 				j:flip()
 			end
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(
-				card.ability.extra.energy_per_joker * #G.jokers.cards,
-				{ immediate = true }
-			)
+			ease_mul_thaumaturgy_energy(card.ability.extra.energy_per_joker * #G.jokers.cards, true)
 		end)
 	end,
 })
@@ -460,12 +454,12 @@ SMODS.Consumable({
 		local total = math.floor(G.GAME.mul_thaumaturgy_energy / 2)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(-total, { immediate = true })
+			ease_mul_thaumaturgy_energy(-total, true)
 		end)
 		delay(0.6)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			Multiverse.ease_TP(total, { immediate = true })
+			ease_mul_tp(total, true)
 		end)
 	end,
 })
@@ -496,7 +490,7 @@ SMODS.Consumable({
 		Multiverse.effect_animation(card, function()
 			SMODS.destroy_cards(G.jokers.highlighted[1], nil, true)
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(card.ability.extra.thaum_energy, { immediate = true })
+			ease_mul_thaumaturgy_energy(card.ability.extra.thaum_energy, true)
 		end)
 	end,
 })
@@ -576,7 +570,7 @@ SMODS.Consumable({
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, { immediate = true })
+			ease_mul_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, true)
 			local target = G.jokers.highlighted[1]
 			Multiverse.increment_transmute_progress(target, nil, card.ability.extra.progress_percent)
 			target:juice_up(0.3, 0.5)
@@ -747,7 +741,7 @@ SMODS.Consumable({
 	use = function(self, card, area, copier)
 		Multiverse.effect_animation(card, function()
 			G.jokers.highlighted[1]:set_edition("e_polychrome", true)
-			Multiverse.ease_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost, { immediate = true })
+			ease_mul_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost, true)
 		end)
 	end,
 })
@@ -838,10 +832,7 @@ SMODS.Consumable({
 		Multiverse.effect_animation(card, function()
 			local target = G.jokers.highlighted[1]
 			play_sound("timpani")
-			Multiverse.ease_thaumaturgy_energy(
-				#Multiverse.get_stickers(target) * card.ability.extra.energy_per_sticker,
-				{ immediate = true }
-			)
+			ease_mul_thaumaturgy_energy(#Multiverse.get_stickers(target) * card.ability.extra.energy_per_sticker, true)
 		end)
 	end,
 })
@@ -1188,7 +1179,7 @@ SMODS.Consumable({
 		Multiverse.effect_animation(card, function()
 			play_sound("timpani")
 			total = math.floor(G.GAME.mul_thaumaturgy_energy / card.ability.extra.conversion_rate)
-			Multiverse.ease_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, { immediate = true })
+			ease_mul_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, true)
 			ease_dollars(total, true)
 		end)
 	end,

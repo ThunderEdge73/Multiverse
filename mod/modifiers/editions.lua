@@ -34,23 +34,15 @@ SMODS.Edition({
 	end,
 	calculate = function(self, card, context)
 		if context.end_of_round and not context.blueprint and not context.game_over and context.main_eval then
-			SMODS.calculate_effect({
-				message = localize({
-					type = "variable",
-					key = "a_mul_TP",
-					vars = { card.edition.extra.tp },
-				}),
-			}, card)
-			Multiverse.ease_TP(card.edition.extra.tp)
-			SMODS.calculate_effect({
-				message = localize({
-					type = "variable",
-					key = "a_mul_thaumaturgy_energy",
-					vars = { card.edition.extra.thaum_energy },
-				}),
-				colour = Multiverse.C.TRANSMUTED_GRADIENT,
-			}, card)
-			Multiverse.ease_thaumaturgy_energy(card.edition.extra.thaum_energy, { from_charge = true })
+			Wallet.mod_buffer("mul_tp", card.edition.extra.tp)
+			Wallet.mod_buffer("mul_thaumaturgy_energy", card.edition.extra.thaum_energy)
+			return {
+				mul_thaumaturgy_energy = card.edition.extra.thaum_energy,
+				mul_tp = card.edition.extra.tp,
+				func = function()
+					Wallet.reset_buffers("mul_tp", "mul_thaumaturgy_energy")
+				end
+			}
 		end
 	end,
 })
@@ -75,15 +67,15 @@ SMODS.Edition({
 		end
 		if context.debuff_card == card then
 			return {
-				prevent_debuff = true
+				prevent_debuff = true,
 			}
 		end
 	end,
-	loc_vars = function (self, info_queue, card)
+	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				card.edition.extra.xscore
-			}
+				card.edition.extra.xscore,
+			},
 		}
 	end,
 })

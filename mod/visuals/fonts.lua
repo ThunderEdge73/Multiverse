@@ -1,8 +1,7 @@
 SMODS.Font({
-    key = "mul_thaum_icon",
-    path = "thaum_energy_icon.ttf",
-    FONTSCALE = 0.08,
-    TEXT_OFFSET = { x = 0, y = -10 },
+    key = "mul_m6x11",
+    path = "multiverse-m6x11.ttf",
+    FONTSCALE = 0.09
 })
 
 SMODS.Font({

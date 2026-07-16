@@ -142,20 +142,20 @@ Multiverse.DummyCenter({
 Multiverse.DummyCenter({
 	key = "tp_info",
 	loc_vars = function(self, info_queue, card)
-		local key = "mul_TP_desc"
+		local key = "mul_tp_desc"
 		if not Multiverse.joke_TP_desc_triggered and math.random(1, 500) == 1 then
-			key = "mul_TP_desc_joke1"
+			key = "mul_tp_desc_joke1"
 			Multiverse.joke_TP_desc_triggered = true
 		elseif Multiverse.joke_TP_desc_triggered then
-			key = "mul_TP_desc_joke2"
+			key = "mul_tp_desc_joke2"
 		end
 		Multiverse.joke_TP_desc_triggered = false
 		return {
 			set = "Other",
 			key = key,
 			vars = {
-				G.GAME.mul_TP_min_gain,
-				G.GAME.mul_TP_max_gain,
+				G.GAME.mul_tp_min_gain,
+				G.GAME.mul_tp_max_gain,
 			},
 		}
 	end,

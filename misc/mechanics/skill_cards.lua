@@ -53,7 +53,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 			return "?"
 		end
 		if self.tp_cost == "X" then
-			return ui_format and "X" or G.GAME.mul_TP
+			return ui_format and "X" or G.GAME.mul_tp
 		end
 		local res = {}
 		local discount = 0
@@ -105,7 +105,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 								object = DynaText({
 									string = {
 										{
-											suffix = " " .. localize("k_mul_TP"),
+											suffix = " " .. localize("k_mul_tp"),
 											string = self:get_final_tp_cost(card, true),
 										},
 									},
@@ -193,8 +193,8 @@ G.FUNCS.mul_can_use_skill = function(e)
 		and card:mul_can_use_generic()
 		and #G.hand.highlighted == 1
 		and G.hand.highlighted[1] == card
-		and G.GAME.mul_TP >= center:get_final_tp_cost(card)
-		and (center.tp_cost ~= "X" or G.GAME.mul_TP > 0 or G.GAME.mul_x_boost > 0)
+		and G.GAME.mul_tp >= center:get_final_tp_cost(card)
+		and (center.tp_cost ~= "X" or G.GAME.mul_tp > 0 or G.GAME.mul_x_boost > 0)
 		and not card.debuff
 		and center:can_use_skill(card)
 	then
@@ -272,7 +272,11 @@ G.FUNCS.mul_use_skill = function(e)
 	if center.tp_cost == "X" then
 		x = paid + G.GAME.mul_x_boost
 	end
-	Multiverse.ease_TP(-paid, { from_skill = true, immediate = true })
+	if paid ~= 0 then
+		Multiverse.context_flags.from_skill = true
+		ease_mul_tp(-paid, true)
+		Multiverse.context_flags = {}
+	end
 	Multiverse.draw_card(G.hand, G.play, 1, "up", true, card, nil, true)
 	delay(0.2)
 	local res = center:use_skill(card, paid, x) or "discard"

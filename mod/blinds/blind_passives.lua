@@ -440,19 +440,11 @@ blindexpander.Passive({
 			local affected = math.min(passive.config.stacks, #context.hand_drawn)
 			for i, c in ipairs(context.hand_drawn) do
 				if i <= affected then
+					Wallet.mod_buffer("mul_tp", passive.config.tp)
 					SMODS.calculate_effect({
-						message = localize({
-							type = "variable",
-							key = "a_mul_TP",
-							vars = { passive.config.tp },
-						}),
+						mul_tp = passive.config.tp,
 						func = function()
-							G.E_MANAGER:add_event(Event({
-								func = function()
-									Multiverse.ease_TP(passive.config.tp)
-									return true
-								end
-							}))
+							Wallet.reset_buffer("mul_tp")
 						end,
 					}, c)
 				end

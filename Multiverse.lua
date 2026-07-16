@@ -36,6 +36,17 @@ SMODS.current_mod.ui_config = {
 
 Multiverse.ENCHANTMENT_GROUPS = {}
 
+Multiverse.context_flags = {}
+
+function Multiverse.reset_context_flags()
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			Multiverse.context_flags = {}
+			return true
+		end,
+	}))
+end
+
 ---@param card Card
 function Multiverse.handle_debuffs(card)
 	local ret = {}
@@ -107,7 +118,6 @@ SMODS.current_mod.calculate = function(self, context)
 		if #cards_to_destroy > 0 then
 			SMODS.destroy_cards(cards_to_destroy)
 		end
-		Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_rate, { from_charge = true })
 		if context.beat_boss then
 			G.GAME.mul_num_bosses_defeated = (G.GAME.mul_num_bosses_defeated or 0) + 1
 		end
@@ -116,14 +126,65 @@ SMODS.current_mod.calculate = function(self, context)
 				playing_card.ability.mul_temp_priority = nil
 			end
 		end)
+		Multiverse.context_flags.from_charge = true
+		Wallet.mod_buffer("mul_thaumaturgy_energy", G.GAME.mul_thaumaturgy_energy_rate)
+		ret[#ret + 1] = {
+			mul_thaumaturgy_energy = G.GAME.mul_thaumaturgy_energy_rate,
+			func = function()
+				Wallet.reset_buffer("mul_thaumaturgy_energy")
+				Multiverse.reset_context_flags()
+			end,
+		}
 	end
 	if context.mul_philosophers_stone_check and not context.game_over and context.main_eval then
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				Multiverse.check_philosophers_stone()
-				return true
-			end,
-		}))
+		if G.GAME.mul_thaumaturgy_energy + (G.GAME.mul_thaumaturgy_energy_buffer or 0) >= 100 then
+			if #G.consumeables.cards < G.consumeables.config.card_limit then
+				Multiverse.context_flags.from_philosophers_stone = true
+				Wallet.mod_buffer("mul_thaumaturgy_energy", -G.GAME.mul_thaumaturgy_energy)
+				ret[#ret + 1] = {
+					mul_thaumaturgy_energy = -G.GAME.mul_thaumaturgy_energy,
+					func = function()
+						SMODS.add_card({
+							key = "c_mul_philosophers_stone",
+							key_append = "mul_thaumaturgy_charge",
+						})
+						Wallet.reset_buffer("mul_thaumaturgy_energy")
+						Multiverse.reset_context_flags()
+					end,
+				}
+			else
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						delay(2.2 * G.SETTINGS.GAMESPEED)
+						attention_text({
+							scale = 1.4,
+							text = localize("k_no_room_ex"),
+							hold = 2 * G.SETTINGS.GAMESPEED,
+							align = "cm",
+							offset = { x = 0, y = -1.7 },
+							major = G.play,
+						})
+						attention_text({
+							scale = 0.7,
+							text = localize("k_mul_make_room"),
+							hold = 2 * G.SETTINGS.GAMESPEED,
+							align = "cm",
+							offset = { x = 0, y = -0.5 },
+							major = G.play,
+						})
+						attention_text({
+							scale = 0.7,
+							text = localize("k_mul_make_room2"),
+							hold = 2 * G.SETTINGS.GAMESPEED,
+							align = "cm",
+							offset = { x = 0, y = 0.3 },
+							major = G.play,
+						})
+						return true
+					end,
+				}))
+			end
+		end
 	end
 	if context.starting_shop then
 		Multiverse.hide_blind_instructions()
@@ -170,15 +231,16 @@ SMODS.current_mod.calculate = function(self, context)
 				-- Multiverse.play_animation("ren_cut_in")
 			end
 		else
-			G.E_MANAGER:add_event(Event({
+			local tp_amt = pseudorandom("mul_tp_gen", G.GAME.mul_tp_min_gain, G.GAME.mul_tp_max_gain)
+			Multiverse.context_flags.from_scored_hand = true
+			Wallet.mod_buffer("mul_tp", tp_amt)
+			ret[#ret + 1] = {
+				mul_tp = tp_amt,
 				func = function()
-					Multiverse.ease_TP(
-						pseudorandom("mul_TP_gen", G.GAME.mul_TP_min_gain, G.GAME.mul_TP_max_gain),
-						{ from_hand = true, immediate = true }
-					)
-					return true
+					Wallet.reset_buffer("mul_tp")
+					Multiverse.reset_context_flags()
 				end,
-			}))
+			}
 		end
 	end
 	if

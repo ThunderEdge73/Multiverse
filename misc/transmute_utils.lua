@@ -31,56 +31,13 @@ function Multiverse.increment_transmute_progress(card, amt, percent)
 	end
 end
 
-function Multiverse.check_philosophers_stone()
-	if G.GAME.mul_thaumaturgy_energy >= 100 then
-		if #G.consumeables.cards < G.consumeables.config.card_limit then
-			Multiverse.ease_thaumaturgy_energy(-G.GAME.mul_thaumaturgy_energy, { from_philosophers_stone = true })
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					SMODS.add_card({
-						key = "c_mul_philosophers_stone",
-						key_append = "mul_thaumaturgy_charge",
-					})
-					return true
-				end,
-			}))
-		else
-			delay(2.2 * G.SETTINGS.GAMESPEED)
-			attention_text({
-				scale = 1.4,
-				text = localize("k_no_room_ex"),
-				hold = 2 * G.SETTINGS.GAMESPEED,
-				align = "cm",
-				offset = { x = 0, y = -1.7 },
-				major = G.play,
-			})
-			attention_text({
-				scale = 0.7,
-				text = localize("k_mul_make_room"),
-				hold = 2 * G.SETTINGS.GAMESPEED,
-				align = "cm",
-				offset = { x = 0, y = -0.5 },
-				major = G.play,
-			})
-			attention_text({
-				scale = 0.7,
-				text = localize("k_mul_make_room2"),
-				hold = 2 * G.SETTINGS.GAMESPEED,
-				align = "cm",
-				offset = { x = 0, y = 0.3 },
-				major = G.play,
-			})
-		end
-	end
-end
-
 function Multiverse.set_transmute_requirements(base)
 	return Multiverse.config.debug and 1 or base
 end
 
 ---@param card Card
 function Multiverse.can_receive_transmutable(card)
-	return card and card.config.center.has_attribute and card:has_attribute("transmutable")
+	return card and card:has_attribute("transmutable")
 end
 
 ---Will now safely return and do nothing if the card cannot become transmutable

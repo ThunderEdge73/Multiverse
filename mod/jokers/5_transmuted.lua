@@ -192,7 +192,7 @@ Multiverse.UsableJoker({
 		end
 		return count >= 5
 			and G.GAME.dollars >= card.ability.extra.dollar_cost + G.GAME.bankrupt_at
-			and G.GAME.mul_TP >= card.ability.extra.tp_cost
+			and G.GAME.mul_tp >= card.ability.extra.tp_cost
 	end,
 })
 
@@ -345,7 +345,7 @@ Multiverse.UsableJoker({
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost, { immediate = true })
+			ease_mul_tp(-card.ability.extra.tp_cost, true)
 			ease_hands_played(card.ability.extra.hand_boost)
 			SMODS.calculate_effect({
 				message = localize("k_eaten_ex"),
@@ -353,7 +353,7 @@ Multiverse.UsableJoker({
 		end)
 	end,
 	can_use = function(self, card)
-		return G.GAME.mul_TP >= card.ability.extra.tp_cost
+		return G.GAME.mul_tp >= card.ability.extra.tp_cost
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
@@ -466,9 +466,11 @@ Multiverse.UsableJoker({
 		return SMODS.merge_effects({ left, right })
 	end,
 	can_use = function(self, card)
-		return G.GAME.blind.in_blind and #Multiverse.filter(G.jokers.cards, function(item)
-			return item ~= card and not SMODS.is_eternal(item, card)
-		end) >= 1
+		return G.GAME.blind.in_blind
+			and #Multiverse.filter(G.jokers.cards, function(item)
+					return item ~= card and not SMODS.is_eternal(item, card)
+				end)
+				>= 1
 	end,
 	use = function(self, card)
 		Multiverse.start_interaction({
@@ -480,7 +482,7 @@ Multiverse.UsableJoker({
 			end,
 			end_interaction = function()
 				SMODS.destroy_cards(G.jokers.highlighted[1])
-				Multiverse.ease_TP(card.ability.extra.tp_gain)
+				ease_mul_tp(card.ability.extra.tp_gain)
 			end,
 			display_text = localize("k_mul_murder"),
 		})
@@ -515,7 +517,7 @@ Multiverse.UsableJoker({
 	use = function(self, card)
 		local target = G.hand.highlighted[1]
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(-card.ability.extra.tp_cost)
+			ease_mul_tp(-card.ability.extra.tp_cost)
 			target:set_seal(card.ability.extra.seal, nil, true)
 			target:juice_up(0.3, 0.5)
 			SMODS.calculate_effect({
@@ -524,6 +526,6 @@ Multiverse.UsableJoker({
 		end)
 	end,
 	can_use = function(self, card)
-		return G.GAME.mul_TP >= card.ability.extra.tp_cost and #G.hand.highlighted == 1
+		return G.GAME.mul_tp >= card.ability.extra.tp_cost and #G.hand.highlighted == 1
 	end,
 })

@@ -11,14 +11,12 @@ SMODS.Sticker({
 	sets = { Joker = true },
 	calculate = function(self, card, context)
 		if context.end_of_round and not context.blueprint and not context.game_over and context.main_eval then
-			Multiverse.ease_thaumaturgy_energy(G.GAME.mul_thaumaturgy_energy_per_joker, { from_charge = true })
+			Wallet.mod_buffer("mul_thaumaturgy_energy", G.GAME.mul_thaumaturgy_energy_per_joker)
 			return {
-				message = localize({
-					type = "variable",
-					key = "a_mul_thaumaturgy_energy",
-					vars = { G.GAME.mul_thaumaturgy_energy_per_joker },
-				}),
-				colour = Multiverse.C.TRANSMUTED_GRADIENT,
+				mul_thaumaturgy_energy = G.GAME.mul_thaumaturgy_energy_per_joker,
+				func = function()
+					Wallet.reset_buffer("mul_thaumaturgy_energy")
+				end,
 			}
 		end
 	end,

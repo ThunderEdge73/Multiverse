@@ -1905,22 +1905,11 @@ Multiverse.DeckEnchantment({
 	enchantment_type = "positive",
 	calculate = function(self, enchantment, context)
 		if context.discard and G.GAME.current_round.discards_used == 0 then
-			local c = context.other_card
+			Wallet.mod_buffer("mul_tp", enchantment.level * enchantment.ability.tp)
 			return {
+				mul_tp = enchantment.level * enchantment.ability.tp,
 				func = function()
-					SMODS.calculate_effect({
-						message = localize({
-							type = "variable",
-							key = "a_mul_TP",
-							vars = { enchantment.level * enchantment.ability.tp },
-						}),
-					}, c)
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp, { immediate = true })
-							return true
-						end,
-					}))
+					Wallet.reset_buffer("mul_tp")
 				end,
 			}
 		end
@@ -2001,19 +1990,11 @@ Multiverse.DeckEnchantment({
 			and context.other_card == context.scoring_hand[1]
 			and G.GAME.current_round.hands_played == 0
 		then
+			Wallet.mod_buffer("mul_tp", enchantment.level * enchantment.ability.tp)
 			return {
-				message = localize({
-					type = "variable",
-					key = "a_mul_TP",
-					vars = { enchantment.level * enchantment.ability.tp },
-				}),
+				mul_tp = enchantment.level * enchantment.ability.tp,
 				func = function()
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							Multiverse.ease_TP(enchantment.level * enchantment.ability.tp, { immediate = true })
-							return true
-						end,
-					}))
+					Wallet.reset_buffer("mul_tp")
 				end,
 			}
 		end
@@ -2036,7 +2017,7 @@ Multiverse.DeckEnchantment({
 		}
 	end,
 	calc_dollar_bonus = function(self, enchantment)
-		if G.GAME.mul_TP >= enchantment.ability.min_tp then
+		if G.GAME.mul_tp + G.GAME.mul_tp_buffer >= enchantment.ability.min_tp then
 			return enchantment.ability.dollars * enchantment.level
 		end
 	end,
@@ -2064,7 +2045,7 @@ Multiverse.DeckEnchantment({
 	calculate = function(self, enchantment, context)
 		if context.final_scoring_step then
 			return {
-				chips = enchantment.ability.chips * enchantment.level * G.GAME.mul_TP,
+				chips = enchantment.ability.chips * enchantment.level * (G.GAME.mul_tp + G.GAME.mul_tp_buffer),
 			}
 		end
 	end,
@@ -2257,8 +2238,8 @@ Multiverse.DeckEnchantment({
 Multiverse.DeckEnchantment({
 	key = "ruin",
 	max_level = 1,
-	loc_vars = function (self, info_queue, enchantment)
-		info_queue[#info_queue+1] = Multiverse.DummyCenters["du_mul_exhausts"]
+	loc_vars = function(self, info_queue, enchantment)
+		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhausts"]
 	end,
 	enchantment_type = "negative",
 	calculate = function(self, enchantment, context)

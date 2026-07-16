@@ -41,7 +41,7 @@ function Multiverse.handle_tutorials(context)
 		G.SETTINGS.multiverse_tutorial["thaumaturgy_energy"] = true
 		Multiverse.thaumaturgy_energy_tutorial()
 	end
-	if context.mul_TP_altered and not G.SETTINGS.multiverse_tutorial["tp"] then
+	if context.mul_tp_altered and not G.SETTINGS.multiverse_tutorial["tp"] then
 		G.SETTINGS.multiverse_tutorial["tp"] = true
 		Multiverse.tp_tutorial()
 	end
@@ -244,29 +244,29 @@ function Multiverse.tp_tutorial()
 	local step = 1
 	step = tutorial_info({
 		text_key = "mul_tp_1",
-		highlight = { G.mul_TP_meter },
-		attach = { major = G.mul_TP_meter, type = "cm", offset = { x = -3, y = 0 } },
+		highlight = { G.mul_tp_meter },
+		attach = { major = G.mul_tp_meter, type = "cm", offset = { x = -3, y = 0 } },
 		step = step,
 		multiverse_tutorial = true,
 	})
 	step = tutorial_info({
 		text_key = "mul_tp_2",
-		highlight = { G.mul_TP_meter },
-		attach = { major = G.mul_TP_meter, type = "cm", offset = { x = -3, y = 0 } },
+		highlight = { G.mul_tp_meter },
+		attach = { major = G.mul_tp_meter, type = "cm", offset = { x = -3, y = 0 } },
 		step = step,
 		multiverse_tutorial = true,
 	})
 	step = tutorial_info({
 		text_key = "mul_tp_3",
-		highlight = { G.mul_TP_meter },
-		attach = { major = G.mul_TP_meter, type = "cm", offset = { x = -3, y = 0 } },
+		highlight = { G.mul_tp_meter },
+		attach = { major = G.mul_tp_meter, type = "cm", offset = { x = -3, y = 0 } },
 		step = step,
 		multiverse_tutorial = true,
 	})
 	step = tutorial_info({
 		text_key = "mul_tp_4",
-		highlight = { G.mul_TP_meter },
-		attach = { major = G.mul_TP_meter, type = "cm", offset = { x = -3, y = 0 } },
+		highlight = { G.mul_tp_meter },
+		attach = { major = G.mul_tp_meter, type = "cm", offset = { x = -3, y = 0 } },
 		step = step,
 		multiverse_tutorial = true,
 	})

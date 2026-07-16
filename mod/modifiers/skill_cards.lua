@@ -333,7 +333,7 @@ Multiverse.SkillCard({
 						trigger = "after",
 						delay = 0.4,
 						func = function()
-							Multiverse.ease_TP(amt, { immediate = true })
+							ease_mul_tp(amt, true)
 							return true
 						end,
 					}))
@@ -352,15 +352,15 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
 			vars = {
-				G.GAME.mul_thaumaturgy_energy or 0,
+				(G.GAME.mul_thaumaturgy_energy or 0) + G.GAME.mul_thaumaturgy_energy_buffer,
 			},
 		}
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
 			local amt = G.GAME.mul_thaumaturgy_energy
-			Multiverse.ease_thaumaturgy_energy(-amt, { immediate = true })
-			Multiverse.ease_TP(amt, { immediate = true })
+			ease_mul_thaumaturgy_energy(-amt, true)
+			ease_mul_tp(amt, true)
 		end)
 		return "exhaust"
 	end,
@@ -728,7 +728,7 @@ Multiverse.SkillCard({
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
 			SMODS.destroy_cards(G.hand.cards)
-			Multiverse.ease_TP(-G.GAME.mul_TP, { immediate = true })
+			ease_mul_tp(-G.GAME.mul_tp, true)
 		end)
 		return "exhaust"
 	end,
@@ -780,7 +780,7 @@ Multiverse.SkillCard({
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(card.ability.extra.tp, { immediate = true })
+			ease_mul_tp(card.ability.extra.tp, true)
 			SMODS.draw_cards(1)
 		end)
 		return "exhaust"
@@ -1016,7 +1016,7 @@ Multiverse.SkillCard({
 	end,
 	use_skill = function(self, card, paid_amt, x)
 		Multiverse.effect_animation(card, function()
-			Multiverse.ease_TP(card.ability.extra.tp, { immediate = true })
+			ease_mul_tp(card.ability.extra.tp, true)
 			for _, c in ipairs(G.hand.cards) do
 				if c ~= card then
 					c.ability.perma_mult = (c.ability.perma_mult or 0) - card.ability.extra.mult
@@ -1048,10 +1048,7 @@ Multiverse.SkillCard({
 				func = function()
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							Multiverse.ease_thaumaturgy_energy(
-								card.ability.extra.thaumaturgy_energy,
-								{ immediate = true }
-							)
+							ease_mul_thaumaturgy_energy(card.ability.extra.thaumaturgy_energy, true)
 							return true
 						end,
 					}))
