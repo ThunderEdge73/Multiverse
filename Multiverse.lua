@@ -139,10 +139,11 @@ SMODS.current_mod.calculate = function(self, context)
 	if context.mul_philosophers_stone_check and not context.game_over and context.main_eval then
 		if G.GAME.mul_thaumaturgy_energy + (G.GAME.mul_thaumaturgy_energy_buffer or 0) >= 100 then
 			if #G.consumeables.cards < G.consumeables.config.card_limit then
+				local amt = G.GAME.mul_thaumaturgy_energy + G.GAME.mul_thaumaturgy_energy_buffer
 				Multiverse.context_flags.from_philosophers_stone = true
-				Wallet.mod_buffer("mul_thaumaturgy_energy", -G.GAME.mul_thaumaturgy_energy)
+				Wallet.mod_buffer("mul_thaumaturgy_energy", -amt)
 				ret[#ret + 1] = {
-					mul_thaumaturgy_energy = -G.GAME.mul_thaumaturgy_energy,
+					mul_thaumaturgy_energy = -amt,
 					func = function()
 						SMODS.add_card({
 							key = "c_mul_philosophers_stone",

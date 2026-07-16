@@ -1700,8 +1700,8 @@ return {
 				name = "Philosopher's Stone",
 				text = {
 					"Gain {C:mul_transmuted,f:mul_m6x11}*{C:mul_transmuted}#1#{} per {C:mul_transmuted}Transmuted{}",
-					"Joker owned, then {C:mul_transmuted,E:1}transmutes{}",
-					"selected Joker that is",
+					"Joker owned, then {C:mul_transmuted,E:1}transmute{}",
+					"{C:attention}1{} selected Joker that is",
 					"currently {C:mul_transmuted}Transmutable{}",
 					"{C:inactive}(Removes all Stickers{}",
 					"{C:inactive}on selected Joker){}",
@@ -1719,7 +1719,7 @@ return {
 				},
 			},
 			c_mul_perpetual_motion = {
-				name = "Perpetual Motion Machine",
+				name = { "Perpetual", "Motion Machine" },
 				text = {
 					"Doubles current",
 					"Thaumaturgy Energy",

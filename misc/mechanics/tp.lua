@@ -71,16 +71,17 @@ Wallet.Currency({
 		if next(SMODS.find_card("j_mul_thunderedge")) and amt < 0 then
 			amt = math.floor(amt / (2 ^ #SMODS.find_card("j_mul_thunderedge")))
 		end
-		local actual_change = Multiverse.clamp(amt, -G.GAME.mul_tp, 100 - G.GAME.mul_tp)
+		local curr_tp = G.GAME.mul_tp + G.GAME.mul_tp_buffer
+		local actual_change = Multiverse.clamp(amt, -curr_tp, 100 - curr_tp)
 		if
 			Multiverse.has_deck_enchantment("de_mul_drain")
-			and G.STATE == G.STATES.HAND_PLAYED
+			and Multiverse.context_flags.from_scored_hand
 			and actual_change > 0
 		then
 			ease_mul_thaumaturgy_energy(actual_change, instant)
 			return 0
 		end
-		return amt
+		return actual_change
 	end,
 	post_ease_func = function(self, mod)
 		SMODS.calculate_context({

@@ -87,7 +87,8 @@ Multiverse.art_credits_visuals.mesh = love.graphics.newMesh(Multiverse.art_credi
 local h_popup_hook = G.UIDEF.card_h_popup
 function G.UIDEF.card_h_popup(card, ...)
 	local ret = h_popup_hook(card, ...)
-	if (card.config.center or {}).mul_art_credit or (card.config.center or {}).original_mod == Multiverse then
+	local center = (card.config.center or {})
+	if center.mul_art_credit or (center.original_mod == Multiverse and not center.set == "Edition") then
 		table.insert(ret.nodes[1].nodes, {
 			n = G.UIT.R,
 			config = { colour = G.C.CLEAR, padding = 0.1, align = "cm", w = 0 },
