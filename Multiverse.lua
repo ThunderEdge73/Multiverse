@@ -126,15 +126,6 @@ SMODS.current_mod.calculate = function(self, context)
 				playing_card.ability.mul_temp_priority = nil
 			end
 		end)
-		Multiverse.context_flags.from_charge = true
-		Wallet.mod_buffer("mul_thaumaturgy_energy", G.GAME.mul_thaumaturgy_energy_rate)
-		ret[#ret + 1] = {
-			mul_thaumaturgy_energy = G.GAME.mul_thaumaturgy_energy_rate,
-			func = function()
-				Wallet.reset_buffer("mul_thaumaturgy_energy")
-				Multiverse.reset_context_flags()
-			end,
-		}
 	end
 	if context.mul_philosophers_stone_check and not context.game_over and context.main_eval then
 		if G.GAME.mul_thaumaturgy_energy + (G.GAME.mul_thaumaturgy_energy_buffer or 0) >= 100 then
@@ -261,6 +252,12 @@ SMODS.current_mod.calculate = function(self, context)
 	else
 		return SMODS.merge_effects(ret)
 	end
+end
+
+SMODS.current_mod.calc_currency_bonus = function(self)
+	return {
+		mul_thaumaturgy_energy = { G.GAME.mul_thaumaturgy_energy_rate * 20, { text = "Charge" } },
+	}
 end
 
 SMODS.draw_ignore_keys["transmutable_target"] = true

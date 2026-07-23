@@ -975,6 +975,7 @@ function Multiverse.credits_tab_definition()
 			node_config = {
 				maxh = 6,
 				r = 0.1,
+				no_overflow = "v"
 			},
 		},
 		sync_mode = "progress",

@@ -88,7 +88,7 @@ local h_popup_hook = G.UIDEF.card_h_popup
 function G.UIDEF.card_h_popup(card, ...)
 	local ret = h_popup_hook(card, ...)
 	local center = (card.config.center or {})
-	if center.mul_art_credit or (center.original_mod == Multiverse and not center.set == "Edition") then
+	if center.mul_art_credit or (center.original_mod == Multiverse and center.set ~= "Edition") then
 		table.insert(ret.nodes[1].nodes, {
 			n = G.UIT.R,
 			config = { colour = G.C.CLEAR, padding = 0.1, align = "cm", w = 0 },
@@ -180,7 +180,7 @@ end
 local set_ability_hook = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites, ...)
 	local c = center
-	if center == "m_mul_waldo" and not initial then
+	if center == "m_mul_waldo" and not Multiverse._CREATING_WALDO then
 		c = self.config.center_key
 		G.E_MANAGER:add_event(Event({
 			func = function()

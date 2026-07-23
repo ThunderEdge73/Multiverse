@@ -1,7 +1,7 @@
 SMODS.Font({
     key = "mul_m6x11",
     path = "multiverse-m6x11.ttf",
-    FONTSCALE = 0.09
+    FONTSCALE = 0.085
 })
 
 SMODS.Font({

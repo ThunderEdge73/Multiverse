@@ -178,36 +178,61 @@ function Multiverse.deck_enchantment_view_tutorial()
 end
 
 function Multiverse.thaumaturgy_energy_tutorial()
+	G.mul_temp_popup = UIBox({
+		definition = Wallet.generate_currency_hover_UIBox(),
+		config = {
+			major = G.HUD:get_UIE_by_ID("dollar_text_UI").parent.parent.parent,
+			align = "tm",
+			offset = { x = 0, y = -0.15 },
+		},
+		instance_type = "CARD",
+	})
 	G.SETTINGS.paused = true
 	local step = 1
 	step = tutorial_info({
 		text_key = "mul_tha_1",
-		highlight = { G.HUD:get_UIE_by_ID("row_thaumaturgy") },
-		attach = { major = G.HUD:get_UIE_by_ID("row_thaumaturgy"), type = "cm", offset = { x = 0, y = -4 } },
+		highlight = { G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI") },
+		attach = {
+			major = G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI"),
+			type = "cm",
+			offset = { x = 0, y = -4 },
+		},
 		step = step,
 		align = "cr",
 		multiverse_tutorial = true,
 	})
 	step = tutorial_info({
 		text_key = "mul_tha_2",
-		highlight = { G.HUD:get_UIE_by_ID("row_thaumaturgy") },
-		attach = { major = G.HUD:get_UIE_by_ID("row_thaumaturgy"), type = "cm", offset = { x = 0, y = -4 } },
+		highlight = { G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI") },
+		attach = {
+			major = G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI"),
+			type = "cm",
+			offset = { x = 0, y = -4 },
+		},
 		step = step,
 		align = "cr",
 		multiverse_tutorial = true,
 	})
 	step = tutorial_info({
 		text_key = "mul_tha_3",
-		highlight = { G.HUD:get_UIE_by_ID("row_thaumaturgy") },
-		attach = { major = G.HUD:get_UIE_by_ID("row_thaumaturgy"), type = "cm", offset = { x = 0, y = -4 } },
+		highlight = { G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI") },
+		attach = {
+			major = G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI"),
+			type = "cm",
+			offset = { x = 0, y = -4 },
+		},
 		step = step,
 		align = "cr",
 		multiverse_tutorial = true,
 	})
 	step = tutorial_info({
 		text_key = "mul_tha_4",
-		highlight = { G.HUD:get_UIE_by_ID("row_thaumaturgy") },
-		attach = { major = G.HUD:get_UIE_by_ID("row_thaumaturgy"), type = "cm", offset = { x = 0, y = -4 } },
+		highlight = { G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI") },
+		attach = {
+			major = G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI"),
+			type = "cm",
+			offset = { x = 0, y = -4 },
+		},
 		step = step,
 		align = "cr",
 		multiverse_tutorial = true,
@@ -229,6 +254,8 @@ function Multiverse.thaumaturgy_energy_tutorial()
 					end
 					G.OVERLAY_TUTORIAL:remove()
 					G.OVERLAY_TUTORIAL = nil
+					G.mul_temp_popup:remove()
+					G.mul_temp_popup = nil
 					return true
 				end
 				return G.OVERLAY_TUTORIAL.step > step or G.OVERLAY_TUTORIAL.skip_steps
@@ -447,8 +474,12 @@ function Multiverse.transmute_tutorial(card)
 	})
 	step = tutorial_info({
 		text_key = "mul_transmute_5",
-		highlight = { G.HUD:get_UIE_by_ID("row_thaumaturgy") },
-		attach = { major = G.HUD:get_UIE_by_ID("row_thaumaturgy"), type = "cm", offset = { x = 0, y = -4 } },
+		highlight = { G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI") },
+		attach = {
+			major = G.mul_temp_popup:get_UIE_by_ID("mul_thaumaturgy_energy_text_UI"),
+			type = "cm",
+			offset = { x = 0, y = -4 },
+		},
 		step = step,
 		align = "cr",
 		multiverse_tutorial = true,

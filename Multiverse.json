@@ -13,7 +13,7 @@
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-1814a)",
         "blindexpander (>=1.2.9g)",
-        "Wallet (>=1.1.0)"
+        "Wallet (>=1.2.0)"
     ],
     "icon_path": "modicon.png"
 }
