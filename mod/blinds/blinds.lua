@@ -11,7 +11,7 @@ function Multiverse.blind_instructions_HUD_def(key)
 			{
 				n = G.UIT.C,
 				config = { padding = 0.05, colour = G.C.L_BLACK, align = "cm", r = 0.1, emboss = 0.05 },
-				nodes = Multiverse.create_localized_rows(nil, "mul_" .. key .. "_inst"),
+				nodes = { Multiverse.create_localized_rows(nil, "mul_" .. key .. "_inst") },
 			},
 		},
 	}

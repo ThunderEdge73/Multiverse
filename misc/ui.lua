@@ -247,6 +247,22 @@ Multiverse.music_credits = {
 			},
 		},
 	},
+	{
+		{ -- row
+			{ -- song
+				"Prophecy", -- title
+				"Creo", -- source
+			},
+			{
+				"Life Will Change",
+				"Persona 5 OST",
+			},
+			{
+				"Pigstep",
+				"Minecraft OST",
+			},
+		},
+	},
 }
 
 Multiverse.settings_changed = {}
@@ -333,7 +349,8 @@ function Multiverse.config_tab_definition()
 			},
 		},
 	}
-	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_config_menu_title", { text_scale = 2, empty = true })
+	local mul_nodes =
+		{ Multiverse.create_localized_rows(nil, "mul_config_menu_title", { text_scale = 2, empty = true }) }
 	mul_nodes[#mul_nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm" },
@@ -375,8 +392,8 @@ SMODS.current_mod.custom_ui = function(nodes)
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
 		5.25 * G.CARD_W,
-		1 * G.CARD_H,
-		{ card_limit = #centers, type = "title", highlight_limit = 0, collection = true }
+		G.CARD_H,
+		{ card_limit = #centers, type = "title_2", highlight_limit = 0, collection = true }
 	)
 	for i, key in ipairs(centers) do
 		local card = Card(
@@ -640,7 +657,7 @@ function Multiverse.display_songs(page)
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = { align = "cm", minh = 5.5 },
+				config = { align = "cm", minh = 5 },
 				nodes = rows,
 			},
 		},
@@ -648,7 +665,8 @@ function Multiverse.display_songs(page)
 end
 
 function Multiverse.music_tab_definition(page)
-	local mul_nodes = Multiverse.create_localized_rows(nil, "mul_music_menu_text", { text_scale = 1.5, minh = 1.2 })
+	local mul_nodes =
+		{ Multiverse.create_localized_rows(nil, "mul_music_menu_text", { text_scale = 1.5, minh = 1.2, minw = 14 }) }
 	table.insert(mul_nodes, Multiverse.display_songs(page))
 	local pages = {}
 	for i, _ in ipairs(Multiverse.music_credits) do
@@ -718,18 +736,18 @@ function G.FUNCS.mul_select_music_page(args)
 		return
 	end
 	Multiverse.selected_music_page = args.to_key
-	-- local def = Multiverse.music_tab_definition(Multiverse.selected_music_page)
-	-- local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_music_page")
-	-- if container then
-	-- 	container.config.object:remove()
-	-- 	container.config.object = UIBox({
-	-- 		definition = def,
-	-- 		config = { type = "cm", parent = container },
-	-- 	})
-	-- 	container.config.object:recalculate()
-	-- end
-	local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Music")
-	G.FUNCS.change_tab(element)
+	local def = Multiverse.music_tab_definition(Multiverse.selected_music_page)
+	local container = G.OVERLAY_MENU:get_UIE_by_ID("mul_music_page")
+	if container then
+		container.config.object:remove()
+		container.config.object = UIBox({
+			definition = def,
+			config = { type = "cm", parent = container },
+		})
+		container.config.object:recalculate()
+	end
+	-- local element = G.OVERLAY_MENU:get_UIE_by_ID("tab_but_Music")
+	-- G.FUNCS.change_tab(element)
 end
 
 SMODS.current_mod.config_tab = function()
@@ -960,7 +978,7 @@ function Multiverse.credits_tab_definition()
 		content = {
 			definition = {
 				n = G.UIT.ROOT,
-				config = { colour = G.C.BLACK },
+				config = { colour = G.C.BLACK, r = 0.1 },
 				nodes = {
 					{
 						n = G.UIT.C,
@@ -975,7 +993,6 @@ function Multiverse.credits_tab_definition()
 			node_config = {
 				maxh = 6,
 				r = 0.1,
-				no_overflow = "v"
 			},
 		},
 		sync_mode = "progress",
@@ -1124,7 +1141,7 @@ function Multiverse.generate_credits_desc_nodes(entry)
 					{
 						n = G.UIT.R,
 						config = {},
-						nodes = Multiverse.create_localized_rows(nil, entry.desc_key),
+						nodes = { Multiverse.create_localized_rows(nil, entry.desc_key) },
 					},
 				},
 			},
@@ -1156,21 +1173,19 @@ function Multiverse.create_localized_rows(set, key, args)
 		rows[#rows + 1] = { n = G.UIT.R, config = { align = (args.align or "c") .. "m" }, nodes = v }
 	end
 	return {
-		{
-			n = G.UIT.R,
-			config = {
-				align = "cm",
-				colour = args.bg_colour or (args.empty and G.C.CLEAR or G.C.UI.BACKGROUND_WHITE),
-				r = 0.1,
-				padding = 0.04,
-				minw = args.minw or 2,
-				minh = args.minh or 0.8,
-				emboss = not args.empty and 0.05 or nil,
-				filler = true,
-			},
-			nodes = {
-				{ n = G.UIT.R, config = { align = "cm", padding = 0.03 }, nodes = rows },
-			},
+		n = G.UIT.R,
+		config = {
+			align = "cm",
+			colour = args.bg_colour or (args.empty and G.C.CLEAR or G.C.UI.BACKGROUND_WHITE),
+			r = 0.1,
+			padding = not args.empty and 0.04 or nil,
+			minw = args.minw or 2,
+			minh = args.minh or 0.8,
+			emboss = not args.empty and 0.05 or nil,
+			filler = true,
+		},
+		nodes = {
+			{ n = G.UIT.R, config = { align = "cm", padding = 0.03 }, nodes = rows },
 		},
 	}
 end

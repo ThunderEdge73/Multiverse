@@ -22,7 +22,7 @@ Wallet.Currency({
 			mul_thaumaturgy_energy_altered = true,
 			amount = mod,
 			mul_from_philosophers_stone = Multiverse.context_flags.from_philosophers_stone,
-			mul_from_charge = Multiverse.context_flags.from_charge,
+			mul_from_charge = SMODS.money_from_cashout,
 		})
 	end,
 })
