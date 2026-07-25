@@ -685,7 +685,6 @@ Multiverse.DeckEnchantment({
 	max_level = 3,
 	config = { luck_bonus = 15 },
 	loc_vars = function(self, info_queue, enchantment)
-		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_ench_luck_info"]
 		local colours = {}
 		local ret = {
 			(enchantment.level > 0 and " " or "") .. Multiverse.number_to_roman(enchantment.level),
@@ -694,6 +693,7 @@ Multiverse.DeckEnchantment({
 		for i = 1, self.max_level do
 			ret[#ret + 1] = i * enchantment.ability.luck_bonus
 		end
+		ret[#ret+1] = G.GAME.mul_enchantment_luck or 0
 		ret.colours = colours
 		return {
 			vars = ret,

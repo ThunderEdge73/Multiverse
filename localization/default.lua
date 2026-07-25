@@ -118,27 +118,6 @@ return {
 					"defeated",
 				},
 			},
-			du_mul_ench_luck_info = {
-				name = "Enchantment Luck",
-				text = {
-					"{C:mul_enchantedbook}Enchantment Luck{} improves",
-					"the average quantity and",
-					"quality of {C:mul_enchantedbook}Deck Enchantments{}",
-					"offered by {C:mul_enchantedbook}Enchanted Books",
-					"{C:inactive}(You have {C:mul_enchantedbook}#2#{C:inactive} Enchantment Luck){}",
-					"{C:inactive}(Maximum boost occurs at{}",
-					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
-				},
-			},
-			du_mul_ench_luck_info_brief = {
-				name = "Enchantment Luck",
-				text = {
-					"You have {C:mul_enchantedbook}#2#{}",
-					"Enchantment Luck",
-					"{C:inactive}(Maximum boost occurs at{}",
-					"{C:mul_enchantedbook}#1#{C:inactive} Enchantment Luck){}",
-				},
-			},
 			du_mul_emptied = {
 				name = "Affected by Emptiness",
 				text = {
@@ -522,6 +501,8 @@ return {
 				text = {
 					"{V:1}+#2#{C:inactive}/{V:2}+#3#{C:inactive}/{V:3}+#4#{}",
 					"Enchantment Luck",
+					"{C:inactive}(Currently {C:mul_enchantedbook}#5#{C:inactive}/100",
+					"{C:inactive}Enchantment Luck)",
 				},
 			},
 			de_mul_protection = {
@@ -2517,6 +2498,16 @@ return {
 					"{C:mul_enchantedbook}enchantments{} to {C:attention}deck",
 				},
 			},
+			mul_e_luck_view = {
+				name = "Enchantment Luck",
+				text = {
+					"You have {C:mul_enchantedbook}#1#{}/100",
+					"{C:mul_enchantedbook}Enchantment Luck,",
+					"which boosts the quality",
+					"of {C:mul_enchantedbook}Deck Enchantments{} that",
+					"{C:mul_enchantedbook}Enchanted Books{} offer",
+				}
+			},
 			p_mul_dimension_normal1 = {
 				name = "Dimension Pack",
 				text = {
@@ -3177,7 +3168,6 @@ return {
 			mul_inspirations = "Inspirations",
 			mul_debug = "Enable Debug Mode",
 			mul_joke = "Enable Joke Content",
-			mul_brief_ench_luck = "Shorten Enchantment Luck Tooltip",
 			mul_dbg_effects = {
 				"{C:attention}Cannot{} be activated",
 				"without a certain file",

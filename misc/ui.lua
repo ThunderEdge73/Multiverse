@@ -335,17 +335,6 @@ function Multiverse.config_tab_definition()
 					tooltip = "mul_restart",
 					tooltip_colour = G.C.RED,
 				}),
-				Multiverse.create_custom_toggle({
-					label = localize("mul_brief_ench_luck"),
-					active_colour = Multiverse.C.PRIMARY1,
-					ref_table = Multiverse.config,
-					ref_value = "ench_luck_brief",
-					reverse = true,
-					align = "cl",
-					text_align = "cl",
-					tooltip = "mul_no_restart",
-					tooltip_colour = G.C.GREEN,
-				}),
 			},
 		},
 	}

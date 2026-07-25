@@ -22,6 +22,7 @@ function Multiverse.init_booster(key, atlas, config, create_card)
 			create_card = function(self, card, j)
 				return create_card(card, j)
 			end,
+			loc_vars = config.loc_vars,
 		})
 	end
 	for i = 1, 2 do
@@ -41,6 +42,7 @@ function Multiverse.init_booster(key, atlas, config, create_card)
 			create_card = function(self, card, j)
 				return create_card(card, j)
 			end,
+			loc_vars = config.loc_vars,
 		})
 	end
 	for i = 1, 2 do
@@ -60,57 +62,76 @@ function Multiverse.init_booster(key, atlas, config, create_card)
 			create_card = function(self, card, j)
 				return create_card(card, j)
 			end,
+			loc_vars = config.loc_vars,
 		})
 	end
 end
 
-Multiverse.init_booster(
-	"dimension",
-	nil,
-	{ weight = 0.5, extra = 4, choose = 1, cost = 6 },
-	function(card, i)
-		local c
-		local card_type = pseudorandom("mul_dimension_pack", 1, 4)
-		if card_type == 1 then
-			c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
-			c.ability.extra.enchant_list = Multiverse.poll_deck_enchantments({
-				source = "dimension",
-				key_append = "dimension",
-			})
-		elseif card_type == 2 then
-			c = SMODS.create_card({
-				set = "mul_Myth",
-				area = G.pack_cards,
-				skip_materialize = true,
-				key_append = "dimension",
-			})
-		elseif card_type == 3 then
-			c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
-			c:set_ability(
-				SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
-				true
-			)
-		elseif card_type == 4 then
-			local pool = {}
-			for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
-				if center.original_mod == Multiverse then
-					pool[#pool + 1] = center
-				end
+Multiverse.init_booster("dimension", nil, {
+	weight = 0.5,
+	extra = 4,
+	choose = 1,
+	cost = 6,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {
+			key = "mul_e_luck_view",
+			set = "Other",
+			vars = {
+				G.GAME.mul_enchantment_luck or 0,
+			},
+		}
+		return {
+			vars = {
+				math.min(
+					card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0),
+					math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))
+				),
+				math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0)),
+			},
+		}
+	end,
+}, function(card, i)
+	local c
+	local card_type = pseudorandom("mul_dimension_pack", 1, 4)
+	if card_type == 1 then
+		c = SMODS.create_card({ key = "c_mul_enchanted_book", area = G.pack_cards, skip_materialize = true })
+		c.ability.extra.enchant_list = Multiverse.poll_deck_enchantments({
+			source = "dimension",
+			key_append = "dimension",
+		})
+	elseif card_type == 2 then
+		c = SMODS.create_card({
+			set = "mul_Myth",
+			area = G.pack_cards,
+			skip_materialize = true,
+			key_append = "dimension",
+		})
+	elseif card_type == 3 then
+		c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
+		c:set_ability(
+			SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
+			true
+		)
+	elseif card_type == 4 then
+		local pool = {}
+		for _, center in ipairs(G.P_CENTER_POOLS["Joker"]) do
+			if center.original_mod == Multiverse then
+				pool[#pool + 1] = center
 			end
-			local key = pseudorandom_element(pool, "dimension", {
-				in_pool = function(v, args)
-					return v.rarity ~= "mul_transmuted"
-						and v.rarity ~= 4
-						and (type(v.in_pool) ~= "function" or v:in_pool(args))
-				end,
-			}).key
-			c = SMODS.create_card({ key = key, area = G.pack_cards, skip_materialize = true })
 		end
-		return c
+		local key = pseudorandom_element(pool, "dimension", {
+			in_pool = function(v, args)
+				return v.rarity ~= "mul_transmuted"
+					and v.rarity ~= 4
+					and (type(v.in_pool) ~= "function" or v:in_pool(args))
+			end,
+		}).key
+		c = SMODS.create_card({ key = key, area = G.pack_cards, skip_materialize = true })
 	end
-)
+	return c
+end)
 
-Multiverse.init_booster("skill", nil, {cost = 4, extra = 3, choose = 1, weight = 1}, function (card, i)
+Multiverse.init_booster("skill", nil, { cost = 4, extra = 3, choose = 1, weight = 1 }, function(card, i)
 	local c = SMODS.create_card({ set = "Base", area = G.pack_cards, skip_materialize = true })
 	c:set_ability(
 		SMODS.poll_enhancement({ key = "dimension", options = get_current_pool("mul_Skill"), guaranteed = true }),
@@ -139,5 +160,23 @@ SMODS.Booster({
 			key_append = "ench_book",
 		})
 		return c
+	end,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {
+			key = "mul_e_luck_view",
+			set = "Other",
+			vars = {
+				G.GAME.mul_enchantment_luck or 0,
+			},
+		}
+		return {
+			vars = {
+				math.min(
+					card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0),
+					math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))
+				),
+				math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0)),
+			},
+		}
 	end,
 })

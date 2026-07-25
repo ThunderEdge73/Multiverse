@@ -17,19 +17,6 @@ Multiverse.DummyCenter = SMODS.Center:extend({
 })
 
 Multiverse.DummyCenter({
-	key = "all_enchants",
-	loc_vars = function(self, info_queue, card)
-		if G.GAME.mul_deck_enchantments then
-			for _, key in ipairs(Multiverse.DeckEnchantment.obj_buffer) do
-				if Multiverse.DeckEnchantments[key]:get_level() > 0 then
-					info_queue[#info_queue + 1] = Multiverse.DeckEnchantments[key]
-				end
-			end
-		end
-	end,
-})
-
-Multiverse.DummyCenter({
 	key = "half",
 	loc_vars = function(self, info_queue, card)
 		num, denom = SMODS.get_probability_vars(nil, 1, 4, "mul_half_card_discard")
@@ -103,19 +90,6 @@ Multiverse.DummyCenter({
 
 Multiverse.DummyCenter({
 	key = "impulse",
-})
-
-Multiverse.DummyCenter({
-	key = "ench_luck_info",
-	loc_vars = function(self, info_queue, card)
-		return {
-			vars = {
-				100,
-				G.GAME.mul_enchantment_luck or 0,
-			},
-			key = Multiverse.config.ench_luck_brief and "du_mul_ench_luck_info_brief" or nil,
-		}
-	end,
 })
 
 Multiverse.DummyCenter({
