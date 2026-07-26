@@ -25,6 +25,7 @@ Wallet.Currency({
 			mul_from_charge = SMODS.money_from_cashout,
 		})
 	end,
+	cashout_always_number = true,
 })
 
 function Multiverse.init_thaumaturgy()

@@ -25,3 +25,17 @@ payload = '''
 elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' or card.ability.set == "mul_Skill" then
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+local desc_scale = (thunk.font or G.LANG.font).DESCSCALE
+'''
+position = "before"
+payload = '''
+if args.set == "mul_Skill" and not part.control.f then
+    thunk.font = SMODS.Fonts["mul_kreon"]
+end
+'''
+match_indent = true

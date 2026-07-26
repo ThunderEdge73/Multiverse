@@ -51,13 +51,13 @@ return {
 			},
 			du_mul_skill_cost_num = {
 				text = {
-					"Costs {C:attention}#1#%{} TP",
+					"{f:mul_kreon}Costs {C:attention,f:mul_kreon}#1#%{f:mul_kreon} TP",
 				},
 			},
 			du_mul_skill_cost_x = {
 				text = {
-					"Costs {C:attention}#1#%{} TP",
-					"{C:inactive}(#1# is your current TP){}",
+					"{f:mul_kreon}Costs {C:attention,f:mul_kreon}#1#%{f:mul_kreon} TP",
+					"{C:inactive,f:mul_kreon}(#1# is your current TP){}",
 				},
 			},
 			du_mul_exhaust = {

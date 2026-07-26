@@ -5,6 +5,13 @@ SMODS.Font({
 })
 
 SMODS.Font({
+    key = "mul_kreon",
+    path = "Kreon.ttf",
+    FONTSCALE = 0.085,
+    TEXT_OFFSET = { x = 0, y = -15 },
+})
+
+SMODS.Font({
     key = "mul_minecraft_enchantment_font",
     path = "enchantment_table_font.ttf",
     FONTSCALE = 0.075,

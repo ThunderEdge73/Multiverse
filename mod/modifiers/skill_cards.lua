@@ -352,7 +352,7 @@ Multiverse.SkillCard({
 		info_queue[#info_queue + 1] = Multiverse.DummyCenters["du_mul_exhaust"]
 		return {
 			vars = {
-				(G.GAME.mul_thaumaturgy_energy or 0) + G.GAME.mul_thaumaturgy_energy_buffer,
+				(G.GAME.mul_thaumaturgy_energy or 0) + (G.GAME.mul_thaumaturgy_energy_buffer or 0),
 			},
 		}
 	end,
