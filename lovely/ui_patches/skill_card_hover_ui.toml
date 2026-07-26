@@ -34,7 +34,7 @@ local desc_scale = (thunk.font or G.LANG.font).DESCSCALE
 '''
 position = "before"
 payload = '''
-if args.set == "mul_Skill" and not part.control.f then
+if args.set == "mul_Skill" and not part.control.f and G.LANG.key == "en-us" then
     thunk.font = SMODS.Fonts["mul_kreon"]
 end
 '''
