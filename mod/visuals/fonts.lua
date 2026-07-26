@@ -8,6 +8,7 @@ SMODS.Font({
     key = "mul_kreon",
     path = "Kreon.ttf",
     FONTSCALE = 0.085,
+    TEXT_HEIGHT_SCALE = 0.8,
     TEXT_OFFSET = { x = 0, y = -15 },
 })
 

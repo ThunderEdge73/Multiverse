@@ -115,6 +115,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 									bump = true,
 									pop_in = 0,
 									scale = 0.45,
+									font = SMODS.Fonts["mul_kreon"]
 								}),
 								func = "mul_update_tp_cost",
 								ref_table = card,
