@@ -204,62 +204,14 @@ end
 
 Multiverse.music_credits = {
 	{ -- page
-		{ -- row
-			{ -- song
-				"Prophecy", -- title
-				"Creo", -- source
-			},
-			{
-				"Life Will Change",
-				"Persona 5 OST",
-			},
-			{
-				"Pigstep",
-				"Minecraft OST",
-			},
-		},
 		{
-			{
-				"Sneaky Snitch",
-				"Kevin Macleod",
-			},
 			{
 				"Battle Against a True Hero",
 				"Undertale OST",
 			},
 			{
-				"Seek",
-				"Among Us OST",
-			},
-		},
-		{
-			{
-				"Main Theme (TF2)",
-				"Team Fortress 2 OST",
-			},
-			{
 				"Isolation",
 				"NightHawk22",
-			},
-			{
-				"Hammer of Justice",
-				"Deltarune Chapter 4 OST",
-			},
-		},
-	},
-	{
-		{ -- row
-			{ -- song
-				"Prophecy", -- title
-				"Creo", -- source
-			},
-			{
-				"Life Will Change",
-				"Persona 5 OST",
-			},
-			{
-				"Pigstep",
-				"Minecraft OST",
 			},
 		},
 	},
