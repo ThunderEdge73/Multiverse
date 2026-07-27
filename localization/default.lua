@@ -3176,42 +3176,13 @@ return {
 			},
 			mul_restart = { "Will trigger a", "{C:red}restart{} when toggled" },
 			mul_no_restart = { "Doesn't trigger a", "{C:red}restart{} when toggled" },
-			["mul_Prophecy"] = {
-				"Plays when you have",
-				"a Joker that has the",
-				"{C:mul_transmuted}Transmutable{} sticker",
-			},
-			["mul_Life Will Change"] = {
-				"Plays when you",
-				"have {C:attention}Ren Amamiya{}",
-			},
-			["mul_Pigstep"] = {
-				"Plays when you",
-				"have {C:attention}Steve{}",
-			},
-			["mul_Hammer of Justice"] = {
-				"Plays when you",
-				"have {C:attention}Gerson{}",
-			},
-			["mul_Sneaky Snitch"] = {
-				"Plays when you",
-				"have {C:attention}Waldo{}",
-			},
 			["mul_Battle Against a True Hero"] = {
 				"Plays when facing",
 				"{C:attention}The Undying",
 			},
-			["mul_Seek"] = {
-				"Plays when you",
-				"have {C:attention}Impostor{}",
-			},
-			["mul_Main Theme (TF2)"] = {
-				"Plays when you",
-				"have {C:attention}Heavy{}",
-			},
 			["mul_Isolation"] = {
-				"Plays when facing",
-				"{C:attention}The Limbo",
+				"Plays during {C:attention}The",
+				"{C:attention}Limbo{}'s minigame",
 			},
 			ml_skill_card_explanation = {
 				"Skill Cards are sent to the discard pile when used, except if specified otherwise",
