@@ -277,14 +277,8 @@ function Multiverse.create_TP_ui()
 								config = { align = "cm" },
 								nodes = {
 									{
-										n = G.UIT.C,
-										config = { align = "cm" },
-										nodes = {
-											{
-												n = G.UIT.B,
-												config = { h = 0.05, w = 0.05 },
-											},
-										},
+										n = G.UIT.B,
+										config = { h = 0.05, w = 0.05 },
 									},
 								},
 							},
