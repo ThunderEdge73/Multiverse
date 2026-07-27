@@ -256,7 +256,7 @@ end
 
 SMODS.current_mod.calc_currency_bonus = function(self)
 	return {
-		mul_thaumaturgy_energy = { G.GAME.mul_thaumaturgy_energy_rate * 20, { text = "Charge" } },
+		mul_thaumaturgy_energy = { G.GAME.mul_thaumaturgy_energy_rate, { text = "Charge" } },
 	}
 end
 
