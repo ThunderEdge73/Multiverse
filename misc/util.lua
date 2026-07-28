@@ -239,7 +239,7 @@ end
 ---@param card Card The card that is applying its effect
 ---@param func fun(): nil The effect to apply
 ---@param no_event boolean?
-function Multiverse.effect_animation(card, func, no_event)
+function Multiverse.effect_animation(card, func, no_event, no_juice)
 	if no_event then
 		delay(0.4)
 		func()
@@ -250,7 +250,9 @@ function Multiverse.effect_animation(card, func, no_event)
 			delay = 0.4,
 			func = function()
 				func()
-				card:juice_up(0.3, 0.5)
+				if not no_juice then
+					card:juice_up(0.3, 0.5)
+				end
 				return true
 			end,
 		}))

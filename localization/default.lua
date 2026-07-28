@@ -2725,8 +2725,6 @@ return {
 				text = {
 					"Cost: Destroy {C:attention}1{} Joker",
 					"Effect: Gain {C:attention}#1#%{} TP",
-					"{C:inactive}(Can only be used{}",
-					"{C:inactive}while in a {C:attention}Blind{C:inactive}){}",
 				},
 			},
 			mul_thunderedge_ability = {

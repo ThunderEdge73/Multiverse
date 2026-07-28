@@ -22,7 +22,10 @@ function Card:mul_can_use_generic(any_state, skip_check)
 		return false
 	end
 	if
-		G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT and not Multiverse.in_interaction()
+		G.STATE ~= G.STATES.HAND_PLAYED
+			and G.STATE ~= G.STATES.DRAW_TO_HAND
+			and G.STATE ~= G.STATES.PLAY_TAROT
+			and not Multiverse.in_interaction()
 		or any_state
 	then
 		return true
@@ -47,17 +50,15 @@ Multiverse.joker_use_UI_def = function(card)
 	end
 	function ability_sprite:click()
 		Node.click(self)
-		if not card.debuff and card:mul_can_use_generic() then
+		if not card.debuff and card:mul_can_use_generic() and obj:can_use(card) then
 			local prev_state = G.STATE
 			G.TAROT_INTERRUPT = G.STATE
-			G.STATE = (G.STATE == G.STATES.TAROT_PACK and G.STATES.TAROT_PACK)
-				or (G.STATE == G.STATES.PLANET_PACK and G.STATES.PLANET_PACK)
-				or (G.STATE == G.STATES.SPECTRAL_PACK and G.STATES.SPECTRAL_PACK)
-				or (G.STATE == G.STATES.STANDARD_PACK and G.STATES.STANDARD_PACK)
-				or (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and G.STATES.SMODS_BOOSTER_OPENED)
-				or (G.STATE == G.STATES.BUFFOON_PACK and G.STATES.BUFFOON_PACK)
-				or G.STATES.PLAY_TAROT
+			G.STATE = G.STATES.PLAY_TAROT
 			G.CONTROLLER.locks.use = true
+			if G.booster_pack and not G.booster_pack.alignment.offset.py then
+				G.booster_pack.alignment.offset.py = G.booster_pack.alignment.offset.y
+				G.booster_pack.alignment.offset.y = G.ROOM.T.y + 29
+			end
 			if G.shop and not G.shop.alignment.offset.py then
 				G.shop.alignment.offset.py = G.shop.alignment.offset.y
 				G.shop.alignment.offset.y = G.ROOM.T.y + 29
@@ -71,7 +72,10 @@ Multiverse.joker_use_UI_def = function(card)
 				G.round_eval.alignment.offset.y = G.ROOM.T.y + 29
 			end
 			G.jokers:remove_from_highlighted(card)
+			delay(0.2)
+			card:juice_up(0.3, 0.3)
 			obj:use(card)
+			delay(0.6)
 			G.E_MANAGER:add_event(Event({
 				trigger = "after",
 				delay = 0.2,
@@ -83,6 +87,10 @@ Multiverse.joker_use_UI_def = function(card)
 							G.STATE = prev_state
 							G.TAROT_INTERRUPT = nil
 							G.CONTROLLER.locks.use = false
+							if G.booster_pack then
+								G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
+								G.booster_pack.alignment.offset.py = nil
+							end
 							if G.shop then
 								G.shop.alignment.offset.y = G.shop.alignment.offset.py
 								G.shop.alignment.offset.py = nil
@@ -178,7 +186,8 @@ end
 
 function G.FUNCS.mul_can_use_joker(e)
 	local card = e.config.ref_table
-	if card:mul_can_use_generic() and not card.debuff then
+	local center = card.config.center
+	if card:mul_can_use_generic() and not card.debuff and center:can_use(card) then
 		e.config.colour = G.C.GREEN
 	else
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE

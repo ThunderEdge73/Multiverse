@@ -115,7 +115,7 @@ Multiverse.SkillCard = SMODS.Enhancement:extend({
 									bump = true,
 									pop_in = 0,
 									scale = 0.45,
-									font = SMODS.Fonts["mul_kreon"]
+									font = SMODS.Fonts["mul_kreon"],
 								}),
 								func = "mul_update_tp_cost",
 								ref_table = card,
@@ -380,7 +380,27 @@ function Multiverse.start_interaction(args, card)
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						delay = 0.7,
 						func = function()
+							if G.booster_pack and not G.booster_pack.alignment.offset.py then
+								G.booster_pack.alignment.offset.py = G.booster_pack.alignment.offset.y
+								G.booster_pack.alignment.offset.y = G.ROOM.T.y + 29
+							end
+							if G.shop and not G.shop.alignment.offset.py then
+								G.shop.alignment.offset.py = G.shop.alignment.offset.y
+								G.shop.alignment.offset.y = G.ROOM.T.y + 29
+							end
+							if G.blind_select and not G.blind_select.alignment.offset.py then
+								G.blind_select.alignment.offset.py = G.blind_select.alignment.offset.y
+								G.blind_select.alignment.offset.y = G.ROOM.T.y + 39
+							end
+							if G.round_eval and not G.round_eval.alignment.offset.py then
+								G.round_eval.alignment.offset.py = G.round_eval.alignment.offset.y
+								G.round_eval.alignment.offset.y = G.ROOM.T.y + 29
+							end
+							local state = G.STATE
+							Multiverse.interaction_old_data.state = state
 							Multiverse.show_interaction_ui(args.display_text, args.area, card, args.select_limit)
 							return true
 						end,
@@ -416,6 +436,22 @@ function G.FUNCS.mul_end_interaction(e)
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			Multiverse.remove_interaction_ui()
+			if G.booster_pack then
+				G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
+				G.booster_pack.alignment.offset.py = nil
+			end
+			if G.shop then
+				G.shop.alignment.offset.y = G.shop.alignment.offset.py
+				G.shop.alignment.offset.py = nil
+			end
+			if G.blind_select then
+				G.blind_select.alignment.offset.y = G.blind_select.alignment.offset.py
+				G.blind_select.alignment.offset.py = nil
+			end
+			if G.round_eval then
+				G.round_eval.alignment.offset.y = G.round_eval.alignment.offset.py
+				G.round_eval.alignment.offset.py = nil
+			end
 			return true
 		end,
 	}))
@@ -441,6 +477,7 @@ function Multiverse.confirm_end_interaction_UI_def()
 						func = "mul_can_confirm_end_interaction",
 						colour = G.C.UI.BACKGROUND_INACTIVE,
 						col = true,
+						one_press = true,
 					}),
 				},
 			},
@@ -729,7 +766,7 @@ function Multiverse.remove_interaction_ui()
 		end
 		G.mul_discard_view_areas = nil
 		G.mul_interact_menu:get_UIE_by_ID("interaction_text").config.object:pop_out(3)
-		G.STATE = G.STATES.SELECTING_HAND
+		G.STATE = Multiverse.interaction_old_data.state
 		G.hand.T.x = G.TILE_W - G.hand.T.w - 2.85
 		G.hand:hard_set_VT()
 		if G.buttons then
