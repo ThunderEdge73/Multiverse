@@ -23,7 +23,7 @@ SMODS.Atlas({
 	path = "philosophers_stone.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 18,
-	fps = 12,
+	FPS = 12,
 })
 SMODS.Atlas({
 	key = "ren_amamiya",
@@ -44,7 +44,7 @@ SMODS.Atlas({
 	path = "holy_grail.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 18,
-	fps = 12,
+	FPS = 12,
 })
 SMODS.Atlas({
 	key = "multiverse_blinds",
@@ -67,7 +67,7 @@ SMODS.Atlas({
 	path = "transmutable.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 18,
-	fps = 18,
+	FPS = 18,
 })
 SMODS.Atlas({
 	key = "3d_banana",
@@ -76,7 +76,7 @@ SMODS.Atlas({
 	path = "3d_cavendish.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 40,
-	fps = 40,
+	FPS = 40,
 })
 SMODS.Atlas({
 	key = "ability_placeholder",
@@ -91,7 +91,7 @@ SMODS.Atlas({
 	path = "target.png",
 	frames = 2,
 	atlas_table = "ANIMATION_ATLAS",
-	fps = 6,
+	FPS = 6,
 })
 SMODS.Atlas({
 	key = "enchantment_book",
