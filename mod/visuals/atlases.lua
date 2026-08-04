@@ -23,7 +23,7 @@ SMODS.Atlas({
 	path = "philosophers_stone.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 18,
-	FPS = 12,
+	fps = 12,
 })
 SMODS.Atlas({
 	key = "ren_amamiya",
@@ -44,7 +44,7 @@ SMODS.Atlas({
 	path = "holy_grail.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 18,
-	FPS = 12,
+	fps = 12,
 })
 SMODS.Atlas({
 	key = "multiverse_blinds",
@@ -67,7 +67,7 @@ SMODS.Atlas({
 	path = "transmutable.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 18,
-	FPS = 18,
+	fps = 18,
 })
 SMODS.Atlas({
 	key = "3d_banana",
@@ -76,7 +76,7 @@ SMODS.Atlas({
 	path = "3d_cavendish.png",
 	atlas_table = "ANIMATION_ATLAS",
 	frames = 40,
-	FPS = 40,
+	fps = 40,
 })
 SMODS.Atlas({
 	key = "ability_placeholder",
@@ -91,7 +91,7 @@ SMODS.Atlas({
 	path = "target.png",
 	frames = 2,
 	atlas_table = "ANIMATION_ATLAS",
-	FPS = 6,
+	fps = 6,
 })
 SMODS.Atlas({
 	key = "enchantment_book",
@@ -103,37 +103,37 @@ SMODS.Atlas({
 	key = "enchantment_table",
 	px = 71,
 	py = 95,
-	path = "enchantment_table.png"
+	path = "enchantment_table.png",
 })
 SMODS.Atlas({
 	key = "half_indicator",
 	px = 71,
 	py = 95,
-	path = "half_indicator.png"
+	path = "half_indicator.png",
 })
 SMODS.Atlas({
 	key = "skill_placeholder",
 	px = 71,
 	py = 95,
-	path = "skill_placeholder.png"
+	path = "skill_placeholder.png",
 })
 SMODS.Atlas({
 	key = "contributors",
 	px = 71,
 	py = 95,
-	path = "contributors.png"
+	path = "contributors.png",
 })
 SMODS.Atlas({
 	key = "enchantment_tag",
 	px = 34,
 	py = 34,
-	path = "enchant_tag.png"
+	path = "enchant_tag.png",
 })
 SMODS.Atlas({
 	key = "booster_placeholder",
 	px = 71,
 	py = 95,
-	path = "placeholder_booster.png"
+	path = "placeholder_booster.png",
 })
 SMODS.Atlas({
 	key = "blind_placeholder",
