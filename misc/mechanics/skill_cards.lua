@@ -585,7 +585,6 @@ function Multiverse.build_discard_view_UI_def(cards_to_display, highlighted_max)
 				padding = 0.1,
 			},
 		},
-		sync_mode = "progress",
 	})
 	return {
 		n = G.UIT.ROOT,

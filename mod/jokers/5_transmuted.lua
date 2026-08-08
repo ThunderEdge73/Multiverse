@@ -134,20 +134,27 @@ Multiverse.UsableJoker({
 			set = "Other",
 			key = "mul_steve_ability",
 			vars = {
-				card.ability.extra.tp_cost,
-				card.ability.extra.dollar_cost,
+				card.ability.immutable.tp_cost,
+				card.ability.immutable.dollar_cost,
 				5,
 				card.ability.extra.increment,
 			},
 		})
-		return { vars = { card.ability.extra.hand_size } }
+		return { vars = { card.ability.immutable.hand_size } }
 	end,
-	config = { extra = { hand_size = 2, tp_cost = 20, dollar_cost = 10, increment = 1 } },
+	config = {
+		extra = { increment = 1 },
+		immutable = {
+			tp_cost = 20,
+			dollar_cost = 10,
+			hand_size = 2,
+		},
+	},
 	add_to_deck = function(self, card, from_debuff)
-		G.hand:change_size(card.ability.extra.hand_size)
+		G.hand:change_size(card.ability.immutable.hand_size)
 	end,
 	remove_from_deck = function(self, card, from_debuff)
-		G.hand:change_size(-card.ability.extra.hand_size)
+		G.hand:change_size(-card.ability.immutable.hand_size)
 	end,
 	calculate = function(self, card, context)
 		if context.before then
@@ -178,8 +185,13 @@ Multiverse.UsableJoker({
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			card.ability.extra.hand_size = card.ability.extra.hand_size + card.ability.extra.increment
-			card.ability.extra.dollar_cost = card.ability.extra.dollar_cost * 2
+			SMODS.scale_card(card, {
+				ref_table = card.ability.immutable,
+				ref_value = "hand_size",
+				scalar_table = card.ability.extra,
+				scalar_value = "increment"
+			})
+			card.ability.immutable.dollar_cost = card.ability.immutable.dollar_cost * 2
 			G.hand:change_size(card.ability.extra.increment)
 		end)
 	end,
@@ -191,8 +203,8 @@ Multiverse.UsableJoker({
 			end
 		end
 		return count >= 5
-			and G.GAME.dollars >= card.ability.extra.dollar_cost + G.GAME.bankrupt_at
-			and G.GAME.mul_tp >= card.ability.extra.tp_cost
+			and G.GAME.dollars >= card.ability.immutable.dollar_cost + G.GAME.bankrupt_at
+			and G.GAME.mul_tp >= card.ability.immutable.tp_cost
 	end,
 })
 
@@ -334,7 +346,10 @@ Multiverse.UsableJoker({
 			},
 		}
 	end,
-	config = { extra = { retriggers = 6, retriggers_per_hand = 2, hands = 2, hand_boost = 4, tp_cost = 30 } },
+	config = {
+		extra = { retriggers = 6, retriggers_per_hand = 2, hands = 2, hand_boost = 4, tp_cost = 30 },
+		immutable = {},
+	},
 	calculate = function(self, card, context)
 		return Multiverse.handle_distributed_retriggers(
 			context,

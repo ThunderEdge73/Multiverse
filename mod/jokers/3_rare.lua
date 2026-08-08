@@ -24,7 +24,7 @@ SMODS.Joker({
 	key = "antimatter",
 	atlas = "placeholder",
 	pos = { x = 2, y = 0 },
-	config = { extra = { mult = 1, dim1 = 1, dim2 = 0, dim3 = 0, rounds_held = 0 } },
+	config = { extra = { mult = 1, dim1 = 1, dim2 = 0, dim3 = 0 }, immutable = { rounds_held = 0 } },
 	rarity = 3,
 	perishable_compat = false,
 	cost = 7,
@@ -37,17 +37,17 @@ SMODS.Joker({
 			return { mult = card.ability.extra.mult }
 		end
 		if context.end_of_round and context.main_eval and not context.blueprint and not context.game_over then
-			card.ability.extra.rounds_held = card.ability.extra.rounds_held + 1
+			card.ability.immutable.rounds_held = card.ability.immutable.rounds_held + 1
 			local msg
-			if card.ability.extra.rounds_held == 1 then
+			if card.ability.immutable.rounds_held == 1 then
 				msg = localize("k_mul_antimatter_init")
-			elseif card.ability.extra.rounds_held <= 3 then
+			elseif card.ability.immutable.rounds_held <= 3 then
 				card.ability.extra.dim1 = 2
 				msg = localize("k_mul_antimatter_grow1")
-			elseif card.ability.extra.rounds_held <= 6 then
+			elseif card.ability.immutable.rounds_held <= 6 then
 				card.ability.extra.dim2 = 1
 				msg = localize("k_mul_antimatter_grow2")
-			elseif card.ability.extra.rounds_held <= 10 then
+			elseif card.ability.immutable.rounds_held <= 10 then
 				card.ability.extra.dim2 = card.ability.extra.dim2 + 1
 				msg = localize("k_mul_antimatter_grow3")
 			else

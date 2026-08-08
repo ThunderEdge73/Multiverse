@@ -9,6 +9,10 @@ Multiverse.UsableJoker({
 			thaum_energy_cost = 20,
 			transmute_progress = 0,
 		},
+		immutable = {
+			tp_cost = 20,
+			thaum_energy_cost = 20,
+		}
 	},
 	rarity = 4,
 	cost = 20,
@@ -24,20 +28,20 @@ Multiverse.UsableJoker({
 			set = "Other",
 			key = "mul_thunderedge_ability",
 			vars = {
-				card.ability.extra.tp_cost,
-				card.ability.extra.thaum_energy_cost,
+				card.ability.immutable.tp_cost,
+				card.ability.immutable.thaum_energy_cost,
 			},
 		})
 		info_queue[#info_queue + 1] = G.P_TAGS["tag_mul_dimensional"]
 	end,
 	can_use = function(self, card)
-		return G.GAME.mul_tp >= card.ability.extra.tp_cost
-			and G.GAME.mul_thaumaturgy_energy >= card.ability.extra.thaum_energy_cost
+		return G.GAME.mul_tp >= card.ability.immutable.tp_cost
+			and G.GAME.mul_thaumaturgy_energy >= card.ability.immutable.thaum_energy_cost
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			ease_mul_tp(-card.ability.extra.tp_cost, true)
-			ease_mul_thaumaturgy_energy(-card.ability.extra.thaum_energy_cost, true)
+			ease_mul_tp(-card.ability.immutable.tp_cost, true)
+			ease_mul_thaumaturgy_energy(-card.ability.immutable.thaum_energy_cost, true)
 			add_tag(Tag("tag_mul_dimensional", false, "Small"))
 		end)
 	end,
@@ -74,7 +78,7 @@ Multiverse.UsableJoker({
 	pos = { x = 0, y = 1 },
 	soul_pos = { x = 1, y = 1 },
 	config = {
-		extra = { tp_cost = 25 },
+		immutable = { tp_cost = 25 },
 	},
 	rarity = "mul_transmuted",
 	cost = 50,
@@ -84,7 +88,7 @@ Multiverse.UsableJoker({
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_left_hand"]
 		info_queue[#info_queue + 1] = G.P_CENTERS["m_mul_right_hand"]
 		local vars, _ = Multiverse.calculate_singularity_values()
-		table.insert(vars, 1, card.ability.extra.tp_cost)
+		table.insert(vars, 1, card.ability.immutable.tp_cost)
 		info_queue[#info_queue + 1] = {
 			set = "Other",
 			key = "mul_thunderedge_awakened_ability",
@@ -94,11 +98,11 @@ Multiverse.UsableJoker({
 	end,
 	can_use = function(self, card)
 		local _, found = Multiverse.calculate_singularity_values()
-		return G.GAME.mul_tp >= card.ability.extra.tp_cost and found
+		return G.GAME.mul_tp >= card.ability.immutable.tp_cost and found
 	end,
 	use = function(self, card)
 		Multiverse.effect_animation(card, function()
-			ease_mul_tp(-card.ability.extra.tp_cost, true)
+			ease_mul_tp(-card.ability.immutable.tp_cost, true)
 			local singularity_vals = Multiverse.calculate_singularity_values()
 			local cards_to_destroy = Multiverse.filter(G.hand.cards, function(item)
 				return not (
@@ -203,21 +207,3 @@ SMODS.Joker({
 		end
 	end,
 })
-
--- SMODS.Joker({
--- 	key = "sleepy",
--- 	atlas = "contributors",
--- 	pos = { x = 4, y = 0 },
--- 	soul_pos = { x = 5, y = 0 },
--- 	rarity = 4,
--- 	cost = 20,
--- 	blueprint_compat = false,
--- 	attributes = { "balance" },
--- 	calculate = function(self, card, context)
--- 		if context.initial_scoring_step or context.final_scoring_step then
--- 			return {
--- 				balance = true,
--- 			}
--- 		end
--- 	end,
--- })

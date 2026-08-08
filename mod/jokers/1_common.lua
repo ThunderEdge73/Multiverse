@@ -42,11 +42,17 @@ SMODS.Joker({
 	key = "red_bloon",
 	atlas = "placeholder",
 	pos = { x = 0, y = 0 },
-	config = { extra = { money = 1, rounds_held = 0, total_rounds = 3 } },
+	config = { extra = { money = 1 }, immutable = { rounds_held = 0, total_rounds = 3 } },
 	eternal_compat = false,
 	cost = 4,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.money, card.ability.extra.total_rounds - card.ability.extra.rounds_held, card.ability.extra.total_rounds } }
+		return {
+			vars = {
+				card.ability.extra.money,
+				card.ability.immutable.total_rounds - card.ability.immutable.rounds_held,
+				card.ability.immutable.total_rounds,
+			},
+		}
 	end,
 	attributes = { "economy" },
 	calculate = function(self, card, context)
@@ -65,12 +71,12 @@ SMODS.Joker({
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint then
-			card.ability.extra.rounds_held = card.ability.extra.rounds_held + 1
-			if card.ability.extra.rounds_held >= 3 then
+			card.ability.immutable.rounds_held = card.ability.immutable.rounds_held + 1
+			if card.ability.immutable.rounds_held >= 3 then
 				SMODS.destroy_cards(card)
 				return { message = localize("k_mul_popped") }
 			else
-				return { message = card.ability.extra.rounds_held .. "/" .. card.ability.extra.total_rounds }
+				return { message = card.ability.immutable.rounds_held .. "/" .. card.ability.immutable.total_rounds }
 			end
 		end
 	end,
@@ -97,19 +103,20 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.before and context.main_eval and not context.blueprint then
+			local was_reset = false
 			for _, c in ipairs(context.full_hand) do
 				if c:is_suit(G.GAME.current_round.mul_foddian_suit) then
-					card.ability.extra.mult = 0
-					return {
-						message = localize("k_reset"),
-					}
+					SMODS.reset_card(card, { ref_value = "mult" })
+					was_reset = true
 				end
 			end
-			SMODS.scale_card(card, {
-				ref_table = card.ability.extra,
-				ref_value = "mult",
-				scalar_value = "mult_inc",
-			})
+			if not was_reset then
+				SMODS.scale_card(card, {
+					ref_table = card.ability.extra,
+					ref_value = "mult",
+					scalar_value = "mult_inc",
+				})
+			end
 		end
 		if context.joker_main and card.ability.extra.mult > 0 then
 			return {
@@ -137,12 +144,12 @@ SMODS.Joker({
 	key = "slime",
 	atlas = "placeholder",
 	pos = { x = 0, y = 0 },
-	config = { extra = { dollars = 2, min_cards = 5 } },
+	config = { extra = { dollars = 2 }, immutable = { min_cards = 5 } },
 	rarity = 1,
 	cost = 6,
 	attributes = { "economy" },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.min_cards, card.ability.extra.dollars } }
+		return { vars = { card.ability.immutable.min_cards, card.ability.extra.dollars } }
 	end,
 	calculate = function(self, card, context)
 		if context.before and #context.scoring_hand >= card.ability.extra.min_cards then

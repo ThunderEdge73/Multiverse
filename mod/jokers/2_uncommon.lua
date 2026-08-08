@@ -57,10 +57,7 @@ SMODS.Joker({
 				end
 			end
 			if not has_face_card then
-				card.ability.extra.mult = 0
-				return {
-					message = localize("k_mul_missed_bus"),
-				}
+				SMODS.reset_card(card, { ref_value = "mult", reset_message = localize("k_mul_missed_bus") })
 			end
 		end
 		if context.joker_main then
@@ -132,19 +129,19 @@ SMODS.Joker({
 	key = "victory_royale",
 	atlas = "placeholder",
 	pos = { x = 1, y = 0 },
-	config = { extra = { req = 100, current = 0, increment = 1 } },
+	config = { immutable = { req = 100, current = 0, increment = 1 } },
 	rarity = 2,
 	cost = 7,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
-		return { vars = { card.ability.extra.req, card.ability.extra.req - card.ability.extra.current } }
+		return { vars = { card.ability.immutable.req, card.ability.immutable.req - card.ability.immutable.current } }
 	end,
 	attributes = { "spectral", "generation" },
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
-			if card.ability.extra.current >= card.ability.extra.req then
+			if card.ability.immutable.current >= card.ability.immutable.req then
 				G.GAME.consumeable_buffer = (G.GAME.consumeable_buffer or 0) + 1
-				card.ability.extra.current = 0
+				card.ability.immutable.current = 0
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						SMODS.add_card({
@@ -161,7 +158,7 @@ SMODS.Joker({
 					colour = G.C.SECONDARY_SET.Spectral,
 				}
 			else
-				card.ability.extra.current = card.ability.extra.current + card.ability.extra.increment
+				card.ability.immutable.current = card.ability.immutable.current + card.ability.immutable.increment
 			end
 		end
 	end,

@@ -856,7 +856,6 @@ function Multiverse.generate_enchantment_details_UIBox(enchantment_center)
 						r = 0.1,
 					},
 				},
-				sync_mode = "progress",
 			})
 			rows[#rows + 1] = {
 				n = G.UIT.R,
@@ -1032,7 +1031,6 @@ function Multiverse.detailed_enchantment_info_UI_def()
 				r = 0.1,
 			},
 		},
-		sync_mode = "progress",
 	})
 	local ench_list_box = {
 		n = G.UIT.C,

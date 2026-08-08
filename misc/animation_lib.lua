@@ -47,7 +47,7 @@ Multiverse.Videos = {}
 ---@param t Multiverse.Video
 ---@return Multiverse.Video
 function Multiverse.Video(t)
-	local full_key = SMODS.current_mod.prefix .. t.key
+	local full_key = SMODS.current_mod.prefix .. "_" .. t.key
 	if Multiverse.Videos[full_key] then
 		error("Attempt to define a duplicate video")
 	end

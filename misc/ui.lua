@@ -717,31 +717,78 @@ SMODS.current_mod.config_tab = function()
 end
 
 Multiverse.test_ui_def = function()
+	local box = SMODS.UIScrollBox({
+		content = {
+			definition = {
+				n = G.UIT.ROOT,
+				config = { padding = 0.1 },
+				nodes = {
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.CHIPS } },
+					{ n = G.UIT.R, config = { minh = 1, minw = 4, colour = G.C.MULT } },
+				},
+			},
+			config = {},
+		},
+		overflow = { node_config = { maxh = 4 } },
+	})
+
 	return {
 		n = G.UIT.ROOT,
 		config = { colour = G.C.CLEAR },
 		nodes = {
 			{
-				n = G.UIT.C,
-				config = {
-					minw = 3,
-					minh = 0.8,
-					mul_custom_draw_func = function(self)
-						local t = self.VT or self.T
-						local offset = 0.2
-						local verts = {
-							offset * G.TILESIZE,
-							0,
-							t.w * G.TILESIZE,
-							0,
-							(t.w - offset) * G.TILESIZE,
-							t.h * G.TILESIZE,
-							0,
-							t.h * G.TILESIZE,
-						}
-						love.graphics.setColor(Multiverse.C.PRIMARY1)
-						love.graphics.polygon("fill", verts)
-					end,
+				n = G.UIT.R,
+				nodes = {
+					{ n = G.UIT.T, config = { text = "Y progress: ", scale = 0.32 } },
+					{ n = G.UIT.T, config = { ref_table = box.scroll_progress, ref_value = "y", scale = 0.32 } },
+				},
+			},
+			{
+				n = G.UIT.R,
+				nodes = {
+					{ n = G.UIT.O, config = { object = box } },
+					SMODS.GUI.scrollbar({
+						w = 0.2,
+						h = 4,
+						colour = G.C.ORANGE,
+						bg_colour = { 0, 0, 0, 0.15 },
+						scroll_collision_obj = box,
+					}),
+				},
+			},
+			{
+				n = G.UIT.R,
+				nodes = {
+					SMODS.GUI.dropdown_select({
+						ref_table = Multiverse,
+						ref_value = "testing",
+						options = {
+							"a",
+							"b",
+							"c",
+							"d",
+							"e",
+							"f",
+							"g",
+							"h",
+							"i",
+							"j",
+							"k",
+						},
+						max_menu_h = 4,
+					})
 				},
 			},
 		},
@@ -756,12 +803,12 @@ SMODS.current_mod.extra_tabs = function()
 				return Multiverse.music_tab()
 			end,
 		},
-		-- {
-		-- 	label = "Test",
-		-- 	tab_definition_function = function()
-		-- 		return Multiverse.test_ui_def()
-		-- 	end,
-		-- },
+		{
+			label = "Test",
+			tab_definition_function = function()
+				return Multiverse.test_ui_def()
+			end,
+		},
 	}
 end
 
@@ -936,7 +983,6 @@ function Multiverse.credits_tab_definition()
 				r = 0.1,
 			},
 		},
-		sync_mode = "progress",
 	})
 	return {
 		n = G.UIT.ROOT,
