@@ -397,6 +397,7 @@ Multiverse.UsableJoker({
 				card.ability.extra.tp_gain,
 			},
 		})
+		local main_end = nil
 		if card.area and card.area == G.jokers then
 			local left_joker
 			local right_joker
@@ -404,6 +405,7 @@ Multiverse.UsableJoker({
 				if G.jokers.cards[i] == card then
 					right_joker = G.jokers.cards[i + 1]
 					left_joker = G.jokers.cards[i - 1]
+					break
 				end
 			end
 			local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat

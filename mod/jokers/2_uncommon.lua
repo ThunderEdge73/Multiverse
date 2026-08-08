@@ -240,13 +240,15 @@ SMODS.Joker({
 	rarity = 2,
 	cost = 7,
 	loc_vars = function(self, info_queue, card)
+		local main_end = nil
+		local left_joker = nil
+		local right_joker = nil
 		if card.area and card.area == G.jokers then
-			local left_joker
-			local right_joker
 			for i = 1, #G.jokers.cards do
 				if G.jokers.cards[i] == card then
 					right_joker = G.jokers.cards[i + 1]
 					left_joker = G.jokers.cards[i - 1]
+					break
 				end
 			end
 			local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat
@@ -305,11 +307,99 @@ SMODS.Joker({
 					},
 				},
 			}
-			return { main_end = main_end }
 		end
+		local left_area = CardArea(0, 0, G.CARD_W / 2, G.CARD_H / 2, {
+			type = "title_2",
+			card_limit = 1,
+			max_highlighted = 0,
+		})
+		local left_card = Card(
+			0,
+			0,
+			G.CARD_W / 2,
+			G.CARD_H / 2,
+			G.P_CARDS.empty,
+			G.P_CENTERS[left_joker and left_joker.config.center_key or "j_joker"],
+			{
+				bypass_discovery_center = true,
+				bypass_lock = true,
+				bypass_discovery_ui = true,
+			}
+		)
+		left_area:emplace(left_card)
+		local right_area = CardArea(0, 0, G.CARD_W / 2, G.CARD_H / 2, {
+			type = "title_2",
+			card_limit = 1,
+			max_highlighted = 0,
+		})
+		local right_card = Card(
+			0,
+			0,
+			G.CARD_W / 2,
+			G.CARD_H / 2,
+			G.P_CARDS.empty,
+			G.P_CENTERS[right_joker and right_joker.config.center_key or "j_blueprint"],
+			{
+				bypass_discovery_center = true,
+				bypass_lock = true,
+				bypass_discovery_ui = true,
+			}
+		)
+		right_area:emplace(right_card)
+		return {
+			main_end = main_end,
+			vars = {
+				elements = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = {
+									object = left_area,
+								},
+							},
+						},
+					},
+					{
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = {
+									object = right_area,
+								},
+							},
+						},
+					},
+				},
+			},
+		}
 	end,
 	attributes = { "copying" },
-	calculate = function(self, card, context)
-		
-	end,
 })
+
+function Multiverse.handle_is_copy_eff(card, context)
+	if card.area and card.area == G.jokers then
+		local right_joker, copy_target = nil, nil
+		for i = 1, #G.jokers.cards do
+			if G.jokers.cards[i] == card then
+				right_joker = G.jokers.cards[i + 1]
+				copy_target = G.jokers.cards[i + 2]
+				break
+			end
+		end
+		if
+			right_joker
+			and copy_target
+			and right_joker.config.center_key == "j_mul_is"
+			and not right_joker.debuff
+			and copy_target ~= card
+			and copy_target.config.center.blueprint_compat
+		then
+			return SMODS.blueprint_effect(card, copy_target, context)
+		end
+	end
+end

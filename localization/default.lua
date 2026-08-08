@@ -2371,10 +2371,10 @@ return {
 				},
 			},
 			j_mul_dog = {
-				name = "Dog",
+				name = "Annoying Dog",
 				text = {
 					{
-						"Destroy all held",
+						"Destroys all held",
 						"consumables at end",
 						"of round and this",
 						"Joker gains {C:chips}+#1#{} Chips per",
@@ -2384,6 +2384,19 @@ return {
 					{
 						"{C:inactive,s:0.8}The dog absorbs",
 						"{C:inactive,s:0.8}the consumable.",
+					},
+				},
+			},
+			j_mul_is = {
+				name = "Is",
+				text = {
+					{
+						"{C:attention}Joker{} to the left",
+						"acts as a copy of",
+						"{C:attention}Joker{} to the right",
+					},
+					{
+						"{element:1} {C:inactive}IS{} {element:2}",
 					},
 				},
 			},
