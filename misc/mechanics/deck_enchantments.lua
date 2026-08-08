@@ -1285,7 +1285,7 @@ function Multiverse.poll_deck_enchantments(args)
 			local obj = Multiverse.DeckEnchantments[key]
 			-- essentially acts as the in_pool check
 			local valid_levels = Multiverse.get_valid_enchantment_level_ups(key, polled, source)
-			if #valid_levels > 0 then
+			if #valid_levels > 0 and not obj.legendary then
 				local entry = {
 					enchant_key = key,
 					enchant_obj = obj,
@@ -1293,7 +1293,7 @@ function Multiverse.poll_deck_enchantments(args)
 				}
 				if obj.enchantment_type ~= "negative" then
 					base_pool[#base_pool + 1] = entry
-				elseif not obj.legendary then
+				else
 					curse_pool[#curse_pool + 1] = entry
 				end
 			end
