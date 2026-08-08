@@ -232,3 +232,84 @@ SMODS.Joker({
 	mul_grail = { "c_immolate", "c_hermit", "c_temperance" },
 	mul_tree_of_eden = { "j_golden", "j_cloud_9", "j_satellite", "j_todo_list", "j_mul_red_bloon", "j_mul_slime" },
 })
+
+SMODS.Joker({
+	key = "is",
+	atlas = "placeholder",
+	pos = { x = 1, y = 0 },
+	rarity = 2,
+	cost = 7,
+	loc_vars = function(self, info_queue, card)
+		if card.area and card.area == G.jokers then
+			local left_joker
+			local right_joker
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i] == card then
+					right_joker = G.jokers.cards[i + 1]
+					left_joker = G.jokers.cards[i - 1]
+				end
+			end
+			local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat
+			local right_compatible = right_joker and right_joker ~= card and right_joker.config.center.blueprint_compat
+			main_end = {
+				{
+					n = G.UIT.R,
+					config = { align = "bm", minh = 0.4, padding = 0.05 },
+					nodes = {
+						{
+							n = G.UIT.C,
+							config = {
+								ref_table = card,
+								align = "m",
+								colour = left_compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
+									or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8),
+								r = 0.05,
+								padding = 0.06,
+							},
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										text = " "
+											.. localize("k_" .. (left_compatible and "compatible" or "incompatible"))
+											.. " ",
+										colour = G.C.UI.TEXT_LIGHT,
+										scale = 0.32 * 0.8,
+									},
+								},
+							},
+						},
+						{
+							n = G.UIT.C,
+							config = {
+								ref_table = card,
+								align = "m",
+								colour = right_compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
+									or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8),
+								r = 0.05,
+								padding = 0.06,
+							},
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										text = " "
+											.. localize("k_" .. (right_compatible and "compatible" or "incompatible"))
+											.. " ",
+										colour = G.C.UI.TEXT_LIGHT,
+										scale = 0.32 * 0.8,
+									},
+								},
+							},
+						},
+					},
+				},
+			}
+			return { main_end = main_end }
+		end
+	end,
+	attributes = { "copying" },
+	calculate = function(self, card, context)
+		
+	end,
+})

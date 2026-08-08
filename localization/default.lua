@@ -2370,13 +2370,13 @@ return {
 					},
 				},
 			},
-			j_mul_dog = { -- common
+			j_mul_dog = {
 				name = "Dog",
 				text = {
 					{
-						"At end of round,",
-						"destroy all held",
-						"consumables and this",
+						"Destroy all held",
+						"consumables at end",
+						"of round and this",
 						"Joker gains {C:chips}+#1#{} Chips per",
 						"consumable destroyed",
 						"{C:inactive}Currently {C:chips}+#2#{C:inactive} Chips)",

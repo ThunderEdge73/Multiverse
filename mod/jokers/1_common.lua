@@ -198,3 +198,42 @@ SMODS.Joker({
 	mul_grail = { "c_justice", "c_hanged_man", "c_immolate", "c_mul_lightsaber" },
 	mul_tree_of_eden = { "j_trading" }, -- UPDATE LATER
 })
+
+SMODS.Joker({
+	key = "dog",
+	atlas = "placeholder",
+	pos = { x = 0, y = 0 },
+	config = { extra = { chips = 0, chip_inc = 5 } },
+	transmute_req = Multiverse.set_transmute_requirements(10),
+	rarity = 1,
+	cost = 5,
+	attributes = { "chips", "scaling", "destroy_cards" },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.chip_inc,
+				card.ability.extra.chips,
+			}
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint then
+			local cards = Multiverse.filter(G.consumeables.cards, function (item)
+				return not SMODS.is_eternal(item, card)
+			end)
+			if #cards > 0 then
+				SMODS.scale_card(card, {
+					ref_value = "chips",
+					scalar_table = { card.ability.extra.chip_inc * #cards },
+					scalar_value = 1,
+				})
+				SMODS.destroy_cards(cards)
+			end
+		end
+		if context.joker_main then
+			return {
+				chips = card.ability.extra.chips
+			}
+		end
+	end,
+})
