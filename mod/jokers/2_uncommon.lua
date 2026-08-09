@@ -380,26 +380,3 @@ SMODS.Joker({
 	end,
 	attributes = { "copying" },
 })
-
-function Multiverse.handle_is_copy_eff(card, context)
-	if card.area and card.area == G.jokers then
-		local right_joker, copy_target = nil, nil
-		for i = 1, #G.jokers.cards do
-			if G.jokers.cards[i] == card then
-				right_joker = G.jokers.cards[i + 1]
-				copy_target = G.jokers.cards[i + 2]
-				break
-			end
-		end
-		if
-			right_joker
-			and copy_target
-			and right_joker.config.center_key == "j_mul_is"
-			and not right_joker.debuff
-			and copy_target ~= card
-			and copy_target.config.center.blueprint_compat
-		then
-			return SMODS.blueprint_effect(card, copy_target, context)
-		end
-	end
-end

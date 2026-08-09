@@ -457,3 +457,31 @@ function draw_card(from, to, ...)
 	end
 	draw_card_hook(from, to, ...)
 end
+
+local calc_joker_hook = Card.calculate_joker
+function Card:calculate_joker(context, ...)
+	if self.area == G.jokers and self.ability.set == "Joker" then
+		local right_joker, copy_target = nil, nil
+		for i = 1, #G.jokers.cards do
+			if G.jokers.cards[i] == self then
+				right_joker = G.jokers.cards[i + 1]
+				copy_target = G.jokers.cards[i + 2]
+				break
+			end
+		end
+		if
+			right_joker
+			and copy_target
+			and right_joker.config.center_key == "j_mul_is"
+			and not right_joker.debuff
+			and copy_target ~= self
+			and copy_target.config.center.blueprint_compat
+		then
+			SMODS.push_to_context_stack(context, self, "overrides.lua : Card.calculate_joker")
+			local eff, post = SMODS.blueprint_effect(self, copy_target, context)
+			SMODS.pop_from_context_stack(context, "overrides.lua : Card.calculate_joker")
+			return eff, post
+		end
+	end
+	return calc_joker_hook(self, context, ...)
+end
