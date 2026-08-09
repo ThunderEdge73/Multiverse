@@ -238,7 +238,8 @@ SMODS.Joker({
 	atlas = "placeholder",
 	pos = { x = 1, y = 0 },
 	rarity = 2,
-	cost = 7,
+	cost = 8,
+	blueprint_compat = false,
 	loc_vars = function(self, info_queue, card)
 		local main_end = nil
 		local left_joker = nil
@@ -379,4 +380,40 @@ SMODS.Joker({
 		}
 	end,
 	attributes = { "copying" },
+})
+
+SMODS.Joker({
+	key = "blue_shell",
+	atlas = "placeholder",
+	pos = { x = 1, y = 0 },
+	rarity = 2,
+	cost = 7,
+	config = { extra = { xmult = 1, xmult_inc = 0.25 } },
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.xmult_inc,
+				card.ability.extra.xmult,
+			},
+		}
+	end,
+	calculate = function(self, card, context)
+		if
+			context.destroy_card
+			and context.scoring_hand[1] == context.destroy_card
+			and G.GAME.current_round.hands_left == 0
+			and not context.blueprint
+		then
+			SMODS.scale_card(card, { ref_value = "xmult", scalar_value = "xmult_inc" })
+			return {
+				remove = true
+			}
+		end
+		if context.joker_main then
+			return {
+				xmult = card.ability.extra.xmult
+			}
+		end
+	end,
+	attributes = { "destroy_cards", "xmult", "hands", "scaling" },
 })

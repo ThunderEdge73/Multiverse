@@ -2400,6 +2400,21 @@ return {
 					},
 				},
 			},
+			j_mul_blue_shell = {
+				name = "Blue Shell",
+				text = {
+					{
+						"On {C:attention}final hand{} of round,",
+						"destroy first scoring",
+						"card and this Joker",
+						"gains {X:mult,C:white}X#1#{} Mult",
+					},
+					{
+						"{C:inactive,s:0.8}Caution: will ruin any",
+						"{C:inactive,s:0.8}preexisting friendships",
+					},
+				},
+			},
 		},
 		Spectral = {
 			c_mul_eternity = {
