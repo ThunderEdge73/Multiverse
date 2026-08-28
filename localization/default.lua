@@ -2330,12 +2330,7 @@ return {
 				text = {
 					{
 						"{C:blue}+#1#{} hands",
-						"Distribute {C:attention}#2#{} retriggers",
-						"evenly across all",
-						"played cards",
-						"Increases by {C:attention}#3#{}",
-						"per hand remaining",
-						"{C:inactive}(Currently {C:attention}#4#{C:inactive} retriggers)",
+						"",
 					},
 					{
 						"{C:inactive,s:0.8}It costs 400,000 dollars to",
@@ -2415,6 +2410,21 @@ return {
 					},
 				},
 			},
+			j_mul_hornet = {
+				name = "Hornet",
+				text = {
+					{
+						"Distribute {C:attention}#1#{} retriggers",
+						"per {C:attention}distinct{} consumable",
+						"held in your {C:attention}consumables",
+						"area randomly among",
+						"all played cards",
+					},
+					{
+						"{C:inactive,s:0.8}SHAW",
+					},
+				}
+			},
 		},
 		Spectral = {
 			c_mul_eternity = {
@@ -2476,15 +2486,6 @@ return {
 					"Plays the entire",
 					"{C:attention}Bad Apple{} video",
 					"for no benefit",
-				},
-			},
-			c_mul_burger = {
-				name = "The Burger",
-				text = {
-					"Plays an {C:attention}animation{} of a",
-					"member of the official",
-					"Balatro Discord server eating",
-					"a {C:attention}burger{} for {C:attention}1{} minute",
 				},
 			},
 			c_mul_eggman = {

@@ -402,19 +402,19 @@ SMODS.current_mod.custom_ui = function(nodes)
 			},
 		},
 	}
-	local title_text = DynaText({
-		string = localize("mul_multiverse"),
-		colours = { G.C.UI.TEXT_LIGHT },
-		shadow = true,
-		float = true,
-		silent = true,
-		spacing = 5,
-		scale = 1.5,
-		rotate = true,
-		pop_in = 0,
-		text_effect = "mul_ui_multiverse_highlight",
-	})
-	title_text.states.visible = false
+	-- local title_text = DynaText({
+	-- 	string = localize("mul_multiverse"),
+	-- 	colours = { G.C.UI.TEXT_LIGHT },
+	-- 	shadow = true,
+	-- 	float = true,
+	-- 	silent = true,
+	-- 	spacing = 5,
+	-- 	scale = 1.5,
+	-- 	rotate = true,
+	-- 	pop_in = 0,
+	-- 	text_effect = "mul_ui_multiverse_highlight",
+	-- })
+	-- title_text.states.visible = false
 	nodes[#nodes + 1] = {
 		n = G.UIT.R,
 		config = { align = "cm", padding = 0.05 },
@@ -427,7 +427,14 @@ SMODS.current_mod.custom_ui = function(nodes)
 						n = G.UIT.O,
 						config = {
 							align = "cm",
-							object = title_text,
+							object = SMODS.create_sprite(
+								0,
+								0,
+								G.CARD_H * 413 / 109 * 0.75,
+								G.CARD_H * 0.75,
+								"mul_mod_logo",
+								{ x = 0, y = 0 }
+							),
 						},
 					},
 				},
@@ -788,7 +795,7 @@ Multiverse.test_ui_def = function()
 							"k",
 						},
 						max_menu_h = 4,
-					})
+					}),
 				},
 			},
 		},

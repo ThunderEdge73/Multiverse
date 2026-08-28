@@ -180,7 +180,7 @@ SMODS.Joker({
 	config = { extra = { xmult = 3 } },
 	rarity = 3,
 	cost = 8,
-	blueprint_compat = true,
+	attributes = { "xmult" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
@@ -229,5 +229,23 @@ SMODS.Joker({
 				end,
 			}))
 		end
+	end,
+})
+
+SMODS.Joker({
+	key = "hornet",
+	atlas = "placeholder",
+	pos = { x = 2, y = 0 },
+	config = { extra = { retriggers = 3, } },
+	rarity = 3,
+	cost = 8,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				card.ability.extra.retriggers,
+			},
+		}
+	end,
+	calculate = function(self, card, context)
 	end,
 })

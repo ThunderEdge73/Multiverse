@@ -415,5 +415,5 @@ SMODS.Joker({
 			}
 		end
 	end,
-	attributes = { "destroy_cards", "xmult", "hands", "scaling" },
+	attributes = { "destroy_card", "xmult", "hands", "scaling" },
 })

@@ -207,7 +207,7 @@ SMODS.Joker({
 	transmute_req = Multiverse.set_transmute_requirements(10),
 	rarity = 1,
 	cost = 5,
-	attributes = { "chips", "scaling", "destroy_cards" },
+	attributes = { "chips", "scaling", "destroy_card" },
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {

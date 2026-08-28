@@ -3,19 +3,12 @@
 local main_menu_hook = Game.main_menu
 function Game:main_menu(change_context, ...)
 	local ret = main_menu_hook(self, change_context, ...)
-	G.SPLASH_MULTIVERSE_LOGO = Sprite(
-		0,
-		0,
-		6,
-		6 * G.ASSET_ATLAS["mul_mod_logo"].py / G.ASSET_ATLAS["mul_mod_logo"].px,
-		G.ASSET_ATLAS["mul_mod_logo"],
-		{ x = 0, y = 0 }
-	)
+	G.SPLASH_MULTIVERSE_LOGO = SMODS.create_sprite(0, 0, G.CARD_H * 413 / 127 * 0.9, G.CARD_H * 0.9, "mul_mod_logo_full", { x = 0, y = 0 })
 	G.SPLASH_MULTIVERSE_LOGO:set_alignment({
 		major = G.title_top,
 		type = "cm",
 		bond = "Strong",
-		offset = { x = 0, y = 3.75 },
+		offset = { x = 0, y = 3.5 },
 	})
 	G.SPLASH_MULTIVERSE_LOGO:define_draw_steps({ {
 		shader = "dissolve",
@@ -96,18 +89,22 @@ function Multiverse.update_main_menu()
 			major = G.title_top,
 			type = "cm",
 			bond = "Strong",
-			offset = { x = 8 * math.sin(G.mul_loaded_timer * 0.075), y = 3.7 * math.cos(G.mul_loaded_timer * 0.075) },
+			offset = { x = 7 * math.sin(G.mul_loaded_timer * 0.075), y = 3.5 * math.cos(G.mul_loaded_timer * 0.075) },
 		})
-	end
-	if not G.SETTINGS.mul_controller_warning_seen and G.CONTROLLER.HID.controller then
-		
 	end
 end
 
 SMODS.Atlas({
+	key = "mod_logo_full",
+	px = 413,
+	py = 127,
+	path = "logo_full.png",
+})
+
+SMODS.Atlas({
 	key = "mod_logo",
-	px = 575,
-	py = 250,
-	path = "multiverse_logo.png",
+	px = 413,
+	py = 109,
+	path = "logo.png",
 })
 -- im a dumbass
