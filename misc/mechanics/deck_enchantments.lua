@@ -1388,12 +1388,7 @@ SMODS.Consumable({
 			local main_end = {}
 			for index, _ in ipairs(card.ability.extra.enchant_list) do
 				if index > G.GAME.mul_visible_enchants then
-					local final_str = ""
-					local str_pool = "qwertyuiopasdfghjklzxcvbnm"
-					for _ = 1, 7 do
-						local i = math.random(1, string.len(str_pool))
-						final_str = final_str .. str_pool:sub(i, i + 1)
-					end
+					local final_str = random_string(7):lower()
 					local dyntxt_obj = DynaText({
 						string = { final_str },
 						colours = { G.C.UI.TEXT_INACTIVE },
